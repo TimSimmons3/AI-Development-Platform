@@ -31,3 +31,19 @@ Next:
 - Validate Docker
 - Configure Docker user permissions
 - Create Timeshift snapshot after Docker validation
+
+## 2026-06-29 — ADP v1.1 Docker Foundation
+
+Completed:
+- Installed Docker Engine from the official Docker repository
+- Installed Docker CLI, containerd, Buildx, and Docker Compose plugin
+- Validated Docker service status
+- Validated Docker runtime with hello-world
+- Added user to docker group
+- Validated Docker runtime without sudo
+- Confirmed docker ps, docker images, and groups validation
+
+Next:
+- Create Timeshift snapshot for ADP v1.1 Docker baseline
+- Continue with Ollama installation
+- Continue with Open WebUI deployment
