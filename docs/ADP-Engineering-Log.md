@@ -47,3 +47,28 @@ Next:
 - Create Timeshift snapshot for ADP v1.1 Docker baseline
 - Continue with Ollama installation
 - Continue with Open WebUI deployment
+
+## ADP v1.1 Ollama Installation Validation
+
+Ollama was installed using the official Linux install command:
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+During installation, the Ollama Linux AMD64 ROCm package was downloaded and the installer reported:
+
+- Ollama API is available
+- Install complete
+- AMD GPU ready
+
+Validation results:
+
+- Ollama version: 0.31.11
+- Ollama service status: active (running)
+- Docker group membership remained intact
+- Docker continued to run without sudo
+
+Control note:
+
+Ollama installation was initiated before the planned Git/Docker baseline confirmation gate. The deviation was contained by stopping before any model pull or Open WebUI deployment and immediately validating Ollama, Docker, Git, and service status before proceeding.
