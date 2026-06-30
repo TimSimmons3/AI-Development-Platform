@@ -265,3 +265,38 @@ Ollama now listens on 0.0.0.0:11434 to support container-to-host connectivity. T
 Gate status:
 
 Open WebUI deployment, localhost browser access, Ollama integration, model selection, and end-to-end prompt validation passed.
+
+## ADP v1.1 Timeshift Snapshot: Open WebUI and Ollama Complete
+
+Timeshift snapshot created after successful Open WebUI and Ollama integration.
+
+Snapshot name/comment:
+
+```text
+ADP-v1.1-open-webui-ollama-complete
+```
+
+Snapshot purpose:
+
+```text
+Recovery point after Open WebUI Docker deployment, localhost-only browser binding, Ollama integration, UFW docker0 rule, llama3.2:1b model selection, and successful end-to-end WebUI prompt validation.
+```
+
+Validated before snapshot:
+
+- Open WebUI container running
+- Open WebUI bound to localhost only on 127.0.0.1:3000
+- Open WebUI browser access succeeded at http://localhost:3000
+- Local Open WebUI login succeeded
+- Ollama service active and running
+- Ollama listening on 0.0.0.0:11434 for container-to-host access
+- UFW active with default incoming deny posture
+- UFW docker0 scoped allow rule enabled for TCP 11434
+- Open WebUI container successfully reached Ollama through http://host.docker.internal:11434
+- `llama3.2:1b` appeared in the Open WebUI model dropdown
+- End-to-end WebUI prompt test succeeded
+- Git working tree was clean before snapshot documentation
+
+Gate status:
+
+Timeshift recovery point created and confirmed after ADP v1.1 Open WebUI/Ollama validation.
