@@ -204,3 +204,64 @@ Binding Ollama beyond localhost increases the importance of host firewall enforc
 Gate status:
 
 Security decision documented before changing Ollama host API binding.
+
+## ADP v1.1 Open WebUI Deployment Validation
+
+Open WebUI was deployed using Docker and integrated with the host-installed Ollama service.
+
+Deployment security posture:
+
+- Open WebUI browser access is bound to localhost only
+- Open WebUI is not exposed to the LAN or Internet
+- Open WebUI connects to host-installed Ollama through Docker host gateway resolution
+- Ollama host API access is allowed only as needed for local Docker bridge connectivity
+- UFW remains active with default incoming deny posture
+- No router, public IP, or external firewall exposure was enabled
+
+Validated Open WebUI Docker configuration:
+
+```text
+Host browser URL: http://localhost:3000
+Open WebUI port binding: 127.0.0.1:3000:8080
+Ollama connection URL: http://host.docker.internal:11434
+Docker image: ghcr.io/open-webui/open-webui:main
+Container name: open-webui
+Persistent volume: open-webui:/app/backend/data
+Restart policy: always
+```
+
+Ollama host API configuration:
+
+```text
+OLLAMA_HOST=0.0.0.0:11434
+```
+
+Compensating firewall control:
+
+```bash
+sudo ufw allow in on docker0 to any port 11434 proto tcp comment 'ADP Open WebUI container to Ollama host API'
+```
+
+Validation results:
+
+- Open WebUI loaded successfully at http://localhost:3000
+- Local account login succeeded
+- Open WebUI initially showed an empty model selector
+- Diagnostics confirmed the Open WebUI container could not reach Ollama until the Docker bridge firewall rule was added
+- After the UFW docker0 rule, the container successfully reached Ollama through http://host.docker.internal:11434
+- `llama3.2:1b` appeared in the Open WebUI model dropdown
+- `llama3.2:1b` was selectable in Open WebUI
+- End-to-end prompt test succeeded
+- WebUI response: `Open WEBUI model connection successful.`
+
+Current controlled configuration note:
+
+Open WebUI is running with environment-controlled Ollama connection settings for auditability and reproducibility. This is acceptable for the ADP v1.1 lab baseline. A future improvement is to move this container configuration into a Docker Compose file so port binding, environment variables, volume mapping, restart policy, and security controls are version-controlled.
+
+Residual risk:
+
+Ollama now listens on 0.0.0.0:11434 to support container-to-host connectivity. This requires continued firewall enforcement, local host security, trusted container images, patching discipline, and no external exposure of Open WebUI or Ollama unless separately approved and documented.
+
+Gate status:
+
+Open WebUI deployment, localhost browser access, Ollama integration, model selection, and end-to-end prompt validation passed.
