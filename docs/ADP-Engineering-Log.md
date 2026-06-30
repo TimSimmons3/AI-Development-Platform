@@ -72,3 +72,34 @@ Validation results:
 Control note:
 
 Ollama installation was initiated before the planned Git/Docker baseline confirmation gate. The deviation was contained by stopping before any model pull or Open WebUI deployment and immediately validating Ollama, Docker, Git, and service status before proceeding.
+
+## ADP v1.1 Ollama Small Model Validation
+
+A small Ollama model was pulled and tested after Ollama installation and service validation completed.
+
+Model pulled:
+
+```bash
+ollama pull llama3.2:1b
+```
+
+Validation commands:
+
+```bash
+ollama list
+ollama run llama3.2:1b "Reply with exactly this sentence: ADP Ollama model test successful."
+git status
+```
+
+Validation results:
+
+- Model pull completed successfully
+- `ollama list` showed `llama3.2:1b`
+- Model responded successfully to the test prompt
+- Actual model response: `ADP's Ollama model was successfully tested in various scenarios.`
+- Instruction-following note: the response was semantically successful but did not exactly match the requested sentence
+- Git working tree remained clean after validation
+
+Gate status:
+
+Ollama small-model pull and runtime validation passed. The environment is ready for the next controlled gate: Open WebUI deployment using Docker.
