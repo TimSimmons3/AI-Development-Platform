@@ -151,3 +151,56 @@ Localhost binding reduces network exposure but does not replace host security, b
 Gate status:
 
 Security decision documented before Open WebUI deployment.
+
+## ADP v1.1 Security Decision: Ollama Host API Access for Open WebUI
+
+Security decision:
+
+Open WebUI is running in Docker with localhost-only browser access on the host. To allow Open WebUI to use the host-installed Ollama service, Ollama must be reachable from the Docker bridge path used by `host.docker.internal`.
+
+Problem observed:
+
+Open WebUI loaded successfully at:
+
+```text
+http://localhost:3000
+```
+
+However, the model selector was empty. Container validation showed that `host.docker.internal` resolved to the Docker host gateway, but the container could not reach Ollama on port 11434.
+
+Observed error:
+
+```text
+Trying 172.17.0.1:11434...
+Connection timed out
+Failed to connect to host.docker.internal port 11434
+```
+
+Security control decision:
+
+- Keep Open WebUI bound to localhost only: `127.0.0.1:3000:8080`
+- Do not expose Open WebUI to the LAN or Internet
+- Allow Open WebUI container-to-host access to Ollama only as needed for local lab functionality
+- Prefer firewall-scoped Docker bridge access rather than broad application exposure
+- Do not use `--network=host`
+- Do not change router or external firewall exposure
+
+Planned Ollama configuration:
+
+Set the Ollama systemd service environment so the Ollama API listens on the host for container access:
+
+```text
+OLLAMA_HOST=0.0.0.0:11434
+```
+
+Compensating control:
+
+Use the host firewall to allow access to TCP 11434 only from the Docker bridge interface path needed by local containers, while avoiding broader external exposure.
+
+Residual risk:
+
+Binding Ollama beyond localhost increases the importance of host firewall enforcement, local account security, container trust, model provenance, and ongoing patching. This configuration remains acceptable for the ADP local lab only because Open WebUI remains localhost-only and no router, LAN, or public exposure is being enabled.
+
+Gate status:
+
+Security decision documented before changing Ollama host API binding.
