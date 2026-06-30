@@ -103,3 +103,51 @@ Validation results:
 Gate status:
 
 Ollama small-model pull and runtime validation passed. The environment is ready for the next controlled gate: Open WebUI deployment using Docker.
+
+## ADP v1.1 Security Decision: Open WebUI Localhost Binding
+
+Security decision:
+
+Open WebUI will be deployed using localhost-only port binding for the ADP local lab environment.
+
+Selected Docker port binding:
+
+```bash
+-p 127.0.0.1:3000:8080
+```
+
+Rejected broader default binding:
+
+```bash
+-p 3000:8080
+```
+
+Rationale:
+
+The security issue is not the use of host port 3000 itself. The issue is whether Docker publishes the container service on all host interfaces or only on localhost. For the ADP lab, Open WebUI should be reachable from the Linux Mint host browser but should not be exposed to the broader LAN or external network by default.
+
+Security posture:
+
+- Bind Open WebUI to 127.0.0.1 for local-only access
+- Do not expose Open WebUI through router, firewall, public IP, or LAN access at this stage
+- Do not use host networking unless there is a documented technical requirement
+- Do not pull additional models through Open WebUI until the deployment gate is validated
+- Keep Ollama running on the host and connect Open WebUI to Ollama using the host gateway approach
+
+Open WebUI Docker-to-host Ollama connection target:
+
+```text
+http://host.docker.internal:11434
+```
+
+ADP security overlay principle:
+
+ADP will apply secure-by-default engineering decisions while preserving manageability and scalability. Security-impacting decisions will be documented with the selected control, rejected alternative, rationale, validation method, rollback note, and residual risk.
+
+Residual risk:
+
+Localhost binding reduces network exposure but does not replace host security, browser security, account hygiene, patching, image trust, container monitoring, or future authentication hardening.
+
+Gate status:
+
+Security decision documented before Open WebUI deployment.
