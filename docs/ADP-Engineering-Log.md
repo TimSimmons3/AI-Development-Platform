@@ -354,3 +354,57 @@ Converted the working Open WebUI `docker run` deployment into a version-controll
 
 ### Result
 ADP v1.1 Open WebUI Docker Compose baseline is complete, validated, and ready for Git commit and Timeshift snapshot.
+
+## 2026-06-30 — ADP v1.1 Docker Compose Baseline for Open WebUI
+
+### Summary
+Converted the working Open WebUI `docker run` deployment into a version-controlled Docker Compose baseline.
+
+### Scope
+- Added Docker Compose baseline file:
+    - `docker/open-webui/docker-compose.yml`
+- Preserved the existing external Docker volume:
+    - `open-webui`
+- Recreated the Open WebUI container using Docker Compose.
+- Maintained localhost-only browser exposure:
+    - `127.0.0.1:3000:8080`
+- Maintained host Ollama integration through:
+    - `http://host.docker.internal:11434`
+
+### Validation Results
+- Docker Compose configuration validated successfully.
+- Open WebUI container started successfully under Compose.
+- Open WebUI remained bound to localhost only:
+    - `8080/tcp -> 127.0.0.1:3000`
+- Open WebUI container was healthy.
+- Container environment retained required Ollama settings:
+    - `OLLAMA_BASE_URL=http://host.docker.internal:11434`
+    - `OLLAMA_BASE_URLS=http://host.docker.internal:11434`
+    - `ENABLE_PERSISTENT_CONFIG=False`
+- Container-to-Ollama API validation succeeded:
+    - Ollama version observed: `0.30.11`
+- Model visibility validation succeeded:
+    - `llama3.2:1b`
+- Browser validation succeeded:
+    - Open WebUI loaded at `http://localhost:3000`
+    - `llama3.2:1b` was visible and selectable
+
+### Firewall / Security Notes
+- Open WebUI browser access remains restricted to localhost.
+- Docker Compose created a dedicated bridge network.
+- A scoped UFW allow rule was added for the Compose subnet to reach the Ollama host API:
+    - `172.18.0.0/16` to TCP `11434`
+- Existing `docker0` Ollama rule remains present.
+- UFW remains active.
+- No LAN or Internet exposure was added for Open WebUI.
+- `--network=host` was not used.
+- The Open WebUI Docker volume was not deleted.
+
+### Audit Notes
+- Hostname observed during this workstream: `smt-ai`
+- Ollama version currently observed: `0.30.11`
+- Earlier handoff referenced `0.31.11`; current validated runtime value is `0.30.11`.
+- Temporary broken Compose files and runtime evidence files were removed before commit to avoid committing operational artifacts or unnecessary personal/runtime details.
+
+### Result
+ADP v1.1 Open WebUI Docker Compose baseline is complete, validated, and ready for Git commit and Timeshift snapshot.
