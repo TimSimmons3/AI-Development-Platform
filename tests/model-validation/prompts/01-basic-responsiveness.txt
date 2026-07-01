@@ -1,0 +1,1 @@
+You are running locally in Ollama on a small CPU-first development machine. In one paragraph, explain what this model is useful for.

@@ -554,3 +554,81 @@ Rollback:
     ollama list
 - Confirm llama3.2:1b remains available.
 
+
+## ADP v1.3 - Prompt Validation Set and Local Model Evaluation Harness
+
+Date: 2026-07-01
+Host: smt-ai
+Milestone: ADP v1.3 - Prompt Validation Set / Local Model Evaluation Harness
+
+### Implementation
+
+Created a lightweight local model evaluation harness for ADP. The harness includes:
+
+- Standard prompt validation files under tests/model-validation/prompts/
+- Runtime result capture under tests/model-validation/results/
+- A local runner script at scripts/run-model-validation.sh
+- A local model evaluation standard at docs/ADP-Local-Model-Evaluation-Standard.md
+- Git ignore rules to prevent raw runtime model outputs from being committed
+
+The runner executes the standard prompt set against a selected Ollama model through the local Ollama API and writes JSONL runtime evidence files under tests/model-validation/results/.
+
+### Validation
+
+Baseline validation confirmed:
+
+- Git working tree was clean before v1.3 changes
+- Ollama was active
+- Open WebUI was running on ghcr.io/open-webui/open-webui:v0.10.2
+- Open WebUI remained bound to 127.0.0.1:3000->8080/tcp
+- Open WebUI container could reach the Ollama API
+- UFW was active
+- Prior ADP v1.2 Timeshift snapshot was confirmed through the Timeshift GUI
+
+Model harness validation completed:
+
+- llama3.2:1b completed 5 of 5 prompts successfully
+- llama3.2:3b completed 5 of 5 prompts successfully
+- Raw JSONL result files were created under tests/model-validation/results/
+- Git ignore behavior was validated for raw result files
+
+Observed runtime durations:
+
+| Model | Prompt Count | Successes | Total Seconds | Average Seconds |
+|---|---:|---:|---:|---:|
+| llama3.2:1b | 5 | 5 | 37 | 7.4 |
+| llama3.2:3b | 5 | 5 | 96 | 19.2 |
+
+### Output Quality Findings
+
+Both approved models completed the harness successfully, but generated output requires human review before being used as audit-ready ADP documentation.
+
+llama3.2:1b was faster but produced weaker contextual accuracy. It incorrectly described Ollama as a real-time translation platform and drifted away from the ADP local-model context.
+
+llama3.2:3b produced more complete structured responses and better ADP workflow coverage, but it was slower and still showed contextual drift. It also added extra prose around JSON output and produced some generic machine-learning risk content instead of ADP-specific Ollama model-management risks.
+
+### Model Disposition
+
+- llama3.2:1b remains approved as the fast baseline model.
+- llama3.2:3b remains approved as the stronger controlled expansion model.
+- Neither model output should be treated as authoritative without human review.
+- Future prompt-set revisions should include stronger ADP-specific context to reduce generic ML interpretation drift.
+
+### Security and Operational Notes
+
+No additional models were pulled during ADP v1.3.
+Open WebUI remains localhost-only.
+No Docker host networking was introduced.
+UFW remains active.
+Raw runtime evidence remains ignored by Git unless intentionally sanitized and approved.
+
+### Rollback Notes
+
+Rollback is low risk. If needed, remove:
+
+- docs/ADP-Local-Model-Evaluation-Standard.md
+- scripts/run-model-validation.sh
+- tests/model-validation/
+- ADP v1.3 .gitignore result-ignore entries
+
+No runtime services, Docker volumes, Ollama models, or firewall rules were changed.

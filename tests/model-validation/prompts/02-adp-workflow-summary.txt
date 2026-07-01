@@ -1,0 +1,1 @@
+Summarize the ADP workflow in one concise paragraph: Plan, Implement, Validate, Document, Snapshot, Release.
