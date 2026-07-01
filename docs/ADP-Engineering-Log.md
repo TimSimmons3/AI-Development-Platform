@@ -408,3 +408,60 @@ Converted the working Open WebUI `docker run` deployment into a version-controll
 
 ### Result
 ADP v1.1 Open WebUI Docker Compose baseline is complete, validated, and ready for Git commit and Timeshift snapshot.
+
+## ADP v1.1.1 - Open WebUI Controlled Maintenance Upgrade
+
+Date: 2026-07-01
+
+Status: Complete - implementation and validation passed.
+
+Change summary:
+- Upgraded Open WebUI through controlled Docker Compose workflow.
+- Pinned Open WebUI image from ghcr.io/open-webui/open-webui:main to ghcr.io/open-webui/open-webui:v0.10.2.
+- Preserved localhost-only browser binding.
+- Preserved existing open-webui Docker volume.
+- Did not use host networking.
+- Did not disable UFW.
+- Did not pull additional models.
+
+Pre-upgrade controls:
+- Confirmed Git working tree was clean before upgrade work.
+- Confirmed Open WebUI container was running before upgrade.
+- Confirmed Open WebUI was bound to 127.0.0.1:3000->8080/tcp.
+- Confirmed target image tag ghcr.io/open-webui/open-webui:v0.10.2 existed.
+- Created local Open WebUI Docker volume backup under backups/open-webui/.
+- Added backups/ to .gitignore to prevent local recovery archives from being committed.
+- Created Timeshift pre-upgrade snapshot:
+    ADP-v1.1.1-pre-open-webui-v0.10.2-upgrade
+
+Implementation:
+- Updated docker/open-webui/docker-compose.yml to pin:
+    ghcr.io/open-webui/open-webui:v0.10.2
+- Validated Docker Compose configuration.
+- Pulled the pinned Open WebUI image.
+- Restarted Open WebUI using Docker Compose.
+
+Post-upgrade validation:
+- docker/open-webui/docker-compose.yml references ghcr.io/open-webui/open-webui:v0.10.2.
+- Docker Compose config validates successfully.
+- open-webui container is running.
+- Running image config shows ghcr.io/open-webui/open-webui:v0.10.2.
+- Browser port binding remains localhost-only:
+    127.0.0.1:3000->8080/tcp
+- Open WebUI container can reach host Ollama through:
+    http://host.docker.internal:11434
+- llama3.2:1b remains visible from the Open WebUI container.
+- Browser validation passed:
+    Open WebUI loads, login works, llama3.2:1b is visible/selectable, and prompt response works.
+
+Security notes:
+- Open WebUI remains localhost-only and is not exposed to LAN or Internet.
+- No host networking was introduced.
+- UFW posture was not weakened.
+- Ollama exposure risk remains tied to firewall posture because Ollama listens on 0.0.0.0:11434. Do not disable UFW or broaden access without documenting and validating the security impact.
+
+Recovery notes:
+- Local Open WebUI volume backup exists under backups/open-webui/ and is intentionally ignored by Git.
+- Pre-upgrade Timeshift snapshot exists and was visually confirmed.
+- Final post-upgrade Timeshift snapshot still required after commit and push.
+
