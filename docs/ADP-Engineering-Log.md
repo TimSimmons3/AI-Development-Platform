@@ -465,3 +465,92 @@ Recovery notes:
 - Pre-upgrade Timeshift snapshot exists and was visually confirmed.
 - Final post-upgrade Timeshift snapshot still required after commit and push.
 
+
+## ADP v1.2 - Controlled Model Expansion - llama3.2:3b
+
+Date: 2026-07-01
+
+Status: Complete - implementation and validation passed.
+
+Change summary:
+- Created ADP model-selection standard.
+- Selected llama3.2:3b as the first controlled expansion model.
+- Pulled one model only.
+- Preserved existing llama3.2:1b baseline.
+- Preserved Open WebUI localhost-only binding.
+- Preserved Open WebUI image pin at ghcr.io/open-webui/open-webui:v0.10.2.
+- Did not expose Open WebUI to LAN or Internet.
+- Did not change UFW rules.
+- Did not pull additional models.
+
+Host basis:
+- Host: smt-ai.
+- OS: Linux Mint 22.3.
+- CPU: AMD Ryzen 3 4300U with Radeon Graphics.
+- CPU capacity: 4 cores / 4 threads.
+- RAM: 14 GiB total.
+- Disk: approximately 391 GB available at inventory capture.
+- GPU: no NVIDIA GPU detected; AMD Radeon RX Vega 6 integrated graphics observed.
+- Runtime: Ollama 0.30.11 active.
+- Open WebUI: ghcr.io/open-webui/open-webui:v0.10.2.
+- Open WebUI binding: 127.0.0.1:3000->8080/tcp.
+
+Model-selection decision:
+- Approved first controlled candidate: llama3.2:3b.
+- Rationale: low-risk expansion from existing llama3.2:1b baseline, same model family, small model class, suitable for CPU-first validation, and useful for local summarization, prompt rewriting, instruction following, and structured-output testing.
+- Deferred larger or unrelated models until llama3.2:3b validation was complete.
+
+Pre-pull validation:
+- Git working tree clean.
+- Disk capacity healthy.
+- Memory capacity acceptable.
+- Existing llama3.2:1b baseline present.
+- Open WebUI remained pinned to v0.10.2.
+- Open WebUI browser binding remained localhost-only.
+
+Implementation:
+- Pulled llama3.2:3b using Ollama.
+- Did not pull any other model.
+
+CLI validation:
+- Confirmed llama3.2:3b appears in ollama list.
+- Confirmed llama3.2:1b remains available.
+- Initial vague validation prompt produced an overly literal response asking for more context.
+- Refined explicit prompts worked as expected.
+- CLI validation passed.
+
+Open WebUI validation:
+- llama3.2:3b appeared in Open WebUI.
+- llama3.2:3b was selectable.
+- Basic local-model usefulness prompt returned a reasonable response.
+- ADP workflow summary prompt returned a reasonable response.
+- Structured JSON prompt returned a reasonable response.
+- No browser error observed.
+- No Ollama connection error observed.
+
+Post-pull validation:
+- llama3.2:1b remains present.
+- llama3.2:3b is present.
+- Open WebUI remains on ghcr.io/open-webui/open-webui:v0.10.2.
+- Open WebUI port binding remains 127.0.0.1:3000->8080/tcp.
+- Disk and memory remained healthy after model pull.
+
+Security notes:
+- No network exposure was added.
+- Open WebUI remains localhost-only.
+- No host networking was introduced.
+- UFW posture was not weakened.
+- Ollama exposure risk remains tied to firewall posture because Ollama listens on 0.0.0.0:11434. Do not disable UFW or broaden access without documenting and validating the security impact.
+
+Model disposition:
+- Retain llama3.2:3b as approved ADP controlled expansion model.
+- Keep llama3.2:1b as baseline model.
+- Do not pull additional models until a new controlled selection cycle is opened.
+
+Rollback:
+- To remove llama3.2:3b if needed:
+    ollama rm llama3.2:3b
+- After rollback, validate:
+    ollama list
+- Confirm llama3.2:1b remains available.
+
