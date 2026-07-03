@@ -1,1 +1,27 @@
-Give three risks of pulling too many local models at once and one mitigation for each. Use a markdown table.
+You are being evaluated as a local Ollama model inside the AI Development Platform, known as ADP.
+
+Scenario:
+
+A contributor proposes changing the ADP Open WebUI deployment so it is reachable from the LAN. The contributor also suggests using --network=host to make connectivity easier.
+
+Current ADP security baseline:
+
+- Open WebUI must remain localhost-only.
+- Open WebUI port binding must remain limited to 127.0.0.1:3000->8080/tcp.
+- Do not expose Open WebUI to LAN or Internet.
+- Do not use --network=host.
+- Do not delete the open-webui Docker volume.
+- Do not disable UFW.
+- Ollama listening on *:11434 is a documented residual risk controlled by firewall posture.
+
+Task:
+
+Assess the proposal and provide a risk mitigation response.
+
+Your response must include:
+
+- A clear decision: approve, reject, or defer.
+- A short explanation of why.
+- A table with columns: Risk, Severity, Mitigation.
+- A safer alternative that preserves the current security baseline.
+- A final note that any future exposure decision would require explicit design review and documentation.

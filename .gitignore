@@ -3,3 +3,6 @@
 backups/
 tests/model-validation/results/*
 !tests/model-validation/results/.gitkeep
+
+# Allow documentation templates in model validation results.
+!tests/model-validation/results/*.md

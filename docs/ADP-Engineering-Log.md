@@ -632,3 +632,129 @@ Rollback is low risk. If needed, remove:
 - ADP v1.3 .gitignore result-ignore entries
 
 No runtime services, Docker volumes, Ollama models, or firewall rules were changed.
+
+## ADP v1.4 — Evaluation Reporting / Prompt Hardening / Resource-Aware Model Comparison
+
+Date: 2026-07-02
+
+Status: Validation complete; pending commit, push, and final snapshot.
+
+### Scope
+
+ADP v1.4 improves the local model evaluation capability created in ADP v1.3 by adding stronger prompt context, evaluation reporting, and model comparison structure.
+
+This milestone does not change the approved model baseline or Open WebUI deployment posture.
+
+### Baseline
+
+Latest completed release before this milestone:
+
+- ADP v1.3
+- Commit: 281079c Add ADP local model evaluation harness
+
+Approved models remain:
+
+- llama3.2:1b
+- llama3.2:3b
+
+Open WebUI baseline remains:
+
+- Image: ghcr.io/open-webui/open-webui:v0.10.2
+- Binding: 127.0.0.1:3000->8080/tcp
+- Scope: localhost-only
+
+Observed Ollama version during post-Docker-update baseline validation:
+
+- 0.30.11
+
+### Changes Implemented
+
+Prompt validation set hardened:
+
+- tests/model-validation/prompts/01-basic-responsiveness.txt
+- tests/model-validation/prompts/02-adp-workflow-summary.txt
+- tests/model-validation/prompts/03-structured-json-output.txt
+- tests/model-validation/prompts/04-risk-mitigation.txt
+- tests/model-validation/prompts/05-engineering-log-draft.txt
+
+Documentation and reporting artifacts added:
+
+- docs/ADP-v1.4-Evaluation-Reporting-and-Prompt-Hardening-Plan.md
+- docs/ADP-v1.4-Evaluation-Report.md
+- tests/model-validation/results/ADP-v1.4-Model-Comparison-Summary-Template.md
+
+Git ignore behavior updated:
+
+- Raw runtime JSONL files under tests/model-validation/results/ remain ignored.
+- Markdown documentation templates under tests/model-validation/results/ are trackable.
+
+### Validation Performed
+
+The v1.4 hardened validation harness was executed against both approved models.
+
+llama3.2:1b:
+
+- Prompts executed: 5
+- Successes: 5
+- Failures: 0
+- Durations: 10, 18, 12, 16, 12 seconds
+- Total duration: 68 seconds
+- Average duration: 13.6 seconds
+- Result file: tests/model-validation/results/20260702-200115-llama3.2_1b.jsonl
+
+llama3.2:3b:
+
+- Prompts executed: 5
+- Successes: 5
+- Failures: 0
+- Durations: 17, 35, 13, 29, 18 seconds
+- Total duration: 112 seconds
+- Average duration: 22.4 seconds
+- Result file: tests/model-validation/results/20260702-200458-llama3.2_3b.jsonl
+
+### Results Summary
+
+Both approved models completed all hardened prompts successfully.
+
+- llama3.2:1b remains approved as the fast baseline model.
+- llama3.2:3b remains approved as the stronger controlled expansion model.
+- No model status change is required.
+
+### Quality Findings
+
+The hardened prompt set reduced contextual drift by adding explicit ADP, Ollama, Open WebUI, workflow, and human-review context.
+
+The evaluation reporting artifacts provide a more consistent way to summarize model behavior, runtime results, and review findings.
+
+### Security Posture
+
+Security posture remains unchanged:
+
+- Do not expose Open WebUI to LAN or Internet.
+- Do not use --network=host.
+- Do not delete the open-webui Docker volume.
+- Do not disable UFW.
+- Open WebUI remains localhost-only.
+- Ollama listening on *:11434 remains a documented residual risk controlled by firewall posture.
+
+### Human Review Notes
+
+The validation harness confirms technical execution and basic response behavior only.
+
+Model outputs are not audit-ready without human review.
+
+Model outputs must not be used for security, governance, compliance, financial, legal, or operational decisions without human review.
+
+### Residual Risks
+
+- Local model outputs may be incomplete, inaccurate, or contextually weak.
+- Structured JSON output may still require validation before downstream use.
+- Runtime duration may vary based on host load.
+- Ollama listening on *:11434 remains a documented residual risk controlled by firewall posture.
+
+### Next Steps
+
+- Review Git diff.
+- Commit and push v1.4 artifacts after validation.
+- Confirm local main and origin/main match.
+- Take final Timeshift snapshot after release.

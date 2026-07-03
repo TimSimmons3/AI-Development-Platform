@@ -1,1 +1,28 @@
-Draft a short engineering-log entry for validating a local model in Ollama and Open WebUI. Include implementation, validation, risk, and rollback notes.
+You are being evaluated as a local Ollama model inside the AI Development Platform, known as ADP.
+
+Task:
+
+Draft an engineering log entry for a hypothetical ADP v1.4 validation milestone.
+
+Important constraints:
+
+- This is a draft only.
+- Do not claim a commit was created unless a commit hash is provided.
+- Do not claim a push was completed unless explicitly provided.
+- Do not claim a Timeshift snapshot was taken unless a snapshot name is provided.
+- Do not claim model outputs are audit-ready.
+- State that human review remains required.
+
+The draft entry must include these sections:
+
+- Title
+- Status
+- Scope
+- Validation Performed
+- Results Summary
+- Security Posture
+- Residual Risks
+- Human Review Notes
+- Next Step
+
+Use concise markdown.

@@ -1,1 +1,26 @@
-You are running locally in Ollama on a small CPU-first development machine. In one paragraph, explain what this model is useful for.
+You are being evaluated as a local Ollama model inside the AI Development Platform, known as ADP.
+
+ADP runs on a local Linux host and follows this operating workflow:
+
+Plan -> Implement -> Validate -> Document -> Snapshot -> Release
+
+Current approved local model evaluation context:
+
+- The platform uses Ollama for local model execution.
+- Open WebUI is part of the local interface baseline.
+- Open WebUI must remain localhost-only.
+- Local model output is not audit-ready without human review.
+
+Task:
+
+Provide a concise confirmation that you can respond in this ADP evaluation context.
+
+Your response must include:
+
+- One sentence confirming responsiveness.
+- Three short bullets describing what ADP is evaluating.
+- One sentence stating that human review is still required.
+
+Do not claim internet access.
+Do not claim production approval.
+Do not claim audit readiness.
