@@ -808,3 +808,38 @@ Security posture:
 - No UFW changes were made.
 - No volumes were deleted or recreated.
 - No new models were added.
+
+## ADP v1.5 Release Closeout
+
+Status: Complete
+
+Date: 2026-07-03
+
+Release commit:
+
+- 6bfe2d0 Add ADP v1.5 evaluation automation hardening
+
+Post-push validation:
+
+- Local HEAD matched origin/main at 6bfe2d0.
+- Functional validation wrapper completed successfully.
+- Summary generation succeeded for llama3.2:1b and llama3.2:3b.
+- JSON validation passed for llama3.2:1b structured JSON output.
+- Known-bad llama3.2:3b structured JSON output was rejected as an expected negative test.
+- Git status was clean after post-push validation.
+
+Release outcome:
+
+- ADP v1.5 runner quality, result parsing, JSON validation, scoring rubric, workflow guide, and functional-validation wrapper are complete.
+- Raw JSONL files remain local runtime evidence.
+- Timestamped generated Markdown summaries remain ignored runtime artifacts.
+- Formal v1.5 documentation and validation findings are committed and pushed.
+
+Security posture:
+
+- No Docker changes were made.
+- No Open WebUI exposure changes were made.
+- Open WebUI remains localhost-only.
+- No UFW changes were made.
+- No Docker volumes were deleted or recreated.
+- No new models were added.
