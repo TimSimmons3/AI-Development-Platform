@@ -637,7 +637,9 @@ No runtime services, Docker volumes, Ollama models, or firewall rules were chang
 
 Date: 2026-07-02
 
-Status: Validation complete; pending commit, push, and final snapshot.
+Status: Complete; committed and pushed. Final Timeshift snapshot required for release closeout.
+Final release commit: 1f38af2 Add ADP v1.4 evaluation reporting and prompt hardening
+Final snapshot target: ADP-v1.4-evaluation-reporting-prompt-hardening-complete
 
 ### Scope
 
