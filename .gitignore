@@ -6,3 +6,7 @@ tests/model-validation/results/*
 
 # Allow documentation templates in model validation results.
 !tests/model-validation/results/*.md
+
+# ADP generated model-validation summaries
+# Timestamped summary outputs are local runtime artifacts unless promoted to a formal report.
+tests/model-validation/results/[0-9]*-summary.md

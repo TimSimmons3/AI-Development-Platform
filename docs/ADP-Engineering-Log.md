@@ -760,3 +760,51 @@ Model outputs must not be used for security, governance, compliance, financial, 
 - Commit and push v1.4 artifacts after validation.
 - Confirm local main and origin/main match.
 - Take final Timeshift snapshot after release.
+
+## ADP v1.5 Runner Quality and Evaluation Automation Hardening
+
+Status: Implementation and validation in progress
+
+Date: 2026-07-03
+
+Scope:
+
+- Added v1.5 plan documentation.
+- Added evaluation workflow guidance.
+- Added sanitized validation findings documentation.
+- Added prompt-level scoring rubric.
+- Added model-validation summary generator.
+- Added JSON-only prompt output validator.
+- Added v1.5 functional-validation wrapper.
+- Updated .gitignore so timestamped generated summary files remain local runtime artifacts.
+
+Validation performed:
+
+- Candidate files passed non-ASCII validation.
+- Shell scripts passed bash syntax validation.
+- Embedded Python in shell scripts passed py_compile validation.
+- Summary generation succeeded for llama3.2:1b and llama3.2:3b v1.4 result files.
+- JSON validation passed for llama3.2:1b structured JSON output.
+- Known-bad llama3.2:3b structured JSON output was rejected as an expected negative test.
+- Functional-validation wrapper completed successfully and relabeled expected negative-test detail clearly.
+
+Quality finding:
+
+- Runner execution success is not equivalent to prompt-output quality success.
+- The llama3.2:3b structured JSON result from v1.4 returned a response but failed JSON validity because it was missing the final closing object brace.
+- This finding validates the need for separate format-compliance checks in v1.5.
+
+Process correction:
+
+- Executable scripts must pass a fail-fast QA gate before execution.
+- Required checks include non-ASCII scan, bash -n, embedded Python extraction where applicable, and python3 -m py_compile.
+- Syntax validation alone is not sufficient; content-completeness checks are required for validation wrappers.
+
+Security posture:
+
+- No Docker changes were made.
+- No Open WebUI exposure changes were made.
+- Open WebUI remains localhost-only.
+- No UFW changes were made.
+- No volumes were deleted or recreated.
+- No new models were added.
