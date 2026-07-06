@@ -843,3 +843,51 @@ Security posture:
 - No UFW changes were made.
 - No Docker volumes were deleted or recreated.
 - No new models were added.
+
+## ADP v1.6 Operational Hardening and Recovery Validation
+Status: Implementation and validation in progress
+Date: 2026-07-06
+Host: smt-ai
+Branch: main
+Current HEAD: 44dc87b
+
+Scope completed:
+- Added ADP command and content quality gate.
+- Added ADP v1.6 operational hardening and recovery validation plan.
+- Added ADP operational runbook.
+- Added ADP recovery validation checklist.
+- Added ADP snapshot and rollback procedure.
+- Remediated historical non-ASCII formatting in the engineering log.
+
+Commits completed:
+- 36d6fad Add ADP command and content quality gate
+- 1f96910 Add ADP v1.6 operational hardening plan
+- a83e399 Add ADP operational runbook
+- 1c49cbb Add ADP recovery validation checklist
+- db4b903 Add ADP snapshot and rollback procedure
+- 44dc87b Normalize engineering log ASCII formatting
+
+Validation performed:
+- Baseline validation confirmed branch main and clean Git state before controlled work.
+- Temporary candidates were created under /tmp before promotion.
+- Candidate and promoted files passed ASCII checks.
+- Candidate and promoted files passed line count and heading checks where applicable.
+- Staged files passed git diff --check before commit.
+- Each committed artifact was pushed to origin/main.
+- Local HEAD matched origin/main after each push.
+
+Security posture:
+- No Open WebUI exposure changes were made.
+- Open WebUI remains localhost-only.
+- Open WebUI remains pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Open WebUI remains bound to 127.0.0.1:3000->8080/tcp.
+- No Docker host networking was introduced.
+- No Open WebUI Docker volume was deleted.
+- No UFW weakening was performed.
+- No new Ollama models were added.
+
+Remaining v1.6 work:
+- Commit and push this engineering log entry after validation.
+- Run final v1.6 documentation QA.
+- Commit and push final v1.6 documentation updates.
+- Confirm final Timeshift snapshot: ADP-v1.6-operational-hardening-recovery-validation-complete.
