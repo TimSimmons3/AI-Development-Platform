@@ -11,7 +11,7 @@ Next:
 - Configure GitHub SSH
 - Initialize ADP repository
 
-## 2026-06-29 — ADP v1.1 Progress
+## 2026-06-29 - ADP v1.1 Progress
 
 Completed:
 - Installed official Microsoft Visual Studio Code
@@ -32,7 +32,7 @@ Next:
 - Configure Docker user permissions
 - Create Timeshift snapshot after Docker validation
 
-## 2026-06-29 — ADP v1.1 Docker Foundation
+## 2026-06-29 - ADP v1.1 Docker Foundation
 
 Completed:
 - Installed Docker Engine from the official Docker repository
@@ -301,45 +301,45 @@ Gate status:
 
 Timeshift recovery point created and confirmed after ADP v1.1 Open WebUI/Ollama validation.
 
-## 2026-06-30 — ADP v1.1 Docker Compose Baseline for Open WebUI
+## 2026-06-30 - ADP v1.1 Docker Compose Baseline for Open WebUI
 
 ### Summary
 Converted the working Open WebUI `docker run` deployment into a version-controlled Docker Compose baseline.
 
 ### Scope
 - Added Docker Compose baseline file:
-    - `docker/open-webui/docker-compose.yml`
+  - `docker/open-webui/docker-compose.yml`
 - Preserved the existing external Docker volume:
-    - `open-webui`
+  - `open-webui`
 - Recreated the Open WebUI container using Docker Compose.
 - Maintained localhost-only browser exposure:
-    - `127.0.0.1:3000:8080`
+  - `127.0.0.1:3000:8080`
 - Maintained host Ollama integration through:
-    - `http://host.docker.internal:11434`
+  - `http://host.docker.internal:11434`
 
 ### Validation Results
 - Docker Compose configuration validated successfully.
 - Open WebUI container started successfully under Compose.
 - Open WebUI remained bound to localhost only:
-    - `8080/tcp -> 127.0.0.1:3000`
+  - `8080/tcp -> 127.0.0.1:3000`
 - Open WebUI container was healthy.
 - Container environment retained required Ollama settings:
-    - `OLLAMA_BASE_URL=http://host.docker.internal:11434`
-    - `OLLAMA_BASE_URLS=http://host.docker.internal:11434`
-    - `ENABLE_PERSISTENT_CONFIG=False`
+  - `OLLAMA_BASE_URL=http://host.docker.internal:11434`
+  - `OLLAMA_BASE_URLS=http://host.docker.internal:11434`
+  - `ENABLE_PERSISTENT_CONFIG=False`
 - Container-to-Ollama API validation succeeded:
-    - Ollama version observed: `0.30.11`
+  - Ollama version observed: `0.30.11`
 - Model visibility validation succeeded:
-    - `llama3.2:1b`
+  - `llama3.2:1b`
 - Browser validation succeeded:
-    - Open WebUI loaded at `http://localhost:3000`
-    - `llama3.2:1b` was visible and selectable
+  - Open WebUI loaded at `http://localhost:3000`
+  - `llama3.2:1b` was visible and selectable
 
 ### Firewall / Security Notes
 - Open WebUI browser access remains restricted to localhost.
 - Docker Compose created a dedicated bridge network.
 - A scoped UFW allow rule was added for the Compose subnet to reach the Ollama host API:
-    - `172.18.0.0/16` to TCP `11434`
+  - `172.18.0.0/16` to TCP `11434`
 - Existing `docker0` Ollama rule remains present.
 - UFW remains active.
 - No LAN or Internet exposure was added for Open WebUI.
@@ -355,45 +355,45 @@ Converted the working Open WebUI `docker run` deployment into a version-controll
 ### Result
 ADP v1.1 Open WebUI Docker Compose baseline is complete, validated, and ready for Git commit and Timeshift snapshot.
 
-## 2026-06-30 — ADP v1.1 Docker Compose Baseline for Open WebUI
+## 2026-06-30 - ADP v1.1 Docker Compose Baseline for Open WebUI
 
 ### Summary
 Converted the working Open WebUI `docker run` deployment into a version-controlled Docker Compose baseline.
 
 ### Scope
 - Added Docker Compose baseline file:
-    - `docker/open-webui/docker-compose.yml`
+  - `docker/open-webui/docker-compose.yml`
 - Preserved the existing external Docker volume:
-    - `open-webui`
+  - `open-webui`
 - Recreated the Open WebUI container using Docker Compose.
 - Maintained localhost-only browser exposure:
-    - `127.0.0.1:3000:8080`
+  - `127.0.0.1:3000:8080`
 - Maintained host Ollama integration through:
-    - `http://host.docker.internal:11434`
+  - `http://host.docker.internal:11434`
 
 ### Validation Results
 - Docker Compose configuration validated successfully.
 - Open WebUI container started successfully under Compose.
 - Open WebUI remained bound to localhost only:
-    - `8080/tcp -> 127.0.0.1:3000`
+  - `8080/tcp -> 127.0.0.1:3000`
 - Open WebUI container was healthy.
 - Container environment retained required Ollama settings:
-    - `OLLAMA_BASE_URL=http://host.docker.internal:11434`
-    - `OLLAMA_BASE_URLS=http://host.docker.internal:11434`
-    - `ENABLE_PERSISTENT_CONFIG=False`
+  - `OLLAMA_BASE_URL=http://host.docker.internal:11434`
+  - `OLLAMA_BASE_URLS=http://host.docker.internal:11434`
+  - `ENABLE_PERSISTENT_CONFIG=False`
 - Container-to-Ollama API validation succeeded:
-    - Ollama version observed: `0.30.11`
+  - Ollama version observed: `0.30.11`
 - Model visibility validation succeeded:
-    - `llama3.2:1b`
+  - `llama3.2:1b`
 - Browser validation succeeded:
-    - Open WebUI loaded at `http://localhost:3000`
-    - `llama3.2:1b` was visible and selectable
+  - Open WebUI loaded at `http://localhost:3000`
+  - `llama3.2:1b` was visible and selectable
 
 ### Firewall / Security Notes
 - Open WebUI browser access remains restricted to localhost.
 - Docker Compose created a dedicated bridge network.
 - A scoped UFW allow rule was added for the Compose subnet to reach the Ollama host API:
-    - `172.18.0.0/16` to TCP `11434`
+  - `172.18.0.0/16` to TCP `11434`
 - Existing `docker0` Ollama rule remains present.
 - UFW remains active.
 - No LAN or Internet exposure was added for Open WebUI.
@@ -432,11 +432,11 @@ Pre-upgrade controls:
 - Created local Open WebUI Docker volume backup under backups/open-webui/.
 - Added backups/ to .gitignore to prevent local recovery archives from being committed.
 - Created Timeshift pre-upgrade snapshot:
-    ADP-v1.1.1-pre-open-webui-v0.10.2-upgrade
+  ADP-v1.1.1-pre-open-webui-v0.10.2-upgrade
 
 Implementation:
 - Updated docker/open-webui/docker-compose.yml to pin:
-    ghcr.io/open-webui/open-webui:v0.10.2
+  ghcr.io/open-webui/open-webui:v0.10.2
 - Validated Docker Compose configuration.
 - Pulled the pinned Open WebUI image.
 - Restarted Open WebUI using Docker Compose.
@@ -447,12 +447,12 @@ Post-upgrade validation:
 - open-webui container is running.
 - Running image config shows ghcr.io/open-webui/open-webui:v0.10.2.
 - Browser port binding remains localhost-only:
-    127.0.0.1:3000->8080/tcp
+  127.0.0.1:3000->8080/tcp
 - Open WebUI container can reach host Ollama through:
-    http://host.docker.internal:11434
+  http://host.docker.internal:11434
 - llama3.2:1b remains visible from the Open WebUI container.
 - Browser validation passed:
-    Open WebUI loads, login works, llama3.2:1b is visible/selectable, and prompt response works.
+  Open WebUI loads, login works, llama3.2:1b is visible/selectable, and prompt response works.
 
 Security notes:
 - Open WebUI remains localhost-only and is not exposed to LAN or Internet.
@@ -549,9 +549,9 @@ Model disposition:
 
 Rollback:
 - To remove llama3.2:3b if needed:
-    ollama rm llama3.2:3b
+  ollama rm llama3.2:3b
 - After rollback, validate:
-    ollama list
+  ollama list
 - Confirm llama3.2:1b remains available.
 
 
@@ -633,7 +633,7 @@ Rollback is low risk. If needed, remove:
 
 No runtime services, Docker volumes, Ollama models, or firewall rules were changed.
 
-## ADP v1.4 — Evaluation Reporting / Prompt Hardening / Resource-Aware Model Comparison
+## ADP v1.4 - Evaluation Reporting / Prompt Hardening / Resource-Aware Model Comparison
 
 Date: 2026-07-02
 
