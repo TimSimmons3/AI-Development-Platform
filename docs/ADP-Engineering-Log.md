@@ -989,3 +989,42 @@ Remaining v1.7 work:
 - Run final v1.7 documentation QA.
 - Document final v1.7 closeout.
 - Create final Timeshift snapshot after final validation.
+
+## ADP v1.7 Release Closeout
+Status: Complete
+Date: 2026-07-07
+Host: smt-ai
+Branch: main
+Final QA baseline HEAD: 2821aae
+Release artifacts completed:
+- docs/ADP-v1.7-Prompt-Governance-Model-Promotion-Evaluation-Policy-Plan.md
+- docs/ADP-Prompt-Governance-Standard.md
+- docs/ADP-Model-Promotion-and-Evaluation-Policy.md
+- docs/ADP-Engineering-Log.md
+Release commits completed before closeout:
+- bfc6ee4 Add ADP v1.7 prompt governance and model policy
+- 2821aae Document ADP v1.7 governance progress
+Final validation performed:
+- Git status was clean before final snapshot.
+- Local HEAD matched origin/main at 2821aae before final snapshot.
+- Required v1.7 files were present.
+- Required v1.7 files were ASCII-clean.
+- Required v1.7 files had no trailing whitespace.
+- Required v1.7 content checks passed.
+- Open WebUI remained healthy.
+- Open WebUI remained localhost-only at 127.0.0.1:3000->8080/tcp.
+- Open WebUI remained pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Ollama responded with version 0.30.11.
+- Approved models llama3.2:1b and llama3.2:3b were present.
+Final snapshot:
+- ADP-v1.7-prompt-governance-model-promotion-evaluation-policy-complete
+- Snapshot creation was confirmed in the Timeshift GUI.
+Security posture:
+- No Open WebUI exposure changes were made.
+- No Docker host networking was introduced.
+- No Open WebUI Docker volume was deleted.
+- No UFW weakening was performed.
+- No new Ollama models were added.
+Release outcome:
+- ADP v1.7 prompt governance, model promotion, and evaluation policy is complete.
+- ADP v1.7 is documented, committed, pushed, snapshotted, and recoverable after final closeout commit and push.
