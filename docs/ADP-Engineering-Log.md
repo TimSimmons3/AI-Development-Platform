@@ -891,3 +891,55 @@ Remaining v1.6 work:
 - Run final v1.6 documentation QA.
 - Commit and push final v1.6 documentation updates.
 - Confirm final Timeshift snapshot: ADP-v1.6-operational-hardening-recovery-validation-complete.
+
+## ADP v1.6 Release Closeout
+Status: Complete
+Date: 2026-07-06
+Host: smt-ai
+Branch: main
+Final QA baseline HEAD: 460b22f
+
+Release artifacts completed:
+- docs/ADP-Command-and-Content-Quality-Gate.md
+- docs/ADP-v1.6-Operational-Hardening-Recovery-Validation-Plan.md
+- docs/ADP-Operational-Runbook.md
+- docs/ADP-Recovery-Validation-Checklist.md
+- docs/ADP-Snapshot-and-Rollback-Procedure.md
+- docs/ADP-Engineering-Log.md
+
+Release commits completed before closeout:
+- 36d6fad Add ADP command and content quality gate
+- 1f96910 Add ADP v1.6 operational hardening plan
+- a83e399 Add ADP operational runbook
+- 1c49cbb Add ADP recovery validation checklist
+- db4b903 Add ADP snapshot and rollback procedure
+- 44dc87b Normalize engineering log ASCII formatting
+- 460b22f Document ADP v1.6 operational hardening progress
+
+Final validation performed:
+- Git status was clean before final snapshot.
+- Local HEAD matched origin/main at 460b22f before final snapshot.
+- Required v1.6 files were present.
+- Required v1.6 files were ASCII-clean.
+- Required v1.6 files had no trailing whitespace.
+- Required v1.6 content checks passed.
+- Open WebUI remained healthy.
+- Open WebUI remained localhost-only at 127.0.0.1:3000->8080/tcp.
+- Open WebUI remained pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Ollama responded with version 0.30.11.
+- Approved models llama3.2:1b and llama3.2:3b were present.
+
+Final snapshot:
+- ADP-v1.6-operational-hardening-recovery-validation-complete
+- Snapshot creation was confirmed in the Timeshift GUI.
+
+Security posture:
+- No Open WebUI exposure changes were made.
+- No Docker host networking was introduced.
+- No Open WebUI Docker volume was deleted.
+- No UFW weakening was performed.
+- No new Ollama models were added.
+
+Release outcome:
+- ADP v1.6 operational hardening and recovery validation is complete.
+- ADP v1.6 is documented, committed, pushed, snapshotted, and recoverable.
