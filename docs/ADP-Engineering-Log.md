@@ -1072,3 +1072,54 @@ The v1.8 release created the platform runbook, QA gate standard, maintenance pro
 - Run full v1.8 documentation validation.
 - Update engineering log closeout after final validation.
 - Commit, push, create final snapshot, and document release closeout.
+
+## ADP v1.8 Release Closeout
+
+- Date: 2026-07-07
+- Host: smt-ai
+- Branch: main
+- Release: ADP v1.8
+- Release status: complete
+- Implementation commit: b67f919
+- Final snapshot: ADP-v1.8-platform-runbook-qa-gates-maintenance-procedure-complete
+
+### Summary
+
+ADP v1.8 standardized the platform runbook, QA gate standard, maintenance procedure, and release plan.
+
+The release was documentation-only and preserved the approved local security posture.
+
+### Completed Artifacts
+
+- docs/ADP-v1.8-Platform-Runbook-QA-Gates-Maintenance-Procedure-Plan.md
+- docs/ADP-Platform-Runbook.md
+- docs/ADP-QA-Gate-Standard.md
+- docs/ADP-Maintenance-Procedure.md
+- docs/ADP-Engineering-Log.md
+
+### Final Validation Evidence
+
+- Git status was clean after push.
+- Local HEAD matched origin/main at b67f919.
+- Required v1.8 artifacts were present.
+- Required v1.8 artifacts were ASCII-clean.
+- Required v1.8 artifacts had no trailing whitespace.
+- Open WebUI remained healthy.
+- Open WebUI remained localhost-only.
+- Open WebUI image remained pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Approved Ollama models remained present and unchanged.
+
+### Security and Residual Risk
+
+- No Docker networking changes were made.
+- No Open WebUI exposure changes were made.
+- No Open WebUI Docker volume changes were made.
+- No firewall weakening was performed.
+- No models were added.
+- Ollama port 11434 listening behavior remains a documented residual risk controlled by firewall posture.
+- RAG and local content loading remain deferred until the approved roadmap point.
+
+### Next Roadmap Position
+
+- Next planned release: ADP v1.9 future capability readiness review.
+- Local content loading, RAG, and document QA remain deferred until after the v2.0 foundation baseline.
