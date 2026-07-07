@@ -943,3 +943,49 @@ Security posture:
 Release outcome:
 - ADP v1.6 operational hardening and recovery validation is complete.
 - ADP v1.6 is documented, committed, pushed, snapshotted, and recoverable.
+
+## ADP v1.7 Prompt Governance and Model Policy Progress
+Status: In progress
+Date: 2026-07-07
+Host: smt-ai
+Branch: main
+Baseline before v1.7 work: a22205b
+Current commit after initial v1.7 governance artifacts: bfc6ee4
+Work completed:
+- Created ADP v1.7 prompt governance, model promotion, and evaluation policy plan.
+- Created ADP prompt governance standard.
+- Created ADP model promotion and evaluation policy.
+Artifacts added:
+- docs/ADP-v1.7-Prompt-Governance-Model-Promotion-Evaluation-Policy-Plan.md
+- docs/ADP-Prompt-Governance-Standard.md
+- docs/ADP-Model-Promotion-and-Evaluation-Policy.md
+Commit completed:
+- bfc6ee4 Add ADP v1.7 prompt governance and model policy
+Validation performed:
+- Clean v1.6 baseline was validated before v1.7 file creation.
+- Required v1.6 artifacts were present and ASCII-clean.
+- Open WebUI remained healthy and localhost-only.
+- Ollama reported version 0.30.11.
+- Approved models llama3.2:1b and llama3.2:3b were present.
+- v1.7 files were created as temporary candidates before promotion.
+- Candidate files passed ASCII and trailing whitespace checks.
+- Promoted files passed ASCII and trailing whitespace checks.
+- Content completeness checks passed for prompt governance, model policy, evidence, approval, demotion, and security controls.
+- Staged diff check passed before commit.
+- Commit was pushed to origin/main.
+- Local HEAD matched origin/main at bfc6ee4 after push.
+Security posture:
+- No Open WebUI exposure changes were made.
+- Open WebUI remains localhost-only.
+- Open WebUI remains pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Open WebUI remains bound to 127.0.0.1:3000->8080/tcp.
+- No Docker host networking was introduced.
+- No Open WebUI Docker volume was deleted.
+- No UFW weakening was performed.
+- No new Ollama models were added.
+Remaining v1.7 work:
+- Promote this engineering log update after validation.
+- Commit and push engineering log update.
+- Run final v1.7 documentation QA.
+- Document final v1.7 closeout.
+- Create final Timeshift snapshot after final validation.
