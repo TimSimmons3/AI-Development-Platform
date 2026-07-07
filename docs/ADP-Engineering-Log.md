@@ -1028,3 +1028,47 @@ Security posture:
 Release outcome:
 - ADP v1.7 prompt governance, model promotion, and evaluation policy is complete.
 - ADP v1.7 is documented, committed, pushed, snapshotted, and recoverable after final closeout commit and push.
+
+## ADP v1.8 Platform Runbook, QA Gates, and Maintenance Procedure Progress
+
+- Date: 2026-07-07
+- Host: smt-ai
+- Branch: main
+- Baseline commit: 0c3888f
+- Prior release: ADP v1.7
+- Release status: implementation in progress
+
+### Summary
+
+ADP v1.8 implementation began after the v1.7 baseline was validated as clean, recoverable, and consistent with the approved local security posture.
+
+The v1.8 release created the platform runbook, QA gate standard, maintenance procedure, and release plan as documentation-only artifacts.
+
+### Documentation Artifacts Created
+
+- docs/ADP-v1.8-Platform-Runbook-QA-Gates-Maintenance-Procedure-Plan.md
+- docs/ADP-Platform-Runbook.md
+- docs/ADP-QA-Gate-Standard.md
+- docs/ADP-Maintenance-Procedure.md
+
+### Validation Evidence
+
+- v1.8 plan candidate was validated before promotion.
+- Platform runbook candidate was validated before promotion.
+- QA gate standard candidate was validated before promotion.
+- Maintenance procedure candidate was validated before promotion.
+- Promoted documentation passed ASCII validation.
+- Promoted documentation passed trailing whitespace validation.
+- No models were added.
+- No Docker, network, firewall, Open WebUI volume, or exposure changes were made.
+
+### Residual Risk
+
+- Ollama port 11434 listening behavior remains a documented residual risk controlled by firewall posture.
+- RAG and local content loading remain deferred until the approved roadmap point.
+
+### Next Steps
+
+- Run full v1.8 documentation validation.
+- Update engineering log closeout after final validation.
+- Commit, push, create final snapshot, and document release closeout.
