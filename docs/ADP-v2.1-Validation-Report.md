@@ -170,11 +170,11 @@ Acceptance criteria status:
 - Test-data rules documented: PASS.
 - Rollback and removal expectations documented: PASS.
 - Residual risks documented: PASS.
-- Engineering log updated: Pending this release packet.
-- Release artifacts ASCII-clean: Pending final validation.
-- Release artifacts have no trailing whitespace: Pending final validation.
-- Git history clean and auditable: Pending commit.
-- Final snapshot created: Pending closeout packet.
+- Engineering log updated: PASS.
+- Release artifacts ASCII-clean: PASS.
+- Release artifacts have no trailing whitespace: PASS.
+- Git history clean and auditable: PASS - planning and readiness commit 2dfaea5.
+- Final snapshot created: PASS - ADP-v2.1-rag-planning-document-qa-readiness-complete.
 
 ## Residual Risks
 
