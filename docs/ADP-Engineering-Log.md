@@ -1336,3 +1336,48 @@ Closeout result:
 - Runtime RAG implementation was not performed.
 - Synthetic test corpus creation and ingestion were deferred to v2.2.
 - Final snapshot was created and validated through Timeshift listing.
+
+## ADP v2.2 - Synthetic Local RAG Pilot and Removal Validation
+
+Date: 2026-07-18
+Host: smt-ai
+Workspace: ~/Labs/AI-Development-Platform
+Branch: main
+Pre-pilot corpus commit: 53e013e
+Status: Controlled synthetic pilot completed with mixed results.
+
+Summary:
+- Created and committed the ADP v2.2 synthetic local RAG pilot plan.
+- Created and committed the approved synthetic test corpus.
+- Created and committed the test corpus screening review.
+- Created an Open WebUI Knowledge area named ADP-v2.2-synthetic-rag-pilot.
+- Loaded five approved synthetic Markdown files.
+- Confirmed Knowledge retrieval worked for simple direct retrieval.
+- Confirmed answer quality and instruction adherence were not reliable enough for broader document QA.
+- Closed v2.2 as a mixed-result pilot, not as approval for real document use.
+
+Pilot results:
+- Direct retrieval: PASS.
+- Guardrail summary: FAIL.
+- Control lookup: FAIL.
+- Baseline vs pilot comparison: FAIL.
+- Absent-answer behavior: FAIL due outside knowledge added after partial correct refusal.
+- Hallucination resistance: FAIL.
+- Conflict handling: FAIL.
+- Repeatability: FAIL.
+- Post-removal behavior: PASS WITH LIMITED EVIDENCE.
+
+Boundary preserved:
+- No real documents used.
+- No production data used.
+- No sensitive data used.
+- No external vector database installed.
+- No models added.
+- No Docker networking change performed.
+- No firewall weakening performed.
+- No Open WebUI exposure change approved.
+- No Open WebUI Docker volume deletion or replacement performed.
+
+Recommendation:
+- Proceed to ADP v2.3 for RAG prompt-control, retrieval-quality, and removal-validation hardening.
+- Do not use RAG with real, sensitive, production, client, legal, financial, medical, employee, personal, confidential, privileged, regulated, credential, secret, or contract data.
