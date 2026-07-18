@@ -1280,3 +1280,43 @@ Security and Runtime Boundary:
 Release Status:
 - ADP v2.0 is complete, validated, documented, committed, pushed, snapshotted, and recoverable.
 - ADP v2.1 may begin only in a separate planned release.
+
+## ADP v2.1 - Controlled Local Content, RAG, and Document QA Readiness
+
+Date: 2026-07-18
+Host: smt-ai
+Workspace: ~/Labs/AI-Development-Platform
+Branch: main
+Baseline commit: c13baa2
+Status: Planning, design, and document QA readiness completed; runtime implementation not performed.
+
+Summary:
+- Created the ADP v2.1 controlled local content, RAG, and document QA plan.
+- Created the local content loading and RAG design.
+- Created the document QA test plan.
+- Created the v2.1 validation report.
+- Preserved the v2.0 runtime boundary.
+- Deferred synthetic test corpus creation and ingestion to a future release.
+
+Artifacts:
+- docs/ADP-v2.1-Controlled-Local-Content-RAG-Document-QA-Plan.md
+- docs/ADP-Local-Content-Loading-and-RAG-Design.md
+- docs/ADP-Document-QA-Test-Plan.md
+- docs/ADP-v2.1-Validation-Report.md
+
+Boundary preserved:
+- No RAG tooling installed or enabled.
+- No vector database installed.
+- No documents loaded, ingested, indexed, embedded, or added to Open WebUI.
+- No production data used.
+- No sensitive data used.
+- No Docker networking changes made.
+- No firewall weakening performed.
+- No Open WebUI exposure changes made.
+- No Open WebUI Docker volume deletion or replacement performed.
+- No models added.
+- No Open WebUI or Ollama upgrade performed.
+
+Recommendation:
+- Close v2.1 as planning, design, and document QA readiness.
+- Use v2.2 for synthetic local RAG pilot and removal validation.
