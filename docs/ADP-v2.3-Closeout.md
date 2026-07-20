@@ -59,7 +59,7 @@ ADP v2.3 closes as:
 ### Closeout and recoverability
 
 - docs/ADP-v2.3-Closeout.md
-- docs/ADP-v2.3-Final-Recoverability-Record.md to be created after the final snapshot is confirmed.
+- docs/ADP-v2.3-Final-Recoverability-Record.md
 
 ## Commit History
 
@@ -77,11 +77,11 @@ T01 failure and remediation evidence commit:
 
 Closeout commit:
 
-- To be assigned after the cleanup record, closeout record, and engineering-log entry are committed.
+- be7f89d Document ADP v2.3 closeout and administrative cleanup
 
 Final recoverability commit:
 
-- To be assigned after the final Timeshift snapshot and recoverability record.
+- The resulting commit SHA is captured in post-push validation and the next project handoff.
 
 ## Test Results
 
@@ -208,18 +208,13 @@ Do not:
 - Use the current RAG path for real or sensitive documents.
 - Expand infrastructure, networking, models, or data scope.
 
-## Pending Recoverability Actions
+## Final Recoverability State
 
-Before v2.3 is final and recoverable:
-
-- Promote this closeout candidate.
-- Promote the administrative cleanup record.
-- Append the closeout entry to the engineering log.
-- Commit and push the closeout artifacts.
-- Confirm a clean synchronized Git state.
-- Create the final Timeshift snapshot:
-  - ADP-v2.3-rag-hardening-t01-failure-closeout
-- Confirm the snapshot in the Timeshift list.
-- Create the final recoverability record.
-- Commit and push the final recoverability record.
-- Confirm HEAD, main, and origin/main alignment.
+- Closeout artifacts were committed and pushed at be7f89d.
+- A clean synchronized Git state was confirmed before the final snapshot.
+- Timeshift snapshot 2026-07-20_11-32-48 was created and confirmed.
+- Actual snapshot description: ADP-v2.3-reg-hardening-t01-failure-closeout.
+- Planned snapshot description: ADP-v2.3-rag-hardening-t01-failure-closeout.
+- The `reg` versus `rag` variance is a comment-label typo only.
+- The final recoverability record and engineering-log entry are included in the final recoverability commit.
+- The resulting final recoverability commit SHA is captured in post-push validation and recorded in the next project handoff.

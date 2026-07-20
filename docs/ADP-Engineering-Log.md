@@ -1501,3 +1501,56 @@ Pending:
 - Create and confirm Timeshift snapshot ADP-v2.3-rag-hardening-t01-failure-closeout.
 - Create and commit the final recoverability record.
 - Confirm final clean synchronized Git state.
+
+## ADP v2.3 Final Recoverability Entry
+
+Date: 2026-07-20
+Host: smt-ai
+Workspace: ~/Labs/AI-Development-Platform
+Branch: main
+Closeout commit: be7f89d
+Status: Final Timeshift snapshot and recoverability state documented.
+
+Final Timeshift snapshot:
+- Snapshot identifier: 2026-07-20_11-32-48.
+- Snapshot tags: O.
+- Actual description: ADP-v2.3-reg-hardening-t01-failure-closeout.
+- Planned description: ADP-v2.3-rag-hardening-t01-failure-closeout.
+- Description variance: `reg` was stored instead of `rag`.
+- Variance classification: Comment-label typo only.
+- Snapshot row confirmed in the Timeshift list.
+- No duplicate snapshot created solely to correct the label.
+
+Git state at snapshot:
+- Working tree: clean.
+- HEAD: be7f89d.
+- main: be7f89d.
+- origin/main: be7f89d.
+
+Final release position:
+- T01: FAIL.
+- T02 through T09: NOT RUN.
+- Administrative Knowledge cleanup: PASS.
+- T09 removal validation: NOT RUN.
+- v2.4: BLOCKED.
+- Recommended next release: separately planned ADP v2.3.1 diagnostic remediation.
+
+Security and runtime boundary:
+- Open WebUI remained healthy and localhost-only.
+- Binding remained 127.0.0.1:3000->8080/tcp.
+- Open WebUI remained pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Ollama remained 0.30.11.
+- Only llama3.2:1b and llama3.2:3b remained installed.
+- No prohibited data was used.
+- No external vector database was installed.
+- No Docker networking change was made.
+- No firewall weakening was performed.
+- No Open WebUI Docker volume deletion or replacement was performed.
+
+Final recoverability artifact:
+- docs/ADP-v2.3-Final-Recoverability-Record.md
+
+Finalization:
+- This entry and the final recoverability record are included in the final recoverability commit.
+- The resulting commit SHA is captured through post-push validation.
+- The resulting commit SHA and final synchronized state are recorded in the next project handoff.
