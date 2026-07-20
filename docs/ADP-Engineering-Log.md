@@ -1381,3 +1381,71 @@ Boundary preserved:
 Recommendation:
 - Proceed to ADP v2.3 for RAG prompt-control, retrieval-quality, and removal-validation hardening.
 - Do not use RAG with real, sensitive, production, client, legal, financial, medical, employee, personal, confidential, privileged, regulated, credential, secret, or contract data.
+
+## ADP v2.3 RAG Hardening Stop-Condition Entry
+
+Date: 2026-07-20
+Host: smt-ai
+Workspace: ~/Labs/AI-Development-Platform
+Branch: main
+Baseline commit: 5574663
+Status: T01 failed after maximum controlled revisions; testing stopped; v2.4 blocked.
+
+Summary:
+- The approved v2.3 plan, prompt-control standard, test prompt library, manual evidence template, and removal procedure were committed and pushed.
+- Open WebUI runtime preflight passed.
+- The Knowledge collection ADP-v2.3-synthetic-rag-hardening was created.
+- Exactly five approved synthetic Markdown files were loaded and processed successfully.
+- No real or sensitive data was used.
+- T01 direct retrieval testing began using llama3.2:3b.
+- One incomplete preliminary submission was excluded from scoring.
+- T01-P1-v1 returned the correct content but failed the required two-line structure.
+- T01-P1-v2 returned the wrong section from the correct source file.
+- T01-P1-v3 Run 1 returned unrelated automation and iCalendar content.
+- T01-P1-v3 Run 2 returned the correct passage but failed exact output and no-preface controls.
+- T01-P1-v4 returned a structurally correct but invented objective containing unsupported machine-learning and algorithm-performance claims.
+- The maximum three controlled prompt revisions were exhausted.
+- The approved stop condition was triggered.
+- T02 through T09 were not run.
+- v2.4 is blocked.
+
+T01 final result:
+- FAIL.
+
+Primary failure patterns:
+- Wrong-passage selection.
+- Exact output-structure noncompliance.
+- Unauthorized preface and collection commentary.
+- Unrelated automation output.
+- Unsupported outside knowledge.
+- Inconsistent displayed-source evidence capture.
+- Non-reproducible behavior.
+
+Security and runtime boundary:
+- Open WebUI remained localhost-only.
+- Binding remained 127.0.0.1:3000->8080/tcp.
+- Open WebUI remained pinned to ghcr.io/open-webui/open-webui:v0.10.2.
+- Ollama remained at the validated version.
+- Only llama3.2:1b and llama3.2:3b remained installed.
+- No external vector database was installed.
+- No Docker networking change was made.
+- No firewall weakening was performed.
+- No Open WebUI Docker volume deletion or replacement was performed.
+- No prohibited data was used.
+
+Decision:
+- Do not proceed to v2.4.
+- Do not run additional v2.3 prompts.
+- Recommend remediation in a separately planned v2.3-series diagnostic release.
+- Preserve the current Knowledge collection until evidence records are reviewed and secured.
+- After evidence commit, perform controlled administrative collection cleanup without scoring it as T09.
+
+Pending:
+- Promote and commit the T01 evidence record.
+- Promote and commit the v2.3 validation report.
+- Promote and commit the remediation decision record.
+- Append this entry to docs/ADP-Engineering-Log.md.
+- Remove the active synthetic Knowledge collection through the visible interface.
+- Revalidate Git and runtime state.
+- Create closeout and final recoverability records.
+- Commit, push, create a Timeshift snapshot, and confirm recoverability.
