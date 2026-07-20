@@ -1449,3 +1449,55 @@ Pending:
 - Revalidate Git and runtime state.
 - Create closeout and final recoverability records.
 - Commit, push, create a Timeshift snapshot, and confirm recoverability.
+
+## ADP v2.3 Administrative Cleanup and Closeout Entry
+
+Date: 2026-07-20
+Host: smt-ai
+Workspace: ~/Labs/AI-Development-Platform
+Branch: main
+Evidence commit: 8948a00
+Status: Administrative cleanup complete; closeout preparation complete; final snapshot and recoverability record pending.
+
+Administrative cleanup:
+- Removed the Open WebUI Knowledge collection ADP-v2.3-synthetic-rag-hardening through the visible interface.
+- Confirmed the collection was absent from the Knowledge list.
+- Confirmed the five approved synthetic files were no longer active in the collection.
+- Confirmed no unrelated collection was removed.
+- Executed no prompt during cleanup.
+- Did not delete or replace the Open WebUI Docker volume.
+- Classified the action as administrative cleanup, not T09 removal validation.
+- T09 remains NOT RUN.
+
+Post-cleanup Git state:
+- Branch: main.
+- HEAD: 8948a00.
+- origin/main: 8948a00.
+- Working tree: clean.
+
+Post-cleanup runtime state:
+- Open WebUI remained healthy.
+- Open WebUI remained localhost-only.
+- Binding remained 127.0.0.1:3000->8080/tcp.
+- Open WebUI image remained ghcr.io/open-webui/open-webui:v0.10.2.
+- Ollama remained 0.30.11.
+- Only llama3.2:1b and llama3.2:3b remained installed.
+
+Final v2.3 release position:
+- T01: FAIL.
+- T02 through T09: NOT RUN.
+- Stop condition: Triggered and honored.
+- v2.4: BLOCKED.
+- Current RAG path: Not approved for real or sensitive documents.
+- Recommended next release: separately planned ADP v2.3.1 diagnostic remediation.
+
+Closeout artifacts prepared:
+- docs/ADP-v2.3-Administrative-Knowledge-Cleanup-Record.md
+- docs/ADP-v2.3-Closeout.md
+- docs/ADP-Engineering-Log.md
+
+Pending:
+- Commit and push the closeout artifacts.
+- Create and confirm Timeshift snapshot ADP-v2.3-rag-hardening-t01-failure-closeout.
+- Create and commit the final recoverability record.
+- Confirm final clean synchronized Git state.
