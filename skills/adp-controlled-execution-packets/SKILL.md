@@ -64,3 +64,15 @@ Before presenting any operator-executed artifact:
 7. Preserve a final-delivery validation report and SHA-256.
 8. Do not state that execution is ready until this gate passes.
 9. On a delivery-path defect, supersede the failed artifact design rather than asking the operator to retry the same pattern.
+
+## Semantic Traceability Enforcement
+
+Before delivery or runtime authorization:
+
+1. Build a requirement-coverage map from the approved plan, current gate record, handoff, amendments, and recoverability requirements to the packet steps and status fields.
+2. Verify that each mandatory prerequisite is tested, evidenced, or explicitly retained as a hold point.
+3. Search all current instructions for superseded filenames, package pairings, execution methods, baselines, and authorization language.
+4. Reconcile the manifest, checksums, canonical paths, scripts, and operator command.
+5. Distinguish historical records from current executable instructions.
+6. Do not declare a full pass when static and delivery tests pass but semantic traceability remains incomplete.
+7. When a post-delivery audit finds multiple linked inconsistencies, correct them in one consolidated corrective packet and return one evidence bundle.

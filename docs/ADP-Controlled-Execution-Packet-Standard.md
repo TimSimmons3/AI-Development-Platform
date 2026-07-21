@@ -196,3 +196,21 @@ A packet is not delivery-ready until the exact final artifact has passed end-to-
 Prefer one self-contained executable artifact. Do not require multiple manually coordinated downloads when the payload can be embedded and verified.
 
 The final delivery gate shall prove the exact invocation from the expected operator directory, clean-room extraction, embedded-payload integrity, executable-path validity, ASCII-only shell transport, shell syntax, and safe failure before mutation.
+
+## 14. Semantic Traceability and Consistency Gate
+
+Before an execution packet or operator artifact is approved, perform a semantic cross-document review against the controlling plan, gate records, handoff, amendments, manifest, scripts, and operator instructions.
+
+The review shall prove:
+
+1. Every mandatory prerequisite in the approved plan is represented in an executable packet or explicitly retained as a separate hold point.
+2. Every packet success field corresponds to evidence actually collected by the script or operator procedure.
+3. No superseded filename, download transaction, execution method, baseline, or authorization remains presented as current.
+4. Historical records are clearly distinguished from current instructions.
+5. Runtime authorization is not released when a required recoverability, security, evidence, or synchronization condition is missing.
+6. The manifest, checksums, promotion paths, scripts, and operator instructions describe the same final artifact set and workflow.
+7. A requirement-coverage matrix or equivalent review record is retained.
+
+Static syntax, checksum, packaging, and clean-room delivery tests do not replace this semantic gate.
+
+A packet is not in a full-pass state until both the technical validation gate and the semantic traceability gate pass.

@@ -167,3 +167,43 @@ The prior ZIP-plus-checksum-plus-launcher delivery transaction is superseded.
 The approved operator delivery is one self-contained installer that embeds the validated Gate C package and verifies it before invoking the promotion packet. This amendment does not alter the approved Gate C diagnostic scope, repository baseline, runtime controls, test identifiers, or authorization boundary.
 
 The installer must pass the ADP Final Delivery Validation Standard before delivery. Target-host repository and runtime execution remain operator-dependent and may still stop on a genuine baseline, authorization, service, security, or Git condition.
+
+## 11. Post-Promotion Semantic Audit Correction
+
+Promotion through the self-contained installer completed successfully at commit:
+
+- `efa97c5 Add ADP v2.3.1 Gate C artifacts and execution packet standard`
+
+The complete target transcript showed PASS for:
+
+- Exact embedded payload integrity
+- Clean extraction and package file set
+- Package checksums and text validation
+- Starting Git baseline
+- Controlling plan and Gate B checksums
+- Controlled copy and pre-commit validation
+- Commit and push
+- Post-push synchronization and clean working tree
+- Open WebUI image, health, and loopback binding
+- Ollama version, service, listener environment, and approved model set
+- UFW active status
+
+A post-promotion semantic audit identified one consolidated corrective action:
+
+- `CA-231-C-01 - Final semantic traceability correction`
+
+The corrective action contains two linked inconsistencies that must be corrected together before runtime:
+
+1. The canonical promotion packet retained the superseded external ZIP-plus-checksum execution method even though the approved and executed delivery was one self-contained installer.
+2. The approved plan requires confirmation that predecessor Timeshift snapshot `2026-07-20_11-32-48` remains listed before runtime work, but the original promotion script did not collect that status.
+
+These findings do not invalidate commit `efa97c5` or the successful repository and runtime baseline checks. They keep runtime authorization on hold until the single correction packet:
+
+- Corrects all current workflow references.
+- Adds the Timeshift check to the canonical promotion script and runtime entry conditions.
+- Updates the standards and project skill with semantic traceability enforcement.
+- Commits and pushes the correction.
+- Confirms synchronization and a clean working tree.
+- Emits `RUNTIME_ENTRY_STATUS=PASS`.
+
+No Knowledge collection creation, source upload, or prompt execution is authorized before that correction passes.

@@ -133,3 +133,18 @@ After a delivery-path defect:
 4. Re-run the complete final-delivery validation.
 5. Supersede the failed artifacts explicitly.
 6. Do not ask the operator to repeat the same uncorrected pattern.
+
+## 11. Semantic Delivery Consistency
+
+The final-delivery gate shall include a semantic comparison of the exact final artifact and its operator instructions against the approved plan, current gate records, amendments, canonical manifest, and executable packet.
+
+The comparison shall confirm:
+
+- Every current prerequisite is enforced before mutation or runtime authorization.
+- Superseded download methods, filenames, checksum pairings, and execution paths are removed from current instructions or clearly labeled as historical.
+- The final artifact, embedded payload, extracted files, canonical promotion paths, and documented workflow agree.
+- Runtime-entry status fields are not emitted unless every required security, recoverability, synchronization, and evidence prerequisite was actually checked.
+- The current operator command was tested and matches the workflow documented in the canonical packet.
+- Any post-delivery correction updates the standard, skill, packet, script, manifest, and audit record together when they are affected.
+
+This review is required in addition to byte-level and clean-room validation.

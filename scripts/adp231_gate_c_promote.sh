@@ -6,6 +6,8 @@ EXPECTED_PLAN_SHA="130a79ba28ef428e033b7b913f9545395d20d72511a8fbe68e6edc3c37094
 EXPECTED_GATE_B_SHA="35fd09281bca5bc0c6e803bd9beed56bce9d4eccecd15a7ef79fb92d9fbf8e59"
 EXPECTED_IMAGE="ghcr.io/open-webui/open-webui:v0.10.2"
 EXPECTED_OLLAMA_VERSION="0.30.11"
+EXPECTED_TIMESHIFT_ID="2026-07-20_11-32-48"
+EXPECTED_TIMESHIFT_DESC="ADP-v2.3-reg-hardening-t01-failure-closeout"
 REPO="$HOME/Labs/AI-Development-Platform"
 PACKAGE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STAMP="$(date '+%Y%m%d-%H%M%S')"
@@ -131,6 +133,7 @@ OLLAMA_SERVICE="$(systemctl is-active ollama)"
 OLLAMA_ENV="$(systemctl show ollama --property=Environment --value)"
 MODEL_SET="$(ollama list | awk 'NR>1 {print $1}' | sort | tr '\n' ' ' | sed 's/ $//')"
 UFW_STATUS="$(sudo ufw status | sed -n '1p')"
+TIMESHIFT_LINE="$(sudo timeshift --list 2>/dev/null | grep -F "$EXPECTED_TIMESHIFT_ID" | tail -n 1)"
 printf 'OPEN_WEBUI_IMAGE=%s\n' "$OPEN_WEBUI_IMAGE"
 printf 'OPEN_WEBUI_HEALTH=%s\n' "$OPEN_WEBUI_HEALTH"
 printf 'OPEN_WEBUI_PORT=%s\n' "$OPEN_WEBUI_PORT"
@@ -139,6 +142,7 @@ printf 'OLLAMA_SERVICE=%s\n' "$OLLAMA_SERVICE"
 printf 'OLLAMA_ENV=%s\n' "$OLLAMA_ENV"
 printf 'MODEL_SET=%s\n' "$MODEL_SET"
 printf 'UFW_STATUS=%s\n' "$UFW_STATUS"
+printf 'TIMESHIFT_LINE=%s\n' "$TIMESHIFT_LINE"
 test "$OPEN_WEBUI_IMAGE" = "$EXPECTED_IMAGE"
 test "$OPEN_WEBUI_HEALTH" = "healthy"
 test "$OPEN_WEBUI_PORT" = "127.0.0.1:3000"
@@ -147,11 +151,18 @@ test "$OLLAMA_SERVICE" = "active"
 printf '%s\n' "$OLLAMA_ENV" | grep -F 'OLLAMA_HOST=0.0.0.0:11434'
 test "$MODEL_SET" = "llama3.2:1b llama3.2:3b"
 test "$UFW_STATUS" = "Status: active"
+test -n "$TIMESHIFT_LINE"
+case "$TIMESHIFT_LINE" in
+  *"$EXPECTED_TIMESHIFT_DESC"*) ;;
+  *) printf 'TIMESHIFT_BASELINE_STATUS=FAIL\n'; exit 1 ;;
+esac
+printf 'TIMESHIFT_BASELINE_STATUS=PASS\n'
 printf 'READ_ONLY_PRE_RUNTIME_STATUS=PASS\n'
 
 printf '\n===== PACKET RESULT =====\n'
 printf 'PROMOTION_STATUS=PASS\n'
 printf 'SYNCHRONIZATION_STATUS=PASS\n'
 printf 'READ_ONLY_PRE_RUNTIME_STATUS=PASS\n'
+printf 'TIMESHIFT_BASELINE_STATUS=PASS\n'
 printf 'NEXT_PACKET=V231-C-RUNTIME-01\n'
 printf 'TRANSCRIPT=%s\n' "$TRANSCRIPT"

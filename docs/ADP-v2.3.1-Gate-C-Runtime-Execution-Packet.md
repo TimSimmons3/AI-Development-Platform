@@ -17,14 +17,28 @@ Execute the complete three-run Gate C block in one operator session without retu
 
 ## 3. Entry Conditions
 
-Proceed only when the promotion transcript contains all of:
+Proceed only when the original promotion transcript contains:
 
 - `PROMOTION_STATUS=PASS`
 - `SYNCHRONIZATION_STATUS=PASS`
 - `READ_ONLY_PRE_RUNTIME_STATUS=PASS`
+- Promotion commit `efa97c5`
+
+Proceed only when the post-promotion correction transcript also contains:
+
+- `CORRECTION_STATUS=PASS`
+- `SEMANTIC_TRACEABILITY_STATUS=PASS`
+- `TIMESHIFT_BASELINE_STATUS=PASS`
+- `POST_CORRECTION_SYNCHRONIZATION_STATUS=PASS`
+- `RUNTIME_ENTRY_STATUS=PASS`
 - `NEXT_PACKET=V231-C-RUNTIME-01`
 
-Also confirm no relevant repository, runtime, service, model, network, or security state changed after that transcript.
+The required predecessor snapshot is:
+
+- Identifier: `2026-07-20_11-32-48`
+- Stored description: `ADP-v2.3-reg-hardening-t01-failure-closeout`
+
+Also confirm no relevant repository, runtime, service, model, network, security, or recoverability state changed after the correction transcript.
 
 ## 4. One-Time Setup
 

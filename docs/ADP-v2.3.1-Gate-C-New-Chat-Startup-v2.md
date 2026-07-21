@@ -1,15 +1,17 @@
 # ADP v2.3.1 Gate C New Chat Startup v2
 
-Continue the AI Development Platform project using the attached integrated execution package.
+Continue the AI Development Platform project from the canonical repository after successful Gate C artifact promotion.
 
 ## Controlling State
 
 - Repository: `~/Labs/AI-Development-Platform`
 - Branch: `main`
-- Expected starting commit: `253e9dd`
+- Gate C promotion commit:
+  - `efa97c5 Add ADP v2.3.1 Gate C artifacts and execution packet standard`
 - Gate A: PASS
 - Gate B: PASS WITH RECORDED DIAGNOSTIC FINDINGS
-- Gate C artifacts: APPROVED AS REVISED FOR CONTROLLED REPOSITORY PROMOTION
+- Gate C artifact promotion: PASS
+- Gate C post-promotion semantic correction: REQUIRED BEFORE RUNTIME
 - Gate C runtime testing: NOT STARTED
 - Optional model comparison: NOT AUTHORIZED
 - ADP v2.4: BLOCKED
@@ -18,23 +20,29 @@ Continue the AI Development Platform project using the attached integrated execu
 
 Read and apply:
 
-- `ADP-Controlled-Execution-Packet-Standard.md`
+- `docs/ADP-Controlled-Execution-Packet-Standard.md`
+- `docs/ADP-Final-Delivery-Validation-Standard.md`
 - `skills/adp-controlled-execution-packets/SKILL.md`
 
-Do not split safe dependent work into micro-transitions. Use one consolidated packet and one returned evidence bundle unless a documented stop condition or material approval requires otherwise.
+Do not split safe dependent work into micro-transitions. Do not declare full pass until technical validation and semantic traceability both pass.
 
 ## Next Packet
 
-Execute:
+Execute the single post-promotion correction packet.
 
-- `ADP-v2.3.1-Gate-C-Promotion-and-Synchronization-Execution-Packet.md`
+It shall:
 
-When that packet passes, proceed directly to:
+- Correct superseded delivery references.
+- Add the required pre-runtime Timeshift confirmation.
+- Update affected standards, skill, packet, script, manifest, and audit record.
+- Commit, push, synchronize, and return one transcript.
 
-- `ADP-v2.3.1-Gate-C-Runtime-Execution-Packet.md`
+When that packet passes with `RUNTIME_ENTRY_STATUS=PASS`, proceed directly to:
 
-No intermediate assistant approval is required when all packet pass fields are present and no relevant state changed.
+- `docs/ADP-v2.3.1-Gate-C-Runtime-Execution-Packet.md`
+
+No intermediate assistant approval is required when all correction pass fields are present and no relevant state changed.
 
 ## Prohibitions
 
-Do not bypass a packet stop condition, revise the frozen prompt, change runtime settings, authorize model comparison, use real or sensitive data, or begin ADP v2.4.
+Do not bypass a stop condition, revise the frozen prompt, change runtime settings, authorize model comparison, use real or sensitive data, or begin ADP v2.4.
