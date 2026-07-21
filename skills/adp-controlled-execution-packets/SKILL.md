@@ -76,3 +76,48 @@ Before delivery or runtime authorization:
 5. Distinguish historical records from current executable instructions.
 6. Do not declare a full pass when static and delivery tests pass but semantic traceability remains incomplete.
 7. When a post-delivery audit finds multiple linked inconsistencies, correct them in one consolidated corrective packet and return one evidence bundle.
+
+
+## Procedure Freeze and No-Patching Enforcement
+
+Before any counted test:
+
+1. Freeze one authoritative procedure version.
+2. Freeze the script, guide, evidence schema, filenames, prompt, source, scoring, and stop conditions together.
+3. Verify the current-artifact inventory and supersession list.
+4. Run positive and negative end-to-end tests.
+5. Confirm the operator can identify each action, filename, destination, expected output, and next command.
+
+After a counted run starts:
+
+- Never patch, rename, reinterpret, resume, or retrofit the run after a material procedure change.
+- Mark the run `VOIDED_NOT_COUNTED`.
+- Preserve it in an audit archive.
+- Clean the active workspace.
+- Reset stateful external systems.
+- Restart with fresh independent evidence.
+
+## Evidence Lifecycle Enforcement
+
+Use unique, ordered, purpose-specific filenames.
+
+Do not:
+
+- Reuse a filename for different evidence.
+- Ask the operator to overwrite evidence.
+- Create expected-result files before the result is visibly observed.
+- Reuse setup or run evidence after a material reset unless the plan expressly permits it.
+- Leave superseded scripts, toolkits, guides, or loose evidence in the active workspace.
+
+## Mandatory Future-Task Review
+
+For every upcoming release, task, handoff, validation, script, and operator guide:
+
+1. Apply `docs/ADP-Test-Execution-Consistency-and-Evidence-Lifecycle-Standard.md`.
+2. Verify one authoritative current procedure.
+3. Verify a complete reset and cleanup path.
+4. Verify unique filenames.
+5. Verify plain-English operator instructions.
+6. Verify current and superseded artifact inventories.
+7. Verify positive and negative execution tests.
+8. Stop delivery when ambiguity or filename collision remains.

@@ -113,3 +113,22 @@ A FAIL, INCONCLUSIVE condition, missing evidence, or state change stops automati
 This manifest does not list its own checksum because that would be circular.
 
 The correction payload checksum file validates this manifest and every file delivered by the correction installer.
+
+
+## 8. Runtime Procedure Hardening Amendment
+
+The first attempted runtime workflow is `VOIDED_NOT_COUNTED`.
+
+Current runtime artifacts are:
+
+- `docs/ADP-Test-Execution-Consistency-and-Evidence-Lifecycle-Standard.md`
+- `docs/ADP-Process-Quality-Gate-Checklist.md`
+- `docs/ADP-v2.3.1-Gate-C-Runtime-Procedure-Reset-and-Supersession-Record.md`
+- `docs/ADP-v2.3.1-Gate-C-Runtime-Execution-Packet.md`
+- `docs/ADP-v2.3.1-Gate-C-Fresh-Runtime-Operator-Guide.md`
+- `scripts/adp231_gate_c_fresh_runtime.sh`
+- `scripts/adp_process_quality_gate.sh`
+
+Earlier Gate C runtime operator scripts, toolkit directories, and guides are superseded.
+
+A counted run may begin only after the process-quality gate and fresh reset pass.

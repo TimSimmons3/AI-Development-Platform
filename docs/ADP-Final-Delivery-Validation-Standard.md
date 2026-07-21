@@ -148,3 +148,47 @@ The comparison shall confirm:
 - Any post-delivery correction updates the standard, skill, packet, script, manifest, and audit record together when they are affected.
 
 This review is required in addition to byte-level and clean-room validation.
+
+
+## 12. Procedure and Evidence Consistency Gate
+
+Final-delivery validation shall compare the exact operator artifact against:
+
+- The frozen procedure
+- The evidence schema
+- The filename map
+- The reset and cleanup procedure
+- The current-artifact inventory
+- The supersession record
+
+The delivered script and guide shall agree on every command, filename, path, question, status field, and stop condition.
+
+## 13. Operator Usability Test
+
+Before delivery, perform a task-based review in which the operator path is evaluated from start to finish.
+
+The review shall identify:
+
+- Duplicate steps
+- Reused filenames
+- Missing files
+- Unclear application context
+- Hidden prerequisites
+- Contradictory instructions
+- Expected-result fabrication risk
+- Ambiguous next actions
+- Mid-run change risk
+
+A delivery is not approved when the operator must infer what a screenshot or file should contain.
+
+## 14. In-Progress Defect Rule
+
+If a delivery or procedure defect is discovered after a counted run begins:
+
+1. Do not patch the run.
+2. Void the affected run.
+3. Archive its evidence.
+4. Correct all affected standards, skills, scripts, guides, and templates together.
+5. Re-run final-delivery and semantic validation.
+6. Reset the active workspace and external-system state.
+7. Restart under the new frozen version.

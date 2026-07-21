@@ -207,3 +207,22 @@ These findings do not invalidate commit `efa97c5` or the successful repository a
 - Emits `RUNTIME_ENTRY_STATUS=PASS`.
 
 No Knowledge collection creation, source upload, or prompt execution is authorized before that correction passes.
+
+
+## 12. Runtime Procedure Consistency Remediation
+
+The first runtime attempt is voided and does not count.
+
+The remediation establishes:
+
+- A cross-release procedure-freeze standard
+- A no-mid-run-patching rule
+- A void and reset lifecycle
+- Active-workspace cleanup
+- Unique evidence filenames
+- One canonical runtime script and guide
+- Operator usability validation
+- Positive and negative end-to-end testing
+- Automated current-artifact and supersession checks
+
+Runtime testing shall restart only under packet `V231-C-RUNTIME-02`.

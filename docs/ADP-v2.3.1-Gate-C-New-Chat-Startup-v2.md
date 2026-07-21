@@ -46,3 +46,21 @@ No intermediate assistant approval is required when all correction pass fields a
 ## Prohibitions
 
 Do not bypass a stop condition, revise the frozen prompt, change runtime settings, authorize model comparison, use real or sensitive data, or begin ADP v2.4.
+
+
+## Runtime Procedure Hardening
+
+The first runtime attempt is `VOIDED_NOT_COUNTED`.
+
+Use only:
+
+- `docs/ADP-v2.3.1-Gate-C-Fresh-Runtime-Operator-Guide.md`
+- `scripts/adp231_gate_c_fresh_runtime.sh`
+
+Start with:
+
+```bash
+bash scripts/adp231_gate_c_fresh_runtime.sh reset
+```
+
+Do not use earlier Gate C runtime scripts, toolkits, guides, chats, or evidence.

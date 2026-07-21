@@ -214,3 +214,41 @@ The review shall prove:
 Static syntax, checksum, packaging, and clean-room delivery tests do not replace this semantic gate.
 
 A packet is not in a full-pass state until both the technical validation gate and the semantic traceability gate pass.
+
+
+## 15. Procedure Freeze and Counted-Run Integrity
+
+Every runtime or evidence packet shall comply with `docs/ADP-Test-Execution-Consistency-and-Evidence-Lifecycle-Standard.md`.
+
+Before a counted run begins, freeze the complete procedure, script set, evidence schema, filename map, scoring boundary, stop conditions, and operator guide.
+
+Do not patch an in-progress counted run. A material change after run start voids the affected run and requires a clean reset.
+
+## 16. Active Workspace and Supersession Control
+
+A packet shall identify:
+
+- The one authoritative current script
+- The one authoritative current guide
+- The active evidence workspace
+- The archive location for voided or superseded material
+- The cleanup verification fields
+- The reset command
+
+No superseded operator artifact may remain presented as current.
+
+## 17. Operator Clarity Requirement
+
+The packet shall be understandable without inference.
+
+For every human action, state:
+
+- The application or terminal in which it occurs
+- The exact object to select or create
+- The evidence to capture
+- The exact filename and destination
+- The expected result
+- The next command
+- The stop condition
+
+Ambiguous, contradictory, or duplicate instructions fail the packet-quality gate.
