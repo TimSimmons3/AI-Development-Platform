@@ -10,3 +10,6 @@ tests/model-validation/results/*
 # ADP generated model-validation summaries
 # Timestamped summary outputs are local runtime artifacts unless promoted to a formal report.
 tests/model-validation/results/[0-9]*-summary.md
+
+# ADP v2.4 active isolated-validation evidence is local restricted runtime evidence.
+artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/
