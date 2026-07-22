@@ -1554,3 +1554,19 @@ Finalization:
 - This entry and the final recoverability record are included in the final recoverability commit.
 - The resulting commit SHA is captured through post-push validation.
 - The resulting commit SHA and final synchronized state are recorded in the next project handoff.
+
+## ADP v2.3.1 Deterministic RAG Validation Closeout
+
+- Status: `PASS_WITH_REQUIRED_CONFIGURATION`
+- Evidence repeatability: `3_OF_3_PASS`
+- Root cause: Concrete example contamination in the Open WebUI RAG template
+- Contributing weakness: Default `llama3.2:3b` generation variability
+- Corrective configuration:
+  - Example-free RAG template
+  - Private deterministic workspace model
+  - Temperature `0`
+  - Seed `42`
+- Evidence archive SHA-256: `7648d869b7bb80696f74e45546b6a43f84a5a7d7f62e30d580a7f57459170ebf`
+- Original counted Gate C attempts: `VOIDED_NOT_COUNTED`
+- Gate C technical objective: PASS under the approved configuration
+- v2.4: blocked until final snapshot and recoverability package PASS
