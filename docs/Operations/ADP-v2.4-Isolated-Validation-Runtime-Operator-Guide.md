@@ -4,6 +4,9 @@
 
 ```text
 GUIDE_STATUS=CANDIDATE_NOT_RUNTIME_AUTHORIZED
+RUNTIME_BASELINE_TAG=adp-v2.4-pre-runtime-controls
+RUNTIME_ENTRY_GATE=scripts/adp24_isolated_runtime_preflight.sh
+PRE_PROMOTION_QUALITY_GATE=HISTORICAL_NOT_RUNTIME
 PRIMARY_INSTANCE_CHANGE=NONE
 MODEL_SYNC_OPERATION=PROHIBITED
 COUNTED_EXECUTION_AUTHORIZATION=HOLD
@@ -11,7 +14,7 @@ COUNTED_EXECUTION_AUTHORIZATION=HOLD
 
 ## 2. One Current Workflow
 
-1. Run `scripts/adp24_isolated_runtime_preflight.sh`.
+1. Run `scripts/adp24_isolated_runtime_preflight.sh`. This is the only current Git and runtime-entry gate. Do not run `scripts/adp24_pre_runtime_quality_gate.sh`; it is the historical pre-promotion candidate gate.
 2. Export the selected deterministic model from the primary user interface.
 3. Run `scripts/adp24_validate_model_export.py` and retain its outputs.
 4. Stop and return evidence for runtime authorization.
@@ -38,6 +41,6 @@ Do not capture:
 
 ## 4. Immediate Stop Conditions
 
-Stop for any primary-instance degradation, unexpected public binding, model mismatch, secret-bearing export, nonempty model association, wrong volume, failed backup, failed checksum, missing screenshot, wrong filename, or unexpected repository change.
+Stop for any baseline-tag mismatch, primary-instance degradation, unexpected public binding, model mismatch, secret-bearing export, nonempty model association, wrong volume, failed backup, failed checksum, missing screenshot, wrong filename, or unexpected repository change.
 
 Do not improvise around a stop condition. Preserve evidence and return the consolidated bundle.
