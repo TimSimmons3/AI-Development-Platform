@@ -8,6 +8,7 @@ MODEL_TARGET=ISOLATED_VALIDATION_INSTANCE
 IMPORT_METHOD=ADDITIVE_IMPORT_ONLY
 MODEL_SYNC_OPERATION=PROHIBITED
 API_KEY_USE=NOT_REQUIRED
+OPEN_WEBUI_IMPORT_ROOT=TOP_LEVEL_ARRAY
 ```
 
 ## 2. Export From Primary Open WebUI
@@ -52,12 +53,54 @@ BASE_MODEL=llama3.2:3b
 TEMPERATURE=0
 SEED=42
 MODEL_ASSOCIATIONS=ABSENT
+SANITIZED_IMPORT_ROOT=TOP_LEVEL_ARRAY
+SANITIZED_IMPORT_MODEL_COUNT=1
 SANITIZED_IMPORT_SHA256=<sha256>
 ```
 
-Any failure stops the workflow. Do not manually edit a failing export into compliance.
+The sanitized import artifact shall be a top-level JSON array containing exactly one model object. A wrapper object such as `{"models":[...]}` is not compatible with the Open WebUI v0.10.2 Workspace Models import handler and is prohibited.
 
-## 4. Import Into Isolated Instance
+Validate the generated artifact independently:
+
+```text
+python3 scripts/adp24_validate_model_import_payload.py \
+  --input <sanitized-import.json>
+```
+
+Any failure stops the workflow. Do not manually edit a failing export or sanitized import into compliance.
+
+## 4. Controlled Reset After the Voided Import Attempt
+
+The import attempt in evidence workspace:
+
+```text
+artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/20260722T215656Z/
+```
+
+is void at the model-import boundary because the prior sanitizer generated an incompatible wrapper object. Preserve that workspace unchanged as non-counted historical evidence.
+
+A corrected import attempt shall use one new workspace matching:
+
+```text
+artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/<UTC-PACKET-ID>/
+```
+
+The existing initialized isolated runtime may be retained only when all of the following are revalidated before the corrected import:
+
+- Validation container is healthy.
+- Primary instance is healthy.
+- Isolated user count is exactly one.
+- Isolated administrator count is exactly one.
+- Target deterministic model count is zero.
+- The pristine pre-administrator backup checksum remains valid.
+- Repository worktree is clean.
+- The prior raw export SHA-256 is exactly `dc5f11638c994e7204b7a8e2b0920bd7f8ccf324253260ac65dd7efcf99269fa`.
+
+This amendment explicitly permits the corrected validator to read the unchanged, checksum-validated raw export from the voided workspace. No other setup or execution evidence may be reused. New validator outputs, screenshots, verification, manifest, backup, restart, and non-counted evidence shall be created in the new reset workspace.
+
+The existing `08-model-import-selection.png`, if present, remains immutable evidence of the failed selection attempt. Do not overwrite, rename, or reuse it.
+
+## 5. Import Into Isolated Instance
 
 Application: Firefox connected to `http://127.0.0.1:3001`.
 
@@ -65,21 +108,25 @@ Prerequisites:
 
 - Isolated container healthy.
 - Isolated administrator account established.
-- Sanitized import payload validated and checksummed.
+- Corrected sanitized import payload validated and checksummed.
 - Primary instance still healthy.
+- New reset evidence workspace active.
+- Target model count confirmed as zero.
 
 Steps:
 
 1. Open Workspace.
 2. Open Models.
 3. Choose Import.
-4. Select the sanitized import JSON.
-5. Confirm exactly one model is added or updated.
-6. Do not use Sync.
-7. Do not attach Knowledge, tools, skills, functions, or filters.
-8. Capture the required screenshots from the evidence filename map.
+4. In the file picker, select the corrected sanitized import JSON.
+5. Before clicking Open, capture the file-picker selection screenshot using the reset evidence map.
+6. Click Open. In Open WebUI v0.10.2, file selection triggers the import immediately; there is no separate confirmation button.
+7. Confirm exactly one model is added.
+8. Do not use Sync.
+9. Do not attach Knowledge, tools, skills, functions, or filters.
+10. Capture the completed Models page using the reset evidence map.
 
-## 5. Post-Import Verification
+## 6. Post-Import Verification
 
 Verify through read-only inspection that:
 
@@ -90,5 +137,6 @@ Verify through read-only inspection that:
 - Model is active.
 - System prompt is absent.
 - Model-level Knowledge, tools, skills, functions, and filters are absent.
+- Exactly one target model record exists.
 
 A capability flag does not prove that a capability is attached or enabled for a chat. Per-chat controls remain mandatory.

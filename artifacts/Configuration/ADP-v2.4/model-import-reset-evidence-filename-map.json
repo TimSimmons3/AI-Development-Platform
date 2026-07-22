@@ -1,0 +1,110 @@
+{
+  "files": [
+    {
+      "name": "01-controlled-reset-reference-record.txt",
+      "order": 1,
+      "purpose": "Voided workspace, source export hash, correction commit, and retained-runtime decision",
+      "required": true
+    },
+    {
+      "name": "02-admin-only-state-revalidation.txt",
+      "order": 2,
+      "purpose": "Healthy retained runtime, one admin, zero target models, pristine backup, and repository cleanliness",
+      "required": true
+    },
+    {
+      "name": "03-model-export-validation-report-v2.json",
+      "order": 3,
+      "purpose": "Corrected sanitizer report with top-level-array classification",
+      "required": true
+    },
+    {
+      "name": "04-deterministic-model-import-sanitized-v2.json",
+      "order": 4,
+      "purpose": "Validated Open WebUI v0.10.2-compatible additive import payload",
+      "required": true
+    },
+    {
+      "name": "05-model-import-file-picker-selected.png",
+      "order": 5,
+      "purpose": "Corrected sanitized file selected before clicking Open",
+      "required": true
+    },
+    {
+      "name": "06-model-import-complete.png",
+      "order": 6,
+      "purpose": "Exactly one imported deterministic model",
+      "required": true
+    },
+    {
+      "name": "07-model-post-import-verification.txt",
+      "order": 7,
+      "purpose": "Read-only deterministic model parameter and association verification",
+      "required": true
+    },
+    {
+      "name": "08-runtime-manifest.json",
+      "order": 8,
+      "purpose": "Version, image, ports, volume, environment, and Ollama evidence",
+      "required": true
+    },
+    {
+      "name": "09-post-import-volume-backup.txt",
+      "order": 9,
+      "purpose": "Post-import cold backup transcript and checksum",
+      "required": true
+    },
+    {
+      "name": "10-restart-before.txt",
+      "order": 10,
+      "purpose": "Pre-restart effective configuration and model state",
+      "required": true
+    },
+    {
+      "name": "11-restart-after.txt",
+      "order": 11,
+      "purpose": "Post-restart effective configuration and model state",
+      "required": true
+    },
+    {
+      "name": "12-non-counted-source-upload.png",
+      "order": 12,
+      "purpose": "Synthetic source upload evidence",
+      "required": false
+    },
+    {
+      "name": "13-non-counted-collection-ready.png",
+      "order": 13,
+      "purpose": "Non-counted collection readiness",
+      "required": false
+    },
+    {
+      "name": "14-non-counted-response-raw.txt",
+      "order": 14,
+      "purpose": "Immutable dry-run response",
+      "required": false
+    },
+    {
+      "name": "15-non-counted-response-normalized.txt",
+      "order": 15,
+      "purpose": "Whitespace-normalized dry-run response",
+      "required": false
+    },
+    {
+      "name": "16-non-counted-validator-report.txt",
+      "order": 16,
+      "purpose": "Dry-run answer classification",
+      "required": false
+    },
+    {
+      "name": "17-non-counted-source-panel.png",
+      "order": 17,
+      "purpose": "Displayed source evidence",
+      "required": false
+    }
+  ],
+  "release": "ADP-v2.4",
+  "schema_version": "1.0",
+  "voided_workspace": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/20260722T215656Z",
+  "workspace_pattern": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/<UTC-PACKET-ID>"
+}

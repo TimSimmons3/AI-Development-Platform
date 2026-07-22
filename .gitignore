@@ -1,4 +1,3 @@
-
 # Local recovery archives; do not commit
 backups/
 tests/model-validation/results/*
@@ -13,3 +12,6 @@ tests/model-validation/results/[0-9]*-summary.md
 
 # ADP v2.4 active isolated-validation evidence is local restricted runtime evidence.
 artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/
+
+# ADP v2.4 controlled model-import reset evidence is local restricted runtime evidence.
+artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/

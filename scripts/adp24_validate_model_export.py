@@ -99,6 +99,22 @@ def nonempty(value):
     return value not in (None, "", [], {}, False)
 
 
+def validate_sanitized_payload(payload):
+    if not isinstance(payload, list):
+        fail("SANITIZED_IMPORT_ROOT_FORMAT", type(payload).__name__)
+    if len(payload) != 1:
+        fail("SANITIZED_IMPORT_MODEL_COUNT", len(payload))
+    model = payload[0]
+    if not isinstance(model, dict):
+        fail("SANITIZED_IMPORT_MODEL_TYPE", type(model).__name__)
+    if model.get("id") != EXPECTED_ID:
+        fail("SANITIZED_IMPORT_MODEL_ID", model.get("id"))
+    if model.get("name") != EXPECTED_NAME:
+        fail("SANITIZED_IMPORT_MODEL_NAME", model.get("name"))
+    if model.get("base_model_id") != EXPECTED_BASE:
+        fail("SANITIZED_IMPORT_BASE_MODEL", model.get("base_model_id"))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", required=True)
@@ -168,7 +184,8 @@ def main():
         "access_grants": [],
         "is_active": True,
     }
-    payload = {"models": [sanitized_model]}
+    payload = [sanitized_model]
+    validate_sanitized_payload(payload)
     canonical = json.dumps(payload, ensure_ascii=True, sort_keys=True, indent=2) + "\n"
     digest = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
     report = {
@@ -181,11 +198,17 @@ def main():
         "system_prompt": "ABSENT",
         "model_associations": "ABSENT",
         "access_grants": "EMPTY",
+        "sanitized_import_root": "TOP_LEVEL_ARRAY",
+        "sanitized_import_model_count": 1,
         "sanitized_import_sha256": digest,
+        "open_webui_import_compatibility": "V0.10.2_WORKSPACE_MODELS",
         "stripped_export_fields": sorted(set(model) - set(sanitized_model)),
     }
     atomic_write(args.sanitized_output, canonical)
-    atomic_write(args.report_output, json.dumps(report, ensure_ascii=True, sort_keys=True, indent=2) + "\n")
+    atomic_write(
+        args.report_output,
+        json.dumps(report, ensure_ascii=True, sort_keys=True, indent=2) + "\n",
+    )
 
     print("MODEL_EXPORT_VALIDATION=PASS")
     print("MODEL_COUNT=1")
@@ -194,6 +217,8 @@ def main():
     print("TEMPERATURE=0")
     print("SEED=42")
     print("MODEL_ASSOCIATIONS=ABSENT")
+    print("SANITIZED_IMPORT_ROOT=TOP_LEVEL_ARRAY")
+    print("SANITIZED_IMPORT_MODEL_COUNT=1")
     print(f"SANITIZED_IMPORT_SHA256={digest}")
 
 
