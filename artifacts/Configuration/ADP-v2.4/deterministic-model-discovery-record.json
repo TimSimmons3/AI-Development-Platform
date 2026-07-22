@@ -1,0 +1,35 @@
+{
+  "limitations": [
+    "Capability metadata does not prove that a capability was enabled in a chat.",
+    "This record is not a native Open WebUI import artifact.",
+    "A native single-model JSON export is required before runtime procedure freeze.",
+    "The native export must be imported with the import operation, never the sync operation."
+  ],
+  "model": {
+    "base_model_id": "llama3.2:3b",
+    "capabilities": {
+      "builtin_tools": true,
+      "citations": true,
+      "code_interpreter": true,
+      "file_context": true,
+      "file_upload": true,
+      "image_generation": true,
+      "status_updates": true,
+      "terminal": true,
+      "vision": true,
+      "web_search": true
+    },
+    "created_at": 1784741607,
+    "id": "llama-32-3b-rag-deterministic-test",
+    "is_active": 1,
+    "name": "Llama 3.2 3B RAG Deterministic Test",
+    "params": {
+      "seed": 42,
+      "temperature": 0
+    },
+    "updated_at": 1784741607
+  },
+  "record_status": "DISCOVERY_EVIDENCE_ONLY_NOT_IMPORT_ARTIFACT",
+  "sanitized_record_sha256": "9577ca676d06b9598d2e3577c4e9c42054dce991d3d27af64c62b8b803e430fc",
+  "source": "Read-only Open WebUI v0.10.2 model-table discovery on 2026-07-22"
+}

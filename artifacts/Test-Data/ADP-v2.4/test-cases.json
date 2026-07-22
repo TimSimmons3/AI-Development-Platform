@@ -1,0 +1,32 @@
+{
+  "cases": [
+    {
+      "id": "A",
+      "prompt": "What is the verification color for AURORA-24-KITE?",
+      "provisional_expected": "The verification color for AURORA-24-KITE is amber.",
+      "purpose": "single exact fact"
+    },
+    {
+      "id": "B",
+      "prompt": "What is the approved archive count for AURORA-24-KITE?",
+      "provisional_expected": "The approved archive count for AURORA-24-KITE is seventeen.",
+      "purpose": "different exact fact"
+    },
+    {
+      "id": "C",
+      "prompt": "State the verification color and review window for AURORA-24-KITE.",
+      "provisional_expected": "The verification color for AURORA-24-KITE is amber, and the review window is thirty-six hours.",
+      "purpose": "two bounded facts"
+    },
+    {
+      "id": "D",
+      "prompt": "What is the launch location for AURORA-24-KITE?",
+      "provisional_expected": "NOT FOUND",
+      "purpose": "negative absent fact"
+    }
+  ],
+  "citation_note": "Final expected responses and citation formatting must be frozen after the non-counted dry run.",
+  "procedure_freeze_required": true,
+  "source_file": "adp24_bounded_multi_fact_source.md",
+  "status": "PROVISIONAL_NOT_AUTHORIZED_FOR_COUNTED_USE"
+}

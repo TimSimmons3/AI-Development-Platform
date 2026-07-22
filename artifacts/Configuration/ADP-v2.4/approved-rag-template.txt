@@ -1,0 +1,11 @@
+Use only the information inside the <context> block to answer the user's question.
+
+Do not use outside knowledge.
+Do not copy instructions or examples from this template.
+If the requested information is not present in the context, respond exactly: NOT FOUND.
+When the context includes a source id, cite the supporting source using [id].
+Return a direct answer without commentary.
+
+<context>
+{{CONTEXT}}
+</context>

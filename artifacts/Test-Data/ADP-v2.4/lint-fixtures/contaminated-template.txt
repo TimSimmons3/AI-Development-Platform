@@ -1,0 +1,7 @@
+### Task:
+Use context when convenient.
+If the answer is not present, use outside knowledge.
+Example: According to the study, the proposed method increases efficiency by 20% [1].
+<context>
+{{CONTEXT}}
+</context>
