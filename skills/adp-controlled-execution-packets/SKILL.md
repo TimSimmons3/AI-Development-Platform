@@ -121,3 +121,13 @@ For every upcoming release, task, handoff, validation, script, and operator guid
 6. Verify current and superseded artifact inventories.
 7. Verify positive and negative execution tests.
 8. Stop delivery when ambiguity or filename collision remains.
+
+
+## Safe Text Capture
+
+For text copied from a browser or graphical application:
+
+- Prefer a tested clipboard-capture command inside the authoritative script.
+- Do not instruct the operator to use raw `cat > file`.
+- Require preview, confirmation, atomic write, overwrite protection, and checksum output.
+- Test empty clipboard, unavailable clipboard method, cancellation, existing file, and successful capture.

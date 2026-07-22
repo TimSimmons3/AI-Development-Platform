@@ -246,3 +246,26 @@ Every future handoff, release plan, runtime packet, validation package, and oper
 A test shall not be represented as valid, complete, repeatable, or audit-ready unless this standard passes.
 
 Efficiency does not justify continuing a patched run. Safety does not justify unnecessary transitions. The required outcome is a stable procedure, fresh evidence, clear operator action, and reproducible classification.
+
+
+## 15. Operator Text-Capture Safety
+
+Counted evidence shall not depend on an unbounded interactive shell command that gives no visible recording state.
+
+Prohibited operator methods include:
+
+- Raw `cat > file` capture
+- Unbounded heredoc entry
+- Multi-line shell blocks pasted into an active capture session
+- Manual overwrite of existing counted evidence
+
+Use a bounded helper that:
+
+1. Detects its input method.
+2. Fails safely before creating evidence.
+3. Rejects empty input.
+4. Shows a preview.
+5. Requires confirmation.
+6. Writes atomically.
+7. Refuses overwrite.
+8. Prints checksum and destination.

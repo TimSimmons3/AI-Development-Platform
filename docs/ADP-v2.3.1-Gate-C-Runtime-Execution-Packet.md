@@ -107,9 +107,21 @@ bash "$HOME/Labs/AI-Development-Platform/scripts/adp231_gate_c_fresh_runtime.sh"
 
 Submit the frozen prompt exactly once.
 
-After the response, save:
+After the response:
+
+1. Use the Open WebUI Copy response control.
+2. Run:
+
+```bash
+bash "$HOME/Labs/AI-Development-Platform/scripts/adp231_gate_c_fresh_runtime.sh" capture-response N
+```
+
+3. Confirm the preview. The command atomically creates:
 
 - `run-N/response.txt`
+
+4. Save:
+
 - `run-N/04-complete-response.png`
 - `run-N/05-displayed-source-panel.png`
 
@@ -173,3 +185,21 @@ This packet does not authorize:
 - Cleanup or removal validation
 - Runtime configuration changes
 - ADP v2.4 work
+
+
+## 11. Response Capture Control
+
+Manual interactive terminal capture is prohibited for counted response evidence.
+
+The canonical `capture-response N` command shall:
+
+- Read from the clipboard using a supported local method.
+- Fail safely when clipboard access is unavailable.
+- Reject empty content.
+- Display a bounded preview.
+- Require operator confirmation.
+- Write atomically.
+- Refuse to overwrite an existing response.
+- Record the response SHA-256.
+
+A capture-procedure defect after run start voids the affected run.

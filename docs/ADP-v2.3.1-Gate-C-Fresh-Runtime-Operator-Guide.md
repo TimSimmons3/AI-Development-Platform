@@ -62,9 +62,19 @@ bash scripts/adp231_gate_c_fresh_runtime.sh run-start N
 
 Submit the printed prompt exactly once.
 
-After the response, save:
+After the response:
 
-- `response.txt`
+1. Click the Open WebUI Copy response control.
+2. Capture the copied response with:
+
+```bash
+bash scripts/adp231_gate_c_fresh_runtime.sh capture-response N
+```
+
+The command displays a preview and asks for confirmation. It never waits silently for pasted terminal input.
+
+Then save:
+
 - `04-complete-response.png`
 - `05-displayed-source-panel.png`
 
@@ -91,3 +101,27 @@ Stop for any FAIL, INCONCLUSIVE, missing evidence, truncation, drift, or materia
 Do not create `source-filename.txt` or `source-passage.txt`.
 
 Do not reuse filenames for another purpose.
+
+
+## Response Capture Safety
+
+Do not use `cat > response.txt`, heredocs, terminal paste mode, or manual editors for counted response evidence.
+
+Use only:
+
+```bash
+bash scripts/adp231_gate_c_fresh_runtime.sh capture-response N
+```
+
+The command:
+
+- Reads the response from the system clipboard.
+- Creates a temporary file first.
+- Rejects an empty clipboard.
+- Displays a preview.
+- Requires operator confirmation.
+- Writes `response.txt` atomically.
+- Refuses to overwrite an existing evidence file.
+- Prints the final SHA-256.
+
+When no supported clipboard reader is available, it stops without creating evidence.

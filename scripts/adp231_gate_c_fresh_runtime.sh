@@ -5,12 +5,13 @@ COMMAND="${1:-}"
 RUN="${2:-}"
 
 case "$COMMAND" in
-  reset|setup-verify|run-start|run-finish|package|status) ;;
+  reset|setup-verify|run-start|capture-response|run-finish|package|status) ;;
   *)
     printf 'USAGE:\n'
     printf '  %s reset\n' "$0"
     printf '  %s setup-verify\n' "$0"
     printf '  %s run-start 1|2|3\n' "$0"
+    printf '  %s capture-response 1|2|3\n' "$0"
     printf '  %s run-finish 1|2|3\n' "$0"
     printf '  %s package\n' "$0"
     printf '  %s status\n' "$0"
@@ -18,7 +19,7 @@ case "$COMMAND" in
     ;;
 esac
 
-if [ "$COMMAND" = "run-start" ] || [ "$COMMAND" = "run-finish" ]; then
+if [ "$COMMAND" = "run-start" ] || [ "$COMMAND" = "capture-response" ] || [ "$COMMAND" = "run-finish" ]; then
   case "$RUN" in
     1|2|3) ;;
     *) printf 'RUN must be 1, 2, or 3.\n'; exit 64 ;;
@@ -56,6 +57,67 @@ yes_no() {
       *) printf 'Enter y or n.\n' ;;
     esac
   done
+}
+
+read_clipboard_text() {
+  local destination="$1"
+
+  if [ -n "${ADP_CLIPBOARD_FIXTURE:-}" ]; then
+    cat "$ADP_CLIPBOARD_FIXTURE" > "$destination"
+    printf 'CLIPBOARD_METHOD=TEST_FIXTURE\n'
+    return
+  fi
+
+  if command -v xclip >/dev/null 2>&1; then
+    xclip -selection clipboard -o > "$destination"
+    printf 'CLIPBOARD_METHOD=xclip\n'
+    return
+  fi
+
+  if command -v xsel >/dev/null 2>&1; then
+    xsel --clipboard --output > "$destination"
+    printf 'CLIPBOARD_METHOD=xsel\n'
+    return
+  fi
+
+  if command -v wl-paste >/dev/null 2>&1; then
+    wl-paste --type text/plain > "$destination"
+    printf 'CLIPBOARD_METHOD=wl-paste\n'
+    return
+  fi
+
+  if python3 -c 'import tkinter' >/dev/null 2>&1; then
+    python3 - "$destination" <<'PY'
+import pathlib
+import sys
+import tkinter
+
+destination = pathlib.Path(sys.argv[1])
+root = tkinter.Tk()
+root.withdraw()
+try:
+    text = root.clipboard_get()
+finally:
+    root.destroy()
+destination.write_text(text, encoding="utf-8")
+PY
+    printf 'CLIPBOARD_METHOD=tkinter\n'
+    return
+  fi
+
+  if command -v zenity >/dev/null 2>&1; then
+    zenity --text-info \
+      --editable \
+      --title="ADP Gate C - Paste Complete Open WebUI Response" \
+      --width=900 \
+      --height=600 > "$destination"
+    printf 'CLIPBOARD_METHOD=zenity-paste-dialog\n'
+    return
+  fi
+
+  printf 'RESPONSE_CAPTURE_STATUS=UNAVAILABLE\n'
+  printf 'REASON=No supported clipboard reader or graphical paste dialog is available. No evidence file was created.\n'
+  exit 4
 }
 
 require_file() {
@@ -109,17 +171,16 @@ validate_canonical_artifacts() {
     printf 'CANONICAL_RUNTIME_ARTIFACT_STATUS=TEST_BYPASS\n'
     return
   fi
-  printf '%s  %s\n' "5a0b341e3d6bad2c8ed1ba50d06f4e185b5fbb431bfc654bc83774876974bcc4" "docs/ADP-v2.3.1-Gate-C-Runtime-Execution-Packet.md" | sha256sum -c -
+  printf '%s  %s\n' "8e4bedce48df2a1ce5a7f639f8cf5ad409580303cf1e93d4a68ff5af0f0b3a5d" "docs/ADP-v2.3.1-Gate-C-Runtime-Execution-Packet.md" | sha256sum -c -
   printf '%s  %s\n' "8e4744a2a756c67451641af836caa79e8c8c11bcbe13a84b14c894a9b2605cfb" "docs/ADP-v2.3.1-Diagnostic-Prompt-Library.md" | sha256sum -c -
   printf '%s  %s\n' "bb64cbd8a4404f41aea8d536549ff318e7eaba07816d296d8277c96785ccc52f" "docs/ADP-v2.3.1-Diagnostic-Test-Record-Template.md" | sha256sum -c -
   printf '%s  %s\n' "0c74f375bf892c709307a55b127f7fb0aaf1f3f7a27dfdd89a7c177a31a01f47" "docs/ADP-v2.3.1-Knowledge-Attachment-Evidence-Procedure.md" | sha256sum -c -
-  printf '%s  %s\n' "4e084a40abd1181379885e436cb37d567a952bb39272e2e53bdd9943c79cb621" "docs/ADP-Test-Execution-Consistency-and-Evidence-Lifecycle-Standard.md" | sha256sum -c -
+  printf '%s  %s\n' "e2fb7014560649c903ebc9c77625fc7dc332b0b1cd4fdba1ed1798204e3b157f" "docs/ADP-Test-Execution-Consistency-and-Evidence-Lifecycle-Standard.md" | sha256sum -c -
   printf '%s  %s\n' "58efddf327d74a7d3b702948dd7f8daef8fce6848b5d10a4bbaa0e0f86b58c05" "docs/ADP-Process-Quality-Gate-Checklist.md" | sha256sum -c -
   printf '%s  %s\n' "458c45e7584a3af2901da6fac482d6ce9b2d189e5c553fbc0b6abcf3b3d6f5b6" "docs/ADP-v2.3.1-Gate-C-Runtime-Procedure-Reset-and-Supersession-Record.md" | sha256sum -c -
-  printf '%s  %s\n' "ba91c7d2d914762a33abc38b4bf036d6b29a3dcf687ebb548a149cf39108ed34" "docs/ADP-v2.3.1-Gate-C-Fresh-Runtime-Operator-Guide.md" | sha256sum -c -
+  printf '%s  %s\n' "08270f1fdc6247788485b5f229ec950f57832f6ce0eab497a89611e4665feac2" "docs/ADP-v2.3.1-Gate-C-Fresh-Runtime-Operator-Guide.md" | sha256sum -c -
   printf 'CANONICAL_RUNTIME_ARTIFACT_STATUS=PASS\n'
 }
-
 validate_runtime_boundary() {
   if [ "${ADP_SKIP_RUNTIME_BOUNDARY:-0}" = "1" ]; then
     printf 'RUNTIME_BOUNDARY_STATUS=TEST_BYPASS\n'
@@ -486,11 +547,68 @@ if [ "$COMMAND" = "run-start" ]; then
   cat "$D/V231-R01-P1-v2.txt"
   printf '\n===== END APPROVED FROZEN PROMPT =====\n'
   printf '\n'
-  printf 'After the response save only these three items:\n'
-  printf '%s\n' "$D/response.txt"
+  printf 'After Open WebUI answers:\n'
+  printf '1. Use the Open WebUI Copy response control.\n'
+  printf '2. Run: bash "$HOME/Labs/AI-Development-Platform/scripts/adp231_gate_c_fresh_runtime.sh" capture-response %s\n' "$RUN"
+  printf '3. Save these screenshots:\n'
   printf '%s\n' "$D/04-complete-response.png"
   printf '%s\n' "$D/05-displayed-source-panel.png"
-  printf 'Then run: bash "$HOME/Labs/AI-Development-Platform/scripts/adp231_gate_c_fresh_runtime.sh" run-finish %s\n' "$RUN"
+  printf '4. Run: bash "$HOME/Labs/AI-Development-Platform/scripts/adp231_gate_c_fresh_runtime.sh" run-finish %s\n' "$RUN"
+  exit 0
+fi
+
+if [ "$COMMAND" = "capture-response" ]; then
+  printf '===== GATE C RESPONSE CAPTURE =====\n'
+  printf 'RUN=%s\n' "$RUN"
+
+  test -f "$D/run-window-start.env"
+
+  RESPONSE_TEXT="$D/response.txt"
+  if [ -e "$RESPONSE_TEXT" ]; then
+    printf 'RESPONSE_CAPTURE_STATUS=EXISTING_FILE\n'
+    printf 'FILE=%s\n' "$RESPONSE_TEXT"
+    printf 'ACTION=Do not overwrite evidence. Void and reset if the existing file is invalid.\n'
+    exit 5
+  fi
+
+  TMP_RESPONSE="$(mktemp "$D/.response-run-$RUN.XXXXXX")"
+  trap 'rm -f "$TMP_RESPONSE"' EXIT
+
+  read_clipboard_text "$TMP_RESPONSE"
+
+  if [ ! -s "$TMP_RESPONSE" ]; then
+    printf 'RESPONSE_CAPTURE_STATUS=EMPTY_CLIPBOARD\n'
+    printf 'ACTION=Copy the complete Open WebUI response, then run this command again.\n'
+    exit 3
+  fi
+
+  BYTE_COUNT="$(wc -c < "$TMP_RESPONSE" | tr -d ' ')"
+  LINE_COUNT="$(wc -l < "$TMP_RESPONSE" | tr -d ' ')"
+
+  printf 'CAPTURED_BYTES=%s\n' "$BYTE_COUNT"
+  printf 'CAPTURED_LINES=%s\n' "$LINE_COUNT"
+  printf '\n===== CAPTURE PREVIEW =====\n'
+  sed -n '1,12p' "$TMP_RESPONSE"
+  if [ "$LINE_COUNT" -gt 12 ]; then
+    printf '... preview truncated ...\n'
+  fi
+  printf '===== END CAPTURE PREVIEW =====\n'
+
+  if ! yes_no "Does this preview come only from the complete Open WebUI response you just copied?"; then
+    printf 'RESPONSE_CAPTURE_STATUS=CANCELLED\n'
+    printf 'FILE_CREATED=NO\n'
+    exit 3
+  fi
+
+  mv "$TMP_RESPONSE" "$RESPONSE_TEXT"
+  trap - EXIT
+  chmod 0644 "$RESPONSE_TEXT"
+
+  test -s "$RESPONSE_TEXT"
+  printf 'RESPONSE_CAPTURE_STATUS=PASS\n'
+  printf 'RESPONSE_FILE=%s\n' "$RESPONSE_TEXT"
+  printf 'RESPONSE_SHA256=%s\n' "$(sha256sum "$RESPONSE_TEXT" | awk '{print $1}')"
+  printf 'NEXT_STEP=SAVE_04_COMPLETE_RESPONSE_AND_05_DISPLAYED_SOURCE_PANEL\n'
   exit 0
 fi
 

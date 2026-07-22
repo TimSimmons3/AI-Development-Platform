@@ -192,3 +192,16 @@ If a delivery or procedure defect is discovered after a counted run begins:
 5. Re-run final-delivery and semantic validation.
 6. Reset the active workspace and external-system state.
 7. Restart under the new frozen version.
+
+
+## 15. Interactive-Capture Negative Test
+
+When an operator must preserve text from a graphical application, validate the exact capture path.
+
+The validation shall prove:
+
+- The command cannot remain silently waiting for terminal input.
+- Empty input fails without creating evidence.
+- Cancellation creates no evidence.
+- Existing evidence is not overwritten.
+- Successful capture prints a preview, destination, byte count, and checksum.
