@@ -1,0 +1,127 @@
+{
+  "files": [
+    {
+      "name": "01-primary-deterministic-model-export-raw.json",
+      "order": 1,
+      "purpose": "Restricted native single-model export",
+      "required": true
+    },
+    {
+      "name": "02-model-export-validation-report.json",
+      "order": 2,
+      "purpose": "Sanitization and policy report",
+      "required": true
+    },
+    {
+      "name": "03-deterministic-model-import-sanitized.json",
+      "order": 3,
+      "purpose": "Additive import payload",
+      "required": true
+    },
+    {
+      "name": "04-preflight-transcript.txt",
+      "order": 4,
+      "purpose": "Host and primary prerequisite evidence",
+      "required": true
+    },
+    {
+      "name": "05-primary-health-before.txt",
+      "order": 5,
+      "purpose": "Primary instance baseline",
+      "required": true
+    },
+    {
+      "name": "06-validation-instance-created.txt",
+      "order": 6,
+      "purpose": "Container and volume creation transcript",
+      "required": true
+    },
+    {
+      "name": "07-validation-first-run-admin.png",
+      "order": 7,
+      "purpose": "Isolated administrator setup completion",
+      "required": true
+    },
+    {
+      "name": "08-model-import-selection.png",
+      "order": 8,
+      "purpose": "Sanitized model selected for import",
+      "required": true
+    },
+    {
+      "name": "09-model-import-complete.png",
+      "order": 9,
+      "purpose": "Exactly one imported deterministic model",
+      "required": true
+    },
+    {
+      "name": "10-model-post-import-verification.txt",
+      "order": 10,
+      "purpose": "Read-only model parameter verification",
+      "required": true
+    },
+    {
+      "name": "11-runtime-manifest.json",
+      "order": 11,
+      "purpose": "Version, image, ports, volume, environment, and Ollama evidence",
+      "required": true
+    },
+    {
+      "name": "12-validation-volume-backup.txt",
+      "order": 12,
+      "purpose": "Cold backup transcript and checksum",
+      "required": true
+    },
+    {
+      "name": "13-restart-before.txt",
+      "order": 13,
+      "purpose": "Pre-restart effective configuration",
+      "required": true
+    },
+    {
+      "name": "14-restart-after.txt",
+      "order": 14,
+      "purpose": "Post-restart effective configuration",
+      "required": true
+    },
+    {
+      "name": "15-knowledge-source-upload.png",
+      "order": 15,
+      "purpose": "Synthetic source upload evidence",
+      "required": false
+    },
+    {
+      "name": "16-knowledge-collection-ready.png",
+      "order": 16,
+      "purpose": "Non-counted collection readiness",
+      "required": false
+    },
+    {
+      "name": "17-non-counted-response-raw.txt",
+      "order": 17,
+      "purpose": "Immutable dry-run response",
+      "required": false
+    },
+    {
+      "name": "18-non-counted-response-normalized.txt",
+      "order": 18,
+      "purpose": "Whitespace-normalized dry-run response",
+      "required": false
+    },
+    {
+      "name": "19-non-counted-validator-report.txt",
+      "order": 19,
+      "purpose": "Dry-run answer classification",
+      "required": false
+    },
+    {
+      "name": "20-non-counted-source-panel.png",
+      "order": 20,
+      "purpose": "Displayed source evidence",
+      "required": false
+    }
+  ],
+  "release": "ADP-v2.4",
+  "schema_version": "1.0",
+  "workspace_pattern": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/<UTC-PACKET-ID>"
+}

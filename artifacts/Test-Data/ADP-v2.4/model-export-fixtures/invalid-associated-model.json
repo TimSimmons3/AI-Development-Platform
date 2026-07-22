@@ -1,0 +1,32 @@
+[
+  {
+    "access_grants": [],
+    "base_model_id": "llama3.2:3b",
+    "created_at": 1784741607,
+    "id": "llama-32-3b-rag-deterministic-test",
+    "is_active": true,
+    "meta": {
+      "capabilities": {
+        "citations": true,
+        "file_upload": true
+      },
+      "description": null,
+      "knowledge": [
+        {
+          "id": "unexpected",
+          "type": "collection"
+        }
+      ],
+      "profile_image_url": "/static/favicon.png",
+      "suggestion_prompts": null,
+      "tags": []
+    },
+    "name": "Llama 3.2 3B RAG Deterministic Test",
+    "params": {
+      "seed": 42,
+      "temperature": 0
+    },
+    "updated_at": 1784741607,
+    "user_id": "example-user-id"
+  }
+]
