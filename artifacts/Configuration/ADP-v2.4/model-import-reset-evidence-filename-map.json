@@ -69,42 +69,42 @@
     {
       "name": "12-non-counted-source-upload.png",
       "order": 12,
-      "purpose": "Synthetic source upload evidence",
-      "required": false
+      "purpose": "Exact synthetic source uploaded to the isolated validation collection",
+      "required": true
     },
     {
       "name": "13-non-counted-collection-ready.png",
       "order": 13,
-      "purpose": "Non-counted collection readiness",
-      "required": false
+      "purpose": "Fresh chat with the exact collection attached before prompt submission",
+      "required": true
     },
     {
       "name": "14-non-counted-response-raw.txt",
       "order": 14,
-      "purpose": "Immutable dry-run response",
-      "required": false
+      "purpose": "Exact assistant response for provisional Case C",
+      "required": true
     },
     {
       "name": "15-non-counted-response-normalized.txt",
       "order": 15,
-      "purpose": "Whitespace-normalized dry-run response",
-      "required": false
+      "purpose": "Whitespace-normalized full response for provisional Case C",
+      "required": true
     },
     {
       "name": "16-non-counted-validator-report.txt",
       "order": 16,
-      "purpose": "Dry-run answer classification",
-      "required": false
+      "purpose": "Factual-content and citation-shape classification for provisional Case C",
+      "required": true
     },
     {
       "name": "17-non-counted-source-panel.png",
       "order": 17,
-      "purpose": "Displayed source evidence",
-      "required": false
+      "purpose": "Expanded source panel showing the retrieved synthetic source",
+      "required": true
     }
   ],
   "release": "ADP-v2.4",
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "voided_workspace": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Pre-Runtime/20260722T215656Z",
   "workspace_pattern": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/<UTC-PACKET-ID>"
 }

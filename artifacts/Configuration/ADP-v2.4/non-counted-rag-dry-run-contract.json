@@ -1,0 +1,107 @@
+{
+  "collection": {
+    "attachment_scope": "CHAT_ONLY",
+    "model_level_attachment": "PROHIBITED",
+    "name": "ADP-v2.4-AURORA-24-KITE-Non-Counted",
+    "source_count": 1
+  },
+  "evidence": [
+    {
+      "name": "12-non-counted-source-upload.png",
+      "order": 12,
+      "purpose": "Exact synthetic source uploaded to the isolated validation collection",
+      "required": true
+    },
+    {
+      "name": "13-non-counted-collection-ready.png",
+      "order": 13,
+      "purpose": "Fresh chat with the exact collection attached before prompt submission",
+      "required": true
+    },
+    {
+      "name": "14-non-counted-response-raw.txt",
+      "order": 14,
+      "purpose": "Exact assistant response for provisional Case C",
+      "required": true
+    },
+    {
+      "name": "15-non-counted-response-normalized.txt",
+      "order": 15,
+      "purpose": "Whitespace-normalized full response for provisional Case C",
+      "required": true
+    },
+    {
+      "name": "16-non-counted-validator-report.txt",
+      "order": 16,
+      "purpose": "Factual-content and citation-shape classification for provisional Case C",
+      "required": true
+    },
+    {
+      "name": "17-non-counted-source-panel.png",
+      "order": 17,
+      "purpose": "Expanded source panel showing the retrieved synthetic source",
+      "required": true
+    }
+  ],
+  "execution": {
+    "chat_count": 1,
+    "fresh_chat_required": true,
+    "prompt_submission_count": 1,
+    "rerun": "PROHIBITED_PENDING_REVIEW",
+    "selected_case_id": "C",
+    "tools": "DISABLED",
+    "web_search": "DISABLED"
+  },
+  "model": {
+    "associations_required": "ABSENT",
+    "base_model": "llama3.2:3b",
+    "id": "llama-32-3b-rag-deterministic-test",
+    "seed": 42,
+    "temperature": 0
+  },
+  "model_discovery_record": {
+    "path": "artifacts/Configuration/ADP-v2.4/deterministic-model-discovery-record.json",
+    "sha256": "ed81f8a23aec8676f6a55d8034222ac92487e38f56e0f1a05798482c244a146a"
+  },
+  "procedure_freeze_starting_commit": "83e0103ab6daa67c822763769e9c685b7d38ac6b",
+  "procedure_freeze_tag": "adp-v2.4-non-counted-rag-dry-run-procedure-freeze",
+  "readiness_review": {
+    "governing_standard": "docs/Standards/ADP-Five-Pass-Readiness-Review-Standard.md",
+    "independent_passes_required": 5,
+    "status": "REQUIRED_BEFORE_SEPARATE_EXECUTION_AUTHORIZATION"
+  },
+  "release": "ADP-v2.4",
+  "runtime": {
+    "open_webui_version": "0.10.2",
+    "primary_change": "PROHIBITED",
+    "primary_url": "http://127.0.0.1:3000",
+    "validation_url": "http://127.0.0.1:3001"
+  },
+  "schema_version": "1.0",
+  "selected_case": {
+    "allowed_citation_classifications": [
+      "ABSENT",
+      "NUMERIC_BRACKET",
+      "SOURCE_ID_BRACKET"
+    ],
+    "citation_policy": "OBSERVE_AND_CLASSIFY_NOT_YET_FROZEN_FOR_COUNTED_USE",
+    "expected_factual_answer": "The verification color for AURORA-24-KITE is amber, and the review window is thirty-six hours.",
+    "id": "C",
+    "prompt": "State the verification color and review window for AURORA-24-KITE.",
+    "source_id": "AURORA-24-KITE"
+  },
+  "source": {
+    "identifier": "AURORA-24-KITE",
+    "path": "artifacts/Test-Data/ADP-v2.4/adp24_bounded_multi_fact_source.md",
+    "sha256": "18dc6a195e566da27dd4fe4be525d716a32dd0c753b6f1890c9c2ad7c3e12cfd"
+  },
+  "status": "FROZEN_FOR_SINGLE_NON_COUNTED_DRY_RUN",
+  "template": {
+    "path": "artifacts/Configuration/ADP-v2.4/approved-rag-template.txt",
+    "sha256": "def3db3e05b1651aa33b921a03573074d8033ca5d2ce691446638e362ef92d96"
+  },
+  "test_cases": {
+    "path": "artifacts/Test-Data/ADP-v2.4/test-cases.json",
+    "sha256": "a631a0dfb0823ea7e24179b0f0113f057c79476e8e14e091f2c98a8a554357d9"
+  }
+}
