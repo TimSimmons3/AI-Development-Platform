@@ -1,4 +1,3 @@
-\
 # ADP v2.4 Runtime Resilience and Evidence Control Amendment
 
 ## 1. Decision
@@ -8,7 +7,7 @@ ADP v2.4 will not perform restart-persistence testing or a non-counted RAG dry r
 Planned annotated tag:
 
 ```text
-adp-v2.4-runtime-resilience-controls
+adp-v2.4-runtime-resilience-controls-v2
 ```
 
 ## 2. Audit Findings
@@ -71,4 +70,27 @@ COUNTED_EXECUTION_AUTHORIZATION=HOLD
 
 ## 7. Promotion and Execution Rule
 
-After byte review, the eight-path correction must be committed and pushed, and the annotated `adp-v2.4-runtime-resilience-controls` tag must be synchronized. A post-promotion read-only gate must verify the tag, repository cleanliness, current runtime health, active model state, and backup integrity before the restart-persistence procedure is authorized.
+After byte review, the eight-path correction must be committed and pushed, and the new annotated `adp-v2.4-runtime-resilience-controls-v2` tag must be synchronized. The prior `adp-v2.4-runtime-resilience-controls` tag remains immutable at commit `be4b3be4093be3409261ea28b66e9ad01b38dec6` as historical defective-promotion evidence. A post-promotion read-only gate must verify the new tag, repository cleanliness, current runtime health, active model state, and backup integrity before the restart-persistence procedure is authorized.
+
+## 8. Historical Defective Promotion and Git-Native Recovery
+
+The prior runtime-resilience promotion introduced one unintended leading backslash line in each of the eight approved files. The defect affected executable first-line handling and document publication quality but did not change either Open WebUI runtime, the validation volume, the deterministic model, or the primary instance.
+
+The authoritative diagnostic record is:
+
+```text
+artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/20260722T234427Z/09a-runtime-resilience-leading-backslash-defect-audit.txt
+SHA256=fbd7e2578837030f48ac6b5460c8de12bac5407ed1270f34c35df5d75627d661
+```
+
+The corrective implementation uses a disposable Git worktree and a transparent unified patch against commit `be4b3be4093be3409261ea28b66e9ad01b38dec6`. Self-extracting correction packets and recursive execution wrappers are not authorized for this recovery.
+
+```text
+GIT_NATIVE_RECOVERY=REQUIRED
+HISTORICAL_DEFECTIVE_TAG=adp-v2.4-runtime-resilience-controls
+CORRECTED_TAG=adp-v2.4-runtime-resilience-controls-v2
+VALIDATION_RUNTIME_MUTATION=NONE
+RESTART_PERSISTENCE_AUTHORIZATION=HOLD_PENDING_V2_PROMOTION
+NON_COUNTED_RAG_EXECUTION_AUTHORIZATION=HOLD
+COUNTED_EXECUTION_AUTHORIZATION=HOLD
+```

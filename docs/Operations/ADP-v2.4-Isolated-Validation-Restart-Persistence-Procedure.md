@@ -1,4 +1,3 @@
-\
 # ADP v2.4 Isolated Validation Restart-Persistence Procedure
 
 ## 1. Purpose
@@ -8,8 +7,9 @@ This procedure validates that the isolated Open WebUI validation instance preser
 ## 2. Authorization Boundary
 
 ```text
-PROCEDURE_STATUS=DEFINED_NOT_YET_EXECUTED
-RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls
+PROCEDURE_STATUS=CORRECTED_NOT_YET_EXECUTED
+HISTORICAL_RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls
+RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls-v2
 REQUIRED_SCRIPT=scripts/adp24_validation_restart_persistence.sh
 REQUIRED_BEFORE_EVIDENCE=10-restart-before.txt
 REQUIRED_AFTER_EVIDENCE=11-restart-after.txt
@@ -18,12 +18,13 @@ NON_COUNTED_RAG_EXECUTION_AUTHORIZATION=HOLD
 COUNTED_EXECUTION_AUTHORIZATION=HOLD
 ```
 
-The procedure may run only after the runtime-resilience repository correction is promoted, its annotated tag is synchronized, the post-import backup gate passes, and the active evidence workspace is confirmed.
+The procedure may run only after the corrected runtime-resilience repository commit is promoted, the new annotated `adp-v2.4-runtime-resilience-controls-v2` tag is synchronized, the historical defective tag is preserved unchanged, the post-import backup gate passes, and the active evidence workspace is confirmed.
 
 ## 3. Preconditions
 
-- Repository, `main`, and `origin/main` are synchronized at the promoted runtime-resilience commit.
-- The annotated `adp-v2.4-runtime-resilience-controls` tag resolves to that commit locally and remotely.
+- Repository, `main`, and `origin/main` are synchronized at the promoted runtime-resilience v2 commit.
+- The annotated `adp-v2.4-runtime-resilience-controls-v2` tag resolves to that commit locally and remotely.
+- The prior annotated `adp-v2.4-runtime-resilience-controls` tag remains immutable as historical defective-promotion evidence.
 - The repository worktree is clean.
 - `open-webui-validation` is healthy.
 - The primary instance on port 3000 is healthy.

@@ -1,9 +1,8 @@
-\
 #!/usr/bin/env bash
 set -euo pipefail
 
 REPO="${1:-$HOME/Labs/AI-Development-Platform}"
-BASELINE="${2:-334f1c3456647464137428dbd08a3c1ea4df3ffe}"
+BASELINE="${2:-}"
 TEMP="$(mktemp -d)"
 trap 'rm -rf "$TEMP"' EXIT
 
@@ -29,6 +28,8 @@ fail() {
   exit 1
 }
 
+test "$BASELINE" != "" || fail BASELINE_ARGUMENT_REQUIRED
+
 cd "$REPO"
 test "$(git rev-parse HEAD)" = "$BASELINE" || fail GIT_BASELINE "$(git rev-parse HEAD)"
 
@@ -51,10 +52,19 @@ for rel in sys.argv[2:]:
     assert data
     assert b"\r" not in data
     assert data.endswith(b"\n")
-    data.decode("ascii")
-    for number, line in enumerate(data.decode("ascii").splitlines(), 1):
+    assert not data.endswith(b"\n\n"), f"{rel}: blank line at EOF"
+    text = data.decode("ascii")
+    lines = text.splitlines()
+    if rel.endswith(".py"):
+        assert lines[0] == "#!/usr/bin/env python3", rel
+    elif rel.endswith(".sh"):
+        assert lines[0] == "#!/usr/bin/env bash", rel
+    else:
+        assert lines[0].startswith("# "), rel
+    for number, line in enumerate(lines, 1):
         assert line == line.rstrip(), f"{rel}:{number}"
 print("TEXT_QUALITY_STATUS=PASS")
+print("FIRST_LINE_VALIDATION_STATUS=PASS")
 PY
 
 bash -n scripts/adp24_isolated_runtime_apply.sh
@@ -114,16 +124,22 @@ printf 'SEMANTIC_PERSISTENCE_FIXTURE_STATUS=PASS\n'
 grep -Fq '10-restart-before.txt' scripts/adp24_validation_restart_persistence.sh || fail BEFORE_FILENAME_BINDING
 grep -Fq '11-restart-after.txt' scripts/adp24_validation_restart_persistence.sh || fail AFTER_FILENAME_BINDING
 grep -Fq 'stable_state_sha256' scripts/adp24_validation_restart_persistence.sh || fail SEMANTIC_HASH_BINDING
-grep -Fq 'GUIDE_STATUS=RUNTIME_RESILIENCE_CONTROLS_DEFINED' docs/Operations/ADP-v2.4-Isolated-Validation-Runtime-Operator-Guide.md || fail GUIDE_STATUS
+grep -Fq 'GUIDE_STATUS=RUNTIME_RESILIENCE_CONTROLS_V2_DEFINED' docs/Operations/ADP-v2.4-Isolated-Validation-Runtime-Operator-Guide.md || fail GUIDE_STATUS
+grep -Fq 'HISTORICAL_RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls' docs/Operations/ADP-v2.4-Isolated-Validation-Runtime-Operator-Guide.md || fail HISTORICAL_GUIDE_TAG
+grep -Fq 'RUNTIME_RESILIENCE_CORRECTION_TAG=adp-v2.4-runtime-resilience-controls-v2' docs/Operations/ADP-v2.4-Isolated-Validation-Runtime-Operator-Guide.md || fail CORRECTED_GUIDE_TAG
 grep -Fq 'scripts/adp24_validation_restart_persistence.sh' docs/Operations/ADP-v2.4-Isolated-Validation-Restart-Persistence-Procedure.md || fail PROCEDURE_BINDING
-grep -Fq 'adp-v2.4-runtime-resilience-controls' docs/Releases/ADP-v2.4-Runtime-Resilience-and-Evidence-Control-Amendment.md || fail TAG_TRACEABILITY
+grep -Fq 'HISTORICAL_RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls' docs/Operations/ADP-v2.4-Isolated-Validation-Restart-Persistence-Procedure.md || fail HISTORICAL_PROCEDURE_TAG
+grep -Fq 'RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls-v2' docs/Operations/ADP-v2.4-Isolated-Validation-Restart-Persistence-Procedure.md || fail CORRECTED_PROCEDURE_TAG
+grep -Fq 'SHA256=fbd7e2578837030f48ac6b5460c8de12bac5407ed1270f34c35df5d75627d661' docs/Releases/ADP-v2.4-Runtime-Resilience-and-Evidence-Control-Amendment.md || fail DEFECT_AUDIT_TRACEABILITY
+grep -Fq 'adp-v2.4-runtime-resilience-controls-v2' docs/Releases/ADP-v2.4-Runtime-Resilience-and-Evidence-Control-Amendment.md || fail CORRECTED_TAG_TRACEABILITY
 printf 'SEMANTIC_TRACEABILITY_STATUS=PASS\n'
 
 git diff --check
 printf 'TRACKED_DIFF_CHECK_STATUS=PASS\n'
 printf 'ADP24_RUNTIME_RESILIENCE_QUALITY_GATE=PASS\n'
+printf 'ADP24_RUNTIME_RESILIENCE_V2_QUALITY_GATE=PASS\n'
 printf 'REPOSITORY_ONLY_IMPLEMENTATION=PASS\n'
 printf 'VALIDATION_RUNTIME_MUTATION=NONE\n'
-printf 'RESTART_PERSISTENCE_AUTHORIZATION=HOLD_PENDING_PROMOTION\n'
+printf 'RESTART_PERSISTENCE_AUTHORIZATION=HOLD_PENDING_V2_PROMOTION\n'
 printf 'NON_COUNTED_RAG_EXECUTION_AUTHORIZATION=HOLD\n'
 printf 'COUNTED_EXECUTION_AUTHORIZATION=HOLD\n'

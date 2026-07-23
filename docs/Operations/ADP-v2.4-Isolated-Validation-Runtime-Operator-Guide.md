@@ -1,13 +1,13 @@
-\
 # ADP v2.4 Isolated Validation Runtime Operator Guide
 
 ## 1. Current Status
 
 ```text
-GUIDE_STATUS=RUNTIME_RESILIENCE_CONTROLS_DEFINED
+GUIDE_STATUS=RUNTIME_RESILIENCE_CONTROLS_V2_DEFINED
 RUNTIME_CREATION_BASELINE_TAG=adp-v2.4-pre-runtime-controls-v2
 MODEL_IMPORT_CORRECTION_TAG=adp-v2.4-model-import-envelope-correction
-RUNTIME_RESILIENCE_CORRECTION_TAG=adp-v2.4-runtime-resilience-controls
+HISTORICAL_RUNTIME_RESILIENCE_TAG=adp-v2.4-runtime-resilience-controls
+RUNTIME_RESILIENCE_CORRECTION_TAG=adp-v2.4-runtime-resilience-controls-v2
 RUNTIME_ENTRY_GATE=scripts/adp24_isolated_runtime_preflight.sh
 RESTART_PERSISTENCE_SCRIPT=scripts/adp24_validation_restart_persistence.sh
 EVIDENCE_WORKSPACE_GIT_IGNORE=REQUIRED
@@ -20,7 +20,7 @@ COUNTED_EXECUTION_AUTHORIZATION=HOLD
 
 The isolated container and volume were created under the runtime-creation baseline. The model-import envelope correction was promoted and the corrected deterministic model was imported exactly once. An accidental post-import toggle was diagnosed and corrected before counted execution. The model is active, has the approved deterministic parameters, and has no Knowledge, tool, skill, function, filter, file, or access-grant association.
 
-The post-import runtime manifest and cold-volume backup passed. Restart persistence and the non-counted RAG dry run remain blocked until their separately frozen controls pass.
+The post-import runtime manifest and cold-volume backup passed. Restart persistence and the non-counted RAG dry run remain blocked until the corrected v2 repository controls are promoted and their separately frozen execution gates pass.
 
 Preserve the voided pre-runtime workspace and the active corrected-attempt workspace unchanged except for newly authorized evidence files.
 
@@ -39,7 +39,7 @@ Preserve the voided pre-runtime workspace and the active corrected-attempt works
 
 ## 4. Restart-Persistence Workflow
 
-After the runtime-resilience correction is promoted and separately authorized:
+After the corrected runtime-resilience v2 controls are promoted and separately authorized:
 
 1. Confirm the active reset evidence workspace.
 2. Confirm `10-restart-before.txt` and `11-restart-after.txt` do not exist.
