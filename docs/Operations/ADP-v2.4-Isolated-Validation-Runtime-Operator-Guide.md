@@ -1,13 +1,15 @@
+\
 # ADP v2.4 Isolated Validation Runtime Operator Guide
 
 ## 1. Current Status
 
 ```text
-GUIDE_STATUS=MODEL_IMPORT_CORRECTION_CANDIDATE_NOT_PROMOTED
+GUIDE_STATUS=RUNTIME_RESILIENCE_CONTROLS_DEFINED
 RUNTIME_CREATION_BASELINE_TAG=adp-v2.4-pre-runtime-controls-v2
 MODEL_IMPORT_CORRECTION_TAG=adp-v2.4-model-import-envelope-correction
+RUNTIME_RESILIENCE_CORRECTION_TAG=adp-v2.4-runtime-resilience-controls
 RUNTIME_ENTRY_GATE=scripts/adp24_isolated_runtime_preflight.sh
-PRE_PROMOTION_QUALITY_GATE=HISTORICAL_NOT_RUNTIME
+RESTART_PERSISTENCE_SCRIPT=scripts/adp24_validation_restart_persistence.sh
 EVIDENCE_WORKSPACE_GIT_IGNORE=REQUIRED
 PRIMARY_INSTANCE_CHANGE=NONE
 MODEL_SYNC_OPERATION=PROHIBITED
@@ -16,32 +18,46 @@ COUNTED_EXECUTION_AUTHORIZATION=HOLD
 
 ## 2. Current Controlled Position
 
-The isolated container and volume were created under the runtime-creation baseline and are currently retained in an administrator-only state. The first model-import attempt is void because the prior sanitized payload used an incompatible wrapper object. The target model count was verified as zero after the failed attempt.
+The isolated container and volume were created under the runtime-creation baseline. The model-import envelope correction was promoted and the corrected deterministic model was imported exactly once. An accidental post-import toggle was diagnosed and corrected before counted execution. The model is active, has the approved deterministic parameters, and has no Knowledge, tool, skill, function, filter, file, or access-grant association.
 
-Do not reuse the voided pre-runtime workspace as the active corrected-attempt workspace. Preserve it unchanged.
+The post-import runtime manifest and cold-volume backup passed. Restart persistence and the non-counted RAG dry run remain blocked until their separately frozen controls pass.
+
+Preserve the voided pre-runtime workspace and the active corrected-attempt workspace unchanged except for newly authorized evidence files.
 
 ## 3. Corrected Model-Import Workflow
 
-1. Promote the model-import envelope correction and create the annotated correction tag.
-2. Create one unique evidence workspace under `artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/`.
-3. Create the controlled reset reference record using the exact filename from `artifacts/Configuration/ADP-v2.4/model-import-reset-evidence-filename-map.json`.
-4. Revalidate the retained runtime: healthy container, healthy primary instance, one isolated user, one isolated administrator, zero target models, valid pristine backup, and clean repository.
-5. Revalidate the prior raw export SHA-256.
-6. Run the corrected `scripts/adp24_validate_model_export.py` and write new report and sanitized import outputs into the reset workspace.
-7. Run `scripts/adp24_validate_model_import_payload.py` against the corrected sanitized import.
-8. Stop and return the new hashes for import authorization.
-9. After separate authorization, open Workspace, open Models, and choose Import.
-10. Select the corrected sanitized import file in the file picker.
-11. Capture the selected file in the file picker before clicking Open.
-12. Click Open. The v0.10.2 import begins immediately; there is no later confirmation button.
-13. Confirm exactly one deterministic model appears.
-14. Do not use Sync.
-15. Run read-only post-import verification.
-16. Capture the runtime manifest and post-import volume backup.
-17. Perform the separately frozen restart-persistence check.
-18. Perform the separately frozen non-counted dry run.
+1. Validate the model-import correction tag and controlled reset workspace.
+2. Revalidate the retained runtime and original raw export.
+3. Generate and independently validate the corrected top-level-array import payload.
+4. Import the corrected payload exactly once through Workspace, Models, Import.
+5. Do not use Sync.
+6. Verify exactly one active deterministic model with temperature 0 and seed 42.
+7. Verify no model associations or access grants.
+8. Capture the runtime manifest.
+9. Create and validate the post-import cold-volume backup.
+10. Stop for review.
 
-## 4. Evidence Workspaces
+## 4. Restart-Persistence Workflow
+
+After the runtime-resilience correction is promoted and separately authorized:
+
+1. Confirm the active reset evidence workspace.
+2. Confirm `10-restart-before.txt` and `11-restart-after.txt` do not exist.
+3. Run `scripts/adp24_validation_restart_persistence.sh --execute`.
+4. Allow transient `starting` or `unhealthy` states during the bounded readiness wait.
+5. Stop immediately for `exited`, `dead`, timeout, semantic drift, model drift, volume drift, primary-instance degradation, or repository change.
+6. Return both evidence hashes and the consolidated gate result.
+7. Do not begin the non-counted dry run until the restart-persistence gate is reviewed.
+
+The authoritative procedure is `docs/Operations/ADP-v2.4-Isolated-Validation-Restart-Persistence-Procedure.md`.
+
+## 5. Backup Protection
+
+New backups must be created in a mode-700 directory. The archive and checksum file must be owned by the invoking host user and have mode 600.
+
+The post-import archive created before this hardening remains byte-valid and checksum-valid inside a mode-700 directory. Its historical ownership and mode are evidence and do not invalidate its contents. Do not alter that historical artifact without a separately recorded metadata-normalization action.
+
+## 6. Evidence Workspaces
 
 Voided historical workspace:
 
@@ -57,23 +73,14 @@ artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/<UTC-PACKET-I
 
 Both workspace roots are ignored by Git because they may contain restricted raw exports, local screenshots, and runtime transcripts. Do not use Git ignore status as permission to retain secrets.
 
-The prior raw export may be read from the voided workspace only for the exact corrected-sanitizer purpose authorized by the model-import envelope amendment and only after SHA-256 revalidation.
-
-## 5. Human Evidence Actions
+## 7. Human Evidence Actions
 
 For each Firefox action, save the screenshot using the exact filename from the active evidence filename map.
 
-Do not capture:
+Do not capture passwords, session cookies, API keys, browser password-manager prompts, unrelated chats, or unnecessary email addresses.
 
-- Passwords
-- Session cookies
-- API keys
-- Email addresses unless unavoidable for account evidence
-- Browser password-manager prompts
-- Unrelated chats or data
+## 8. Immediate Stop Conditions
 
-## 6. Immediate Stop Conditions
-
-Stop for any repository-baseline mismatch, evidence workspace not ignored by Git, primary-instance degradation, validation-container degradation, wrong user or administrator count, nonzero target model count before corrected import, raw-export checksum mismatch, import payload not a top-level array, model mismatch, secret-bearing export, nonempty model association, wrong volume, failed backup, failed checksum, missing screenshot, wrong filename, or unexpected repository change.
+Stop for any repository-baseline mismatch, evidence workspace not ignored by Git, primary-instance degradation, validation-container terminal state, wrong user or administrator count, wrong model count, model parameter drift, nonempty model association, wrong volume, failed backup, failed checksum, missing evidence, wrong filename, semantic restart drift, or unexpected repository change.
 
 Do not improvise around a stop condition. Preserve evidence and return the consolidated bundle.
