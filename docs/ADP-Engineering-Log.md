@@ -1570,3 +1570,31 @@ Finalization:
 - Original counted Gate C attempts: `VOIDED_NOT_COUNTED`
 - Gate C technical objective: PASS under the approved configuration
 - v2.4: blocked until final snapshot and recoverability package PASS
+
+## ADP v2.4 Phase 2 / Phase2R Control Transaction Closeout
+
+Date: 2026-08-01T12:04:31Z
+Host: smt-ai
+Workspace: /home/tim/Labs/AI-Development-Platform
+Branch: main
+Status: Phase 2 / Phase2R control transaction evidence reconciled and approved for repository publication.
+
+Authoritative state:
+- Main baseline before closeout: b934c7bd84bfbc35563f3681712c4d5bd8478196.
+- Preserved Epoch-1 witness: cc2c3c9dccc1de11127d3dd9cd62e5d2c1b01d7c.
+- Valid Epoch-2 witness: 1f47c560e735ad41619da72dfcf916f822cfb2ef.
+- Registry SHA-256: f93e847e3b8d5aaa44bb117333f176778080f69dddf1bf27921621450d0de309.
+- Registry head: a17b91ebdc20136d18e6477127867a3d191e505ca6ec725a9dbcd8a8866769d4.
+- Counted RAG execution: NOT AUTHORIZED.
+- Candidate-v7 promotion: NOT AUTHORIZED.
+
+Published closeout records:
+- docs/Releases/ADP-v2.4-Phase2-Phase2R-Control-Transaction-Closeout.md
+- docs/Releases/ADP-v2.4-Phase2-Phase2R-Independent-Evidence-Reconciliation.md
+- docs/Releases/ADP-v2.4-Phase2-Phase2R-Remote-Witness-State-Confirmation.md
+- docs/Releases/ADP-v2.4-Phase2-Phase2R-Defect-and-Adjudication-Lineage.md
+
+Next controlled actions:
+- Commit and push these records.
+- Create and confirm the final Timeshift snapshot.
+- Publish the snapshot-bound final recoverability record.
