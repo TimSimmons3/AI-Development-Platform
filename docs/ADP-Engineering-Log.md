@@ -1718,3 +1718,8 @@ Boundaries:
 ## ADP v2.4 Candidate-v7 Promotion Closeout
 
 Candidate-v7 was promoted to main as signed commit `fddc1706b13c6880750160917175900c56b7811b` with tree `2f5202c20ab55f6d5520e2a4dc6c360c63b3270f` and exactly 73 controlled paths. The push was an ordinary fast-forward. GitHub verification passed. Registry, lock, witness, ruleset and runtime state were unchanged. Counted RAG execution was not authorized or performed.
+
+
+## ADP v2.4 Candidate-v7 Promotion Recoverability
+
+The closeout-publication commit `ac49a4f0dada6631ebbffe1997739b1495a125ec` was captured by Timeshift snapshot `2026-08-01_16-56-26` with description `ADP-v2.4-candidate-v7-promotion-closeout-20260801T215626Z`. The final recoverability record is the intentional post-snapshot audit tail. Counted RAG execution remains unauthorized.
