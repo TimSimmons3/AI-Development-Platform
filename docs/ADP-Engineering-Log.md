@@ -1618,3 +1618,68 @@ Recovery boundary:
 - A verified Git bundle and checksum are generated after the final push.
 - Witness branches, registry, receipts and rulesets remain unchanged.
 - Counted RAG execution and Candidate-v7 promotion remain NOT AUTHORIZED.
+
+## 2026-08-01 - ADP v2.5 High-Assurance Standards Integration - Local Implementation
+
+Workstream:
+
+```text
+ADP_V2_5_WORKSTREAM=HIGH_ASSURANCE_STANDARDS_INTEGRATION
+IMPLEMENTATION_CLASS=LOCAL_DOCUMENTATION_AND_GOVERNANCE_ONLY
+STARTING_BASELINE=12cfc9f41f10b95464f7a1848ab000319fff5d6b
+```
+
+Completed locally:
+
+- Integrated the SMT high-assurance engineering delivery skill.
+- Integrated the global code and artifact preflight checklist.
+- Integrated the live-change and external-API validation standard.
+- Integrated the complete mandatory ADP v2.4 assurance delta.
+- Added the ADP-specific integration guide.
+- Added the v2.5 integration plan, adoption decision, and delta traceability matrix.
+- Preserved ADP repository architecture by retaining this engineering log as the canonical running record.
+- Did not create a duplicate root changelog, global document hierarchy, global decision register, or release template.
+
+Boundaries:
+
+- No commit or push was performed by the documentation installer.
+- No tag or Timeshift snapshot was created.
+- No Candidate-v7 promotion or counted RAG execution occurred.
+- No witness branch, registry, receipt, ruleset, runtime, model, corpus, Docker, firewall, or network state changed.
+
+Current disposition:
+
+```text
+LOCAL_DOCUMENTATION_IMPLEMENTATION=COMPLETE
+INDEPENDENT_REVIEW=PENDING
+COMMIT_AUTHORIZATION=HOLD
+PUSH_AUTHORIZATION=HOLD
+LIVE_CHANGE_AUTHORIZATION=HOLD
+```
+
+## 2026-08-01 - ADP v2.5 High-Assurance Standards Integration - Pre-Commit Corrected Revision R1-CR2
+
+Pre-commit review disposition:
+
+- R1-CR1 corrected the omitted SHA-256 for the final ADP v2.4 handoff.
+- Human-readable review then identified an unclosed Markdown code fence in the integration plan.
+- Human-readable review also identified incomplete source identity, path, size, date, and provenance fields in the integration-plan source inventory.
+- The initial automated validators did not detect those two defects; this is recorded as a review/test defect in addition to the underlying documentation implementation defects.
+
+Corrected state:
+
+- The integration-plan source inventory now binds the validated outer archive, exact archive-member paths, source dates, sizes, hashes, and provenance.
+- The final gate-status code block is closed correctly.
+- All other assurance documents remain byte-identical to the independently validated local implementation.
+- The authorized changed-path set remains exactly eight paths.
+- Nothing is staged, committed, pushed, tagged, snapshotted, or applied to runtime or ADP v2.4 control state.
+
+Current disposition:
+
+```text
+CORRECTED_REVISION=R1_CR2_PRECOMMIT_REVIEW_CORRECTION
+HUMAN_DIFF_REVIEW=HOLD_PENDING_CORRECTED_REVISION_VALIDATION
+COMMIT_AUTHORIZATION=HOLD
+PUSH_AUTHORIZATION=HOLD
+LIVE_CHANGE_AUTHORIZATION=HOLD
+```

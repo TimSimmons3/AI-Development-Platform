@@ -1,0 +1,169 @@
+# SMT Global Code and Artifact Preflight Checklist
+
+## 1. Release identification
+
+- [ ] Deliverable name and corrected revision are unambiguous.
+- [ ] Purpose, scope, exclusions, and authority are recorded.
+- [ ] Data currency, timezone, units, and assumptions are stated.
+- [ ] Source-of-truth files and hashes are recorded.
+- [ ] Superseded inputs are identified and excluded.
+
+## 2. Design assurance
+
+- [ ] Design is documented before implementation.
+- [ ] Dependencies and external contracts are complete.
+- [ ] State machine and mutation boundaries are documented.
+- [ ] Rollback and preserve-state boundaries are documented.
+- [ ] Failure disposition is defined for every stage.
+- [ ] Manual versus automated implementation has been justified.
+- [ ] Complexity is proportionate to the task.
+
+## 3. Code and configuration assurance
+
+- [ ] Syntax, AST, compilation, or bytecode checks pass.
+- [ ] Shell scripts pass syntax and applicable lint checks.
+- [ ] Schemas parse and validate.
+- [ ] Strict JSON duplicate-key behavior is tested.
+- [ ] Canonicalization vectors pass.
+- [ ] Default, ordering, optional-field, and additional-field behavior is tested.
+- [ ] All changed components are included in the impact analysis.
+- [ ] No frozen source file was modified.
+- [ ] Permissions, owners, file types, links, and paths are validated.
+- [ ] Secrets, tokens, private keys, and unnecessary PII are absent.
+
+## 4. Workflow assurance
+
+- [ ] Full success path passes in isolation.
+- [ ] Every identified failure path is executed.
+- [ ] Expected end state is verified after each failure.
+- [ ] Cleanup and non-mutation checks pass.
+- [ ] Crash and interruption behavior is tested.
+- [ ] External command return codes and outputs are validated.
+- [ ] User-facing commands have been rehearsed exactly.
+- [ ] User interface evidence instructions are practical and unambiguous.
+
+## 5. Independent review
+
+- [ ] Reviewer uses independently derived expectations.
+- [ ] Reviewer does not reuse the implementation fixture builder.
+- [ ] External contracts are independently checked.
+- [ ] File counts, paths, sizes, modes, and hashes reconcile.
+- [ ] Manifest and archive round trip pass.
+- [ ] Reviewer tests substantive negative cases.
+- [ ] Reviewer verifies delivery links and artifact availability.
+- [ ] Reviewer states unresolved risk and confidence.
+
+## 6. Packaging and delivery
+
+- [ ] Every deliverable exists at the exact linked path.
+- [ ] Package checksum companion verifies.
+- [ ] Validation report checksum companion verifies.
+- [ ] Archive extraction and compressed-data tests pass.
+- [ ] Extracted manifest reconciliation passes.
+- [ ] Deterministic rebuild passes when required.
+- [ ] Required runbook and closeout records are included.
+- [ ] No misleading final or complete label is used.
+- [ ] User-visible replacement package count is zero unless a defect was discovered after delivery.
+
+## 7. Live-change gate
+
+- [ ] Pre-state is captured and verified.
+- [ ] External state is fresh enough for the decision.
+- [ ] Maximum live-attempt count is explicit.
+- [ ] Operator authorization phrase or confirmation is explicit.
+- [ ] Mutation is minimal and bounded.
+- [ ] Post-state verification is read-only and independent.
+- [ ] Failure evidence capture is automatic or immediately available.
+- [ ] No downstream action occurs until review.
+- [ ] A failed live attempt stops rather than loops.
+
+## 8. Closeout
+
+- [ ] Final local and remote state reconcile.
+- [ ] Working tree is clean.
+- [ ] Commits, branches, tags, and origins align.
+- [ ] Evidence archive and checksum pass.
+- [ ] Backup and recovery records exist.
+- [ ] Lessons learned are integrated into the canonical skill and standards.
+- [ ] New-chat handoff is complete and copy-ready.
+
+## 9. ADP v2.4 mandatory assurance delta
+
+### 9.1 Validation claims and call-path parity
+
+- [ ] The report states the highest proven validation level from Level 1 through Level 5.
+- [ ] No generic `PASS` implies a higher level than the evidence supports.
+- [ ] The production-versus-test call-path comparison identifies every critical function.
+- [ ] No security-critical or mutation-critical production function is stubbed, monkeypatched, bypassed, or replaced in a release-authorizing rehearsal.
+- [ ] Any recorded network transport still exercises the real collector, parser, normalizer, signer, verifier, writer, Git constructor, pusher, receipt writer, and evidence sealer.
+- [ ] No test is labeled `full success` when a critical production function is replaced.
+
+### 9.2 Exact launcher, prompts, and signing
+
+- [ ] The actual launcher is rehearsed from a clean archive extraction.
+- [ ] The signing rehearsal uses a temporary encrypted SSH key and a real temporary SSH agent.
+- [ ] The production signer and actual Git SSH commit signing execute.
+- [ ] A temporary bare Git remote is used when push behavior is in scope.
+- [ ] Pseudo-terminal prompt capture records exact prompt count and order.
+- [ ] Unexpected prompts after the authorized credential stage fail the test.
+- [ ] `SSH_AUTH_SOCK` is preserved after `ssh-add`.
+- [ ] Later signing uses the public-key path and agent-held private key without reopening the encrypted key file.
+- [ ] Askpass and terminal fallback are disabled for noninteractive signing.
+- [ ] Noninteractive subprocesses use closed standard input and explicit timeouts.
+- [ ] Loaded key count, full OpenSSH public-key encoding, and fingerprint are verified.
+- [ ] Separate allowed-signers policies exist for recovery, start gate, execution, and namespace `git`.
+
+### 9.3 Git object and external-contract controls
+
+- [ ] Final tree contents and parent commit are verified separately.
+- [ ] `git diff-tree` changed paths and statuses match the authorization.
+- [ ] Unrelated parent-tree entries are preserved.
+- [ ] Governed new witness paths have status `A`, not `M`.
+- [ ] The root-tree negative case is tested.
+- [ ] Every endpoint records authentication mode, required permission, method, path, consumed fields, ordering, omission, freshness, pagination, and fixture source.
+- [ ] Public unauthenticated endpoints are preferred for public data when appropriate.
+- [ ] Required write permission is proven before mutation with a non-mutating equivalent-permission operation.
+
+### 9.4 Final pre-mutation and evidence controls
+
+- [ ] Initial and final pre-mutation local and external collections are both captured.
+- [ ] The two collections are compared and bound to the authorization.
+- [ ] Authorization expiration is verified immediately before mutation.
+- [ ] Zero mutation-capable calls occurred before the boundary.
+- [ ] Each collection stage has one immutable collection identifier.
+- [ ] Envelope identifiers are unique and sequence numbers are contiguous.
+- [ ] Complete raw responses are retained.
+- [ ] Semantic projection and every normalization are documented.
+- [ ] Omitted explicit `false` is normalized only when supported by the contract.
+- [ ] Unordered effective rules are matched by stable identity.
+- [ ] Duplicate rules, wrong provenance, actor drift, and undocumented semantic fields are rejected.
+- [ ] Cross-resource timestamps are compared only according to documented ordering and identity guarantees.
+
+### 9.5 Failure, hash, determinism, and parser controls
+
+- [ ] The production failure sealer is exercised for pre-mutation and preserve-state failures.
+- [ ] Failure-sealer tests cover path creation, dotted filenames, archive names, checksums, visible output, CRC, and clean extraction.
+- [ ] Archive extension logic preserves dotted basenames.
+- [ ] Missing evidence paths cannot become `Path('')` or render as `.`.
+- [ ] Root-cause output survives shell error handling and cleanup.
+- [ ] Failure reports and evidence archives use mode 0600.
+- [ ] Failure evidence states token request, mutation-boundary status, and exact local and remote end state.
+- [ ] The artifact-binding and hash graph is acyclic.
+- [ ] Dependent hashes and cross-bindings are recomputed after policy or schema changes.
+- [ ] Repeated deterministic validation is byte-identical.
+- [ ] Snapshot or tabular-row selection compares before and after identifier sets.
+- [ ] Exactly one new identifier and the exact uniquely labeled row are required.
+- [ ] Parser continuation reuses preserved state and does not create a duplicate object.
+
+### 9.6 Communication and iteration governance
+
+- [ ] Delivery state is exactly `DELIVERABLE_COMPLETE`, `BLOCKED_WITH_EXACT_REASON`, or `PARTIAL_WORK_COMPLETED_AND_NOT_RELEASED`.
+- [ ] No message implies background work while the chat is idle.
+- [ ] No artifact is presented with contradictory instructions not to run it.
+- [ ] No artifact is called ready while host-specific dependencies remain unresolved.
+- [ ] Design, implementation, review/test, delivery, and external-constraint defects are distinguished.
+- [ ] Implementation or test defects use corrected revisions rather than new conceptual versions.
+- [ ] User-visible replacement package target is zero.
+- [ ] Live mutation attempts per gate do not exceed one.
+- [ ] Automatic patch-and-retry and production-as-test behavior are prohibited.
+- [ ] Repeated pre-mutation failures trigger release reset and independent review.
