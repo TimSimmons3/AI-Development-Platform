@@ -1713,3 +1713,8 @@ Boundaries:
 - Counted RAG execution remains NOT AUTHORIZED.
 - Witness, registry, receipt, ruleset, runtime, model, corpus, Docker, firewall, and network changes remain NOT AUTHORIZED.
 - Any future live change requires a separately governed workstream and start gate.
+
+
+## ADP v2.4 Candidate-v7 Promotion Closeout
+
+Candidate-v7 was promoted to main as signed commit `fddc1706b13c6880750160917175900c56b7811b` with tree `2f5202c20ab55f6d5520e2a4dc6c360c63b3270f` and exactly 73 controlled paths. The push was an ordinary fast-forward. GitHub verification passed. Registry, lock, witness, ruleset and runtime state were unchanged. Counted RAG execution was not authorized or performed.
