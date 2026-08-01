@@ -1,0 +1,25 @@
+{
+  "algorithm": "ssh-ed25519",
+  "allowed_signer_policy_sha256": "c0e0666767957dca967c8e5345a8226537d0457c733331521a0841d798e5a229",
+  "candidate": "v7",
+  "counted_execution_use_authorization": "HOLD",
+  "fingerprint": "SHA256:0qeoMO4IKy6h+1f1FX3YjBWO74wojsLoFETWp4YEy1c",
+  "key_purpose_reuse_risk": "OPEN_FOR_FINAL_OPERATIONAL_REVIEW",
+  "namespaces": {
+    "execution": "adp-v2.4-candidate-v7-execution",
+    "promotion": "adp-v2.4-candidate-v7-promotion",
+    "start_gate": "adp-v2.4-candidate-v7-start-gate"
+  },
+  "phase_allowed_signer_policy_namespaces": [
+    "adp-v2.4-candidate-v7-promotion",
+    "adp-v2.4-candidate-v7-execution"
+  ],
+  "phase_allowed_signer_policy_sha256": "5a9de22285b858e8a08340a86cbf011a9dcf4f677c829177bf5cd7eba7114138",
+  "principal": "timothy_simmons99@yahoo.com",
+  "public_key_openssh": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBU6M4oN3UbwQsmzwlZ5p8LPh2nyBJKd7jGEClMI9Ila",
+  "public_key_type": "ED25519",
+  "record_type": "BASELINE_TRUST_RECORD",
+  "release": "ADP-v2.4",
+  "schema_version": "2.0",
+  "start_gate_record_sha256": "213f653d9ed08dca8392085cc567c9cac0c500c8a807145d2aabe46a4ac26f86"
+}

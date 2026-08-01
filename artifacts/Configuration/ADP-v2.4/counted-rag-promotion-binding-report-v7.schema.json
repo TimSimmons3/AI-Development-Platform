@@ -1,0 +1,1031 @@
+{
+  "$id": "urn:adp:v2.4:candidate-v7:promotion-binding-report-schema:2.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "promotion_binding_validation": {
+            "const": "PASS"
+          }
+        },
+        "required": [
+          "promotion_binding_validation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "controls": {
+            "additionalProperties": false,
+            "properties": {
+              "attestation_signature": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "authorization_holds": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "c1_commit": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "c1_parent": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "c1_tree": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "candidate_path_inventory": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "clean_state": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "file_modes": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "file_sha256_hashes": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "git_blob_hashes": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "independent_full_diff_review": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "path_traversal_rejection": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "procedure_freeze_record": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "quality_gate_record": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "repository_branch": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "repository_origin": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "signer_fingerprint": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "symlink_rejection": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "unexpected_paths": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              },
+              "write_set_identity": {
+                "additionalProperties": false,
+                "properties": {
+                  "detail": {
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "status": {
+                    "const": "PASS"
+                  }
+                },
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "schema",
+              "attestation_signature",
+              "signer_fingerprint",
+              "repository_origin",
+              "repository_branch",
+              "c1_commit",
+              "c1_tree",
+              "c1_parent",
+              "clean_state",
+              "write_set_identity",
+              "candidate_path_inventory",
+              "file_modes",
+              "git_blob_hashes",
+              "file_sha256_hashes",
+              "quality_gate_record",
+              "independent_full_diff_review",
+              "procedure_freeze_record",
+              "authorization_holds",
+              "unexpected_paths",
+              "symlink_rejection",
+              "path_traversal_rejection"
+            ],
+            "type": "object"
+          },
+          "create_c2_authorization": {
+            "const": "PASS"
+          },
+          "failed_controls": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "promotion_binding_validation": {
+            "const": "FAIL"
+          }
+        },
+        "required": [
+          "promotion_binding_validation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "create_c2_authorization": {
+            "const": "HOLD"
+          },
+          "failed_controls": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "attestation_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "candidate": {
+      "const": "v7"
+    },
+    "controls": {
+      "additionalProperties": false,
+      "properties": {
+        "attestation_signature": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "authorization_holds": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "c1_commit": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "c1_parent": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "c1_tree": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "candidate_path_inventory": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "clean_state": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "file_modes": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "file_sha256_hashes": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "git_blob_hashes": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "independent_full_diff_review": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "path_traversal_rejection": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "procedure_freeze_record": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "quality_gate_record": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "repository_branch": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "repository_origin": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "signer_fingerprint": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "symlink_rejection": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "unexpected_paths": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        },
+        "write_set_identity": {
+          "additionalProperties": false,
+          "properties": {
+            "detail": {
+              "maxLength": 2048,
+              "minLength": 1,
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "PASS",
+                "FAIL",
+                "HOLD"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "detail"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema",
+        "attestation_signature",
+        "signer_fingerprint",
+        "repository_origin",
+        "repository_branch",
+        "c1_commit",
+        "c1_tree",
+        "c1_parent",
+        "clean_state",
+        "write_set_identity",
+        "candidate_path_inventory",
+        "file_modes",
+        "git_blob_hashes",
+        "file_sha256_hashes",
+        "quality_gate_record",
+        "independent_full_diff_review",
+        "procedure_freeze_record",
+        "authorization_holds",
+        "unexpected_paths",
+        "symlink_rejection",
+        "path_traversal_rejection"
+      ],
+      "type": "object"
+    },
+    "create_c2_authorization": {
+      "enum": [
+        "PASS",
+        "HOLD"
+      ]
+    },
+    "failed_controls": {
+      "items": {
+        "enum": [
+          "schema",
+          "attestation_signature",
+          "signer_fingerprint",
+          "repository_origin",
+          "repository_branch",
+          "c1_commit",
+          "c1_tree",
+          "c1_parent",
+          "clean_state",
+          "write_set_identity",
+          "candidate_path_inventory",
+          "file_modes",
+          "git_blob_hashes",
+          "file_sha256_hashes",
+          "quality_gate_record",
+          "independent_full_diff_review",
+          "procedure_freeze_record",
+          "authorization_holds",
+          "unexpected_paths",
+          "symlink_rejection",
+          "path_traversal_rejection"
+        ]
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "generated_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "mode": {
+      "const": "PROMOTION"
+    },
+    "promotion_binding_validation": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "release": {
+      "const": "ADP-v2.4"
+    },
+    "report_id": {
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "2.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "release",
+    "candidate",
+    "report_id",
+    "generated_utc",
+    "mode",
+    "attestation_sha256",
+    "controls",
+    "failed_controls",
+    "promotion_binding_validation",
+    "create_c2_authorization"
+  ],
+  "title": "ADP v2.4 Candidate v7 Promotion Binding Report",
+  "type": "object"
+}

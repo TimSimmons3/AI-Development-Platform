@@ -1,0 +1,3 @@
+Verification color: amber
+Review window: thirty-six hours
+[AURORA-24-KITE]

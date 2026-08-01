@@ -1,0 +1,530 @@
+{
+  "authorization_registry_contract": {
+    "authenticated_subject_required": true,
+    "authorized_gid": 1000,
+    "authorized_uid": 1000,
+    "branch_protection_evidence_collector_sha256": "aee05a2c07c6477829b46f7b3dcf41473f18eb4114543826e571120f6e7cf30f",
+    "branch_protection_evidence_schema_sha256": "22e59bae2de8d75be650c0fa2c978099cdac1cf662f6ee0049965f12874c5ff4",
+    "branch_protection_evidence_verifier_sha256": "73715c09a62b787f5b10a467155418ddc38f7e20b29eac8d7b899487d6291c5d",
+    "canonical_profile_id": "ADP-JCS-ASCII-REGISTRY-v1",
+    "canonical_vectors_filename": "ADP-v2.4-Candidate-v7-Authorization-Registry-Canonicalization-Vectors.json",
+    "canonical_vectors_sha256": "414623c8e3678ac5bfd8cec798e0ed5f11c66c9e1a84ebc5bf3df4be9c626f6d",
+    "canonicalization_id": "ADP-JCS-SHA256-CHAIN-v1",
+    "control_root": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7",
+    "current_state_evidence_filename": "witness-branch-current-state.json",
+    "current_state_evidence_max_age_seconds": 300,
+    "current_state_evidence_sha256_required": true,
+    "current_state_live_api_verification_required": true,
+    "evidence_to_receipt_max_seconds": 300,
+    "final_remote_head_recheck_required": true,
+    "github_api_credential_policy_sha256": "d56ff4ab8cdbd0c935893cbf4d198f31c0c12fe88615eb7cf0a0d72f042c0717",
+    "github_api_version": "2026-03-10",
+    "historical_receipt_wall_clock_expiration": false,
+    "integrity_ruleset_configuration_sha256": "6ce82e6ecaf228c426134b54873172e5ab5df7efa4dec3c89e89953988fefc63",
+    "lock_file_mode": "0600",
+    "lock_path": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.lock",
+    "lock_path_identity_checks": [
+      "AFTER_LOCK_ACQUISITION",
+      "BEFORE_LOCK_RELEASE"
+    ],
+    "lock_path_lookup_method": "openat(O_PATH|O_CLOEXEC|O_NOFOLLOW)+fstat",
+    "parent_directory_mode": "0700",
+    "post_creation_effective_rules_required": true,
+    "post_push_receipt_schema_sha256": "0278771a2e1cd652197c5c9718045e648089fcf8b2f116e7fab155b840052c36",
+    "post_push_receipt_verifier_sha256": "81774b6cf6296bb0e662fc231d6426a22b8c01201122d92f9a4b6219f65d150b",
+    "pre_creation_effective_rules_checked": true,
+    "pre_creation_evidence_filename": "witness-branch-pre-creation-readiness.json",
+    "readiness_evidence_filename": "witness-branch-pre-creation-readiness.json",
+    "receipt_directory": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/witness-confirmations",
+    "receipt_evidence_filename": "<remote_oid>.branch-protection-evidence.json",
+    "receipt_filename": "<remote_oid>.json",
+    "receipt_signature_filename": "<remote_oid>.json.sig",
+    "registry_entry_schema_filename": "ADP-v2.4-Candidate-v7-Authorization-Registry-Entry-Schema.json",
+    "registry_entry_schema_id": "urn:adp:v2.4:candidate-v7:authorization-registry-entry-schema:2.0",
+    "registry_entry_schema_sha256": "59d96bdab032ebb4b6a74eb845bed462f9d5912a1b3dbd7e1a2eedf9779b418d",
+    "registry_file_mode": "0600",
+    "registry_head_anchor_schema_filename": "ADP-v2.4-Candidate-v7-Registry-Head-Anchor-Schema.json",
+    "registry_head_anchor_schema_sha256": "15927890847e3edd10caaa47ad2897a1369b02d7d821c6985e37372ad66fcbce",
+    "registry_head_anchor_verifier_filename": "ADP-v2.4-Candidate-v7-Registry-Head-Anchor-Verifier.py",
+    "registry_head_anchor_verifier_sha256": "6628260d5e6c297793dc70f7e32a89bf0b271f0d56dfcd1417081c3a3cfa051c",
+    "registry_head_witness_policy_filename": "ADP-v2.4-Candidate-v7-Registry-Head-Witness-Policy.json",
+    "registry_head_witness_policy_sha256": "439990e6e2da08bd4d4ac2d183da10096565b9a77be8737d786b1983ad2e1d1a",
+    "registry_id": "adp-v2.4-candidate-v7-single-use-authorization-registry",
+    "registry_path": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.jsonl",
+    "reservation_identity_rule": "reservation_event_id_equals_event_id",
+    "ruleset_name": "ADP v2.4 Candidate v7 Registry Witness Protection",
+    "ruleset_permission_preflight_required": true,
+    "semantic_validator_filename": "ADP-v2.4-Candidate-v7-Authorization-Registry-Semantic-Validator.py",
+    "semantic_validator_id": "urn:adp:v2.4:candidate-v7:authorization-registry-semantic-validator:1.0",
+    "semantic_validator_sha256": "8991058f767f92c16ddd75bdb886f877dca9d854e433f3ca064b5816a8ab9aa8",
+    "signed_witness_commits_required": true,
+    "strict_json_schema_validator_sha256": "78255c9ae2037d37ab06aae8e476b0d72ceb4e0836e058a197cb2fc5575a617d",
+    "witness_branch": "adp-v2.4-candidate-v7-registry-head",
+    "witness_genesis_record_sha256": "e7ad7635f1c394a424b3c44d3d003a8fc5f7f22cce97dffe1ea4835d5312a108",
+    "witness_genesis_signature_sha256": "19efd544f76ab9f0568aa419506e16249043587d58886fe8b4f3ea79804e65ea",
+    "witness_record_path": "control/ADP-v2.4/candidate-v7/registry-head-anchor.json",
+    "witness_recovery_policy_sha256": "f8eb32b5d65e6361085b1db18ed13bb84511605fa9d361919f22c662e11263c5",
+    "witness_signature_path": "control/ADP-v2.4/candidate-v7/registry-head-anchor.json.sig",
+    "writer_ruleset_configuration_sha256": "513f6fb91dc0585c2329d773d717c50d4532591eff1e6da9b87cac82bb291def"
+  },
+  "candidate": "v7",
+  "filename_uniqueness": "REQUIRED",
+  "files": [
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "10-restart-before.txt",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical restart pre-state",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "11-restart-after.txt",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical restart post-state",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "12-non-counted-source-upload.png",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical source upload",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "13-non-counted-collection-ready.png",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical collection readiness",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "14-non-counted-response-raw.txt",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical raw response",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "15-non-counted-response-normalized.txt",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical normalized response",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "16-non-counted-validator-report.txt",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical validator result",
+      "required": true
+    },
+    {
+      "classification": "BASELINE_REFERENCE",
+      "name": "17-non-counted-source-panel.png",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Historical source panel",
+      "required": true
+    },
+    {
+      "classification": "DESIGN_EVIDENCE",
+      "name": "20-v7-start-gate-design-package-manifest.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Signed manifest for external start-gate designs",
+      "required": true
+    },
+    {
+      "classification": "DESIGN_EVIDENCE",
+      "name": "21-v7-start-gate-design-package-manifest.json.sig",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Detached start-gate package signature",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "22-v7-c1-promotion-attestation.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Canonical C1 promotion attestation",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "23-v7-c1-promotion-attestation.json.sig",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Detached promotion signature",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "24-v7-c1-promotion-attestation.json.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Promotion-attestation checksum record",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "25-v7-c1-promotion-attestation.json.sig.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Promotion-signature checksum record",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "26-v7-c1-promotion-binding-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Promotion binding report",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "27-v7-c1-independent-full-diff-review.md",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Independent C1 review",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "28-v7-final-procedure-freeze-record.md",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final procedure-freeze record",
+      "required": true
+    },
+    {
+      "classification": "PROMOTION_EVIDENCE",
+      "name": "29-v7-final-artifact-manifest.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final C2 artifact manifest",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "30-v7-rehearsal-preflight.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal preflight state",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "31-v7-rehearsal-source-upload.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal source upload",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "32-v7-rehearsal-collection-ready.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal collection readiness",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "33-v7-rehearsal-responses-raw.jsonl",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal raw responses",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "34-v7-rehearsal-validator-reports.jsonl",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal validator reports",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "35-v7-rehearsal-source-panel.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal source panel",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "36-v7-rehearsal-post-state.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal post-state",
+      "required": true
+    },
+    {
+      "classification": "REHEARSAL_EVIDENCE",
+      "name": "37-v7-rehearsal-evidence-manifest.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Rehearsal evidence manifest",
+      "required": true
+    },
+    {
+      "classification": "EXECUTION_AUTHORIZATION_EVIDENCE",
+      "name": "38-v7-signer-final-operational-adjudication.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final signer-risk adjudication",
+      "required": true
+    },
+    {
+      "classification": "EXECUTION_AUTHORIZATION_EVIDENCE",
+      "name": "38-v7-signer-final-operational-adjudication.json.sig",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Detached final adjudication signature",
+      "required": true
+    },
+    {
+      "classification": "EXECUTION_AUTHORIZATION_EVIDENCE",
+      "name": "38-v7-signer-final-operational-adjudication.json.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final adjudication checksum record",
+      "required": true
+    },
+    {
+      "classification": "EXECUTION_AUTHORIZATION_EVIDENCE",
+      "name": "38-v7-signer-final-operational-adjudication.json.sig.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final adjudication-signature checksum record",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "40-v7-counted-execution-authorization.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Signed counted-execution authorization",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "41-v7-counted-execution-authorization.json.sig",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Detached execution signature",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "42-v7-counted-execution-authorization.json.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Execution-authorization checksum record",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "43-v7-counted-execution-authorization.json.sig.sha256",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Execution-signature checksum record",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "44-v7-counted-execution-binding-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Execution binding report",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "45-v7-counted-preflight.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted preflight state",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "46-v7-counted-source-upload.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted source upload",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "47-v7-counted-collection-ready.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted collection readiness",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "48-v7-case-a-response-raw.txt",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case A raw response",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "49-v7-case-a-validator-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case A validator report",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "50-v7-case-b-response-raw.txt",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case B raw response",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "51-v7-case-b-validator-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case B validator report",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "52-v7-case-c-response-raw.txt",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case C raw response",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "53-v7-case-c-validator-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case C validator report",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "54-v7-case-d-response-raw.txt",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case D raw response",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "55-v7-case-d-validator-report.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Case D validator report",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "56-v7-counted-source-panel.png",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted source panel",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "57-v7-counted-post-state.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted post-execution state",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "58-v7-authorization-consumption.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Single-use authorization consumption evidence",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "59-v7-counted-evidence-manifest.json",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Final counted evidence manifest",
+      "required": true
+    },
+    {
+      "classification": "COUNTED_EXECUTION_EVIDENCE",
+      "name": "60-v7-counted-run-summary.md",
+      "new_evidence": true,
+      "overwrite_allowed": false,
+      "purpose": "Counted-run summary",
+      "required": true
+    },
+    {
+      "classification": "CONTROL_STATE_REFERENCE",
+      "external_path": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.jsonl",
+      "name": "authorization-consumption-registry.jsonl",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Durable cross-workspace append-only authorization reservation and consumption ledger",
+      "required": true
+    },
+    {
+      "classification": "CONTROL_STATE_REFERENCE",
+      "external_path": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.lock",
+      "name": "authorization-consumption-registry.lock",
+      "new_evidence": false,
+      "overwrite_allowed": false,
+      "purpose": "Exclusive lock for atomic authorization reservation",
+      "required": true
+    }
+  ],
+  "historical_evidence_reuse": "PROHIBITED_AS_NEW_EVIDENCE",
+  "overwrite_policy": "PROHIBITED",
+  "release": "ADP-v2.4",
+  "schema_version": "12.0",
+  "supersedes_package_v11_evidence_map_sha256": "bf4cdcd9a22e5b5472b90396ca04b44893f604826e755bcd09c7eab12740e9ab",
+  "x_cross_field_controls": [
+    "BASELINE_REFERENCE items must not be copied or relabeled",
+    "all new evidence must be created in the approved new workspace",
+    "promotion and execution signed records require checksum files",
+    "authorization consumption evidence must be created after binding pass",
+    "the durable registry is outside every rehearsal and counted evidence workspace",
+    "authorization reservation requires an exclusive lock",
+    "registry entries are append-only canonical JSON lines",
+    "each reservation append must be flushed and fsynced before execution",
+    "registry_id and authorization_id uniqueness are enforced across workspaces",
+    "registry entries must validate against the bound registry-entry schema",
+    "the lock file must remain a stable inode and must never be unlinked or replaced",
+    "control-root, lock-file, and registry-file ownership and modes are fail-closed controls",
+    "parent-directory fsync is required after control-state object creation",
+    "semantic registry validation is required after JSON Schema validation",
+    "RESERVED reservation_event_id equality is fail closed",
+    "the current lock pathname must match the locked descriptor after acquisition and before release",
+    "canonicalization vectors must pass before promotion",
+    "terminal state and immutable context require semantic validation",
+    "the remote signed witness head is authoritative for rollback detection",
+    "a valid local prefix that does not match the remote witness head is rejected",
+    "every trust companion SHA-256 must equal the exact Package v12 manifest companion SHA-256",
+    "legacy or ambiguous trust-hash aliases are prohibited",
+    "canonical trust fields are single-source and exact"
+  ]
+}

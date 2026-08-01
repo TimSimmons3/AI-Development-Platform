@@ -1,0 +1,21 @@
+# ADP v2.4 Counted Design Candidate v7 Start-Gate Record
+
+## Decision
+
+```text
+DESIGN_PARENT_COMMIT=b934c7bd84bfbc35563f3681712c4d5bd8478196
+WRITE_SET_V5_SHA256=0fb254adbed71aefe7197bbf29962bb3e0b44062cfdce62a1f83355e0f9476fb
+WRITE_SET_V5_REVIEW_SHA256=bb3e5fad84e9f585fbaf36bb88a8cd5e4b06cb378177ea2d63c816d144f389a2
+PACKAGE_V12_MANIFEST_SHA256=2bd7c779f2b825521ebdc440538948d82daf23094f34a51268ae66f70238f891
+PACKAGE_V12_INDEPENDENT_REVIEW_SHA256=6c23306c1838945ffd757d2767fd937992509653c0f3427a15a17c36b69631df
+C1_PATH_COUNT=68
+C2_PATH_COUNT=6
+C1_APPLICATION_AUTHORIZATION=SEPARATE_SIGNED_RECORD_REQUIRED
+C1_COMMIT_AUTHORIZATION=HOLD
+C2_AUTHORIZATION=HOLD
+REGISTRY_GENESIS_AUTHORIZATION=HOLD
+COUNTED_EXECUTION_AUTHORIZATION=HOLD
+RUNTIME_MUTATION=NONE
+```
+
+Package v12 supersedes Package v11 for start-gate use. A separately signed workspace/C1 authorization must bind the exact Package v12 manifest, Package v12 independent review, application manifest, and release manifest and verify under `adp-v2.4-candidate-v7-start-gate` before Candidate v7 worktree creation.

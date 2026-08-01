@@ -1,0 +1,289 @@
+{
+  "case-a-citation-followed-by-text.txt": {
+    "case": "A",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-duplicate-citation.txt": {
+    "case": "A",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-a-exact.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "PASS",
+    "unsupported": "PASS"
+  },
+  "case-a-extra-commentary.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-leading-citation.txt": {
+    "case": "A",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-a-mixed-citations.txt": {
+    "case": "A",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-a-negated-accepted.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-negated-forbidden.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-never-forbidden.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-new-sentence-conflict.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-no-citation.txt": {
+    "case": "A",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-a-no-longer-accepted.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-reversed-actual-conflict.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-a-wrong.txt": {
+    "case": "A",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-b-actual-conflict.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-b-exact.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "PASS",
+    "unsupported": "PASS"
+  },
+  "case-b-negated-accepted.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-b-negated-forbidden.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-b-numeric-equivalent.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-b-wrong.txt": {
+    "case": "B",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-actual-window-conflict.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-ambiguous-pronoun-color-conflict.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-duplicate-claim.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-exact.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "PASS",
+    "unsupported": "PASS"
+  },
+  "case-c-extra-commentary.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-labeled-lines.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-missing-field.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-mixed-citations.txt": {
+    "case": "C",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-negated-accepted.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-negated-forbidden.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-no-comma.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-numeric-equivalent.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-pronoun-conflict.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-c-unhyphenated-equivalent.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-wrong-citation.txt": {
+    "case": "C",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-wrong-color.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-c-wrong-window.txt": {
+    "case": "C",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  },
+  "case-d-answer.txt": {
+    "case": "D",
+    "citation": "FAIL",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-d-commentary.txt": {
+    "case": "D",
+    "citation": "PASS",
+    "factual": "FAIL",
+    "format": "FAIL",
+    "unsupported": "FAIL"
+  },
+  "case-d-exact.txt": {
+    "case": "D",
+    "citation": "PASS",
+    "factual": "PASS",
+    "format": "PASS",
+    "unsupported": "PASS"
+  },
+  "case-d-with-citation.txt": {
+    "case": "D",
+    "citation": "FAIL",
+    "factual": "PASS",
+    "format": "FAIL",
+    "unsupported": "PASS"
+  }
+}

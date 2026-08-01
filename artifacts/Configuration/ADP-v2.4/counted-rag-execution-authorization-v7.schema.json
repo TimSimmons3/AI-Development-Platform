@@ -1,0 +1,673 @@
+{
+  "$id": "urn:adp:v2.4:candidate-v7:execution-authorization-schema:12.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "anyOf": [
+    {
+      "required": [
+        "expires_utc"
+      ]
+    },
+    {
+      "properties": {
+        "single_use": {
+          "const": true
+        }
+      }
+    }
+  ],
+  "properties": {
+    "authorization_id": {
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "type": "string"
+    },
+    "authorization_registry": {
+      "additionalProperties": false,
+      "properties": {
+        "authenticated_api_subject_id": {
+          "const": 266816458
+        },
+        "authenticated_api_subject_login": {
+          "const": "TimSimmons3"
+        },
+        "authenticated_api_subject_type": {
+          "const": "User"
+        },
+        "authorized_gid": {
+          "const": 1000
+        },
+        "authorized_uid": {
+          "const": 1000
+        },
+        "branch_protection_evidence_collector_sha256": {
+          "const": "aee05a2c07c6477829b46f7b3dcf41473f18eb4114543826e571120f6e7cf30f"
+        },
+        "branch_protection_evidence_schema_sha256": {
+          "const": "22e59bae2de8d75be650c0fa2c978099cdac1cf662f6ee0049965f12874c5ff4"
+        },
+        "branch_protection_evidence_verifier_sha256": {
+          "const": "73715c09a62b787f5b10a467155418ddc38f7e20b29eac8d7b899487d6291c5d"
+        },
+        "branch_protection_maximum_age_seconds": {
+          "const": 300
+        },
+        "canonical_profile_id": {
+          "const": "ADP-JCS-ASCII-REGISTRY-v1"
+        },
+        "canonical_vectors_sha256": {
+          "const": "414623c8e3678ac5bfd8cec798e0ed5f11c66c9e1a84ebc5bf3df4be9c626f6d"
+        },
+        "canonicalization_id": {
+          "const": "ADP-JCS-SHA256-CHAIN-v1"
+        },
+        "complete_registry_file_hash_binding_required": {
+          "const": true
+        },
+        "complete_registry_semantic_validation_required": {
+          "const": true
+        },
+        "control_root": {
+          "const": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7"
+        },
+        "current_state_collected_utc": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "current_state_evidence_required": {
+          "const": true
+        },
+        "current_state_evidence_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "current_state_live_api_verification_required": {
+          "const": true
+        },
+        "current_state_remote_oid": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "duplicate_json_keys_rejected": {
+          "const": true
+        },
+        "effective_rules_fail_closed": {
+          "const": true
+        },
+        "final_remote_head_recheck_required": {
+          "const": true
+        },
+        "full_witness_history_validation_required": {
+          "const": true
+        },
+        "genesis_parent_commit": {
+          "const": "b934c7bd84bfbc35563f3681712c4d5bd8478196"
+        },
+        "github_api_credential_policy_sha256": {
+          "const": "d56ff4ab8cdbd0c935893cbf4d198f31c0c12fe88615eb7cf0a0d72f042c0717"
+        },
+        "github_api_minimum_repository_permission": {
+          "const": "Administration:write"
+        },
+        "github_api_token_source": {
+          "const": "GITHUB_TOKEN"
+        },
+        "github_permission_preflight_result": {
+          "const": "PASS"
+        },
+        "historical_evidence_uses_receipt_time_window": {
+          "const": true
+        },
+        "historical_receipts_are_commit_specific": {
+          "const": true
+        },
+        "inode_verification_required": {
+          "const": true
+        },
+        "integrity_ruleset_configuration_sha256": {
+          "const": "6ce82e6ecaf228c426134b54873172e5ab5df7efa4dec3c89e89953988fefc63"
+        },
+        "ledger_mode": {
+          "const": "APPEND_ONLY_JSONL_FSYNC"
+        },
+        "lock_file_mode": {
+          "const": "0600"
+        },
+        "lock_open_flags": {
+          "const": [
+            "O_RDWR",
+            "O_CREAT",
+            "O_CLOEXEC",
+            "O_NOFOLLOW"
+          ]
+        },
+        "lock_path": {
+          "const": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.lock"
+        },
+        "lock_path_identity_checks": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "const": "AFTER_LOCK_ACQUISITION"
+            },
+            {
+              "const": "BEFORE_LOCK_RELEASE"
+            }
+          ],
+          "type": "array"
+        },
+        "lock_path_identity_fields": {
+          "maxItems": 6,
+          "minItems": 6,
+          "prefixItems": [
+            {
+              "const": "st_dev"
+            },
+            {
+              "const": "st_ino"
+            },
+            {
+              "const": "st_nlink"
+            },
+            {
+              "const": "st_uid"
+            },
+            {
+              "const": "st_gid"
+            },
+            {
+              "const": "st_mode"
+            }
+          ],
+          "type": "array"
+        },
+        "lock_path_lookup_method": {
+          "const": "openat(O_PATH|O_CLOEXEC|O_NOFOLLOW)+fstat"
+        },
+        "lock_primitive": {
+          "const": "flock(LOCK_EX)"
+        },
+        "lock_unlink_or_replace_allowed": {
+          "const": false
+        },
+        "parent_directory_fsync_required": {
+          "const": true
+        },
+        "parent_directory_mode": {
+          "const": "0700"
+        },
+        "post_creation_effective_rules_required": {
+          "const": true
+        },
+        "post_push_receipt_required_for_every_commit": {
+          "const": true
+        },
+        "post_push_receipt_schema_sha256": {
+          "const": "0278771a2e1cd652197c5c9718045e648089fcf8b2f116e7fab155b840052c36"
+        },
+        "post_push_receipt_verifier_sha256": {
+          "const": "81774b6cf6296bb0e662fc231d6426a22b8c01201122d92f9a4b6219f65d150b"
+        },
+        "pre_creation_effective_rules_checked": {
+          "const": true
+        },
+        "pre_creation_readiness_evidence_validated": {
+          "const": true
+        },
+        "registry_entry_schema_id": {
+          "const": "urn:adp:v2.4:candidate-v7:authorization-registry-entry-schema:2.0"
+        },
+        "registry_entry_schema_sha256": {
+          "const": "59d96bdab032ebb4b6a74eb845bed462f9d5912a1b3dbd7e1a2eedf9779b418d"
+        },
+        "registry_file_fsync_required": {
+          "const": true
+        },
+        "registry_file_mode": {
+          "const": "0600"
+        },
+        "registry_head_anchor_schema_sha256": {
+          "const": "15927890847e3edd10caaa47ad2897a1369b02d7d821c6985e37372ad66fcbce"
+        },
+        "registry_head_anchor_verifier_sha256": {
+          "const": "6628260d5e6c297793dc70f7e32a89bf0b271f0d56dfcd1417081c3a3cfa051c"
+        },
+        "registry_head_witness_policy_sha256": {
+          "const": "439990e6e2da08bd4d4ac2d183da10096565b9a77be8737d786b1983ad2e1d1a"
+        },
+        "registry_id": {
+          "const": "adp-v2.4-candidate-v7-single-use-authorization-registry"
+        },
+        "registry_open_flags": {
+          "const": [
+            "O_RDWR",
+            "O_CREAT",
+            "O_APPEND",
+            "O_CLOEXEC",
+            "O_NOFOLLOW"
+          ]
+        },
+        "registry_path": {
+          "const": "/home/tim/Labs/AI-Development-Platform-Control-State/ADP-v2.4/candidate-v7/authorization-consumption-registry.jsonl"
+        },
+        "regular_file_required": {
+          "const": true
+        },
+        "remote_confirmation_required": {
+          "const": true
+        },
+        "reservation_identity_rule": {
+          "const": "reservation_event_id_equals_event_id"
+        },
+        "reservation_mode": {
+          "const": "ATOMIC_EXCLUSIVE_LOCK"
+        },
+        "reservation_state": {
+          "const": "UNRESERVED"
+        },
+        "rollback_anchor_mode": {
+          "const": "REMOTE_FAST_FORWARD_SIGNED_WITNESS"
+        },
+        "semantic_validator_id": {
+          "const": "urn:adp:v2.4:candidate-v7:authorization-registry-semantic-validator:1.0"
+        },
+        "semantic_validator_sha256": {
+          "const": "8991058f767f92c16ddd75bdb886f877dca9d854e433f3ca064b5816a8ab9aa8"
+        },
+        "signed_witness_commits_required": {
+          "const": true
+        },
+        "single_hard_link_required": {
+          "const": true
+        },
+        "stable_lock_inode_required": {
+          "const": true
+        },
+        "strict_json_schema_validator_sha256": {
+          "const": "78255c9ae2037d37ab06aae8e476b0d72ceb4e0836e058a197cb2fc5575a617d"
+        },
+        "terminal_immutable_context_binding": {
+          "const": true
+        },
+        "terminal_state_rule": {
+          "const": "exactly_one_terminal_event_maximum"
+        },
+        "witness_branch": {
+          "const": "adp-v2.4-candidate-v7-registry-head"
+        },
+        "witness_genesis_record_sha256": {
+          "const": "e7ad7635f1c394a424b3c44d3d003a8fc5f7f22cce97dffe1ea4835d5312a108"
+        },
+        "witness_genesis_signature_sha256": {
+          "const": "19efd544f76ab9f0568aa419506e16249043587d58886fe8b4f3ea79804e65ea"
+        },
+        "witness_record_path": {
+          "const": "control/ADP-v2.4/candidate-v7/registry-head-anchor.json"
+        },
+        "witness_recovery_policy_sha256": {
+          "const": "f8eb32b5d65e6361085b1db18ed13bb84511605fa9d361919f22c662e11263c5"
+        },
+        "witness_signature_path": {
+          "const": "control/ADP-v2.4/candidate-v7/registry-head-anchor.json.sig"
+        },
+        "witness_verification_workspace": {
+          "const": "ISOLATED_TEMPORARY_CLONE"
+        },
+        "writer_actor_id": {
+          "const": 266816458
+        },
+        "writer_actor_login": {
+          "const": "TimSimmons3"
+        },
+        "writer_ruleset_configuration_sha256": {
+          "const": "513f6fb91dc0585c2329d773d717c50d4532591eff1e6da9b87cac82bb291def"
+        }
+      },
+      "required": [
+        "registry_id",
+        "registry_path",
+        "lock_path",
+        "reservation_mode",
+        "ledger_mode",
+        "reservation_state",
+        "registry_entry_schema_id",
+        "registry_entry_schema_sha256",
+        "canonicalization_id",
+        "control_root",
+        "authorized_uid",
+        "authorized_gid",
+        "parent_directory_mode",
+        "lock_file_mode",
+        "registry_file_mode",
+        "lock_open_flags",
+        "registry_open_flags",
+        "lock_primitive",
+        "stable_lock_inode_required",
+        "lock_unlink_or_replace_allowed",
+        "inode_verification_required",
+        "parent_directory_fsync_required",
+        "registry_file_fsync_required",
+        "regular_file_required",
+        "single_hard_link_required",
+        "semantic_validator_id",
+        "semantic_validator_sha256",
+        "canonical_profile_id",
+        "canonical_vectors_sha256",
+        "reservation_identity_rule",
+        "lock_path_lookup_method",
+        "lock_path_identity_checks",
+        "lock_path_identity_fields",
+        "terminal_state_rule",
+        "terminal_immutable_context_binding",
+        "registry_head_anchor_schema_sha256",
+        "registry_head_anchor_verifier_sha256",
+        "registry_head_witness_policy_sha256",
+        "rollback_anchor_mode",
+        "witness_branch",
+        "witness_record_path",
+        "witness_signature_path",
+        "remote_confirmation_required",
+        "witness_genesis_record_sha256",
+        "witness_genesis_signature_sha256",
+        "branch_protection_evidence_schema_sha256",
+        "branch_protection_evidence_collector_sha256",
+        "branch_protection_evidence_verifier_sha256",
+        "witness_verification_workspace",
+        "complete_registry_semantic_validation_required",
+        "complete_registry_file_hash_binding_required",
+        "genesis_parent_commit",
+        "branch_protection_maximum_age_seconds",
+        "strict_json_schema_validator_sha256",
+        "post_push_receipt_schema_sha256",
+        "post_push_receipt_verifier_sha256",
+        "post_push_receipt_required_for_every_commit",
+        "full_witness_history_validation_required",
+        "effective_rules_fail_closed",
+        "historical_receipts_are_commit_specific",
+        "historical_evidence_uses_receipt_time_window",
+        "current_state_evidence_required",
+        "duplicate_json_keys_rejected",
+        "pre_creation_readiness_evidence_validated",
+        "integrity_ruleset_configuration_sha256",
+        "writer_ruleset_configuration_sha256",
+        "writer_actor_login",
+        "writer_actor_id",
+        "current_state_evidence_sha256",
+        "current_state_remote_oid",
+        "current_state_collected_utc",
+        "current_state_live_api_verification_required",
+        "final_remote_head_recheck_required",
+        "signed_witness_commits_required",
+        "witness_recovery_policy_sha256",
+        "github_api_credential_policy_sha256",
+        "authenticated_api_subject_login",
+        "authenticated_api_subject_id",
+        "authenticated_api_subject_type",
+        "github_api_token_source",
+        "github_api_minimum_repository_permission",
+        "github_permission_preflight_result",
+        "pre_creation_effective_rules_checked",
+        "post_creation_effective_rules_required"
+      ],
+      "type": "object"
+    },
+    "authorization_scope": {
+      "const": "ONE_COUNTED_EXECUTION"
+    },
+    "authorized_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "candidate": {
+      "const": "v7"
+    },
+    "counted_execution_authorization": {
+      "const": "PASS"
+    },
+    "evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "filename_map_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "workspace_identifier": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "workspace_path": {
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*//)[A-Za-z0-9._/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "workspace_identifier",
+        "workspace_path",
+        "filename_map_sha256"
+      ],
+      "type": "object"
+    },
+    "expires_utc": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "governing_bindings": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_filename_map_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "final_artifact_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "final_procedure_freeze_record_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "promotion_attestation_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "signer_final_operational_adjudication_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "signer_final_operational_adjudication_signature_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "promotion_attestation_sha256",
+        "final_artifact_manifest_sha256",
+        "final_procedure_freeze_record_sha256",
+        "evidence_filename_map_sha256",
+        "signer_final_operational_adjudication_sha256",
+        "signer_final_operational_adjudication_signature_sha256"
+      ],
+      "type": "object"
+    },
+    "phase_allowed_signer_policy_sha256": {
+      "const": "5a9de22285b858e8a08340a86cbf011a9dcf4f677c829177bf5cd7eba7114138"
+    },
+    "release": {
+      "const": "ADP-v2.4"
+    },
+    "repository": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "const": "adp-v2.4-candidate-v7-controlled-remediation"
+        },
+        "c2_commit_sha": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "c2_tree_sha": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "origin": {
+          "const": "git@github.com:TimSimmons3/AI-Development-Platform.git"
+        }
+      },
+      "required": [
+        "origin",
+        "branch",
+        "c2_commit_sha",
+        "c2_tree_sha"
+      ],
+      "type": "object"
+    },
+    "runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "access_grant_state": {
+          "const": "ABSENT"
+        },
+        "association_state": {
+          "const": "ABSENT"
+        },
+        "base_model": {
+          "const": "llama3.2:3b"
+        },
+        "knowledge_state": {
+          "const": "FROZEN_APPROVED_COUNTED_SOURCE_ONLY"
+        },
+        "model_id": {
+          "const": "llama-32-3b-rag-deterministic-test"
+        },
+        "network_boundary": {
+          "const": "ISOLATED_VALIDATION_RUNTIME_ONLY"
+        },
+        "runtime_identifier": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "seed": {
+          "const": 42
+        },
+        "temperature": {
+          "const": 0
+        }
+      },
+      "required": [
+        "runtime_identifier",
+        "model_id",
+        "base_model",
+        "temperature",
+        "seed",
+        "knowledge_state",
+        "association_state",
+        "access_grant_state",
+        "network_boundary"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "2.0"
+    },
+    "signer": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "ssh-ed25519"
+        },
+        "fingerprint": {
+          "const": "SHA256:0qeoMO4IKy6h+1f1FX3YjBWO74wojsLoFETWp4YEy1c"
+        },
+        "namespace": {
+          "const": "adp-v2.4-candidate-v7-execution"
+        },
+        "principal": {
+          "const": "timothy_simmons99@yahoo.com"
+        }
+      },
+      "required": [
+        "principal",
+        "fingerprint",
+        "algorithm",
+        "namespace"
+      ],
+      "type": "object"
+    },
+    "single_use": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "release",
+    "candidate",
+    "authorization_id",
+    "authorized_utc",
+    "repository",
+    "governing_bindings",
+    "runtime",
+    "evidence",
+    "authorization_scope",
+    "single_use",
+    "signer",
+    "counted_execution_authorization",
+    "phase_allowed_signer_policy_sha256",
+    "authorization_registry"
+  ],
+  "title": "ADP v2.4 Candidate v7 Execution Authorization - Canonical Trust Bindings v12",
+  "type": "object",
+  "x_cross_field_controls": [
+    "expires_utc must be later than authorized_utc when present",
+    "authorization_id must not appear in prior consumption evidence",
+    "signer final operational adjudication must be PASS and signed",
+    "workspace must be new and empty before evidence creation",
+    "c2 commit and tree must match HEAD exactly",
+    "execution must acquire an exclusive lock before checking or reserving authorization_id",
+    "authorization_id must be absent from the durable registry before reservation",
+    "reservation must be appended and fsynced before runtime execution begins",
+    "a reserved or consumed authorization_id must be rejected in every workspace",
+    "after execution the same registry entry must be finalized as CONSUMED or FAILED",
+    "the control-root directory must be owned by authorized_uid and authorized_gid with mode 0700",
+    "every control-root path component must be opened or validated without following symlinks",
+    "the lock file must be opened with O_NOFOLLOW and must remain the same device and inode for the process lifetime",
+    "the lock file must never be unlinked, renamed, truncated, or replaced",
+    "the registry file must be a regular file owned by the authorized uid and gid with mode 0600 and link count 1",
+    "parent directory fsync is required after creating the control root, lock file, or registry file",
+    "every registry line must validate against the bound registry-entry schema",
+    "every registry line must pass sequence, entry-hash, and prior-entry-hash validation before reservation",
+    "the frozen semantic validator must pass before reservation append",
+    "RESERVED reservation_event_id must equal event_id",
+    "the current no-follow lock pathname must match the locked descriptor after acquisition",
+    "the same pathname-to-descriptor identity check must pass before lock release",
+    "terminal events must preserve immutable reservation context",
+    "an authorization_id may have at most one terminal event",
+    "the signed remote registry-head witness must match the local registry before execution and after every append",
+    "the witness branch update must be a direct fast-forward child of the previously verified remote head",
+    "authorization cannot advance until git ls-remote and fetched anchor verification confirm the exact pushed OID",
+    "the anchor must validate against the frozen schema",
+    "the complete registry must pass the frozen semantic validator",
+    "registry_file_sha256 must equal the complete registry bytes",
+    "the sequence-one anchor must be a direct child of the signed genesis parent",
+    "current no-bypass ruleset evidence must pass before every witness verification",
+    "remote verification must use an isolated temporary clone",
+    "historical receipts verify against their named commit",
+    "only the current head is compared to the live remote ref",
+    "historical evidence freshness is measured against signed receipt creation time",
+    "current branch-protection state requires separately collected fresh evidence",
+    "pre-creation readiness evidence is schema and semantically validated against the first anchor time",
+    "all security JSON parsing rejects duplicate keys",
+    "current-state evidence digest and remote OID are bound into the signed authorization",
+    "the verifier independently queries GitHub for both rulesets and the effective rule set",
+    "the verifier performs a final remote-head recheck before PASS",
+    "writer restrictions and no-bypass integrity rules are cumulative",
+    "every witness commit must be GitHub-verified signed",
+    "poisoned witness history triggers a signed epoch transition rather than a rewrite",
+    "PRE_CREATION evidence has an absent branch and includes effective rules for the prospective ref",
+    "POST_PUSH and CURRENT_STATE evidence require effective rules",
+    "authenticated API subject equals the frozen writer actor",
+    "both ruleset-history preflights succeed with Administration write permission",
+    "GITHUB_TOKEN is neither persisted nor emitted",
+    "legacy trust-hash aliases are rejected by additionalProperties false",
+    "canonical trust hashes must match the Package v12 manifest exactly"
+  ]
+}

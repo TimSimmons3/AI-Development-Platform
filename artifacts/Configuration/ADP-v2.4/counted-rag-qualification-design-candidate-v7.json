@@ -1,0 +1,331 @@
+{
+  "binding_schema": {
+    "repository_binding_algorithm": "git_blob_sha1_and_sha256",
+    "required_external_evidence_names": [
+      "10-restart-before.txt",
+      "11-restart-after.txt",
+      "12-non-counted-source-upload.png",
+      "13-non-counted-collection-ready.png",
+      "14-non-counted-response-raw.txt",
+      "15-non-counted-response-normalized.txt",
+      "16-non-counted-validator-report.txt",
+      "17-non-counted-source-panel.png"
+    ],
+    "required_repository_binding_paths": [
+      "artifacts/Test-Data/ADP-v2.4/adp24_bounded_multi_fact_source.md",
+      "artifacts/Test-Data/ADP-v2.4/test-cases.json",
+      "artifacts/Configuration/ADP-v2.4/approved-rag-template.txt",
+      "artifacts/Configuration/ADP-v2.4/deterministic-model-discovery-record.json",
+      "artifacts/Configuration/ADP-v2.4/non-counted-rag-dry-run-contract.json",
+      "artifacts/Configuration/ADP-v2.4/model-import-reset-evidence-filename-map.json",
+      "docs/Operations/ADP-v2.4-Isolated-Validation-Non-Counted-RAG-Dry-Run-Procedure.md"
+    ]
+  },
+  "candidate": "v7",
+  "candidate_v7_lifecycle": {
+    "c1_commit_authorization": "HOLD_PENDING_INDEPENDENT_FULL_DIFF_REVIEW",
+    "c1_write_set_path_count": 68,
+    "c2_authorization": "HOLD",
+    "c2_write_set_path_count": 6,
+    "counted_execution": "HOLD",
+    "registry_genesis_authorization": "HOLD_UNTIL_C2_AND_SIGNED_EXECUTION_AUTHORIZATION",
+    "runtime_mutation": "NONE"
+  },
+  "cases": [
+    {
+      "candidate_prompt": "In one sentence, state the verification color for AURORA-24-KITE and cite the source as [AURORA-24-KITE].",
+      "citation_required": true,
+      "expected_full": "The verification color for AURORA-24-KITE is amber. [AURORA-24-KITE]",
+      "expected_without_citation": "The verification color for AURORA-24-KITE is amber.",
+      "fields": [
+        "verification_color"
+      ],
+      "id": "A",
+      "not_found_case": false
+    },
+    {
+      "candidate_prompt": "In one sentence, state the approved archive count for AURORA-24-KITE and cite the source as [AURORA-24-KITE].",
+      "citation_required": true,
+      "expected_full": "The approved archive count for AURORA-24-KITE is seventeen. [AURORA-24-KITE]",
+      "expected_without_citation": "The approved archive count for AURORA-24-KITE is seventeen.",
+      "fields": [
+        "approved_archive_count"
+      ],
+      "id": "B",
+      "not_found_case": false
+    },
+    {
+      "candidate_prompt": "In one sentence, state the verification color and review window for AURORA-24-KITE and cite the source as [AURORA-24-KITE].",
+      "citation_required": true,
+      "expected_full": "The verification color for AURORA-24-KITE is amber, and the review window is thirty-six hours. [AURORA-24-KITE]",
+      "expected_without_citation": "The verification color for AURORA-24-KITE is amber, and the review window is thirty-six hours.",
+      "fields": [
+        "verification_color",
+        "review_window"
+      ],
+      "id": "C",
+      "not_found_case": false
+    },
+    {
+      "candidate_prompt": "What is the launch location for AURORA-24-KITE? If the source does not contain it, respond exactly: NOT FOUND.",
+      "citation_required": false,
+      "expected_full": "NOT FOUND",
+      "expected_without_citation": "NOT FOUND",
+      "fields": [],
+      "id": "D",
+      "not_found_case": true
+    }
+  ],
+  "citation": {
+    "exact_token": "[AURORA-24-KITE]",
+    "position": "FINAL_TOKEN",
+    "required_for_not_found_case": false,
+    "required_for_positive_cases": true,
+    "total_bracket_token_count_for_positive_cases": 1
+  },
+  "counted_execution_authorization": "HOLD",
+  "design_parent_commit": "b934c7bd84bfbc35563f3681712c4d5bd8478196",
+  "external_execution_bindings": {
+    "authorization_record": {
+      "path": "$HOME/Downloads/ADP-v2.4-Non-Counted-RAG-Final-Execution-Authorization.txt",
+      "sha256": "c653c98ef7e7d8cd14102d709ee25cd9047a09cf7f41bf0fdf442f4916525f1a"
+    },
+    "backup": {
+      "path": "backups/ADP-v2.4-Isolated-Validation-Post-Import/20260722T234427Z/ADP-v2.4-open-webui-validation-20260723T140406Z.tar.gz",
+      "sha256": "93e615d0e7c0fae2c30b6f7d77b14437f76df76ef3278dfafb2d3e1a57928b12"
+    },
+    "evidence_files": [
+      {
+        "name": "10-restart-before.txt",
+        "sha256": "86626ad992356b49eb9cbe8cf0c6624b09f7b5b6718d017c7a5a197eda23dd67"
+      },
+      {
+        "name": "11-restart-after.txt",
+        "sha256": "3acfc43ccccc317259a80ccb0eb23d692327e9e2bf5ad55284cc1261ad68306c"
+      },
+      {
+        "name": "12-non-counted-source-upload.png",
+        "sha256": "4e7062ab8e9256edd7d34fa2fa8dc279c55a3bc40d695dc74cdad7905549e713"
+      },
+      {
+        "name": "13-non-counted-collection-ready.png",
+        "sha256": "91e2f26ea8180f6788130ce66335a4d0a51572dd0468a6e98ff73a6fdba40d6d"
+      },
+      {
+        "name": "14-non-counted-response-raw.txt",
+        "sha256": "bb9cae446d9e6e677c5d968d6baae4375410bf5952d3a286c46f5ef40b929aed"
+      },
+      {
+        "name": "15-non-counted-response-normalized.txt",
+        "sha256": "ad31d4783666a7d6ac36b2281b17e2a30ff530b9d614d01b27bf06531288524b"
+      },
+      {
+        "name": "16-non-counted-validator-report.txt",
+        "sha256": "c77b4bab146b1d62a8de4d23e2b7130f2c210ff97f944549c7a4e1a14c51b1ef"
+      },
+      {
+        "name": "17-non-counted-source-panel.png",
+        "sha256": "632b6d017b978916d06608adcb5feb3dc16f90293a8ad792a52c8b7016ee6159"
+      }
+    ],
+    "evidence_workspace": "artifacts/Evidence/ADP-v2.4-Isolated-Validation-Model-Import-Reset/20260722T234427Z",
+    "model_access_grant_classification": {
+      "path": "$HOME/Downloads/ADP-v2.4-Model-Access-Grant-Classification.txt",
+      "sha256": "f90b9725a16b4f03e3a591d6570d63b45f6b8184bed52c1837ca02bb390b8fef"
+    },
+    "model_access_schema_diagnostic": {
+      "path": "$HOME/Downloads/ADP-v2.4-Model-Access-Control-Schema-Diagnostic.txt",
+      "sha256": "4beeca364d4b01f176d2c073df0717df9b82f3d0c71d59a6ead639a742014772"
+    }
+  },
+  "field_definitions": {
+    "approved_archive_count": {
+      "accepted_values": [
+        "seventeen",
+        "17"
+      ],
+      "labels": [
+        "approved archive count",
+        "archive count",
+        "actual archive count",
+        "actual count"
+      ],
+      "value_pattern": "(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|[0-9]+)(?!\\s+hours?\\b)"
+    },
+    "review_window": {
+      "accepted_values": [
+        "thirty-six hours",
+        "thirty six hours",
+        "36 hours"
+      ],
+      "labels": [
+        "review window",
+        "window",
+        "actual review window",
+        "actual window"
+      ],
+      "value_pattern": "(?:(?:[0-9]+|[a-z]+(?:-[a-z]+)?(?:\\s+[a-z]+(?:-[a-z]+)?)?)\\s+hours?)"
+    },
+    "verification_color": {
+      "accepted_values": [
+        "amber"
+      ],
+      "labels": [
+        "verification color",
+        "color",
+        "actual color"
+      ],
+      "value_pattern": "(?:amber|blue|green|red|violet|orange|yellow|purple|black|white|gray|grey|brown|pink|cyan|magenta)"
+    }
+  },
+  "final_promotion_commit": "UNFROZEN_REQUIRES_C1_REVIEW_AND_SIGNED_PROMOTION",
+  "historical_non_counted_result": {
+    "evidence_sha256": {
+      "12-non-counted-source-upload.png": "4e7062ab8e9256edd7d34fa2fa8dc279c55a3bc40d695dc74cdad7905549e713",
+      "13-non-counted-collection-ready.png": "91e2f26ea8180f6788130ce66335a4d0a51572dd0468a6e98ff73a6fdba40d6d",
+      "14-non-counted-response-raw.txt": "bb9cae446d9e6e677c5d968d6baae4375410bf5952d3a286c46f5ef40b929aed",
+      "15-non-counted-response-normalized.txt": "ad31d4783666a7d6ac36b2281b17e2a30ff530b9d614d01b27bf06531288524b",
+      "16-non-counted-validator-report.txt": "c77b4bab146b1d62a8de4d23e2b7130f2c210ff97f944549c7a4e1a14c51b1ef",
+      "17-non-counted-source-panel.png": "632b6d017b978916d06608adcb5feb3dc16f90293a8ad792a52c8b7016ee6159"
+    },
+    "factual_retrieval": "PASS",
+    "format_adherence": "FAIL",
+    "result": "FAIL_PRESERVED_NO_RETRY",
+    "source_panel": "PASS_EXACT_SINGLE_SOURCE"
+  },
+  "model": {
+    "access_grants_required": "ABSENT",
+    "associations_required": "ABSENT",
+    "base_model": "llama3.2:3b",
+    "id": "llama-32-3b-rag-deterministic-test",
+    "seed": 42,
+    "temperature": 0
+  },
+  "rehearsal": {
+    "authorization": "HOLD",
+    "historical_evidence_reuse_for_execution": "PROHIBITED",
+    "new_evidence_workspace_required": true,
+    "new_procedure_version_required": true
+  },
+  "release": "ADP-v2.4",
+  "repository_bindings": [
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "c16ecf6482688e7416879fda936e83f5a07fd71f",
+      "path": "artifacts/Test-Data/ADP-v2.4/adp24_bounded_multi_fact_source.md",
+      "sha256": "18dc6a195e566da27dd4fe4be525d716a32dd0c753b6f1890c9c2ad7c3e12cfd"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "7cdc4ed306f4a6baecb611bb4f10d9126d418545",
+      "path": "artifacts/Test-Data/ADP-v2.4/test-cases.json",
+      "sha256": "a631a0dfb0823ea7e24179b0f0113f057c79476e8e14e091f2c98a8a554357d9"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "326c97f30f7d4bfa76ea4ffe8f937d85d3f7e4e2",
+      "path": "artifacts/Configuration/ADP-v2.4/approved-rag-template.txt",
+      "sha256": "def3db3e05b1651aa33b921a03573074d8033ca5d2ce691446638e362ef92d96"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "b8043386179d9b286aae3755a2570bc8e41a7aba",
+      "path": "artifacts/Configuration/ADP-v2.4/deterministic-model-discovery-record.json",
+      "sha256": "ed81f8a23aec8676f6a55d8034222ac92487e38f56e0f1a05798482c244a146a"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "993d11f9715faeac6dbc4046a807e1570e07f893",
+      "path": "artifacts/Configuration/ADP-v2.4/non-counted-rag-dry-run-contract.json",
+      "sha256": "12839f7604802a815caace04229d041639e5f5f416a6993cbda2cb4379529220"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "a743318772dfa42a9c288dd7dd0dca4bb9a878b8",
+      "path": "artifacts/Configuration/ADP-v2.4/model-import-reset-evidence-filename-map.json",
+      "sha256": "1715f9dc87fc0214486e1711f02a042b9fb3ed588b0a2d3ae319e576d92fb28e"
+    },
+    {
+      "algorithm": "git_blob_sha1",
+      "expected": "6f1c6112eaca8b329dcf2809469760723505b725",
+      "path": "docs/Operations/ADP-v2.4-Isolated-Validation-Non-Counted-RAG-Dry-Run-Procedure.md",
+      "sha256": "7caa08bb1b60963c361e88c2ef5abef460bd8fc5f993e8ba020f7aabe0157f52"
+    }
+  ],
+  "required_dimensions": {
+    "authorization_binding": "PASS",
+    "factual_content": "PASS",
+    "format_adherence": "PASS",
+    "inline_citation": "PASS",
+    "source_panel": "PASS",
+    "unsupported_addition": "PASS"
+  },
+  "schema_version": "0.7-candidate-c1",
+  "security_exposure_review": {
+    "question": "Have all known material residual risks and security exposures been resolved, mitigated, formally accepted, or blocked with compensating controls?",
+    "required": true
+  },
+  "source": {
+    "id": "AURORA-24-KITE",
+    "path": "artifacts/Test-Data/ADP-v2.4/adp24_bounded_multi_fact_source.md",
+    "sha256": "18dc6a195e566da27dd4fe4be525d716a32dd0c753b6f1890c9c2ad7c3e12cfd"
+  },
+  "source_panel_classifications": [
+    "EXACT_SINGLE_SOURCE",
+    "WRONG_SOURCE",
+    "MULTIPLE_SOURCES",
+    "MISSING_SOURCE"
+  ],
+  "start_gate_package_v12": {
+    "canonical_trust_cross_binding": "PASS",
+    "evidence_map_sha256": "5bcd9cea8c85b14fc0d767f9298c30d570337ec2805f2d51981297733f9dd5b4",
+    "execution_authorization_schema_sha256": "1212312f1216eec2a94d234a8936a4cb25d16973c4c4ac9fe4e0105a5c5512bd",
+    "independent_review_sha256": "6c23306c1838945ffd757d2767fd937992509653c0f3427a15a17c36b69631df",
+    "legacy_trust_hash_aliases": "PROHIBITED",
+    "manifest_sha256": "2bd7c779f2b825521ebdc440538948d82daf23094f34a51268ae66f70238f891"
+  },
+  "status": "DESIGN_CANDIDATE_V7_C1_APPLIED_UNCOMMITTED_NOT_AUTHORIZED_FOR_EXECUTION",
+  "superseded_candidates": {
+    "v1": {
+      "applied_state_sha256": "13dce737f56d3a73317b0dd6639b39448856f4a751e82a5e50352689414cf657",
+      "diagnostic_sha256": "4c9de86548f71e8ab3f251c30f0690fdedad58c223b09e2eaa3529405cbef4e9",
+      "status": "SUPERSEDED_DO_NOT_COMMIT_DO_NOT_REAPPLY",
+      "supersession_record_sha256": "be33cf26b5a7cc4729a1f16f37aa6ab6322e6d9e8c2844b68c5710ddf654a42a"
+    },
+    "v2": {
+      "applied_state_sha256": "5d9c0e9018ccf5f317b0b472889dcef3c6b60c217a56d313cf10264079f5a327",
+      "diagnostic_sha256": "1b6a57fd09facdcbf58707174de2b15cbef1987df3d14ecd31f287e5f9a7ee67",
+      "status": "SUPERSEDED_DO_NOT_COMMIT_DO_NOT_REAPPLY",
+      "supersession_record_sha256": "f9560ff73e7816f9fb18cda22020b23456274c25b36d9adabf705441fe687344"
+    },
+    "v3": {
+      "application_record_sha256": "3f3346a5905f7bdb4c09d5b129d121f601e3af10923029cd552598547c9077a1",
+      "applied_state_sha256": "c8fd119c44ea7caf674519b07bcabfdd13ec4c2b53d541910c2e19493482c452",
+      "independent_review_sha256": "0b3d01795b32f112404fc21bd4f018562fa6aa02e7de9de0dbf110b90fbacc9f",
+      "status": "SUPERSEDED_DO_NOT_COMMIT_DO_NOT_REAPPLY",
+      "supersession_record_sha256": "fc9f459b301a37b022cabfe81d457591e24811aa8c9df76fb66bf59b1b49a4b8"
+    },
+    "v4": {
+      "application_record_sha256": "cafff722054cec641180778692d25720b9cc9f740238a287ed7169e6e89c74a1",
+      "applied_state_sha256": "802660e7faf8647c00f906cecb6d754e169433eb717befd6262fa0bd8c803719",
+      "failure_diagnosis_sha256": "4f169ae41ec7284c8ca4a8dde9fd53e82367822d7fd98e9a43315cd8a3a45336",
+      "status": "SUPERSEDED_DO_NOT_COMMIT_DO_NOT_REAPPLY",
+      "supersession_record_sha256": "4623b43ec97a2e19a3fa5e1fd6fcdca86e400a94b253037a4b7f8fdfe11b02f9"
+    },
+    "v5": {
+      "application_record_sha256": "70143a869233875e1b2815c933e912a479b6245619d1005201ed9a04c7cffc29",
+      "applied_state_sha256": "a88089bca52132e255b5ab3d1bcb21a393801b11f2e44dff13c37ad72f967c92",
+      "failure_diagnosis_sha256": "56c5c12009cd3fd9faade73cd4dbae0a4cd2790ce41d2f84b3c9f03526298334",
+      "quality_gate_record_sha256": "698e11d3839759c9f30e74ef26a343d0af70bda51e55b397b46c2ab9164b1918",
+      "status": "SUPERSEDED_DO_NOT_COMMIT_DO_NOT_REAPPLY",
+      "supersession_record_sha256": "2e9b01e473352a1804bfb9bfbd920c232a0606b71ae38a13207a07a98e879911"
+    },
+    "v6": {
+      "applied_state_patch_sha256": "3bc0cc57c17ed571ac213a62dcaded7b6f4222734e2fd564c8bd77cc9201c3e6",
+      "applied_state_path_count": 59,
+      "failure_record_sha256": "0a26bd3bc6596cf3766bf459d9ba8c1ba11f3d9635ba436d0e1e55e87eaa4785",
+      "status": "SUPERSEDED_POST_APPLICATION_INDEPENDENT_REVIEW_FAILURE"
+    }
+  },
+  "supported_grammar_scope": "EXPLICIT_FIELD_CLAIMS_AND_CONTEXT_BOUND_PRONOUN_OR_ACTUAL_FIELD_RESTATEMENTS_ONLY"
+}
