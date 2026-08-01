@@ -42,7 +42,7 @@ The integration guide resolves ADP repository architecture, required references,
 
 The v2.5 integration plan records scope, exclusions, source and dependency inventories, mutation boundaries, test matrix, independent-review plan, and authorization status.
 
-The adoption decision records the governance decision and explicitly prohibits live-change authorization until validated adoption is complete.
+The adoption decision records the governance decision and the requirement for separately governed authorization of every future live-change workstream.
 
 ## 5. Validation rule
 
@@ -54,6 +54,9 @@ A requirement is integrated only when:
 4. independent review confirms semantic coverage rather than keyword presence.
 
 ```text
-TRACEABILITY_STATUS=COMPLETE_PENDING_REPOSITORY_VALIDATION
-LIVE_CHANGE_AUTHORIZATION=HOLD
+TRACEABILITY_STATUS=COMPLETE
+ADOPTION_COMMIT=e790670e5e58844ad7560f29eaf9edacfdeff65d
+ADOPTION_VALIDATION_LEVEL=LEVEL_5_RELEASE_CLOSEOUT_AND_RECOVERABILITY_PASS
+RECOVERY_SNAPSHOT=2026-08-01_11-28-32
+LIVE_CHANGE_AUTHORIZATION=REQUIRES_SEPARATE_WORKSTREAM_AUTHORIZATION
 ```
