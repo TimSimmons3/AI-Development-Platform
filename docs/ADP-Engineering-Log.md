@@ -1723,3 +1723,18 @@ Candidate-v7 was promoted to main as signed commit `fddc1706b13c6880750160917175
 ## ADP v2.4 Candidate-v7 Promotion Recoverability
 
 The closeout-publication commit `ac49a4f0dada6631ebbffe1997739b1495a125ec` was captured by Timeshift snapshot `2026-08-01_16-56-26` with description `ADP-v2.4-candidate-v7-promotion-closeout-20260801T215626Z`. The final recoverability record is the intentional post-snapshot audit tail. Counted RAG execution remains unauthorized.
+
+## 2026-08-03T16:34:50.739854Z - ADP v2.4 Candidate-v7 Terminal Failure and Security Containment Closeout
+
+Completed:
+
+- Preserved Candidate-v7 terminal `FAILED` registry event and signed witness.
+- Confirmed zero counted inferences and prohibited Candidate-v7 retry.
+- Rotated and persistently mounted the Open WebUI signing secret.
+- Invalidated the exposed administrator JWT.
+- Removed the plaintext JWT copy and verified zero exact-token text matches.
+- Preserved the restricted screenshot by hash only.
+- Withdrew the Candidate-v7 R2 operator, R1-CR2 wrapper, and the R1, R1-CR1, and R1-CR2 closeout packages from executable reuse.
+- Published Candidate-v7 closeout and CAPA records.
+
+Permanent counted-RAG remediation remains separately blocked pending exact R2 source-level RCA and Candidate-v8 governance.
