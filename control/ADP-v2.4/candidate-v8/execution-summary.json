@@ -1,0 +1,32 @@
+{
+  "automatic_retry": false,
+  "chat_requests_observed": 2,
+  "counted_request_attempts": 2,
+  "counted_responses_received": 2,
+  "created_utc": "2026-08-04T14:54:58.623546Z",
+  "local_registry_event": "FAILED",
+  "orchestration_errors": [],
+  "record_type": "ADP_V2_4_CANDIDATE_V8_G7_EXECUTION_SUMMARY",
+  "result": {
+    "cleanup_status": "PASS",
+    "counted_request_attempts": 2,
+    "counted_responses_received": 2,
+    "reason": "GateError:CASE_RESPONSE_MISMATCH|B",
+    "status": "FAILED_COUNTED"
+  },
+  "schema_version": "1.0",
+  "state_reconciliation": {
+    "candidate_v8_observed": {
+      "branch": "adp-v2.4-candidate-v8-registry-head-epoch-1",
+      "oid": "36a544bd524197cc1269cc06b9e579fcb681f3b3",
+      "status": "PASS"
+    },
+    "checks": {
+      "candidate_v8_terminal_ref": true,
+      "protected_full_state": true
+    },
+    "post_protected_sha256": "5d05be92f4cc2a3038cd64da7676d780daaadc8dd23a70a70302f60350637eea",
+    "pre_protected_sha256": "5d05be92f4cc2a3038cd64da7676d780daaadc8dd23a70a70302f60350637eea",
+    "status": "PASS"
+  }
+}
