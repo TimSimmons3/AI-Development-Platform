@@ -1746,3 +1746,11 @@ Permanent counted-RAG remediation remains separately blocked pending exact R2 so
 - Corrected the baseline distinction between host client URL `127.0.0.1:11434` and service socket binding `0.0.0.0:11434`.
 - UFW default-deny and scoped Docker access remain mandatory compensating controls; the remote Mac test observed no LAN access to TCP 11434.
 - Release closeout documentation and evidence register prepared for signed publication.
+
+## 2026-08-05T12:00:19Z - ADP v2.4 Production R3 Final Recoverability
+
+- Closeout publication commit: `235e32d6a01921c03246073502b91d8a2a884b83`.
+- Timeshift snapshot: `2026-08-05_07-00-00`.
+- Timeshift description: `ADP-v2.4-production-r3-release-closeout-20260805T115846Z`.
+- Final recoverability record prepared as the post-snapshot audit tail.
+- Final bundle and transaction evidence are generated after the final push.
