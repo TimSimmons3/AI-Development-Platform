@@ -86,9 +86,19 @@ No exception may be inferred from:
 - a non-mutating failure;
 - an assistant or reviewer recommendation.
 
-## 7. Exception record requirements
+## 7. Exception record and authorization requirements
 
 An approved exception record must include the owner identity, GitHub login, exact approval-text hash, approval and expiration timestamps, control identifiers, scope, rationale, residual risk, compensating controls, and artifact SHA-256 set. Placeholders, open-ended approvals, inherited approvals, and post-execution approvals are invalid.
+
+For a pull request that contains one or more approved exception records, the GitHub gate requires exactly one comment authored by `TimSimmons3` with this canonical form:
+
+```text
+APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA> EXCEPTIONS=<SORTED_COMMA_SEPARATED_EXCEPTION_PATHS>
+```
+
+The approval is valid only for the exact PR number, exact current head SHA, and exact sorted exception-record set. A new commit invalidates the prior approval. Wrong-owner, stale-head, duplicate, incomplete, expanded, or whitespace-altered comments fail closed.
+
+GitHub pull-request review approval is not the owner-exception mechanism because pull-request authors cannot approve their own pull requests. The exact owner comment provides an auditable approval path for a repository currently operated by one project owner without creating a review deadlock or requiring an administrator bypass.
 
 ## 8. Handoff and Markdown requirements
 
@@ -96,7 +106,18 @@ Every new or modified governance Markdown file covered by the machine-readable p
 
 ## 9. Enforcement
 
-The canonical policy JSON, validator, workflow, CODEOWNERS file, and required GitHub status check form the enforcement chain. Branch protection or a repository ruleset must require pull requests and the mandatory assurance invariant status check on protected branches. Exception-bearing changes must have a current approval from `TimSimmons3` on the exact PR head commit.
+The canonical policy JSON, invariant validator, owner-approval validator, test suite, workflow, CODEOWNERS ownership map, and required GitHub status check form the enforcement chain.
+
+The protected `main` branch must use an active repository ruleset with:
+
+- pull requests required before merge;
+- the `Mandatory assurance invariant gate` required;
+- no ordinary bypass actor;
+- review conversations resolved before merge;
+- force pushes blocked;
+- branch deletion blocked.
+
+A required approval count or required CODEOWNER review is not used while the repository has only one owner and that owner authors the pull request. CODEOWNERS remains the authoritative ownership map and review-notification source. Owner approval is mandatory only for exception-bearing changes and is enforced by the exact bound comment mechanism above.
 
 ## 10. Audit outcomes
 
