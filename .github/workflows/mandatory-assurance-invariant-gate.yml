@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  issues: read
   pull-requests: read
 
 jobs:
@@ -20,6 +21,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Run invariant and owner-approval tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest discover -s tests -p 'test_*.py'
 
       - name: Select comparison base
         id: comparison
@@ -46,7 +53,7 @@ jobs:
             --base-ref "${{ steps.comparison.outputs.base_ref }}" \
             --report "${RUNNER_TEMP}/mandatory-assurance-invariant-report.json"
 
-      - name: Enforce current project-owner approval for exceptions
+      - name: Enforce exact project-owner authorization for exceptions
         env:
           GH_TOKEN: ${{ github.token }}
           REPORT_PATH: ${{ runner.temp }}/mandatory-assurance-invariant-report.json
@@ -64,10 +71,15 @@ jobs:
             echo "Approved exceptions may not be introduced by direct push."
             exit 1
           fi
-          approval_count="$(gh api --paginate --slurp \
-            "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/reviews" \
-            --jq 'flatten | map(select(.user.login == env.OWNER_LOGIN and .state == "APPROVED" and .commit_id == env.PR_HEAD_SHA)) | length')"
-          if [[ "${approval_count}" -lt 1 ]]; then
-            echo "A current APPROVED review from ${OWNER_LOGIN} on commit ${PR_HEAD_SHA} is required."
-            exit 1
-          fi
+          comments_path="${RUNNER_TEMP}/mandatory-assurance-owner-comments.json"
+          approval_report_path="${RUNNER_TEMP}/mandatory-assurance-owner-approval-report.json"
+          gh api --paginate --slurp \
+            "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
+            > "${comments_path}"
+          python3 -B scripts/validate_owner_exception_approval.py \
+            --report "${REPORT_PATH}" \
+            --comments "${comments_path}" \
+            --owner-login "${OWNER_LOGIN}" \
+            --pr-number "${PR_NUMBER}" \
+            --head-sha "${PR_HEAD_SHA}" \
+            --output "${approval_report_path}"
