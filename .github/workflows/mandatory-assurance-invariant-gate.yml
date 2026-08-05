@@ -1,0 +1,85 @@
+name: Mandatory assurance invariant gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  validate-mandatory-assurance-invariants:
+    name: Mandatory assurance invariant gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Run invariant and owner-approval tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Select comparison base
+        id: comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            git fetch --no-tags origin "${{ github.base_ref }}"
+            printf 'base_ref=origin/%s\n' "${{ github.base_ref }}" >> "${GITHUB_OUTPUT}"
+          elif [[ "${{ github.event.before }}" =~ ^0+$ ]]; then
+            printf 'base_ref=HEAD^\n' >> "${GITHUB_OUTPUT}"
+          else
+            git fetch --no-tags origin "${{ github.event.before }}"
+            printf 'base_ref=%s\n' "${{ github.event.before }}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Validate changed governance Markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/validate_mandatory_assurance_invariants.py \
+            --repo-root . \
+            --policy config/mandatory-assurance-invariant-policy.json \
+            --base-ref "${{ steps.comparison.outputs.base_ref }}" \
+            --report "${RUNNER_TEMP}/mandatory-assurance-invariant-report.json"
+
+      - name: Enforce exact project-owner authorization for exceptions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_PATH: ${{ runner.temp }}/mandatory-assurance-invariant-report.json
+          OWNER_LOGIN: TimSimmons3
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          exception_count="$(python3 -c 'import json,os; print(json.load(open(os.environ["REPORT_PATH"], encoding="utf-8"))["exception_record_count"])')"
+          if [[ "${exception_count}" == "0" ]]; then
+            exit 0
+          fi
+          if [[ "${GITHUB_EVENT_NAME}" != "pull_request" ]]; then
+            echo "Approved exceptions may not be introduced by direct push."
+            exit 1
+          fi
+          comments_path="${RUNNER_TEMP}/mandatory-assurance-owner-comments.json"
+          approval_report_path="${RUNNER_TEMP}/mandatory-assurance-owner-approval-report.json"
+          gh api --paginate --slurp \
+            "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments?per_page=100" \
+            > "${comments_path}"
+          python3 -B scripts/validate_owner_exception_approval.py \
+            --report "${REPORT_PATH}" \
+            --comments "${comments_path}" \
+            --owner-login "${OWNER_LOGIN}" \
+            --pr-number "${PR_NUMBER}" \
+            --head-sha "${PR_HEAD_SHA}" \
+            --output "${approval_report_path}"

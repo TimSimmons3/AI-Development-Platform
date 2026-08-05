@@ -1,0 +1,11 @@
+# Mandatory one-pass governance controls require project-owner review.
+/skills/smt-mandatory-one-pass-delivery/ @TimSimmons3
+/docs/Standards/SMT-Mandatory-One-Pass-Delivery-and-Owner-Exception-Control-Standard.md @TimSimmons3
+/docs/Integration/SMT-One-Pass-Invariant-Enforcement-Addendum.md @TimSimmons3
+/docs/Templates/SMT-Mandatory-Assurance-Invariant-Block.md @TimSimmons3
+/docs/Exceptions/ @TimSimmons3
+/config/mandatory-assurance-invariant-policy.json @TimSimmons3
+/scripts/validate_mandatory_assurance_invariants.py @TimSimmons3
+/tests/test_validate_mandatory_assurance_invariants.py @TimSimmons3
+/.github/workflows/mandatory-assurance-invariant-gate.yml @TimSimmons3
+/.github/CODEOWNERS @TimSimmons3

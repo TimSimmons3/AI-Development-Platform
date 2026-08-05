@@ -1,0 +1,132 @@
+# SMT Mandatory One-Pass Delivery and Owner Exception Control Standard
+
+## 1. Control status
+
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
+This standard establishes the mandatory one-pass delivery invariant for ADP and Send Manna Too LLC engineering, documentation, packaging, conversion, infrastructure, repository, administrative, and live-change work.
+
+## 2. Precedence
+
+This standard supplements and, where stricter, supersedes permissive exception or revision language in earlier project records. Historical records remain immutable evidence; future work and any modified governance record must comply with this standard.
+
+## 3. Definition of validated
+
+“Validated” means the exact final distributed artifact completed the exact intended operator workflow, using the exact command and interaction model supplied to the user, against an isolated but target-faithful state fixture, with final state and recovery evidence reconciled.
+
+Validation is incomplete when any of the following remains unproven:
+
+- final archive extraction;
+- launcher selection;
+- current working directory;
+- shell and quoting behavior;
+- arguments, stdin, prompts, credentials, or authorization transport;
+- exact path and filename resolution;
+- owner, mode, file type, or symlink behavior;
+- target-host dependencies and state;
+- output location and result contract;
+- source cleanup or preserve-state behavior;
+- final remote, archive, repository, or recovery state.
+
+## 4. Mandatory delivery gate
+
+Before delivery, the release record must prove:
+
+| Control | Required evidence |
+|---|---|
+| Final artifact identity | Exact filename, size, SHA-256, manifest, and source provenance |
+| Exact extraction | Clean extraction with safe paths, no duplicate entries, and manifest reconciliation |
+| Exact launcher | Final packaged launcher executed from the extracted package |
+| Exact operator workflow | User command executed byte-for-byte with the intended shell and environment |
+| Target-state fidelity | Checksum-bound real target capture or independently justified equivalent fixture |
+| Complete success | End-to-end completion through final state, evidence, and recovery |
+| Complete failure coverage | Material failure and preserve-state paths with expected end states |
+| Independent review | Requirements-derived expectations and separate fixtures or calculations |
+| Assumptions | Zero unresolved assumptions before delivery |
+| Iteration control | Zero user-visible replacement packages as the release target |
+
+## 5. Failure and release reset
+
+A user-visible failure triggers a release reset. The team must not automatically provide another executable revision. The reset requires:
+
+1. evidence preservation;
+2. exact state reconciliation;
+3. design, implementation, review/test, delivery, and external-constraint classification;
+4. systemic root-cause analysis;
+5. refreshed requirements and threat model;
+6. end-to-end test redesign;
+7. independent review of the final distributed artifact and operator workflow;
+8. new package-bound owner authorization when mutation is in scope.
+
+## 6. Exception authority
+
+Only Tim Simmons may approve a deviation. Approval must be exact, written, scoped, time-bounded, artifact-bound, and recorded under `docs/Exceptions/` before delivery.
+
+No exception may be inferred from:
+
+- “proceed” or “continue” instructions;
+- schedule pressure;
+- prior approvals for another package or gate;
+- preserved mutation budget;
+- a successful rollback;
+- a non-mutating failure;
+- an assistant or reviewer recommendation.
+
+## 7. Exception record and authorization requirements
+
+An approved exception record must include the owner identity, GitHub login, exact approval-text hash, approval and expiration timestamps, control identifiers, scope, rationale, residual risk, compensating controls, and artifact SHA-256 set. Placeholders, open-ended approvals, inherited approvals, and post-execution approvals are invalid.
+
+For a pull request that contains one or more approved exception records, the GitHub gate requires exactly one comment authored by `TimSimmons3` with this canonical form:
+
+```text
+APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA> EXCEPTIONS=<SORTED_COMMA_SEPARATED_EXCEPTION_PATHS>
+```
+
+The approval is valid only for the exact PR number, exact current head SHA, and exact sorted exception-record set. A new commit invalidates the prior approval. Wrong-owner, stale-head, duplicate, incomplete, expanded, or whitespace-altered comments fail closed.
+
+GitHub pull-request review approval is not the owner-exception mechanism because pull-request authors cannot approve their own pull requests. The exact owner comment provides an auditable approval path for a repository currently operated by one project owner without creating a review deadlock or requiring an administrator bypass.
+
+## 8. Handoff and Markdown requirements
+
+Every new or modified governance Markdown file covered by the machine-readable policy must contain the invariant block exactly once. A governed file may declare an approved exception only by citing a valid exception record. Historical files are not rewritten solely to add the block, but modifying a historical governed file brings the complete file under this standard.
+
+## 9. Enforcement
+
+The canonical policy JSON, invariant validator, owner-approval validator, test suite, workflow, CODEOWNERS ownership map, and required GitHub status check form the enforcement chain.
+
+The protected `main` branch must use an active repository ruleset with:
+
+- pull requests required before merge;
+- the `Mandatory assurance invariant gate` required;
+- no ordinary bypass actor;
+- review conversations resolved before merge;
+- force pushes blocked;
+- branch deletion blocked.
+
+A required approval count or required CODEOWNER review is not used while the repository has only one owner and that owner authors the pull request. CODEOWNERS remains the authoritative ownership map and review-notification source. Owner approval is mandatory only for exception-bearing changes and is enforced by the exact bound comment mechanism above.
+
+## 10. Audit outcomes
+
+Use only:
+
+```text
+DELIVERABLE_COMPLETE
+BLOCKED_WITH_EXACT_REASON
+PARTIAL_WORK_COMPLETED_AND_NOT_RELEASED
+```
+
+Any violation of this standard is a release-process defect and must be recorded in the next handoff and corrective-action record.

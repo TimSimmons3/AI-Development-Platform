@@ -1,0 +1,83 @@
+{
+  "effective_date": "2026-08-05",
+  "exception": {
+    "approval_hash_pattern": "^[0-9a-f]{64}$",
+    "artifact_hash_set_pattern": "^[0-9a-f]{64}(,[0-9a-f]{64})*$",
+    "directory": "docs/Exceptions/",
+    "required_nonempty_fields": [
+      "APPROVED_UTC",
+      "APPROVAL_TEXT_SHA256",
+      "CONTROL_IDS",
+      "SCOPE",
+      "RATIONALE",
+      "RESIDUAL_RISK",
+      "COMPENSATING_CONTROLS",
+      "EXPIRATION_UTC",
+      "ARTIFACT_SHA256_SET"
+    ],
+    "required_values": {
+      "APPROVED_BY": "Tim Simmons",
+      "APPROVED_GITHUB_LOGIN": "TimSimmons3",
+      "EXCEPTION_STATUS": "APPROVED"
+    },
+    "utc_pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+  },
+  "governed_filename_keywords": [
+    "handoff",
+    "plan",
+    "gate",
+    "runbook",
+    "package",
+    "transaction",
+    "authorization",
+    "closeout",
+    "decision",
+    "implementation",
+    "standard",
+    "skill"
+  ],
+  "governed_markdown_roots": [
+    "skills/",
+    "docs/Releases/",
+    "docs/Integration/",
+    "docs/Standards/",
+    "docs/Templates/",
+    "docs/Exceptions/"
+  ],
+  "owner": {
+    "github_login": "TimSimmons3",
+    "name": "Tim Simmons"
+  },
+  "policy_id": "SMT_MANDATORY_ONE_PASS_DELIVERY_INVARIANT",
+  "required_block": {
+    "ACTUAL_TARGET_STATE_FIXTURE": "MANDATORY",
+    "EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL": "MANDATORY",
+    "EXACT_OPERATOR_WORKFLOW_REHEARSAL": "MANDATORY",
+    "EXCEPTION_AUTHORITY": "PROJECT_OWNER_ONLY",
+    "EXCEPTION_STATUS": "NOT_GRANTED",
+    "FAILURE_AND_PRESERVE_STATE_PATHS": "MANDATORY",
+    "INDEPENDENT_REQUIREMENTS_REVIEW": "MANDATORY",
+    "ONE_PASS_WORKING_DELIVERABLE": "MANDATORY",
+    "PATCH_AND_RETRY_CYCLE": "PROHIBITED",
+    "PRODUCTION_AS_TEST_ENVIRONMENT": "PROHIBITED",
+    "SUCCESS_PATH_END_TO_END": "MANDATORY",
+    "UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY": "0",
+    "USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET": "0"
+  },
+  "required_block_order": [
+    "ONE_PASS_WORKING_DELIVERABLE",
+    "EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL",
+    "EXACT_OPERATOR_WORKFLOW_REHEARSAL",
+    "ACTUAL_TARGET_STATE_FIXTURE",
+    "SUCCESS_PATH_END_TO_END",
+    "FAILURE_AND_PRESERVE_STATE_PATHS",
+    "INDEPENDENT_REQUIREMENTS_REVIEW",
+    "UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY",
+    "USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET",
+    "PATCH_AND_RETRY_CYCLE",
+    "PRODUCTION_AS_TEST_ENVIRONMENT",
+    "EXCEPTION_AUTHORITY",
+    "EXCEPTION_STATUS"
+  ],
+  "schema_version": "1.0"
+}
