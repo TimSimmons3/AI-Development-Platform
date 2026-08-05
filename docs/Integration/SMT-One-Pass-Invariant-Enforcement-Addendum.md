@@ -31,6 +31,7 @@ docs/Integration/SMT-One-Pass-Invariant-Enforcement-Addendum.md
 docs/Templates/SMT-Mandatory-Assurance-Invariant-Block.md
 config/mandatory-assurance-invariant-policy.json
 scripts/validate_mandatory_assurance_invariants.py
+scripts/validate_owner_exception_approval.py
 .github/workflows/mandatory-assurance-invariant-gate.yml
 .github/CODEOWNERS
 ```
@@ -59,16 +60,25 @@ Historical evidence and closeouts are not rewritten. A new decision record docum
 
 ## 5. Exception processing
 
-Approved exceptions must be stored under `docs/Exceptions/` and require a current `TimSimmons3` approval on the exact PR head commit. General project authorization is not an exception approval.
+Approved exceptions must be stored under `docs/Exceptions/`. An exception-bearing PR requires exactly one current comment authored by `TimSimmons3` in this form:
+
+```text
+APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA> EXCEPTIONS=<SORTED_COMMA_SEPARATED_EXCEPTION_PATHS>
+```
+
+The workflow binds the approval to the exact PR number, current head SHA, and exact sorted exception-record set. Any new commit invalidates the approval. General project authorization, PR authorship, or an administrator role is not an exception approval.
 
 ## 6. Repository protection requirement
 
-Full preventative enforcement requires branch protection or a repository ruleset that:
+Full preventative enforcement requires an active branch ruleset targeting `main` that:
 
-1. requires pull requests before merging to `main`;
+1. requires pull requests before merging;
 2. requires the `Mandatory assurance invariant gate` status check;
-3. requires code-owner review for canonical policy, skill, validator, workflow, and exception records;
-4. dismisses stale approvals when new commits are pushed;
-5. prohibits bypass except by the project owner for a separately recorded emergency exception.
+3. has no ordinary bypass actor;
+4. requires all review conversations to be resolved;
+5. blocks force pushes;
+6. blocks branch deletion.
 
-Until those repository settings are enabled, the workflow detects violations but cannot prevent an administrator from direct-pushing around it. This limitation must remain a recorded HOLD, not be described as fully enforced.
+A required approval count or required CODEOWNER approval is not enabled while the repository has one owner and that owner authors the pull request. GitHub does not permit authors to approve their own PRs. CODEOWNERS remains the authoritative ownership map and notification source. Approved exceptions are instead controlled by the exact owner comment and CI verification above.
+
+Until the repository ruleset is enabled, the workflow detects violations but cannot prevent an administrator from direct-pushing around it. This limitation must remain a recorded HOLD, not be described as fully enforced.
