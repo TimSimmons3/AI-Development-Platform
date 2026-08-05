@@ -78,7 +78,17 @@ An exception is valid only when all of the following exist before delivery:
 - UTC approval and expiration timestamps;
 - SHA-256 of the owner's exact approval text;
 - project-owner identity `Tim Simmons` and GitHub login `TimSimmons3`;
-- current-commit approval by `TimSimmons3` when the change is processed through GitHub.
+- exactly one current owner authorization comment when the change is processed through GitHub.
+
+The exact comment form is:
+
+```text
+APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA> EXCEPTIONS=<SORTED_COMMA_SEPARATED_EXCEPTION_PATHS>
+```
+
+The comment must be authored by `TimSimmons3` and match the PR number, current head SHA, and complete sorted exception-record set exactly. A new commit invalidates the approval. Wrong-owner, stale-head, duplicate, incomplete, expanded, or whitespace-altered comments fail closed.
+
+GitHub PR review approval is not used for this owner-exception control because PR authors cannot approve their own pull requests. The exact bound owner comment provides the required auditable approval without weakening branch protection or requiring a bypass.
 
 Words such as “proceed,” “continue,” “approved,” or general authorization do not waive this skill. An exception cannot be implied from urgency, prior practice, rollback success, or the absence of mutation.
 
@@ -95,9 +105,11 @@ Every future handoff must:
 
 ## 7. Machine enforcement
 
-The repository validator and GitHub workflow are authoritative enforcement aids. They validate changed governance Markdown against the machine-readable policy, reject missing or altered invariant lines, reject self-approved exceptions, and require a current owner review for approved exceptions.
+The repository invariant validator, owner-approval validator, test suite, and GitHub workflow are authoritative enforcement aids. They validate changed governance Markdown against the machine-readable policy, reject missing or altered invariant lines, reject malformed exception records, and require an exact current owner authorization comment for approved exceptions.
 
-Machine enforcement does not modify ChatGPT system instructions. It makes project compliance durable through repository content, review gates, and required status checks.
+The protected `main` branch must require pull requests and the `Mandatory assurance invariant gate`, prohibit ordinary bypass, require resolved review conversations, and block force pushes and deletion. CODEOWNERS remains the authoritative ownership map but is not a required approval gate while the project owner is the sole repository operator and PR author.
+
+Machine enforcement does not modify ChatGPT system instructions. It makes project compliance durable through repository content, automated gates, and required status checks.
 
 ## 8. Prohibited practices
 
@@ -107,5 +119,5 @@ Machine enforcement does not modify ChatGPT system instructions. It makes projec
 - using the target host as a test harness;
 - issuing multiple corrected packages in response to sequential symptoms;
 - treating a pre-mutation stop as permission to continue iterating with the user;
-- allowing an exception without the project owner's exact written approval record;
+- allowing an exception without the project owner's exact written approval record and bound GitHub authorization comment;
 - weakening, omitting, or rewording the invariant block to avoid the validator.
