@@ -44,12 +44,23 @@ Historical evidence remains unchanged unless independently amended for another a
 
 ## 5. Enforcement decision
 
-The repository will use a policy JSON, validator, workflow, and CODEOWNERS file. The required GitHub branch-protection configuration is a mandatory administrative action. Until it is enabled, enforcement is detective rather than fully preventative and must not be represented as complete.
+The repository will use a policy JSON, invariant validator, owner-approval validator, full unit-test suite, GitHub Actions workflow, and CODEOWNERS ownership map.
+
+The active `main` ruleset must require pull requests and the `Mandatory assurance invariant gate`, prohibit ordinary bypass, require resolved review conversations, and block force pushes and deletion.
+
+The ruleset will not require an approval count or required CODEOWNER approval while the project owner is the sole repository operator and PR author. GitHub does not permit an author to approve their own PR. Requiring that review would create a deadlock or force a bypass.
 
 ## 6. Exception boundary
 
-No current exception is approved. Any future exception requires a record under `docs/Exceptions/` and current approval by `TimSimmons3` on the exact PR head commit.
+No current exception is approved. A future exception requires:
+
+1. a valid record under `docs/Exceptions/`;
+2. exactly one current authorization comment authored by `TimSimmons3`;
+3. exact binding to the PR number, current head SHA, and sorted exception-record path set;
+4. a passing `Mandatory assurance invariant gate` result.
+
+A new commit invalidates the prior exception approval automatically. General comments, stale approvals, duplicates, or altered whitespace are invalid.
 
 ## 7. Implementation boundary
 
-This adoption is documentation, policy, validation-code, and CI configuration only. It authorizes no runtime, infrastructure, model, repository-main merge, or live platform mutation beyond publishing the controlled branch and pull request.
+This adoption is documentation, policy, validation-code, test, and CI configuration only. It authorizes no runtime, infrastructure, model, repository-main merge, or live platform mutation beyond publishing the controlled branch and pull request.
