@@ -1,0 +1,7 @@
+artifact,sha256,classification,disposition
+ADP-v2.4-Production-Implementation-R3.zip,faa2c3b4d1d45a53aa054a6da42ba0241656dbf0ed3918d6df51903617ea4b4d,AUTHORITATIVE,RETAIN
+ADP-v2.4-Production-R3-Non-Live-Host-Rehearsal-R1-CR2.zip,307fa45775863662543efba2b2ce288432c29ddd872c1cd23ab061f184ef3e6e,AUTHORITATIVE,RETAIN
+adp-production-r3-host-rehearsal-20260804T193907Z-03e44ea7-adc1-4542-8472-b9c9a735ed0a.zip,8cfde675ceada2c17dff5d20ecae673d15e4be0ba659d5e5751fcfeb7f269f3c,RESTRICTED_AUTHORITATIVE,RETAIN_MODE_0600
+ADP-v2.4-Production-R3-Host-Rehearsal-Independent-Evidence-Acceptance-R1.zip,d22b2e3e981b6db51992cdc31b722e8d584448122b0b8a63aac09ee6baa77462,AUTHORITATIVE,RETAIN
+ADP-v2.4-Production-R3-Read-Only-Host-Recertification-Result-R1-CR1.json,95bca892eb82f8c80e7f88ddb47b26a4bf22e9fa34bfaced7fc2d53a2c94d3d0,SUPPORTING,RETAIN
+ADP-v2.4-Ollama-LAN-Exposure-Remote-R1.txt,6121f35015f12157424e4ae1c42edb4e07fd355aa64c45c3d4f6108f711192c2,EXTERNAL_OPERATOR_EVIDENCE,RETAIN_ON_MAC

@@ -1738,3 +1738,11 @@ Completed:
 - Published Candidate-v7 closeout and CAPA records.
 
 Permanent counted-RAG remediation remains separately blocked pending exact R2 source-level RCA and Candidate-v8 governance.
+
+## 2026-08-05T11:59:57Z - ADP v2.4 Production R3 Release Closeout Publication
+
+- Production R3 accepted reference implementation retained at Level 3 actual-host non-live assurance.
+- No counted model request, new candidate, or runtime configuration change was performed.
+- Corrected the baseline distinction between host client URL `127.0.0.1:11434` and service socket binding `0.0.0.0:11434`.
+- UFW default-deny and scoped Docker access remain mandatory compensating controls; the remote Mac test observed no LAN access to TCP 11434.
+- Release closeout documentation and evidence register prepared for signed publication.
