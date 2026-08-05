@@ -24,8 +24,17 @@ This directory stores the only valid project-owner exception records for the man
 - Every exception must be approved before delivery or execution.
 - Every exception is limited to named controls, scope, artifacts, hashes, and expiration.
 - General instructions, urgency, prior approvals, and preserved mutation budgets do not qualify.
-- An exception-bearing pull request requires a current approval from `TimSimmons3` on the exact head commit.
-- Expired, placeholder, inherited, post-execution, or open-ended exceptions are invalid.
+- An exception-bearing pull request requires exactly one current authorization comment authored by `TimSimmons3`.
+- The comment must match the machine-generated form exactly and bind the PR number, current head SHA, and complete sorted exception-record path set.
+- Any new commit changes the head SHA and invalidates the prior authorization automatically.
+- The pull-request author may post the authorization comment; GitHub does not allow authors to approve their own pull requests, so PR review approval is not used as the owner-exception control.
+- Expired, placeholder, inherited, post-execution, open-ended, stale-head, wrong-owner, duplicate, or whitespace-altered approvals are invalid.
 - Each exception uses a separate Markdown file and the exact fields defined by the machine-readable policy.
+
+The exact comment form is:
+
+```text
+APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA> EXCEPTIONS=<SORTED_COMMA_SEPARATED_EXCEPTION_PATHS>
+```
 
 No exception is currently approved.
