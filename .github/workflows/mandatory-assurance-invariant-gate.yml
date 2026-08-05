@@ -1,0 +1,73 @@
+name: Mandatory assurance invariant gate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-mandatory-assurance-invariants:
+    name: Mandatory assurance invariant gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact revision
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Select comparison base
+        id: comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            git fetch --no-tags origin "${{ github.base_ref }}"
+            printf 'base_ref=origin/%s\n' "${{ github.base_ref }}" >> "${GITHUB_OUTPUT}"
+          elif [[ "${{ github.event.before }}" =~ ^0+$ ]]; then
+            printf 'base_ref=HEAD^\n' >> "${GITHUB_OUTPUT}"
+          else
+            git fetch --no-tags origin "${{ github.event.before }}"
+            printf 'base_ref=%s\n' "${{ github.event.before }}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Validate changed governance Markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/validate_mandatory_assurance_invariants.py \
+            --repo-root . \
+            --policy config/mandatory-assurance-invariant-policy.json \
+            --base-ref "${{ steps.comparison.outputs.base_ref }}" \
+            --report "${RUNNER_TEMP}/mandatory-assurance-invariant-report.json"
+
+      - name: Enforce current project-owner approval for exceptions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT_PATH: ${{ runner.temp }}/mandatory-assurance-invariant-report.json
+          OWNER_LOGIN: TimSimmons3
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          exception_count="$(python3 -c 'import json,os; print(json.load(open(os.environ["REPORT_PATH"], encoding="utf-8"))["exception_record_count"])')"
+          if [[ "${exception_count}" == "0" ]]; then
+            exit 0
+          fi
+          if [[ "${GITHUB_EVENT_NAME}" != "pull_request" ]]; then
+            echo "Approved exceptions may not be introduced by direct push."
+            exit 1
+          fi
+          approval_count="$(gh api --paginate --slurp \
+            "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/reviews" \
+            --jq 'flatten | map(select(.user.login == env.OWNER_LOGIN and .state == "APPROVED" and .commit_id == env.PR_HEAD_SHA)) | length')"
+          if [[ "${approval_count}" -lt 1 ]]; then
+            echo "A current APPROVED review from ${OWNER_LOGIN} on commit ${PR_HEAD_SHA} is required."
+            exit 1
+          fi
