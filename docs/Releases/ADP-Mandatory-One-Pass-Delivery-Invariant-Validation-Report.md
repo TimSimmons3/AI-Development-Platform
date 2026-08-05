@@ -20,7 +20,9 @@ EXCEPTION_STATUS=NOT_GRANTED
 
 ## 2. Validation scope
 
-The validation covered the mandatory skill, owner-exception standard, integration addendum, handoff template, machine-readable policy, invariant validator, owner-approval validator, both test suites, GitHub workflow, CODEOWNERS ownership map, implementation plan, adoption decision, validation record, changed-path manifest, and exception-directory guidance.
+The validation covered the mandatory skill, owner-exception standard, integration addendum, handoff template, machine-readable policy, invariant validator, owner-approval validator, both test suites, GitHub workflow, CODEOWNERS ownership map, implementation plan, adoption decision, validation record, and exception-directory guidance.
+
+Exact changed paths and content identity are derived from the final immutable Git tree, the pull-request comparison, and the CI validation result. No separately committed intermediate hash manifest is used because sequential branch commits would make it drift-prone before finalization.
 
 ## 3. Results
 
