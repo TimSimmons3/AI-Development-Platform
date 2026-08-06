@@ -1754,3 +1754,20 @@ Permanent counted-RAG remediation remains separately blocked pending exact R2 so
 - Timeshift description: `ADP-v2.4-production-r3-release-closeout-20260805T115846Z`.
 - Final recoverability record prepared as the post-snapshot audit tail.
 - Final bundle and transaction evidence are generated after the final push.
+
+## ADP v2.4 Administrative Closeout Level-5 Recoverability Checkpoint
+
+Date UTC: 2026-08-06T17:01:18Z
+Status: Accepted Level-4 evidence bound to a new post-administrative-closeout Timeshift snapshot and prepared for protected pull-request publication.
+
+- Transaction ID: 241c3979-ec92-433a-b2e7-b4398816e76a
+- Repository parent at snapshot: 7281748028ce2eaa7c149ca88491f5ab75326278
+- Snapshot ID: 2026-08-06_12-00-57
+- Snapshot tag: O
+- Snapshot comment: ADP-v2.4-administrative-closeout-level5-r1-20260806T170057Z
+- Closeout archive SHA-256: e626b953c8f49fca7ea0b7231d089f09b2398b6a23fc775a57725a774858aa0f
+- Pre-publication remote-ref inventory SHA-256: f50ca027a19abcf6a3531cd8a230a526788982bec3d0cc51c057027e64bf784f
+- Protected publication branch: adp-v2.4-administrative-closeout-level5-r1
+- Direct push to main: PROHIBITED
+- Further cleanup or quarantine release: NOT AUTHORIZED
+- Final merge commit and Git-bundle hash: established only in the external final evidence set after protected merge.
