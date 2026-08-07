@@ -5,6 +5,7 @@ import csv
 import hashlib
 import importlib.util
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -163,5 +164,133 @@ class TransitionValidatorTests(unittest.TestCase):
 
     def test_same_state_deviation_passes(self):
         repo=self.make_repo();evt={'record_type':POLICY['record_types']['event'],'schema_version':'1.0','workstream_id':'W','event_id':'E','created_utc':'2026-08-07T12:00:00Z','event_type':'DEVIATION','lifecycle_from':'IMPLEMENTATION_OFFLINE','lifecycle_to':'IMPLEMENTATION_OFFLINE','classification':'REVIEW_TEST_DEFECT','mutation_boundary_crossed':False,'previous_record':None,'evidence_refs':[self.ext()],'deviation':{'deviation_id':'D1','timestamp_utc':'2026-08-07T12:00:00Z','category':'INTERNAL_QUALIFICATION','planned_condition':'PASS','observed_condition':'FAIL','impact':'NO_RELEASE','mutation_status':'OFFLINE_ONLY','evidence_reference':'E','owner_disposition':'CORRECT_BEFORE_RELEASE','permanent_control_decision':'ADD_REGRESSION_TEST'}};p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));self.assertEqual('PASS',v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY)['status'])
+
+    def git(self, repo, *args):
+        return subprocess.run(["git", *args], cwd=repo, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True).stdout.strip()
+
+    def init_git(self, repo):
+        self.git(repo, "init", "-q")
+        self.git(repo, "config", "user.name", "Test User")
+        self.git(repo, "config", "user.email", "test@example.invalid")
+
+    def commit_all(self, repo, message):
+        self.git(repo, "add", "-A")
+        self.git(repo, "commit", "-q", "-m", message)
+        return self.git(repo, "rev-parse", "HEAD")
+
+    def write_bound_record(self, repo, rel, record):
+        full=repo/rel; full.parent.mkdir(parents=True,exist_ok=True)
+        full.write_text(json.dumps(record,sort_keys=True)+'\n',encoding='utf-8')
+        return {'path':rel,'sha256':hashlib.sha256(full.read_bytes()).hexdigest()}
+
+    def test_git_diff_reports_deleted_governed_metrics_record(self):
+        repo=self.make_repo(); self.init_git(repo)
+        p=repo/'docs/Releases/metrics/deleted.json'; p.write_text('{"record_type":"SMT_TRANSITION_EVENT"}\n',encoding='utf-8')
+        base=self.commit_all(repo,'base')
+        p.unlink(); self.commit_all(repo,'delete')
+        paths,deleted=v.changed_files(repo,base)
+        self.assertNotIn('docs/Releases/metrics/deleted.json',paths)
+        self.assertIn('docs/Releases/metrics/deleted.json',deleted)
+        violations=v.validate_deleted_paths(repo,deleted,POLICY)
+        self.assertTrue(any('deletion of governed transition artifact is prohibited' in x for x in violations),violations)
+
+    def test_deleted_unrelated_unreferenced_file_is_not_transition_violation(self):
+        repo=self.make_repo(); self.init_git(repo)
+        p=repo/'notes.txt'; p.write_text('x\n',encoding='utf-8')
+        base=self.commit_all(repo,'base')
+        p.unlink(); self.commit_all(repo,'delete')
+        _,deleted=v.changed_files(repo,base)
+        self.assertEqual([],v.validate_deleted_paths(repo,deleted,POLICY))
+
+    def test_deleted_referenced_evidence_file_fails(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        evidence=repo/'evidence.txt'; evidence.write_text('evidence\n',encoding='utf-8')
+        m=next(m for m in rec['metrics'] if m['metric_id']=='M02')
+        m['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}]
+        self.write_csv(repo,rec); self.validate(repo,rec)
+        self.init_git(repo); base=self.commit_all(repo,'base')
+        evidence.unlink(); self.commit_all(repo,'delete evidence')
+        _,deleted=v.changed_files(repo,base)
+        violations=v.validate_deleted_paths(repo,deleted,POLICY)
+        self.assertTrue(any('dangling transition reference' in x for x in violations),violations)
+
+    def test_deleted_metrics_snapshot_reports_unchanged_markdown_link(self):
+        repo=self.make_repo(); rec=self.snapshot(repo); self.validate(repo,rec)
+        md=repo/'docs/Releases/Test-Gate.md'; md.write_text('TRANSITION_METRICS_RECORD=docs/Releases/metrics/s.json\n',encoding='utf-8')
+        self.init_git(repo); base=self.commit_all(repo,'base')
+        (repo/'docs/Releases/metrics/s.json').unlink(); self.commit_all(repo,'delete snapshot')
+        _,deleted=v.changed_files(repo,base)
+        violations=v.validate_deleted_paths(repo,deleted,POLICY)
+        self.assertTrue(any('Test-Gate.md' in x and 'dangling transition reference' in x for x in violations),violations)
+
+    def test_previous_record_unrelated_json_fails_semantic_binding(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        full=repo/'config/transition-metrics-policy.json'
+        rec['previous_record']={'path':'config/transition-metrics-policy.json','sha256':hashlib.sha256(full.read_bytes()).hexdigest()}
+        self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+
+    def test_previous_record_different_workstream_fails(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        target={'record_type':POLICY['record_types']['event'],'workstream_id':'OTHER'}
+        rec['previous_record']=self.write_bound_record(repo,'docs/Releases/metrics/prev.json',target)
+        self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+
+    def test_previous_record_same_workstream_transition_record_passes(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        target={'record_type':POLICY['record_types']['event'],'workstream_id':rec['workstream_id']}
+        rec['previous_record']=self.write_bound_record(repo,'docs/Releases/metrics/prev.json',target)
+        self.assertEqual('PASS',self.validate(repo,rec)['status'])
+
+    def test_prior_handoff_requires_handoff_snapshot_same_workstream(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        target={'record_type':POLICY['record_types']['snapshot'],'snapshot_type':'GATE','workstream_id':rec['workstream_id']}
+        rec['prior_handoff_available']=True; rec['prior_handoff_unavailable_reason']=''; rec['prior_handoff']=self.write_bound_record(repo,'docs/Releases/metrics/prior.json',target)
+        self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+
+    def test_prior_handoff_valid_semantic_binding_passes(self):
+        repo=self.make_repo(); rec=self.snapshot(repo)
+        target={'record_type':POLICY['record_types']['snapshot'],'snapshot_type':'HANDOFF','workstream_id':rec['workstream_id']}
+        rec['prior_handoff_available']=True; rec['prior_handoff_unavailable_reason']=''; rec['prior_handoff']=self.write_bound_record(repo,'docs/Releases/metrics/prior.json',target)
+        self.assertEqual('PASS',self.validate(repo,rec)['status'])
+
+    def test_m26_malformed_string_returns_structured_fail(self):
+        repo=self.make_repo(); rec=self.make_handoff(repo,self.snapshot(repo)); m=next(m for m in rec['metrics'] if m['metric_id']=='M26');m['value']='bad';self.write_csv(repo,rec)
+        report=self.validate(repo,rec); self.assertEqual('FAIL',report['status']); self.assertTrue(report['violations'])
+
+    def test_m26_null_returns_structured_fail(self):
+        repo=self.make_repo(); rec=self.make_handoff(repo,self.snapshot(repo)); m=next(m for m in rec['metrics'] if m['metric_id']=='M26');m['value']=None;self.write_csv(repo,rec)
+        report=self.validate(repo,rec); self.assertEqual('FAIL',report['status']); self.assertTrue(report['violations'])
+
+    def test_ratio_metric_malformed_value_returns_structured_fail(self):
+        repo=self.make_repo(); rec=self.snapshot(repo); m=next(m for m in rec['metrics'] if m['metric_id']=='M05');m['value']='bad';self.write_csv(repo,rec)
+        report=self.validate(repo,rec); self.assertEqual('FAIL',report['status']); self.assertTrue(report['violations'])
+
+    def test_m25_malformed_value_returns_structured_fail(self):
+        repo=self.make_repo(); rec=self.snapshot(repo);rec['defects']=[{'defect_id':'D1','repeated':False}];m=next(m for m in rec['metrics'] if m['metric_id']=='M25');m.update(value='bad',data_quality='DERIVED',collection_method='DEFECT_LEDGER',reason='',evidence_refs=[self.ext()]);self.write_csv(repo,rec)
+        report=self.validate(repo,rec); self.assertEqual('FAIL',report['status']); self.assertTrue(report['violations'])
+
+    def test_m27_malformed_value_returns_structured_fail(self):
+        repo=self.make_repo(); rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M27');m['value']='bad';self.write_csv(repo,rec)
+        report=self.validate(repo,rec); self.assertEqual('FAIL',report['status']); self.assertTrue(report['violations'])
+
+    def test_main_base_ref_deleted_governed_record_fails(self):
+        repo=self.make_repo(); self.init_git(repo)
+        p=repo/'docs/Releases/metrics/deleted.json'; p.write_text('{"record_type":"SMT_TRANSITION_EVENT"}\n',encoding='utf-8')
+        base=self.commit_all(repo,'base')
+        p.unlink(); self.commit_all(repo,'delete')
+        report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)])
+        data=json.loads(report.read_text())
+        self.assertEqual(1,rc); self.assertEqual('FAIL',data['status']); self.assertIn('docs/Releases/metrics/deleted.json',data['deleted_paths'])
+
+    def test_main_base_ref_unrelated_deletion_passes(self):
+        repo=self.make_repo(); self.init_git(repo)
+        p=repo/'notes.txt'; p.write_text('x\n',encoding='utf-8')
+        base=self.commit_all(repo,'base')
+        p.unlink(); self.commit_all(repo,'delete')
+        report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)])
+        data=json.loads(report.read_text())
+        self.assertEqual(0,rc); self.assertEqual('PASS',data['status']); self.assertEqual(['notes.txt'],data['deleted_paths'])
 
 if __name__=='__main__': unittest.main()

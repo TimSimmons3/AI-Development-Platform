@@ -21,6 +21,18 @@ SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 ASSIGNMENT_RE = re.compile(r"^([A-Z][A-Z0-9_]*)=(.*)$")
+TRANSITION_CANONICAL_PATHS = {
+    ".github/workflows/mandatory-assurance-invariant-gate.yml",
+    "config/transition-metrics-policy.json",
+    "docs/Integration/SMT-Transition-Governance-Integration-Addendum.md",
+    "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md",
+    "docs/Templates/SMT-Transition-Event-Metrics-Template.json",
+    "docs/Templates/SMT-Transition-Metrics-Baseline-Projection.csv",
+    "docs/Templates/SMT-Transition-Metrics-Baseline-Template.json",
+    "scripts/validate_transition_metrics.py",
+    "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
+    "tests/test_validate_transition_metrics.py",
+}
 
 
 def load_json_strict(path: Path) -> Any:
@@ -51,9 +63,25 @@ def run_git(repo_root: Path, args: list[str]) -> str:
     return proc.stdout
 
 
-def changed_files(repo_root: Path, base_ref: str) -> list[str]:
-    out = run_git(repo_root, ["diff", "--name-only", "--diff-filter=ACMR", f"{base_ref}...HEAD"])
-    return [line.strip() for line in out.splitlines() if line.strip()]
+def changed_files(repo_root: Path, base_ref: str) -> tuple[list[str], set[str]]:
+    out = run_git(repo_root, ["diff", "--name-status", "--no-renames", "--diff-filter=ACMRD", f"{base_ref}...HEAD"])
+    paths: list[str] = []
+    deleted: set[str] = set()
+    for raw in out.splitlines():
+        if not raw.strip():
+            continue
+        fields = raw.split("\t")
+        if len(fields) != 2:
+            raise RuntimeError(f"unexpected git diff --name-status output: {raw}")
+        status, path = fields
+        path = path.strip()
+        if not path:
+            raise RuntimeError(f"empty changed path in git diff output: {raw}")
+        if status == "D":
+            deleted.add(path)
+        else:
+            paths.append(path)
+    return sorted(set(paths)), deleted
 
 
 def safe_rel(repo_root: Path, value: str) -> str:
@@ -111,26 +139,61 @@ def validate_reference(repo_root: Path, ref: Any, errors: list[str], context: st
         errors.append(f"{context}: unsupported evidence reference type: {typ}")
 
 
-def validate_binding(repo_root: Path, binding: Any, errors: list[str], context: str) -> None:
+def validate_binding(
+    repo_root: Path,
+    binding: Any,
+    errors: list[str],
+    context: str,
+    *,
+    expected_record_types: set[str] | None = None,
+    expected_workstream_id: str | None = None,
+    expected_snapshot_type: str | None = None,
+) -> dict[str, Any] | None:
     if binding is None:
-        return
+        return None
     if not isinstance(binding, dict):
         errors.append(f"{context}: binding must be object or null")
-        return
+        return None
     try:
         rel = safe_rel(repo_root, binding.get("path"))
     except (TypeError, ValueError) as exc:
         errors.append(f"{context}: {exc}")
-        return
+        return None
     digest = binding.get("sha256")
     if not isinstance(digest, str) or not SHA256_RE.fullmatch(digest):
         errors.append(f"{context}: binding sha256 invalid")
-        return
+        return None
     full = repo_root / rel
     if not full.exists() or full.is_symlink() or not full.is_file():
         errors.append(f"{context}: bound file missing/non-regular: {rel}")
-    elif sha256_file(full) != digest:
+        return None
+    if sha256_file(full) != digest:
         errors.append(f"{context}: bound file sha256 mismatch: {rel}")
+        return None
+    if expected_record_types is None and expected_workstream_id is None and expected_snapshot_type is None:
+        return None
+    try:
+        target = load_json_strict(full)
+    except Exception as exc:
+        errors.append(f"{context}: bound transition record JSON parse failed: {rel}: {exc}")
+        return None
+    if not isinstance(target, dict):
+        errors.append(f"{context}: bound transition record must be JSON object: {rel}")
+        return None
+    if expected_record_types is not None and target.get("record_type") not in expected_record_types:
+        errors.append(f"{context}: bound record has incompatible record_type: {rel}")
+    if expected_workstream_id is not None and target.get("workstream_id") != expected_workstream_id:
+        errors.append(f"{context}: bound record workstream_id mismatch: {rel}")
+    if expected_snapshot_type is not None and target.get("snapshot_type") != expected_snapshot_type:
+        errors.append(f"{context}: bound record snapshot_type must be {expected_snapshot_type}: {rel}")
+    return target
+
+
+def finite_number(value: Any) -> float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    result = float(value)
+    return result if math.isfinite(result) else None
 
 
 def metric_value_domain(metric: dict[str, Any], definition: dict[str, Any], errors: list[str], context: str) -> None:
@@ -181,8 +244,11 @@ def ratio_check(metric: dict[str, Any], errors: list[str], context: str) -> None
     if den == 0:
         errors.append(f"{context}: denominator zero requires NOT_APPLICABLE")
         return
+    value = finite_number(metric.get("value"))
+    if value is None:
+        return
     expected = float(num) / float(den) * 100.0
-    if abs(float(metric.get("value")) - expected) > 1e-9:
+    if abs(value - expected) > 1e-9:
         errors.append(f"{context}: value does not equal numerator/denominator percentage")
 
 
@@ -289,10 +355,19 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
     if not isinstance(record.get("baseline_commit"),str) or not SHA1_RE.fullmatch(record.get("baseline_commit","")): errors.append("baseline_commit invalid")
     if not isinstance(record.get("workstream_id"),str) or not record.get("workstream_id","").strip(): errors.append("workstream_id required")
     if not isinstance(record.get("collection_method"),str) or not record.get("collection_method","").strip(): errors.append("collection_method required")
-    validate_binding(repo_root, record.get("previous_record"), errors, "previous_record")
+    transition_types = {policy["record_types"]["snapshot"], policy["record_types"]["event"]}
+    validate_binding(
+        repo_root, record.get("previous_record"), errors, "previous_record",
+        expected_record_types=transition_types, expected_workstream_id=record.get("workstream_id")
+    )
     if record.get("prior_handoff_available") is True:
         if record.get("prior_handoff") is None: errors.append("prior_handoff required when available")
-        validate_binding(repo_root, record.get("prior_handoff"), errors, "prior_handoff")
+        validate_binding(
+            repo_root, record.get("prior_handoff"), errors, "prior_handoff",
+            expected_record_types={policy["record_types"]["snapshot"]},
+            expected_workstream_id=record.get("workstream_id"),
+            expected_snapshot_type="HANDOFF",
+        )
     elif record.get("prior_handoff_available") is False:
         if not isinstance(record.get("prior_handoff_unavailable_reason"),str) or not record.get("prior_handoff_unavailable_reason","").strip(): errors.append("prior_handoff_unavailable_reason required")
     else: errors.append("prior_handoff_available must be boolean")
@@ -319,24 +394,30 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
             validate_reference(repo_root, ref, errors, ctx)
         if definition.get("ratio_inputs_required_when_numeric"): ratio_check(m,errors,ctx)
 
-    def numeric(mid:str) -> float | int | None:
+    def numeric(mid:str) -> float | None:
         m=byid.get(mid,{})
-        return m.get("value") if m.get("data_quality") in {"MEASURED","DERIVED"} else None
+        if m.get("data_quality") not in {"MEASURED","DERIVED"}:
+            return None
+        return finite_number(m.get("value"))
     for mid, expected in [('M21',ext),('M22',active)]:
         val=numeric(mid)
         if val is not None and val != expected: errors.append(f"{path}:{mid}: value does not match timing intervals")
     m23=byid.get('M23',{})
     if active == 0:
         if m23.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'}: errors.append(f"{path}:M23: zero active denominator requires NOT_APPLICABLE or UNKNOWN")
-    elif numeric('M23') is not None:
-        expected=rework/active*100.0
-        if abs(float(numeric('M23'))-expected)>1e-9: errors.append(f"{path}:M23: value does not match rework/active ratio")
+    else:
+        val23=numeric('M23')
+        if val23 is not None:
+            expected=rework/active*100.0
+            if abs(val23-expected)>1e-9: errors.append(f"{path}:M23: value does not match rework/active ratio")
     m24=byid.get('M24',{})
     if m24.get('data_quality') in {'MEASURED','DERIVED'} and dist is not None and m24.get('value') != dist: errors.append(f"{path}:M24: distribution does not match test_runs")
     m25=byid.get('M25',{})
     if repeat_rate is None:
         if m25.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'}: errors.append(f"{path}:M25: no defects requires NOT_APPLICABLE or UNKNOWN")
-    elif m25.get('data_quality') in {'MEASURED','DERIVED'} and abs(float(m25.get('value'))-repeat_rate)>1e-9: errors.append(f"{path}:M25: value does not match defect ledger")
+    elif m25.get('data_quality') in {'MEASURED','DERIVED'}:
+        val25=numeric('M25')
+        if val25 is not None and abs(val25-repeat_rate)>1e-9: errors.append(f"{path}:M25: value does not match defect ledger")
 
     m26=byid.get('M26',{})
     comps=record.get('handoff_components',[])
@@ -375,7 +456,9 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
                 if component_valid:
                     present += 1
             expected=present/len(policy['required_handoff_components'])*100.0
-            if m26.get('data_quality') not in {'MEASURED','DERIVED'} or abs(float(m26.get('value',-1))-expected)>1e-9: errors.append(f"{path}:M26 value mismatch")
+            val26=numeric('M26')
+            if m26.get('data_quality') not in {'MEASURED','DERIVED'} or val26 is None or abs(val26-expected)>1e-9:
+                errors.append(f"{path}:M26 value mismatch")
             if expected != 100.0: errors.append(f"{path}: handoff completeness must be 100%")
     elif m26.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'} and not comps:
         errors.append(f"{path}:M26 non-handoff snapshot without components must be NOT_APPLICABLE or UNKNOWN")
@@ -394,7 +477,9 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
     expected_m27=good/len(policy['m27_denominator_metric_ids'])*100.0
     m27=byid.get('M27',{})
     if m27.get('data_quality') != 'DERIVED': errors.append(f"{path}:M27 must be DERIVED")
-    elif abs(float(m27.get('value',-1))-expected_m27)>1e-9: errors.append(f"{path}:M27 value mismatch; expected {expected_m27}")
+    else:
+        val27=numeric('M27')
+        if val27 is not None and abs(val27-expected_m27)>1e-9: errors.append(f"{path}:M27 value mismatch; expected {expected_m27}")
 
     csv_path=record.get('csv_projection_path')
     if csv_path:
@@ -454,7 +539,11 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
     if not isinstance(refs,list) or not refs: errors.append('event requires evidence_refs')
     else:
         for ref in refs: validate_reference(repo_root,ref,errors,path)
-    validate_binding(repo_root,record.get('previous_record'),errors,'previous_record')
+    validate_binding(
+        repo_root, record.get('previous_record'), errors, 'previous_record',
+        expected_record_types={policy['record_types']['snapshot'], policy['record_types']['event']},
+        expected_workstream_id=record.get('workstream_id'),
+    )
     if record.get('event_type') == 'DEVIATION':
         d=record.get('deviation')
         if not isinstance(d,dict): errors.append('DEVIATION event requires deviation object')
@@ -515,6 +604,64 @@ def is_transition_json(data: Any, policy: dict[str,Any]) -> bool:
     return isinstance(data,dict) and data.get('record_type') in policy['record_types'].values()
 
 
+def deleted_path_is_governed(path: str, policy: dict[str, Any]) -> bool:
+    if path in TRANSITION_CANONICAL_PATHS or path.startswith("docs/Releases/metrics/"):
+        return True
+    if path.startswith("docs/Releases/"):
+        lower = PurePosixPath(path).name.lower()
+        keywords = list(policy.get("metrics_link_filename_keywords", [])) + list(policy.get("change_record_filename_keywords", []))
+        return any(keyword in lower for keyword in keywords)
+    return False
+
+
+def record_references_path(value: Any, target: str) -> bool:
+    if isinstance(value, dict):
+        if value.get("path") == target or value.get("csv_projection_path") == target:
+            return True
+        return any(record_references_path(child, target) for child in value.values())
+    if isinstance(value, list):
+        return any(record_references_path(child, target) for child in value)
+    return False
+
+
+def deletion_reference_sources(repo_root: Path, target: str, policy: dict[str, Any]) -> list[str]:
+    sources: list[str] = []
+    releases = repo_root / "docs" / "Releases"
+    if releases.is_dir():
+        for full in sorted(releases.rglob("*.md")):
+            if full.is_symlink() or not full.is_file():
+                continue
+            try:
+                text = full.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                continue
+            vals = assignments(text).get(policy["transition_metrics_assignment"], [])
+            if target in vals:
+                sources.append(full.relative_to(repo_root).as_posix())
+    metrics = repo_root / "docs" / "Releases" / "metrics"
+    if metrics.is_dir():
+        for full in sorted(metrics.rglob("*.json")):
+            if full.is_symlink() or not full.is_file():
+                continue
+            try:
+                obj = load_json_strict(full)
+            except Exception:
+                continue
+            if is_transition_json(obj, policy) and record_references_path(obj, target):
+                sources.append(full.relative_to(repo_root).as_posix())
+    return sorted(set(sources))
+
+
+def validate_deleted_paths(repo_root: Path, deleted_paths: set[str], policy: dict[str, Any]) -> list[str]:
+    violations: list[str] = []
+    for path in sorted(deleted_paths):
+        if deleted_path_is_governed(path, policy):
+            violations.append(f"{path}: deletion of governed transition artifact is prohibited")
+        for source in deletion_reference_sources(repo_root, path, policy):
+            violations.append(f"{path}: deletion creates dangling transition reference from {source}")
+    return violations
+
+
 def validate_files(repo_root: Path, paths: list[str], policy: dict[str,Any]) -> dict[str,Any]:
     violations=[]; files=[]
     for raw in sorted(set(paths)):
@@ -570,8 +717,16 @@ def main(argv:list[str]|None=None) -> int:
     policy_path=Path(args.policy)
     if not policy_path.is_absolute(): policy_path=repo/policy_path
     policy=load_json_strict(policy_path)
-    paths=changed_files(repo,args.base_ref) if args.base_ref else list(args.files)
+    if args.base_ref:
+        paths, deleted_paths = changed_files(repo, args.base_ref)
+    else:
+        paths, deleted_paths = list(args.files), set()
     report=validate_files(repo,paths,policy)
+    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy)
+    if deleted_violations:
+        report['violations'].extend(deleted_violations)
+        report['status'] = 'FAIL'
+    report['deleted_paths'] = sorted(deleted_paths)
     out=Path(args.report)
     if not out.is_absolute(): out=repo/out
     out.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n',encoding='utf-8')
