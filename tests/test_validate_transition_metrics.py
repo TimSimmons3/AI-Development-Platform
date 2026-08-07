@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import copy
 import csv
 import hashlib
@@ -352,5 +353,151 @@ class TransitionValidatorTests(unittest.TestCase):
         self.assertIsNone(v.finite_number(10**10000))
         self.assertIsNone(v.finite_number(True))
         self.assertEqual(12.5,v.finite_number(12.5))
+
+    def test_percent_huge_integer_returns_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M05');m['value']=10**400;self.write_csv(repo,rec)
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_computed_duration_huge_integer_cannot_silently_pass(self):
+        repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M22');m['value']=10**400;self.write_csv(repo,rec)
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_metric_data_quality_container_matrix_is_fail_closed(self):
+        malformed=[[],{},0,1,True,False,3.14]
+        for metric_id in POLICY['metric_order']:
+            for bad in malformed:
+                with self.subTest(metric_id=metric_id,bad=repr(bad)):
+                    repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']==metric_id);m['data_quality']=bad;self.write_csv(repo,rec)
+                    report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_evidence_reference_type_containers_are_fail_closed(self):
+        for bad in [[],{},0,1,True,False,3.14,None]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M02');m['evidence_refs']=[{'type':bad}];self.write_csv(repo,rec)
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_test_run_result_containers_are_fail_closed(self):
+        for bad in [[],{},0,1,True,False,3.14,None]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['test_runs'][0]['result']=bad;self.write_csv(repo,rec)
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_event_type_containers_are_fail_closed(self):
+        for bad in [[],{},0,1,True,False,3.14,None]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();evt={'record_type':POLICY['record_types']['event'],'schema_version':'1.0','workstream_id':'W','event_id':'E','created_utc':'2026-08-07T12:00:00Z','event_type':bad,'lifecycle_from':'PLANNING_READ_ONLY','lifecycle_to':'DESIGN_QUALIFICATION','classification':'NONE','mutation_boundary_crossed':False,'previous_record':None,'evidence_refs':[self.ext()]};p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));
+                report=v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_modified_referenced_evidence_revalidates_unchanged_snapshot(self):
+        repo=self.make_repo(); evidence=repo/'evidence.txt'; evidence.write_text('before\n',encoding='utf-8'); rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M02');m['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}];self.write_csv(repo,rec);self.validate(repo,rec)
+        self.init_git(repo);base=self.commit_all(repo,'base');evidence.write_text('after\n',encoding='utf-8');self.commit_all(repo,'modify evidence');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('reference sha256 mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_modified_handoff_component_revalidates_unchanged_handoff(self):
+        repo=self.make_repo();rec=self.make_handoff(repo,self.snapshot(repo));self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');component=repo/rec['handoff_components'][0]['path'];component.write_text('modified\n',encoding='utf-8');self.commit_all(repo,'modify component');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('handoff component sha256 mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_modified_csv_projection_revalidates_unchanged_snapshot(self):
+        repo=self.make_repo();rec=self.snapshot(repo);self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');csv_path=repo/rec['csv_projection_path'];csv_path.write_text('bad\n',encoding='utf-8');self.commit_all(repo,'modify csv');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('CSV header mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_modified_bound_record_revalidates_unchanged_dependent(self):
+        repo=self.make_repo();rec=self.snapshot(repo);target={'record_type':POLICY['record_types']['event'],'workstream_id':rec['workstream_id']};rec['previous_record']=self.write_bound_record(repo,'docs/Releases/metrics/prev.json',target);self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');target['event_id']='changed';(repo/'docs/Releases/metrics/prev.json').write_text(json.dumps(target,sort_keys=True)+'\n',encoding='utf-8');self.commit_all(repo,'modify bound record');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('bound file sha256 mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_reverse_reference_closure_is_transitive(self):
+        repo=self.make_repo();leaf=repo/'evidence.txt';leaf.write_text('before\n',encoding='utf-8');a=self.snapshot(repo);a['workstream_id']='W';next(m for m in a['metrics'] if m['metric_id']=='M02')['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(leaf.read_bytes()).hexdigest()}];self.write_csv(repo,a);self.validate(repo,a,'docs/Releases/metrics/a.json')
+        a_path=repo/'docs/Releases/metrics/a.json';b=self.snapshot(repo);b['workstream_id']='W';b['previous_record']={'path':'docs/Releases/metrics/a.json','sha256':hashlib.sha256(a_path.read_bytes()).hexdigest()};b['csv_projection_path']='docs/Releases/metrics/b.csv';self.write_csv(repo,b);self.validate(repo,b,'docs/Releases/metrics/b.json')
+        self.init_git(repo);base=self.commit_all(repo,'base');leaf.write_text('after\n',encoding='utf-8');self.commit_all(repo,'modify leaf');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertIn('docs/Releases/metrics/a.json',data['reverse_reference_paths']);self.assertIn('docs/Releases/metrics/b.json',data['reverse_reference_paths'])
+
+    def test_modified_unreferenced_file_does_not_expand_reverse_validation(self):
+        repo=self.make_repo();rec=self.snapshot(repo);self.validate(repo,rec);other=repo/'notes.txt';other.write_text('before\n');self.init_git(repo);base=self.commit_all(repo,'base');other.write_text('after\n');self.commit_all(repo,'modify notes');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual([],data['reverse_reference_paths']);self.assertEqual(['notes.txt'],data['validation_paths'])
+
+    def test_no_direct_float_conversion_outside_finite_number(self):
+        source=MODULE_PATH.read_text(encoding='utf-8');tree=ast.parse(source);parents=[]
+        for node in ast.walk(tree):
+            if isinstance(node,ast.Call) and isinstance(node.func,ast.Name) and node.func.id=='float':
+                parent_fn=None
+                for candidate in ast.walk(tree):
+                    if isinstance(candidate,(ast.FunctionDef,ast.AsyncFunctionDef)) and any(child is node for child in ast.walk(candidate)):
+                        parent_fn=candidate.name;break
+                parents.append(parent_fn)
+        self.assertEqual(['finite_number'],parents)
+
+    def test_unknown_or_na_evidence_refs_must_still_be_list(self):
+        for metric_id in POLICY['metric_order']:
+            for bad in [{},'bad',0,True,None]:
+                with self.subTest(metric_id=metric_id,bad=repr(bad)):
+                    repo=self.make_repo();rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']==metric_id);m.update(value=None,data_quality='UNKNOWN',reason='unknown',collection_method='GAP',evidence_refs=bad);self.write_csv(repo,rec)
+                    report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('evidence_refs must be list' in x for x in report['violations']),report['violations'])
+
+    def test_non_handoff_components_must_be_empty_list(self):
+        for bad in [{},'bad',None,True,1,1.5]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['handoff_components']=bad
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('handoff_components must be list' in x for x in report['violations']),report['violations'])
+        repo=self.make_repo();rec=self.snapshot(repo);rec['handoff_components']=[{'component_id':'unexpected'}]
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('must not contain handoff_components' in x for x in report['violations']),report['violations'])
+
+    def test_csv_projection_path_must_be_nonempty_string(self):
+        for bad in [[],{},None,True,1,1.5,'']:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['csv_projection_path']=bad;p=repo/'docs/Releases/metrics/s.json';p.write_text(json.dumps(rec)+'\n')
+                report=v.validate_files(repo,['docs/Releases/metrics/s.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('csv_projection_path must be non-empty string' in x for x in report['violations']),report['violations'])
+
+    def test_prior_handoff_must_be_null_when_unavailable(self):
+        for bad in [{},[],'bad',True,1,1.5]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['prior_handoff_available']=False;rec['prior_handoff']=bad
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('prior_handoff must be null when unavailable' in x for x in report['violations']),report['violations'])
+
+
+    def test_malformed_interval_sort_keys_are_fail_closed(self):
+        for field,bad in [('category',[]),('category',{}),('interval_id',[]),('interval_id',{})]:
+            with self.subTest(field=field,bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals'].append({'interval_id':'I2','category':'ACTIVE_ENGINEERING','start_utc':'2026-08-07T12:00:00Z','end_utc':'2026-08-07T12:01:00Z'});rec['timing_intervals'][0][field]=bad
+                p=repo/'docs/Releases/metrics/s.json';p.write_text(json.dumps(rec)+'\n')
+                report=v.validate_files(repo,['docs/Releases/metrics/s.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+
+    def test_modified_referenced_evidence_with_updated_snapshot_passes(self):
+        repo=self.make_repo();evidence=repo/'evidence.txt';evidence.write_text('before\n',encoding='utf-8');rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}];self.write_csv(repo,rec);self.validate(repo,rec)
+        self.init_git(repo);base=self.commit_all(repo,'base');evidence.write_text('after\n',encoding='utf-8');m['evidence_refs'][0]['sha256']=hashlib.sha256(evidence.read_bytes()).hexdigest();self.validate(repo,rec);self.commit_all(repo,'update evidence and snapshot');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertIn('docs/Releases/metrics/s.json',data['validation_paths'])
+
+    def test_added_referenced_evidence_with_source_update_passes(self):
+        repo=self.make_repo();rec=self.snapshot(repo);self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');evidence=repo/'new-evidence.txt';evidence.write_text('new\n',encoding='utf-8');m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['evidence_refs']=[{'type':'REPO_PATH','path':'new-evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}];self.validate(repo,rec);self.commit_all(repo,'add evidence and update snapshot');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertIn('new-evidence.txt',data['direct_changed_paths'])
+
+    def test_renamed_referenced_evidence_without_source_update_fails(self):
+        repo=self.make_repo();evidence=repo/'evidence.txt';evidence.write_text('before\n',encoding='utf-8');rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}];self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');self.git(repo,'mv','evidence.txt','renamed-evidence.txt');self.commit_all(repo,'rename evidence only');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('evidence.txt',data['deleted_paths']);self.assertIn('renamed-evidence.txt',data['direct_changed_paths']);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths'])
+
+    def test_renamed_referenced_evidence_with_source_update_passes(self):
+        repo=self.make_repo();evidence=repo/'evidence.txt';evidence.write_text('before\n',encoding='utf-8');rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}];self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');self.git(repo,'mv','evidence.txt','renamed-evidence.txt');renamed=repo/'renamed-evidence.txt';m['evidence_refs'][0]={'type':'REPO_PATH','path':'renamed-evidence.txt','sha256':hashlib.sha256(renamed.read_bytes()).hexdigest()};self.validate(repo,rec);self.commit_all(repo,'rename evidence and update snapshot');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertIn('evidence.txt',data['deleted_paths']);self.assertIn('renamed-evidence.txt',data['direct_changed_paths'])
+
+
+    def test_malformed_metric_rows_return_structured_fail(self):
+        malformed=[[],0,1,True,False,None,3.14,'x']
+        for index in [0,5,27]:
+            for bad in malformed:
+                with self.subTest(index=index,bad=repr(bad)):
+                    repo=self.make_repo(); rec=self.snapshot(repo); rec['metrics'][index]=copy.deepcopy(bad)
+                    report=self.validate(repo,rec)
+                    self.assertEqual('FAIL',report['status'])
+                    self.assertTrue(report['violations'])
 
 if __name__=='__main__': unittest.main()

@@ -136,7 +136,7 @@ def validate_reference(repo_root: Path, ref: Any, errors: list[str], context: st
                 errors.append(f"{context}: invalid reference sha256 for {rel}")
             elif sha256_file(full) != expected:
                 errors.append(f"{context}: reference sha256 mismatch for {rel}")
-    elif typ in {"EXTERNAL_ARTIFACT", "EXTERNAL_INCIDENT"}:
+    elif typ in ("EXTERNAL_ARTIFACT", "EXTERNAL_INCIDENT"):
         ident = ref.get("artifact_id") if typ == "EXTERNAL_ARTIFACT" else ref.get("incident_id")
         if not isinstance(ident, str) or not ident.strip():
             errors.append(f"{context}: {typ} requires non-empty identity")
@@ -188,7 +188,7 @@ def validate_binding(
     if not isinstance(target, dict):
         errors.append(f"{context}: bound transition record must be JSON object: {rel}")
         return None
-    if expected_record_types is not None and target.get("record_type") not in expected_record_types:
+    if expected_record_types is not None and target.get("record_type") not in tuple(expected_record_types):
         errors.append(f"{context}: bound record has incompatible record_type: {rel}")
     if expected_workstream_id is not None and target.get("workstream_id") != expected_workstream_id:
         errors.append(f"{context}: bound record workstream_id mismatch: {rel}")
@@ -210,28 +210,36 @@ def finite_number(value: Any) -> float | None:
 def metric_value_domain(metric: dict[str, Any], definition: dict[str, Any], errors: list[str], context: str) -> None:
     dq = metric.get("data_quality")
     value = metric.get("value")
-    if dq in {"UNKNOWN", "NOT_APPLICABLE"}:
+    if dq in ("UNKNOWN", "NOT_APPLICABLE"):
         if value is not None:
             errors.append(f"{context}: {dq} metric value must be null")
         if not isinstance(metric.get("reason"), str) or not metric.get("reason", "").strip():
             errors.append(f"{context}: {dq} requires non-empty reason")
         if not isinstance(metric.get("collection_method"), str) or not metric.get("collection_method", "").strip():
             errors.append(f"{context}: {dq} requires collection_method")
+        if not isinstance(metric.get("evidence_refs"), list):
+            errors.append(f"{context}: evidence_refs must be list")
         return
-    if dq not in {"MEASURED", "DERIVED"}:
+    if dq not in ("MEASURED", "DERIVED"):
         errors.append(f"{context}: invalid data_quality {dq}")
         return
     refs = metric.get("evidence_refs")
-    if not isinstance(refs, list) or not refs:
+    if not isinstance(refs, list):
+        errors.append(f"{context}: evidence_refs must be list")
+        refs = []
+    if not isinstance(metric.get("reason"), str):
+        errors.append(f"{context}: reason must be string")
+    if not refs:
         errors.append(f"{context}: measured/derived metric requires evidence_refs")
     if not isinstance(metric.get("collection_method"), str) or not metric.get("collection_method", "").strip():
         errors.append(f"{context}: measured/derived metric requires collection_method")
     typ = definition["value_type"]
-    if typ in {"COUNT", "DURATION_SECONDS"}:
+    if typ in ("COUNT", "DURATION_SECONDS"):
         if isinstance(value, bool) or not isinstance(value, int) or value < 0:
             errors.append(f"{context}: {typ} value must be non-negative integer")
     elif typ == "PERCENT":
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)) or not (0 <= float(value) <= 100):
+        numeric_value = finite_number(value)
+        if numeric_value is None or not (0 <= numeric_value <= 100):
             errors.append(f"{context}: percent value must be finite in [0,100]")
     elif typ == "PASS_FAIL":
         if not isinstance(value, str) or value not in {"PASS", "FAIL"}:
@@ -242,7 +250,7 @@ def metric_value_domain(metric: dict[str, Any], definition: dict[str, Any], erro
 
 
 def ratio_check(metric: dict[str, Any], errors: list[str], context: str) -> None:
-    if metric.get("data_quality") not in {"MEASURED","DERIVED"}:
+    if metric.get("data_quality") not in ("MEASURED","DERIVED"):
         return
     num = finite_number(metric.get("numerator"))
     den = finite_number(metric.get("denominator"))
@@ -280,12 +288,14 @@ def validate_intervals(record: dict[str, Any], policy: dict[str, Any], errors: l
             errors.append(f"{ctx}: must be object")
             continue
         iid = item.get("interval_id")
-        if not isinstance(iid, str) or not iid or iid in ids:
+        iid_valid = isinstance(iid, str) and bool(iid) and iid not in ids
+        if not iid_valid:
             errors.append(f"{ctx}: interval_id missing or duplicate")
         else:
             ids.add(iid)
         cat = item.get("category")
-        if cat not in policy["timing_categories"]:
+        cat_valid = isinstance(cat, str) and cat in policy["timing_categories"]
+        if not cat_valid:
             errors.append(f"{ctx}: invalid category {cat}")
         s, e = item.get("start_utc"), item.get("end_utc")
         if not utc(s) or not utc(e):
@@ -295,7 +305,10 @@ def validate_intervals(record: dict[str, Any], policy: dict[str, Any], errors: l
         if ed < sd:
             errors.append(f"{ctx}: end before start")
             continue
-        spans.append((sd,ed,cat,iid or str(idx)))
+        if not cat_valid:
+            continue
+        span_id = iid if iid_valid else f"INVALID_INTERVAL_{idx}"
+        spans.append((sd,ed,cat,span_id))
     spans.sort()
     if not policy.get("allow_overlapping_timing_intervals", False):
         for a, b in zip(spans, spans[1:]):
@@ -326,11 +339,11 @@ def dist_from_runs(runs: Any, errors: list[str]) -> dict[str, Any] | None:
         else: ids.add(rid)
         layer=run.get("test_layer"); result=run.get("result")
         if not isinstance(layer,str) or not layer.strip(): errors.append(f"{ctx}: test_layer required")
-        if result not in {"PASS","FAIL","BLOCKED"}: errors.append(f"{ctx}: invalid result")
+        if not isinstance(result,str) or result not in ("PASS","FAIL","BLOCKED"): errors.append(f"{ctx}: invalid result")
         if not isinstance(run.get("release_authorizing"), bool): errors.append(f"{ctx}: release_authorizing must be boolean")
         for field in ["test_id","requirement_id","production_function_path","fixture_provenance","expected_result_source","actual_result","mutation_boundary","cleanup_preserve_behavior","evidence_artifact"]:
             if not isinstance(run.get(field),str) or not run.get(field," ").strip(): errors.append(f"{ctx}: {field} required")
-        if isinstance(layer,str) and result in {"PASS","FAIL","BLOCKED"}: counts[(layer,result)] += 1
+        if isinstance(layer,str) and isinstance(result,str) and result in ("PASS","FAIL","BLOCKED"): counts[(layer,result)] += 1
     items=[{"test_layer":k[0],"result":k[1],"count":v} for k,v in sorted(counts.items())]
     return {"total_runs": sum(counts.values()), "by_layer_result": items}
 
@@ -380,6 +393,7 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
             expected_snapshot_type="HANDOFF",
         )
     elif record.get("prior_handoff_available") is False:
+        if record.get("prior_handoff") is not None: errors.append("prior_handoff must be null when unavailable")
         if not isinstance(record.get("prior_handoff_unavailable_reason"),str) or not record.get("prior_handoff_unavailable_reason","").strip(): errors.append("prior_handoff_unavailable_reason required")
     else: errors.append("prior_handoff_available must be boolean")
 
@@ -405,81 +419,91 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
             validate_reference(repo_root, ref, errors, ctx)
         if definition.get("ratio_inputs_required_when_numeric"): ratio_check(m,errors,ctx)
 
-    def numeric(mid:str) -> float | None:
+    def numeric(mid:str) -> int | float | None:
         m=byid.get(mid,{})
-        if m.get("data_quality") not in {"MEASURED","DERIVED"}:
+        if m.get("data_quality") not in ("MEASURED","DERIVED"):
             return None
-        return finite_number(m.get("value"))
+        value=m.get("value")
+        value_type=policy["metrics"][mid]["value_type"]
+        if value_type in ("COUNT", "DURATION_SECONDS"):
+            if isinstance(value,bool) or not isinstance(value,int) or value < 0:
+                return None
+            return value
+        return finite_number(value)
     for mid, expected in [('M21',ext),('M22',active)]:
         val=numeric(mid)
         if val is not None and val != expected: errors.append(f"{path}:{mid}: value does not match timing intervals")
     m23=byid.get('M23',{})
     if active == 0:
-        if m23.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'}: errors.append(f"{path}:M23: zero active denominator requires NOT_APPLICABLE or UNKNOWN")
+        if m23.get('data_quality') not in ('NOT_APPLICABLE','UNKNOWN'): errors.append(f"{path}:M23: zero active denominator requires NOT_APPLICABLE or UNKNOWN")
     else:
         val23=numeric('M23')
         if val23 is not None:
             expected=rework/active*100.0
             if abs(val23-expected)>1e-9: errors.append(f"{path}:M23: value does not match rework/active ratio")
     m24=byid.get('M24',{})
-    if m24.get('data_quality') in {'MEASURED','DERIVED'} and dist is not None and m24.get('value') != dist: errors.append(f"{path}:M24: distribution does not match test_runs")
+    if m24.get('data_quality') in ('MEASURED','DERIVED') and dist is not None and m24.get('value') != dist: errors.append(f"{path}:M24: distribution does not match test_runs")
     m25=byid.get('M25',{})
     if repeat_rate is None:
-        if m25.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'}: errors.append(f"{path}:M25: no defects requires NOT_APPLICABLE or UNKNOWN")
-    elif m25.get('data_quality') in {'MEASURED','DERIVED'}:
+        if m25.get('data_quality') not in ('NOT_APPLICABLE','UNKNOWN'): errors.append(f"{path}:M25: no defects requires NOT_APPLICABLE or UNKNOWN")
+    elif m25.get('data_quality') in ('MEASURED','DERIVED'):
         val25=numeric('M25')
         if val25 is not None and abs(val25-repeat_rate)>1e-9: errors.append(f"{path}:M25: value does not match defect ledger")
 
     m26=byid.get('M26',{})
     comps=record.get('handoff_components',[])
+    if not isinstance(comps,list):
+        errors.append(f"{path}: handoff_components must be list")
+        comps=[]
     if record.get('snapshot_type') == 'HANDOFF':
-        if not isinstance(comps,list): errors.append(f"{path}: handoff_components must be list")
-        else:
-            cids=[c.get('component_id') if isinstance(c,dict) else None for c in comps]
-            if cids != policy['required_handoff_components']: errors.append(f"{path}: M26 handoff components incomplete/out of order")
-            present=0
-            for idx,c in enumerate(comps):
-                if not isinstance(c,dict):
-                    continue
-                cid=c.get('component_id')
-                component_valid=True
-                if c.get('status') != 'PRESENT':
-                    errors.append(f"{path}: handoff component not PRESENT: {cid}")
+        cids=[c.get('component_id') if isinstance(c,dict) else None for c in comps]
+        if cids != policy['required_handoff_components']: errors.append(f"{path}: M26 handoff components incomplete/out of order")
+        present=0
+        for idx,c in enumerate(comps):
+            if not isinstance(c,dict):
+                continue
+            cid=c.get('component_id')
+            component_valid=True
+            if c.get('status') != 'PRESENT':
+                errors.append(f"{path}: handoff component not PRESENT: {cid}")
+                component_valid=False
+            try:
+                rel=safe_rel(repo_root,c.get('path'))
+            except (TypeError,ValueError) as exc:
+                errors.append(f"{path}: handoff component {cid} path {exc}")
+                component_valid=False
+                rel=None
+            digest=c.get('sha256')
+            if not isinstance(digest,str) or not SHA256_RE.fullmatch(digest):
+                errors.append(f"{path}: handoff component sha256 invalid: {cid}")
+                component_valid=False
+            if rel is not None:
+                full=repo_root/rel
+                if not full.exists() or full.is_symlink() or not full.is_file():
+                    errors.append(f"{path}: handoff component missing/non-regular: {rel}")
                     component_valid=False
-                try:
-                    rel=safe_rel(repo_root,c.get('path'))
-                except (TypeError,ValueError) as exc:
-                    errors.append(f"{path}: handoff component {cid} path {exc}")
+                elif isinstance(digest,str) and SHA256_RE.fullmatch(digest) and sha256_file(full) != digest:
+                    errors.append(f"{path}: handoff component sha256 mismatch: {rel}")
                     component_valid=False
-                    rel=None
-                digest=c.get('sha256')
-                if not isinstance(digest,str) or not SHA256_RE.fullmatch(digest):
-                    errors.append(f"{path}: handoff component sha256 invalid: {cid}")
-                    component_valid=False
-                if rel is not None:
-                    full=repo_root/rel
-                    if not full.exists() or full.is_symlink() or not full.is_file():
-                        errors.append(f"{path}: handoff component missing/non-regular: {rel}")
-                        component_valid=False
-                    elif isinstance(digest,str) and SHA256_RE.fullmatch(digest) and sha256_file(full) != digest:
-                        errors.append(f"{path}: handoff component sha256 mismatch: {rel}")
-                        component_valid=False
-                if component_valid:
-                    present += 1
-            expected=present/len(policy['required_handoff_components'])*100.0
-            val26=numeric('M26')
-            if m26.get('data_quality') not in {'MEASURED','DERIVED'} or val26 is None or abs(val26-expected)>1e-9:
-                errors.append(f"{path}:M26 value mismatch")
-            if expected != 100.0: errors.append(f"{path}: handoff completeness must be 100%")
-    elif m26.get('data_quality') not in {'NOT_APPLICABLE','UNKNOWN'} and not comps:
-        errors.append(f"{path}:M26 non-handoff snapshot without components must be NOT_APPLICABLE or UNKNOWN")
+            if component_valid:
+                present += 1
+        expected=present/len(policy['required_handoff_components'])*100.0
+        val26=numeric('M26')
+        if m26.get('data_quality') not in ('MEASURED','DERIVED') or val26 is None or abs(val26-expected)>1e-9:
+            errors.append(f"{path}:M26 value mismatch")
+        if expected != 100.0: errors.append(f"{path}: handoff completeness must be 100%")
+    else:
+        if comps:
+            errors.append(f"{path}: non-handoff snapshot must not contain handoff_components")
+        if m26.get('data_quality') not in ('NOT_APPLICABLE','UNKNOWN'):
+            errors.append(f"{path}:M26 non-handoff snapshot must be NOT_APPLICABLE or UNKNOWN")
 
     good=0
     for mid in policy['m27_denominator_metric_ids']:
         m=byid.get(mid,{})
         dq=m.get('data_quality')
         method=isinstance(m.get('collection_method'),str) and bool(m.get('collection_method','').strip())
-        if dq in {'MEASURED','DERIVED'}:
+        if dq in ('MEASURED','DERIVED'):
             refs=isinstance(m.get('evidence_refs'),list) and bool(m.get('evidence_refs'))
             if method and refs: good += 1
         elif dq == 'NOT_APPLICABLE':
@@ -493,9 +517,11 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
         if val27 is not None and abs(val27-expected_m27)>1e-9: errors.append(f"{path}:M27 value mismatch; expected {expected_m27}")
 
     csv_path=record.get('csv_projection_path')
-    if csv_path:
+    if not isinstance(csv_path,str) or not csv_path.strip():
+        errors.append(f"{path}: csv_projection_path must be non-empty string")
+    else:
         try: rel=safe_rel(repo_root,csv_path)
-        except ValueError as exc: errors.append(f"{path}: csv_projection_path {exc}")
+        except (TypeError,ValueError) as exc: errors.append(f"{path}: csv_projection_path {exc}")
         else:
             full=repo_root/rel
             if not full.is_file() or full.is_symlink(): errors.append(f"{path}: csv projection missing/non-regular: {rel}")
@@ -519,6 +545,9 @@ def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str)
         actual=list(reader)
     if len(actual)!=len(rows): return [f"{context}: CSV row count mismatch"]
     for i,(a,m) in enumerate(zip(actual,rows)):
+        if not isinstance(m,dict):
+            errors.append(f"{context}: CSV comparison metric row malformed at index {i}")
+            continue
         expected={
             'metric_id':m.get('metric_id',''),'name':m.get('name',''),'unit':m.get('unit',''),
             'value':csv_cell(m.get('value')),'data_quality':m.get('data_quality',''),
@@ -536,7 +565,7 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
     if not isinstance(record.get('workstream_id'),str) or not record.get('workstream_id','').strip(): errors.append('workstream_id required')
     if not isinstance(record.get('event_id'),str) or not record.get('event_id','').strip(): errors.append('event_id required')
     frm,to=record.get('lifecycle_from'),record.get('lifecycle_to')
-    transition_events={'LIFECYCLE','RELEASE_RESET','LIVE_ATTEMPT'}
+    transition_events=('LIFECYCLE','RELEASE_RESET','LIVE_ATTEMPT')
     if frm not in policy['lifecycle_states'] or to not in policy['lifecycle_states']:
         errors.append('invalid lifecycle state')
     elif record.get('event_type') in transition_events:
@@ -625,18 +654,36 @@ def deleted_path_is_governed(path: str, policy: dict[str, Any]) -> bool:
     return False
 
 
-def record_references_path(value: Any, target: str) -> bool:
+def referenced_repository_paths(value: Any) -> set[str]:
+    paths: set[str] = set()
     if isinstance(value, dict):
-        if value.get("path") == target or value.get("csv_projection_path") == target:
-            return True
-        return any(record_references_path(child, target) for child in value.values())
-    if isinstance(value, list):
-        return any(record_references_path(child, target) for child in value)
-    return False
+        raw_path = value.get("path")
+        if isinstance(raw_path, str) and raw_path:
+            paths.add(raw_path)
+        csv_path = value.get("csv_projection_path")
+        if isinstance(csv_path, str) and csv_path:
+            paths.add(csv_path)
+        for child in value.values():
+            paths.update(referenced_repository_paths(child))
+    elif isinstance(value, list):
+        for child in value:
+            paths.update(referenced_repository_paths(child))
+    return paths
 
 
-def deletion_reference_sources(repo_root: Path, target: str, policy: dict[str, Any]) -> list[str]:
-    sources: list[str] = []
+def build_reverse_reference_index(repo_root: Path, policy: dict[str, Any]) -> dict[str, set[str]]:
+    index: dict[str, set[str]] = {}
+
+    def add(target: str, source: str) -> None:
+        try:
+            target_rel = safe_rel(repo_root, target)
+            source_rel = safe_rel(repo_root, source)
+        except (TypeError, ValueError):
+            return
+        if target_rel == source_rel:
+            return
+        index.setdefault(target_rel, set()).add(source_rel)
+
     releases = repo_root / "docs" / "Releases"
     if releases.is_dir():
         for full in sorted(releases.rglob("*.md")):
@@ -646,9 +693,11 @@ def deletion_reference_sources(repo_root: Path, target: str, policy: dict[str, A
                 text = full.read_text(encoding="utf-8")
             except UnicodeDecodeError:
                 continue
-            vals = assignments(text).get(policy["transition_metrics_assignment"], [])
-            if target in vals:
-                sources.append(full.relative_to(repo_root).as_posix())
+            source = full.relative_to(repo_root).as_posix()
+            for target in assignments(text).get(policy["transition_metrics_assignment"], []):
+                if isinstance(target, str) and target:
+                    add(target, source)
+
     metrics = repo_root / "docs" / "Releases" / "metrics"
     if metrics.is_dir():
         for full in sorted(metrics.rglob("*.json")):
@@ -658,17 +707,47 @@ def deletion_reference_sources(repo_root: Path, target: str, policy: dict[str, A
                 obj = load_json_strict(full)
             except Exception:
                 continue
-            if is_transition_json(obj, policy) and record_references_path(obj, target):
-                sources.append(full.relative_to(repo_root).as_posix())
-    return sorted(set(sources))
+            if not is_transition_json(obj, policy):
+                continue
+            source = full.relative_to(repo_root).as_posix()
+            for target in referenced_repository_paths(obj):
+                add(target, source)
+    return index
 
 
-def validate_deleted_paths(repo_root: Path, deleted_paths: set[str], policy: dict[str, Any]) -> list[str]:
+def reverse_reference_closure(
+    repo_root: Path,
+    changed_targets: set[str],
+    policy: dict[str, Any],
+) -> list[str]:
+    index = build_reverse_reference_index(repo_root, policy)
+    queue = sorted(changed_targets)
+    seen_targets: set[str] = set()
+    dependent_sources: set[str] = set()
+    while queue:
+        target = queue.pop(0)
+        if target in seen_targets:
+            continue
+        seen_targets.add(target)
+        for source in sorted(index.get(target, set())):
+            if source not in dependent_sources:
+                dependent_sources.add(source)
+                queue.append(source)
+    return sorted(dependent_sources)
+
+
+def validate_deleted_paths(
+    repo_root: Path,
+    deleted_paths: set[str],
+    policy: dict[str, Any],
+    reverse_index: dict[str, set[str]] | None = None,
+) -> list[str]:
     violations: list[str] = []
+    index = reverse_index if reverse_index is not None else build_reverse_reference_index(repo_root, policy)
     for path in sorted(deleted_paths):
         if deleted_path_is_governed(path, policy):
             violations.append(f"{path}: deletion of governed transition artifact is prohibited")
-        for source in deletion_reference_sources(repo_root, path, policy):
+        for source in sorted(index.get(path, set())):
             violations.append(f"{path}: deletion creates dangling transition reference from {source}")
     return violations
 
@@ -729,14 +808,22 @@ def main(argv:list[str]|None=None) -> int:
     if not policy_path.is_absolute(): policy_path=repo/policy_path
     policy=load_json_strict(policy_path)
     if args.base_ref:
-        paths, deleted_paths = changed_files(repo, args.base_ref)
+        direct_paths, deleted_paths = changed_files(repo, args.base_ref)
     else:
-        paths, deleted_paths = list(args.files), set()
-    report=validate_files(repo,paths,policy)
-    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy)
+        direct_paths, deleted_paths = list(args.files), set()
+    direct_paths = sorted(set(direct_paths))
+    changed_targets = set(direct_paths) | set(deleted_paths)
+    reverse_index = build_reverse_reference_index(repo, policy)
+    reverse_paths = reverse_reference_closure(repo, changed_targets, policy)
+    validation_paths = sorted(set(direct_paths) | set(reverse_paths))
+    report=validate_files(repo,validation_paths,policy)
+    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy, reverse_index)
     if deleted_violations:
         report['violations'].extend(deleted_violations)
         report['status'] = 'FAIL'
+    report['direct_changed_paths'] = direct_paths
+    report['reverse_reference_paths'] = reverse_paths
+    report['validation_paths'] = validation_paths
     report['deleted_paths'] = sorted(deleted_paths)
     out=Path(args.report)
     if not out.is_absolute(): out=repo/out
