@@ -767,21 +767,27 @@ def reverse_reference_closure(
     return sorted(dependent_sources)
 
 
-def deleted_transition_record_paths(
+def base_transition_record_paths(
     repo_root: Path,
     base_ref: str,
-    deleted_paths: set[str],
+    candidate_paths: set[str],
     policy: dict[str, Any],
 ) -> set[str]:
-    if not deleted_paths:
+    """Return changed JSON paths that were semantic transition records at merge-base.
+
+    Governance identity is sticky across a change: once a JSON path is a transition
+    record at the PR merge-base, modifying its current contents cannot silently
+    de-govern it by removing or mistyping record_type. Deleted paths use the same
+    base identity so modification and deletion semantics cannot drift apart.
+    """
+    json_paths = {path for path in candidate_paths if path.endswith(".json")}
+    if not json_paths:
         return set()
     merge_base = run_git(repo_root, ["merge-base", base_ref, "HEAD"]).strip()
     if not SHA1_RE.fullmatch(merge_base):
         raise RuntimeError("git merge-base did not return a commit SHA")
     result: set[str] = set()
-    for path in sorted(deleted_paths):
-        if not path.endswith(".json"):
-            continue
+    for path in sorted(json_paths):
         try:
             text = run_git(repo_root, ["show", f"{merge_base}:{path}"])
             obj = load_json_text_strict(text)
@@ -790,6 +796,16 @@ def deleted_transition_record_paths(
         if is_transition_json(obj, policy):
             result.add(path)
     return result
+
+
+def deleted_transition_record_paths(
+    repo_root: Path,
+    base_ref: str,
+    deleted_paths: set[str],
+    policy: dict[str, Any],
+) -> set[str]:
+    """Compatibility wrapper for callers/tests using the CR5 helper name."""
+    return base_transition_record_paths(repo_root, base_ref, deleted_paths, policy)
 
 
 def validate_deleted_paths(
@@ -810,8 +826,14 @@ def validate_deleted_paths(
     return violations
 
 
-def validate_files(repo_root: Path, paths: list[str], policy: dict[str,Any]) -> dict[str,Any]:
+def validate_files(
+    repo_root: Path,
+    paths: list[str],
+    policy: dict[str,Any],
+    required_transition_paths: set[str] | None = None,
+) -> dict[str,Any]:
     violations=[]; files=[]
+    required_transition_paths = required_transition_paths or set()
     for raw in sorted(set(paths)):
         try: path=safe_rel(repo_root,raw)
         except ValueError as exc: violations.append(str(exc)); continue
@@ -825,7 +847,8 @@ def validate_files(repo_root: Path, paths: list[str], policy: dict[str,Any]) -> 
             try: obj=load_json_strict(full)
             except Exception as exc: errors.append(f"{path}: JSON parse failed: {exc}")
             else:
-                if transition_record_path_requires_type(path) and not is_transition_json(obj,policy):
+                requires_transition_type = transition_record_path_requires_type(path) or path in required_transition_paths
+                if requires_transition_type and not is_transition_json(obj,policy):
                     errors.append(f"{path}: unrecognized transition record_type")
                 elif is_transition_json(obj,policy):
                     if obj['record_type']==policy['record_types']['snapshot']: errors.extend(validate_snapshot(repo_root,path,obj,policy))
@@ -874,8 +897,13 @@ def main(argv:list[str]|None=None) -> int:
     reverse_index = build_reverse_reference_index(repo, policy)
     reverse_paths = reverse_reference_closure(repo, changed_targets, policy, reverse_index)
     validation_paths = sorted(set(direct_paths) | set(reverse_paths))
-    report=validate_files(repo,validation_paths,policy)
-    deleted_transition_records = deleted_transition_record_paths(repo, args.base_ref, deleted_paths, policy) if args.base_ref else set()
+    base_governed_changed_paths = (
+        base_transition_record_paths(repo, args.base_ref, set(direct_paths) | set(deleted_paths), policy)
+        if args.base_ref else set()
+    )
+    required_transition_paths = base_governed_changed_paths.intersection(validation_paths)
+    report=validate_files(repo,validation_paths,policy,required_transition_paths)
+    deleted_transition_records = base_governed_changed_paths.intersection(deleted_paths)
     deleted_violations = validate_deleted_paths(repo, deleted_paths, policy, reverse_index, deleted_transition_records)
     if deleted_violations:
         report['violations'].extend(deleted_violations)
@@ -884,6 +912,7 @@ def main(argv:list[str]|None=None) -> int:
     report['reverse_reference_paths'] = reverse_paths
     report['validation_paths'] = validation_paths
     report['deleted_paths'] = sorted(deleted_paths)
+    report['base_governed_changed_paths'] = sorted(base_governed_changed_paths)
     out=Path(args.report)
     if not out.is_absolute(): out=repo/out
     out.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n',encoding='utf-8')

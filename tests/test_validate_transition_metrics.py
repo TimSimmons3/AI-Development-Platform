@@ -695,6 +695,84 @@ class TransitionValidatorTests(unittest.TestCase):
         rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
         self.assertEqual(0,rc);self.assertEqual('PASS',data['status'])
 
+    def off_directory_transition_event(self):
+        evt=self.qualification_run_event();evt['event_type']='LIFECYCLE';evt.pop('test_run',None);evt['lifecycle_from']='PLANNING_READ_ONLY';evt['lifecycle_to']='DESIGN_QUALIFICATION'
+        return evt
+
+    def run_base_ref_case(self, base_obj, current_bytes, rel='governance/custom-transition.json'):
+        repo=self.make_repo();p=repo/rel;p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text(json.dumps(base_obj)+'\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base')
+        if current_bytes is None:
+            p.unlink()
+        else:
+            p.write_bytes(current_bytes)
+        self.commit_all(repo,'change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)])
+        return rc,json.loads(report.read_text()),repo,base
+
+    def test_base_governed_modified_off_directory_record_cannot_drop_record_type(self):
+        evt=self.off_directory_transition_event();current=copy.deepcopy(evt);current.pop('record_type')
+        rc,data,_,_=self.run_base_ref_case(evt,(json.dumps(current)+'\n').encode())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('governance/custom-transition.json',data['base_governed_changed_paths']);self.assertTrue(any('unrecognized transition record_type' in x for x in data['violations']),data['violations'])
+
+    def test_base_governed_modified_off_directory_record_cannot_mistype_record_type(self):
+        evt=self.off_directory_transition_event();current=copy.deepcopy(evt);current['record_type']='TYPO'
+        rc,data,_,_=self.run_base_ref_case(evt,(json.dumps(current)+'\n').encode())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in data['violations']),data['violations'])
+
+    def test_base_governed_modified_off_directory_record_cannot_become_unrelated_object(self):
+        evt=self.off_directory_transition_event();rc,data,_,_=self.run_base_ref_case(evt,b'{"x":1}\n')
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in data['violations']),data['violations'])
+
+    def test_base_governed_modified_off_directory_record_non_object_fails(self):
+        evt=self.off_directory_transition_event()
+        for raw in [b'[]\n',b'null\n',b'1\n',b'"x"\n']:
+            with self.subTest(raw=raw):
+                rc,data,_,_=self.run_base_ref_case(evt,raw)
+                self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in data['violations']),data['violations'])
+
+    def test_base_governed_modified_off_directory_record_malformed_or_non_utf8_fails_closed(self):
+        evt=self.off_directory_transition_event()
+        for raw in [b'{bad\n',b'\xff\xfe\x00bad']:
+            with self.subTest(raw=raw):
+                try: rc,data,_,_=self.run_base_ref_case(evt,raw)
+                except Exception as exc: self.fail(f'base-governed malformed record raised {type(exc).__name__}: {exc}')
+                self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('JSON parse failed' in x for x in data['violations']),data['violations'])
+
+    def test_base_governed_modified_off_directory_valid_transition_remains_validated(self):
+        evt=self.off_directory_transition_event();current=copy.deepcopy(evt);current['event_id']='E2'
+        rc,data,_,_=self.run_base_ref_case(evt,(json.dumps(current)+'\n').encode())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertEqual(['governance/custom-transition.json'],data['base_governed_changed_paths'])
+
+    def test_new_off_directory_unrelated_json_remains_allowed(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');p=repo/'governance/new.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text('{"x":1}\n',encoding='utf-8');self.commit_all(repo,'add unrelated');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertEqual([],data['base_governed_changed_paths'])
+
+    def test_new_off_directory_transition_json_is_validated(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');p=repo/'governance/new-transition.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(self.off_directory_transition_event())+'\n',encoding='utf-8');self.commit_all(repo,'add transition');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertEqual([],data['base_governed_changed_paths'])
+
+    def test_unchanged_off_directory_transition_record_remains_out_of_scope(self):
+        repo=self.make_repo();p=repo/'governance/custom-transition.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(self.off_directory_transition_event())+'\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base');other=repo/'notes.txt';other.write_text('changed\n',encoding='utf-8');self.commit_all(repo,'other change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertNotIn('governance/custom-transition.json',data['validation_paths']);self.assertEqual([],data['base_governed_changed_paths'])
+
+    def test_base_governed_rename_move_remains_prohibited_via_deleted_identity(self):
+        repo=self.make_repo();old=repo/'governance/custom-transition.json';old.parent.mkdir(parents=True,exist_ok=True);old.write_text(json.dumps(self.off_directory_transition_event())+'\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base');new=repo/'moved/custom-transition.json';new.parent.mkdir(parents=True,exist_ok=True);old.rename(new);self.commit_all(repo,'move transition');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('governance/custom-transition.json',data['deleted_paths']);self.assertIn('governance/custom-transition.json',data['base_governed_changed_paths']);self.assertTrue(any('deletion of governed transition artifact is prohibited' in x for x in data['violations']),data['violations'])
+
+    def test_canonical_modified_record_type_remains_fail_closed_under_base_identity(self):
+        evt=self.off_directory_transition_event();rel='docs/Templates/SMT-Transition-Future-Template.json';current=copy.deepcopy(evt);current.pop('record_type')
+        rc,data,_,_=self.run_base_ref_case(evt,(json.dumps(current)+'\n').encode(),rel)
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn(rel,data['base_governed_changed_paths']);self.assertTrue(any('unrecognized transition record_type' in x for x in data['violations']),data['violations'])
+
+    def test_unrelated_base_json_can_become_valid_transition_record(self):
+        base_obj={'x':1};current=self.off_directory_transition_event();rc,data,_,_=self.run_base_ref_case(base_obj,(json.dumps(current)+'\n').encode())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status']);self.assertEqual([],data['base_governed_changed_paths'])
+
 
     def test_baseline_snapshot_recovery_identity_is_required(self):
         for bad in [None,'',[],{},0,True]:
