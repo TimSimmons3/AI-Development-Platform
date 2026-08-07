@@ -43,7 +43,15 @@ def load_json_strict(path: Path) -> Any:
                 raise ValueError(f"duplicate JSON key: {key}")
             result[key] = value
         return result
-    return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates)
+
+    def reject_nonfinite_constant(value: str) -> None:
+        raise ValueError(f"non-finite JSON number is not permitted: {value}")
+
+    return json.loads(
+        path.read_text(encoding="utf-8"),
+        object_pairs_hook=reject_duplicates,
+        parse_constant=reject_nonfinite_constant,
+    )
 
 
 def utc(value: Any) -> bool:
@@ -192,7 +200,10 @@ def validate_binding(
 def finite_number(value: Any) -> float | None:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
-    result = float(value)
+    try:
+        result = float(value)
+    except (OverflowError, TypeError, ValueError):
+        return None
     return result if math.isfinite(result) else None
 
 
@@ -223,8 +234,8 @@ def metric_value_domain(metric: dict[str, Any], definition: dict[str, Any], erro
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(float(value)) or not (0 <= float(value) <= 100):
             errors.append(f"{context}: percent value must be finite in [0,100]")
     elif typ == "PASS_FAIL":
-        if value not in {"PASS", "FAIL"}:
-            errors.append(f"{context}: PASS_FAIL value must be PASS or FAIL")
+        if not isinstance(value, str) or value not in {"PASS", "FAIL"}:
+            errors.append(f"{context}: PASS_FAIL value must be PASS or FAIL string")
     elif typ == "TEST_DISTRIBUTION":
         if not isinstance(value, dict):
             errors.append(f"{context}: TEST_DISTRIBUTION value must be object")
@@ -233,10 +244,10 @@ def metric_value_domain(metric: dict[str, Any], definition: dict[str, Any], erro
 def ratio_check(metric: dict[str, Any], errors: list[str], context: str) -> None:
     if metric.get("data_quality") not in {"MEASURED","DERIVED"}:
         return
-    num = metric.get("numerator")
-    den = metric.get("denominator")
-    if isinstance(num, bool) or isinstance(den, bool) or not isinstance(num, (int,float)) or not isinstance(den, (int,float)):
-        errors.append(f"{context}: ratio metric requires numeric numerator and denominator")
+    num = finite_number(metric.get("numerator"))
+    den = finite_number(metric.get("denominator"))
+    if num is None or den is None:
+        errors.append(f"{context}: ratio metric requires finite numeric numerator and denominator")
         return
     if num < 0 or den < 0 or num > den:
         errors.append(f"{context}: invalid numerator/denominator domain")
@@ -247,7 +258,7 @@ def ratio_check(metric: dict[str, Any], errors: list[str], context: str) -> None
     value = finite_number(metric.get("value"))
     if value is None:
         return
-    expected = float(num) / float(den) * 100.0
+    expected = num / den * 100.0
     if abs(value - expected) > 1e-9:
         errors.append(f"{context}: value does not equal numerator/denominator percentage")
 

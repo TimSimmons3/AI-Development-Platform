@@ -293,4 +293,64 @@ class TransitionValidatorTests(unittest.TestCase):
         data=json.loads(report.read_text())
         self.assertEqual(0,rc); self.assertEqual('PASS',data['status']); self.assertEqual(['notes.txt'],data['deleted_paths'])
 
+    def test_load_json_strict_rejects_nonfinite_constants(self):
+        repo=self.make_repo()
+        for token in ['NaN','Infinity','-Infinity']:
+            with self.subTest(token=token):
+                p=repo/f'nonfinite-{token.replace("-", "neg-")}.json'
+                p.write_text('{"value":'+token+'}',encoding='utf-8')
+                with self.assertRaises(ValueError):
+                    v.load_json_strict(p)
+
+    def test_ratio_nonfinite_operands_return_structured_fail(self):
+        cases=[('numerator',float('nan')),('numerator',float('inf')),('numerator',float('-inf')),('denominator',float('nan')),('denominator',float('inf')),('denominator',float('-inf'))]
+        for field,bad in cases:
+            with self.subTest(field=field,bad=repr(bad)):
+                repo=self.make_repo(); rec=self.snapshot(repo); m=next(m for m in rec['metrics'] if m['metric_id']=='M05');m[field]=bad;self.write_csv(repo,rec)
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_ratio_huge_integer_operand_returns_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M05');m['numerator']=10**400;self.write_csv(repo,rec)
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_pass_fail_malformed_values_return_structured_fail(self):
+        malformed=[[],{},None,0,1,True,False,3.14]
+        for bad in malformed:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M10');m.update(value=bad,data_quality='MEASURED',collection_method='TEST_RESULT',reason='',evidence_refs=[self.ext()]);self.write_csv(repo,rec)
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_pass_fail_valid_strings_pass_domain_check(self):
+        definition=POLICY['metrics']['M10']
+        for value in ['PASS','FAIL']:
+            with self.subTest(value=value):
+                errors=[]
+                metric={'metric_id':'M10','value':value,'data_quality':'MEASURED','collection_method':'TEST_RESULT','reason':'','evidence_refs':[self.ext()]}
+                v.metric_value_domain(metric,definition,errors,'M10')
+                self.assertEqual([],errors)
+
+    def test_metric_value_domain_malformed_type_matrix_is_fail_closed(self):
+        bad_by_type={
+            'COUNT':[[],{},'x',1.5,True,None],
+            'DURATION_SECONDS':[[],{},'x',1.5,True,None],
+            'PERCENT':[[],{},'x',True,None,float('nan'),float('inf'),float('-inf')],
+            'PASS_FAIL':[[],{},0,1,True,False,None,3.14],
+            'TEST_DISTRIBUTION':[[],'x',0,1,True,None],
+        }
+        for metric_id,definition in POLICY['metrics'].items():
+            for bad in bad_by_type[definition['value_type']]:
+                with self.subTest(metric_id=metric_id,value_type=definition['value_type'],bad=repr(bad)):
+                    errors=[]
+                    metric={'metric_id':metric_id,'value':bad,'data_quality':'MEASURED','collection_method':'MALFORMED_VALUE_REGRESSION','reason':'','evidence_refs':[self.ext()]}
+                    v.metric_value_domain(metric,definition,errors,metric_id)
+                    self.assertTrue(errors,(metric_id,definition['value_type'],bad))
+
+    def test_finite_number_rejects_nonfinite_and_overflow(self):
+        self.assertIsNone(v.finite_number(float('nan')))
+        self.assertIsNone(v.finite_number(float('inf')))
+        self.assertIsNone(v.finite_number(float('-inf')))
+        self.assertIsNone(v.finite_number(10**10000))
+        self.assertIsNone(v.finite_number(True))
+        self.assertEqual(12.5,v.finite_number(12.5))
+
 if __name__=='__main__': unittest.main()
