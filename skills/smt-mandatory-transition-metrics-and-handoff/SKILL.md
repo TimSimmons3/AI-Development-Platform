@@ -1,0 +1,51 @@
+# SMT Mandatory Transition Metrics and Handoff Skill
+
+## Status and authority
+
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
+```text
+HANDOFF_LEVEL_SKILL=MANDATORY
+REPOSITORY_CANONICAL_STATUS=CANONICAL_REPO_INTEGRATION_RECORD
+TRANSITION_METRICS=MANDATORY
+UNKNOWN_IS_NOT_ZERO=MANDATORY
+NEXT_LIVE_CHANGE_REQUIRES_TRANSITION_GOVERNANCE=TRUE
+```
+
+## Operating rule
+
+At every transition, produce one self-contained handoff package carrying current source-of-truth identities, evidence hashes, closed/open boundaries, defect/CAPA lineage, lessons learned, change-control state, security guardrails, and a complete M01-M28 metrics snapshot. Receiving work must not depend on conversational memory to reconstruct required facts.
+
+## Metrics rule
+
+Use `config/transition-metrics-policy.json` as the machine-readable metric dictionary. Record metrics at workstream start, gates, deviations/failures, release reset, live attempt, closeout, and handoff. `UNKNOWN` is never zero or PASS. External incidents remain separate from internal defects. Trend metrics bind to the prior handoff when one exists.
+
+## Handoff package rule
+
+A handoff is complete only when M26 proves all canonical package components present: main handoff, opening prompt, baseline/recovery identities, source-of-truth matrix, lifecycle/change addendum, QA/testing addendum, consolidated lessons/CAPA, metrics standard, paired metrics JSON/CSV, evidence manifest/checksums, superseded/historical register, security exclusion/redaction register, and package validation report.
+
+## Timing and privacy rule
+
+M21-M23 use event-based duration categories only: `ACTIVE_ENGINEERING`, `ACTIVE_OPERATOR`, `REWORK`, `HOLD_EXTERNAL`, and `HOLD_USER`. Do not capture keystrokes, message bodies, browsing history, raw prompts, credentials, environment dumps, or surveillance telemetry.
+
+## Change/lifecycle rule
+
+Use the canonical lifecycle state machine in the transition policy. A user-visible failure transitions to `RELEASE_RESET_REQUIRED`. Corrections use `CRn`; requirement/scope changes require a new governed revision after owner decision. External incidents preserve the exact candidate unless they expose a genuine internal defect. `CLOSED_AND_FROZEN` work is never reopened in place.
+
+## Stop conditions
+
+Stop with `BLOCKED_WITH_EXACT_REASON` when required metrics/evidence are missing, a handoff is incomplete, an unsafe or stale binding exists, the lifecycle transition is invalid, a live change is proposed before exact-artifact qualification, or the effective protected-publication contract cannot be re-observed before remote publication.

@@ -1,0 +1,29 @@
+metric_id,name,unit,value,data_quality,collection_method,reason
+M01,First-pass delivery rate,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M02,User-visible replacement count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M03,User-visible failure count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M04,Defect escape count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M05,Pre-release detection rate,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M06,Plan adherence,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M07,Unapproved deviation count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M08,Scope adherence,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M09,Unauthorized mutation count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M10,Exact artifact rehearsal,status,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M11,Production validator parity,status,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M12,Target-state fidelity,status,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M13,Failure-path coverage,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M14,Independent review coverage,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M15,Deterministic rebuild,status,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M16,Evidence completeness,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M17,Recoverability proof,status,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M18,Security guardrail violations,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M19,Owner exception count,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M20,External blocker events,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M21,External blocker hold time,seconds,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M22,Active engineering/operator time,seconds,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M23,Rework ratio,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M24,Test iteration count,distribution,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M25,Repeat-defect rate,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M26,Handoff completeness,percent,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate
+M27,Metrics data quality,percent,0,DERIVED,VALIDATOR_DERIVED_FROM_M01_M26_M28,
+M28,Runtime/security baseline drift,count,,UNKNOWN,PROSPECTIVE_EVENT_CAPTURE,Populate at collection gate

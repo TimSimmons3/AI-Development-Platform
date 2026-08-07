@@ -9,3 +9,13 @@
 /tests/test_validate_mandatory_assurance_invariants.py @TimSimmons3
 /.github/workflows/mandatory-assurance-invariant-gate.yml @TimSimmons3
 /.github/CODEOWNERS @TimSimmons3
+/skills/smt-mandatory-transition-metrics-and-handoff/ @TimSimmons3
+/docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md @TimSimmons3
+/docs/Integration/SMT-Transition-Governance-Integration-Addendum.md @TimSimmons3
+/config/transition-metrics-policy.json @TimSimmons3
+/scripts/validate_transition_metrics.py @TimSimmons3
+/tests/test_validate_transition_metrics.py @TimSimmons3
+/docs/Templates/SMT-Transition-Metrics-Baseline-Template.json @TimSimmons3
+/docs/Templates/SMT-Transition-Event-Metrics-Template.json @TimSimmons3
+/docs/Templates/SMT-Transition-Metrics-Baseline-Projection.csv @TimSimmons3
+/docs/Releases/metrics/ @TimSimmons3

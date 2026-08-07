@@ -1,0 +1,34 @@
+{
+  "classification": "REVIEW_TEST_DEFECT",
+  "created_utc": "2026-08-07T12:49:00Z",
+  "deviation": {
+    "category": "OFFLINE_INTERNAL_QUALIFICATION",
+    "deviation_id": "DEV-R1-001",
+    "evidence_reference": "OFFLINE_INITIAL_CANDIDATE_VALIDATION_OUTPUT",
+    "impact": "No user-visible artifact and no live/user repository mutation; candidate withheld",
+    "mutation_status": "ISOLATED_OFFLINE_CLONE_ONLY",
+    "observed_condition": "Initial candidate produced four fail-closed findings before packaging",
+    "owner_disposition": "CORRECT_WITHIN_ALREADY_AUTHORIZED_OFFLINE_SCOPE",
+    "permanent_control_decision": "Remove duplicate invariant assignment; scope handoff-link trigger to release records; canonicalize CSV float formatting; prohibit bytecode-cache static check and add regression tests",
+    "planned_condition": "Invariant validation and transition validation PASS before packaging",
+    "timestamp_utc": "2026-08-07T12:49:00Z"
+  },
+  "event_id": "EVT-20260807-001",
+  "event_type": "DEVIATION",
+  "evidence_refs": [
+    {
+      "artifact_id": "OFFLINE_INITIAL_CANDIDATE_VALIDATION_OUTPUT",
+      "type": "EXTERNAL_ARTIFACT"
+    }
+  ],
+  "lifecycle_from": "IMPLEMENTATION_OFFLINE",
+  "lifecycle_to": "IMPLEMENTATION_OFFLINE",
+  "mutation_boundary_crossed": false,
+  "previous_record": {
+    "path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-Implementation-Start-Metrics.json",
+    "sha256": "665e065ce9ea23fd417ebfe04cd84466feb13f7253ef7e61aa98caa6bd0475bb"
+  },
+  "record_type": "SMT_TRANSITION_EVENT",
+  "schema_version": "1.0",
+  "workstream_id": "ADP_TRANSITION_GOVERNANCE_REPOSITORY_INTEGRATION_R1"
+}

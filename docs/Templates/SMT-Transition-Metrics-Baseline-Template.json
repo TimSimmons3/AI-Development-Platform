@@ -1,0 +1,308 @@
+{
+  "baseline_commit": "0000000000000000000000000000000000000000",
+  "baseline_snapshot": "REPLACE_WITH_RECOVERY_ID",
+  "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+  "created_utc": "2026-01-01T00:00:00Z",
+  "csv_projection_path": "docs/Templates/SMT-Transition-Metrics-Baseline-Projection.csv",
+  "defects": [],
+  "handoff_components": [],
+  "lifecycle_state": "PLANNING_READ_ONLY",
+  "metrics": [
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M01",
+      "name": "First-pass delivery rate",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M02",
+      "name": "User-visible replacement count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M03",
+      "name": "User-visible failure count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M04",
+      "name": "Defect escape count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M05",
+      "name": "Pre-release detection rate",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M06",
+      "name": "Plan adherence",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M07",
+      "name": "Unapproved deviation count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M08",
+      "name": "Scope adherence",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M09",
+      "name": "Unauthorized mutation count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M10",
+      "name": "Exact artifact rehearsal",
+      "reason": "Populate at collection gate",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M11",
+      "name": "Production validator parity",
+      "reason": "Populate at collection gate",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M12",
+      "name": "Target-state fidelity",
+      "reason": "Populate at collection gate",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M13",
+      "name": "Failure-path coverage",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M14",
+      "name": "Independent review coverage",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M15",
+      "name": "Deterministic rebuild",
+      "reason": "Populate at collection gate",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M16",
+      "name": "Evidence completeness",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M17",
+      "name": "Recoverability proof",
+      "reason": "Populate at collection gate",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M18",
+      "name": "Security guardrail violations",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M19",
+      "name": "Owner exception count",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M20",
+      "name": "External blocker events",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M21",
+      "name": "External blocker hold time",
+      "reason": "Populate at collection gate",
+      "unit": "seconds",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M22",
+      "name": "Active engineering/operator time",
+      "reason": "Populate at collection gate",
+      "unit": "seconds",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M23",
+      "name": "Rework ratio",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M24",
+      "name": "Test iteration count",
+      "reason": "Populate at collection gate",
+      "unit": "distribution",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M25",
+      "name": "Repeat-defect rate",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M26",
+      "name": "Handoff completeness",
+      "reason": "Populate at collection gate",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "VALIDATOR_DERIVED_FROM_M01_M26_M28",
+      "data_quality": "DERIVED",
+      "evidence_refs": [
+        {
+          "artifact_id": "TEMPLATE_POLICY",
+          "sha256": "c7664e8cc105e68b9550c7b36430196eb0c400e015f1e636a541963ac5ea2dca",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M27",
+      "name": "Metrics data quality",
+      "reason": "",
+      "unit": "percent",
+      "value": 0.0
+    },
+    {
+      "collection_method": "PROSPECTIVE_EVENT_CAPTURE",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M28",
+      "name": "Runtime/security baseline drift",
+      "reason": "Populate at collection gate",
+      "unit": "count",
+      "value": null
+    }
+  ],
+  "previous_record": null,
+  "prior_handoff": null,
+  "prior_handoff_available": false,
+  "prior_handoff_unavailable_reason": "No prior handoff for template",
+  "record_type": "SMT_TRANSITION_METRICS_SNAPSHOT",
+  "schema_version": "1.0",
+  "snapshot_type": "WORKSTREAM_START",
+  "test_runs": [],
+  "timing_intervals": [],
+  "workstream_id": "REPLACE_WITH_WORKSTREAM_ID"
+}

@@ -1771,3 +1771,13 @@ Status: Accepted Level-4 evidence bound to a new post-administrative-closeout Ti
 - Direct push to main: PROHIBITED
 - Further cleanup or quarantine release: NOT AUTHORIZED
 - Final merge commit and Git-bundle hash: established only in the external final evidence set after protected merge.
+
+## 2026-08-07 - ADP Transition Governance Repository Integration R1 offline implementation
+
+- Baseline: `311642c7465a01ada8297f8242b3d6e73033fed6`; recovery snapshot `2026-08-06_12-00-57`.
+- Project owner authorized offline implementation and qualification only.
+- No remote GitHub publication, ruleset change, Timeshift creation, or runtime mutation is authorized.
+- Implemented a separate transition metrics/handoff governance module to avoid coupling M01-M28 semantics into the existing mandatory invariant/owner-exception validator.
+- Added machine-readable policy, isolated validator, tests, templates, lifecycle/change-control governance, workstream metrics baseline, and integration references.
+- Existing required GitHub status-check identity remains `Mandatory assurance invariant gate`; no new workflow permission is introduced.
+- Offline candidate must pass exact uncommitted path validation, full repository regression tests, deterministic packaging, clean bundle-derived exact-launcher rehearsal, and independent review before any later publication request.

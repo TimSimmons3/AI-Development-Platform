@@ -1,5 +1,22 @@
 # SMT Assurance Standards Integration Guide
 
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
+
 ## 1. Canonical files
 
 The ADP repository must retain these canonical assurance records:
@@ -20,7 +37,6 @@ APPLY_HIGH_ASSURANCE_SKILL=TRUE
 APPLY_GLOBAL_PREFLIGHT_CHECKLIST=TRUE
 APPLY_LIVE_CHANGE_STANDARD=TRUE
 LIVE_ATTEMPT_BUDGET=1
-USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
 ```
 
 ## 2. ADP repository architecture resolution
@@ -91,3 +107,18 @@ RECOVERABILITY_VERIFIED=PASS
 ```
 
 No future ADP live-change package may be authorized until these criteria pass or an explicit separately governed exception is approved.
+
+## 7. Transition governance canonical extension
+
+The canonical assurance set additionally includes:
+
+```text
+skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md
+docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md
+docs/Integration/SMT-Transition-Governance-Integration-Addendum.md
+config/transition-metrics-policy.json
+scripts/validate_transition_metrics.py
+tests/test_validate_transition_metrics.py
+```
+
+Future workstream plans must define a metrics plan. Future handoff, closeout, and gate records must bind `TRANSITION_METRICS_RECORD` to a valid structured record. Remote publication remains subject to the existing mandatory assurance workflow and a fresh read-only protection observation.

@@ -1,0 +1,907 @@
+{
+  "baseline_commit": "311642c7465a01ada8297f8242b3d6e73033fed6",
+  "baseline_snapshot": "2026-08-06_12-00-57",
+  "collection_method": "PROSPECTIVE_GATE_RECORD_WITH_EXPLICIT_EARLIER_DATA_GAP",
+  "created_utc": "2026-08-07T12:52:49Z",
+  "csv_projection_path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-Offline-Qualification-Metrics.csv",
+  "defects": [
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR01",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR02",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR03",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR04",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR05",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR06",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR07",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR08",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR09",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR10",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "REVIEW_TEST_DEFECT",
+      "defect_id": "IMP01",
+      "prior_lesson_or_control_ref": "SMT_MANDATORY_ONE_PASS_DELIVERY_INVARIANT_DUPLICATE_ASSIGNMENT_CONTROL",
+      "repeated": true
+    },
+    {
+      "classification": "DESIGN_DEFECT",
+      "defect_id": "IMP02",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "IMPLEMENTATION_DEFECT",
+      "defect_id": "IMP03",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "REVIEW_TEST_DEFECT",
+      "defect_id": "IMP04",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_DEFECT",
+      "defect_id": "IMP05",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "REVIEW_TEST_DEFECT",
+      "defect_id": "IMP06",
+      "prior_lesson_or_control_ref": "EXACT_OPERATOR_WORKFLOW_REHEARSAL",
+      "repeated": true
+    }
+  ],
+  "handoff_components": [],
+  "lifecycle_state": "EXACT_ARTIFACT_QUALIFICATION",
+  "metrics": [
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M01",
+      "name": "First-pass delivery rate",
+      "reason": "No runnable artifact has yet been delivered to the project owner in this workstream",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M02",
+      "name": "User-visible replacement count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M03",
+      "name": "User-visible failure count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M04",
+      "name": "Defect escape count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DERIVED_FROM_QUALIFICATION_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 16,
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M05",
+      "name": "Pre-release detection rate",
+      "numerator": 16,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DERIVED_FROM_QUALIFICATION_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 4,
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M06",
+      "name": "Plan adherence",
+      "numerator": 4,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M07",
+      "name": "Unapproved deviation count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DERIVED_FROM_QUALIFICATION_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 23,
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M08",
+      "name": "Scope adherence",
+      "numerator": 23,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M09",
+      "name": "Unauthorized mutation count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M10",
+      "name": "Exact artifact rehearsal",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M11",
+      "name": "Production validator parity",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "ADP_V2_4_FINAL_RECOVERY_GIT_BUNDLE",
+          "sha256": "4a8c149dfefb292a7b7b8731704fa241c118dddf60dfaee2e098575f62867d0b",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M12",
+      "name": "Target-state fidelity",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DERIVED_FROM_QUALIFICATION_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 6,
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M13",
+      "name": "Failure-path coverage",
+      "numerator": 6,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M14",
+      "name": "Independent review coverage",
+      "reason": "Independent final implementation review occurs after final distribution rehearsal",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_DETERMINISTIC_PACKAGE_REBUILD",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M15",
+      "name": "Deterministic rebuild",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DERIVED_FROM_QUALIFICATION_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 6,
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M16",
+      "name": "Evidence completeness",
+      "numerator": 6,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "ADP_V2_4_FINAL_RECOVERY_GIT_BUNDLE",
+          "sha256": "4a8c149dfefb292a7b7b8731704fa241c118dddf60dfaee2e098575f62867d0b",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M17",
+      "name": "Recoverability proof",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M18",
+      "name": "Security guardrail violations",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M19",
+      "name": "Owner exception count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M20",
+      "name": "External blocker events",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_QUALIFICATION_EVIDENCE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M21",
+      "name": "External blocker hold time",
+      "reason": "",
+      "unit": "seconds",
+      "value": 0
+    },
+    {
+      "collection_method": "PROSPECTIVE_GATE_INTERVAL",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_EXACT_ARTIFACT_QUALIFICATION_TIMING",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M22",
+      "name": "Active engineering/operator time",
+      "reason": "",
+      "unit": "seconds",
+      "value": 101
+    },
+    {
+      "collection_method": "EXPLICIT_DATA_GAP",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M23",
+      "name": "Rework ratio",
+      "reason": "Rework sub-interval boundaries within the candidate qualification segment were not captured with sufficient precision",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "TEST_RUN_LEDGER",
+      "data_quality": "DERIVED",
+      "evidence_refs": [
+        {
+          "artifact_id": "OFFLINE_INTERNAL_VALIDATION_OUTPUT",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "CANDIDATE_FAILURE_MATRIX",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M24",
+      "name": "Test iteration count",
+      "reason": "",
+      "unit": "distribution",
+      "value": {
+        "by_layer_result": [
+          {
+            "count": 1,
+            "result": "PASS",
+            "test_layer": "EXACT_PACKAGE_SUCCESS"
+          },
+          {
+            "count": 1,
+            "result": "PASS",
+            "test_layer": "FAILURE_MATRIX"
+          },
+          {
+            "count": 1,
+            "result": "FAIL",
+            "test_layer": "FAILURE_MATRIX_HARNESS"
+          },
+          {
+            "count": 2,
+            "result": "PASS",
+            "test_layer": "FULL_REPOSITORY_REGRESSION"
+          },
+          {
+            "count": 1,
+            "result": "FAIL",
+            "test_layer": "MANDATORY_POLICY_VALIDATOR"
+          },
+          {
+            "count": 1,
+            "result": "PASS",
+            "test_layer": "MANDATORY_POLICY_VALIDATOR"
+          },
+          {
+            "count": 1,
+            "result": "FAIL",
+            "test_layer": "TRANSITION_POLICY_VALIDATOR"
+          },
+          {
+            "count": 1,
+            "result": "PASS",
+            "test_layer": "TRANSITION_POLICY_VALIDATOR"
+          },
+          {
+            "count": 3,
+            "result": "PASS",
+            "test_layer": "TRANSITION_UNIT"
+          },
+          {
+            "count": 1,
+            "result": "PASS",
+            "test_layer": "WORKFLOW_SYNTAX"
+          }
+        ],
+        "total_runs": 13
+      }
+    },
+    {
+      "collection_method": "DERIVED_FROM_DEFECT_LEDGER",
+      "data_quality": "DERIVED",
+      "evidence_refs": [
+        {
+          "artifact_id": "INTERNAL_DEFECT_LEDGER",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M25",
+      "name": "Repeat-defect rate",
+      "reason": "",
+      "unit": "percent",
+      "value": 12.5
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M26",
+      "name": "Handoff completeness",
+      "reason": "This is an offline qualification gate snapshot, not a handoff snapshot",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "VALIDATOR_DERIVED_FROM_M01_M26_M28",
+      "data_quality": "DERIVED",
+      "evidence_refs": [
+        {
+          "artifact_id": "QUALIFICATION_METRICS_RECORD",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M27",
+      "name": "Metrics data quality",
+      "reason": "",
+      "unit": "percent",
+      "value": 96.29629629629629
+    },
+    {
+      "collection_method": "NO_RUNTIME_OR_SECURITY_MUTATION_AUTHORIZED_OR_OBSERVED",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "CANDIDATE_EXACT_PACKAGE_REHEARSAL",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M28",
+      "name": "Runtime/security baseline drift",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    }
+  ],
+  "previous_record": {
+    "path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-DEV-R1-001.json",
+    "sha256": "6ce474b9763d509ee275e505b80d98086f7e4fbcd8ee49bbfef3cb739e039a98"
+  },
+  "prior_handoff": null,
+  "prior_handoff_available": false,
+  "prior_handoff_unavailable_reason": "Authoritative prior R2 handoff predates canonical repository transition record schema",
+  "record_type": "SMT_TRANSITION_METRICS_SNAPSHOT",
+  "schema_version": "1.0",
+  "snapshot_type": "GATE",
+  "test_runs": [
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "36 transition tests passed",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR01",
+      "test_id": "TR01",
+      "test_layer": "TRANSITION_UNIT"
+    },
+    {
+      "actual_result": "duplicate invariant assignment detected",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "initial invariant validation",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "FAIL",
+      "run_id": "TR02",
+      "test_id": "TR02",
+      "test_layer": "MANDATORY_POLICY_VALIDATOR"
+    },
+    {
+      "actual_result": "over-broad trigger/template/cache findings detected",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "initial transition validation",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "FAIL",
+      "run_id": "TR03",
+      "test_id": "TR03",
+      "test_layer": "TRANSITION_POLICY_VALIDATOR"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "38 transition tests passed after first corrections",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR04",
+      "test_id": "TR04",
+      "test_layer": "TRANSITION_UNIT"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "corrected invariant validation",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR05",
+      "test_id": "TR05",
+      "test_layer": "MANDATORY_POLICY_VALIDATOR"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "corrected transition validation",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR06",
+      "test_id": "TR06",
+      "test_layer": "TRANSITION_POLICY_VALIDATOR"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "82 repository tests passed",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR07",
+      "test_id": "TR07",
+      "test_layer": "FULL_REPOSITORY_REGRESSION"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "workflow YAML parse",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR08",
+      "test_id": "TR08",
+      "test_layer": "WORKFLOW_SYNTAX"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "39 transition tests after same-state event correction",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR09",
+      "test_id": "TR09",
+      "test_layer": "TRANSITION_UNIT"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "83 repository tests after same-state event correction",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR10",
+      "test_id": "TR10",
+      "test_layer": "FULL_REPOSITORY_REGRESSION"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "candidate exact operator workflow output",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR11",
+      "test_id": "TR11",
+      "test_layer": "EXACT_PACKAGE_SUCCESS"
+    },
+    {
+      "actual_result": "sidecar filename omitted in qualification harness command",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "initial harness run",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "FAIL",
+      "run_id": "TR12",
+      "test_id": "TR12",
+      "test_layer": "FAILURE_MATRIX_HARNESS"
+    },
+    {
+      "actual_result": "PASS",
+      "cleanup_preserve_behavior": "PRESERVE_OR_ROLLBACK_AS_TEST_REQUIRES",
+      "evidence_artifact": "six candidate failure/preserve-state scenarios passed",
+      "expected_result_source": "R1-CR1 design + R2 QA/change-control requirements",
+      "fixture_provenance": "verified 311642c recovery-bundle fixture or isolated unit fixture",
+      "mutation_boundary": "ISOLATED_OFFLINE_ONLY",
+      "production_function_path": "candidate policy/validator/package path",
+      "release_authorizing": false,
+      "requirement_id": "R1_OFFLINE_QUALIFICATION",
+      "result": "PASS",
+      "run_id": "TR13",
+      "test_id": "TR13",
+      "test_layer": "FAILURE_MATRIX"
+    }
+  ],
+  "timing_intervals": [
+    {
+      "category": "ACTIVE_ENGINEERING",
+      "end_utc": "2026-08-07T12:52:49Z",
+      "interval_id": "QUAL-CANDIDATE-01",
+      "start_utc": "2026-08-07T12:51:08Z"
+    }
+  ],
+  "workstream_id": "ADP_TRANSITION_GOVERNANCE_REPOSITORY_INTEGRATION_R1"
+}

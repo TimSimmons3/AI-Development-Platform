@@ -1,5 +1,22 @@
 # SMT Global Code and Artifact Preflight Checklist
 
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
+
 ## 1. Release identification
 
 - [ ] Deliverable name and corrected revision are unambiguous.
@@ -167,3 +184,16 @@
 - [ ] Live mutation attempts per gate do not exceed one.
 - [ ] Automatic patch-and-retry and production-as-test behavior are prohibited.
 - [ ] Repeated pre-mutation failures trigger release reset and independent review.
+
+## 10. Transition metrics and handoff governance
+
+- [ ] M01-M28 snapshot exists at required collection gates.
+- [ ] `UNKNOWN` values are explicit and are not zero/PASS.
+- [ ] Timing intervals exclude external/user hold from M22 and use no surveillance telemetry.
+- [ ] M24 runs include mandatory release-layer metadata.
+- [ ] Repeated M25 defects link to the violated prior lesson/control.
+- [ ] Handoff M26 is 100 percent with every canonical component and paired JSON/CSV.
+- [ ] M27 is validator-derived and data gaps remain visible.
+- [ ] Lifecycle/deviation records satisfy the canonical transition policy.
+- [ ] Change records contain all mandatory scope, dependency, security, test, evidence, recovery, metrics, and authorization fields.
+- [ ] Remote publication re-observes protected-main status before merge.
