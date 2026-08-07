@@ -79,6 +79,262 @@ def run_git(repo_root: Path, args: list[str]) -> str:
     return proc.stdout
 
 
+def merge_base_commit(repo_root: Path, base_ref: str) -> str:
+    merge_base = run_git(repo_root, ["merge-base", base_ref, "HEAD"]).strip()
+    if not SHA1_RE.fullmatch(merge_base):
+        raise RuntimeError("git merge-base did not return a commit SHA")
+    return merge_base
+
+
+def repository_relative_file(repo_root: Path, path: Path) -> str:
+    try:
+        return path.resolve(strict=False).relative_to(repo_root.resolve(strict=True)).as_posix()
+    except ValueError as exc:
+        raise ValueError(f"policy path must be inside repository: {path}") from exc
+
+
+def git_text_at_commit(repo_root: Path, commit: str, path: str) -> str | None:
+    listed = run_git(repo_root, ["ls-tree", "--name-only", commit, "--", path])
+    if path not in {line.strip() for line in listed.splitlines() if line.strip()}:
+        return None
+    return run_git(repo_root, ["show", f"{commit}:{path}"])
+
+
+def string_list(value: Any) -> bool:
+    return isinstance(value, list) and bool(value) and all(isinstance(item, str) and bool(item) for item in value)
+
+
+def unique_string_list(value: Any) -> bool:
+    return string_list(value) and len(value) == len(set(value))
+
+
+def policy_shape_errors(policy: Any, context: str) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(policy, dict):
+        return [f"{context}: policy must be an object"]
+
+    if not isinstance(policy.get("policy_id"), str) or not policy.get("policy_id"):
+        errors.append(f"{context}: policy_id must be a non-empty string")
+    if not isinstance(policy.get("schema_version"), str) or not policy.get("schema_version"):
+        errors.append(f"{context}: schema_version must be a non-empty string")
+
+    effective_date = policy.get("effective_date")
+    if not isinstance(effective_date, str):
+        errors.append(f"{context}: effective_date must be YYYY-MM-DD string")
+    else:
+        try:
+            datetime.strptime(effective_date, "%Y-%m-%d")
+        except ValueError:
+            errors.append(f"{context}: effective_date must be valid YYYY-MM-DD")
+
+    if not isinstance(policy.get("allow_overlapping_timing_intervals"), bool):
+        errors.append(f"{context}: allow_overlapping_timing_intervals must be boolean")
+
+    record_types = policy.get("record_types")
+    if not isinstance(record_types, dict):
+        errors.append(f"{context}: record_types must be an object")
+    else:
+        if set(record_types) != {"event", "snapshot"}:
+            errors.append(f"{context}: record_types must contain exactly event and snapshot")
+        event_type = record_types.get("event")
+        snapshot_type = record_types.get("snapshot")
+        if not isinstance(event_type, str) or not event_type:
+            errors.append(f"{context}: record_types.event must be a non-empty string")
+        if not isinstance(snapshot_type, str) or not snapshot_type:
+            errors.append(f"{context}: record_types.snapshot must be a non-empty string")
+        if isinstance(event_type, str) and event_type and event_type == snapshot_type:
+            errors.append(f"{context}: event and snapshot record types must be distinct")
+
+    list_fields = [
+        "change_record_filename_keywords", "classifications", "data_quality_states",
+        "event_types", "governed_markdown_roots", "lifecycle_states",
+        "m22_active_categories", "m27_denominator_metric_ids", "metric_order",
+        "metrics_link_filename_keywords", "required_change_record_fields",
+        "required_handoff_components", "safe_external_reference_types",
+        "snapshot_types", "timing_categories",
+    ]
+    for field in list_fields:
+        if not unique_string_list(policy.get(field)):
+            errors.append(f"{context}: {field} must be a non-empty unique-string list")
+
+    if isinstance(policy.get("data_quality_states"), list) and set(policy["data_quality_states"]) != {
+        "MEASURED", "DERIVED", "UNKNOWN", "NOT_APPLICABLE"
+    }:
+        errors.append(f"{context}: data_quality_states must match supported validator states")
+    if isinstance(policy.get("safe_external_reference_types"), list) and set(policy["safe_external_reference_types"]) != {
+        "EXTERNAL_ARTIFACT", "EXTERNAL_INCIDENT"
+    }:
+        errors.append(f"{context}: safe_external_reference_types must match supported validator types")
+
+    roots = policy.get("governed_markdown_roots")
+    if isinstance(roots, list):
+        for root in roots:
+            if not isinstance(root, str) or not root.endswith("/") or root.startswith("/") or ".." in PurePosixPath(root).parts:
+                errors.append(f"{context}: governed_markdown_roots contains unsafe/non-directory root: {root!r}")
+
+    for field in ["change_record_filename_keywords", "metrics_link_filename_keywords"]:
+        values = policy.get(field)
+        if isinstance(values, list):
+            for value in values:
+                if not isinstance(value, str) or value != value.lower() or "/" in value or "\\" in value:
+                    errors.append(f"{context}: {field} contains invalid filename keyword: {value!r}")
+
+    assignment = policy.get("transition_metrics_assignment")
+    if not isinstance(assignment, str) or not re.fullmatch(r"[A-Z][A-Z0-9_]*", assignment):
+        errors.append(f"{context}: transition_metrics_assignment must be an uppercase assignment key")
+
+    baseline = policy.get("baseline_commit_for_adoption")
+    if not isinstance(baseline, str) or not SHA1_RE.fullmatch(baseline):
+        errors.append(f"{context}: baseline_commit_for_adoption must be a 40-character commit SHA")
+
+    lifecycle_states = policy.get("lifecycle_states")
+    allowed_transitions = policy.get("allowed_transitions")
+    if not isinstance(allowed_transitions, dict):
+        errors.append(f"{context}: allowed_transitions must be an object")
+    elif isinstance(lifecycle_states, list) and unique_string_list(lifecycle_states):
+        if set(allowed_transitions) != set(lifecycle_states):
+            errors.append(f"{context}: allowed_transitions keys must exactly match lifecycle_states")
+        for state, targets in allowed_transitions.items():
+            if not isinstance(targets, list) or any(not isinstance(t, str) for t in targets) or len(targets) != len(set(targets)):
+                errors.append(f"{context}: allowed_transitions[{state}] must be a unique-string list")
+            elif any(t not in lifecycle_states for t in targets):
+                errors.append(f"{context}: allowed_transitions[{state}] contains unknown lifecycle state")
+
+    metrics = policy.get("metrics")
+    metric_order = policy.get("metric_order")
+    if not isinstance(metrics, dict):
+        errors.append(f"{context}: metrics must be an object")
+    elif isinstance(metric_order, list) and unique_string_list(metric_order):
+        if set(metrics) != set(metric_order):
+            errors.append(f"{context}: metrics keys must exactly match metric_order")
+        supported_value_types = {"COUNT", "DURATION_SECONDS", "PERCENT", "PASS_FAIL", "TEST_DISTRIBUTION"}
+        required_metric_fields = {
+            "allowed_data_quality", "applicability", "collection_cadence", "computed_by_validator",
+            "definition", "evidence_required", "name", "ratio_inputs_required_when_numeric",
+            "target", "trend_rule", "unit", "value_type", "zero_denominator_behavior",
+        }
+        for mid in metric_order:
+            definition = metrics.get(mid)
+            if not isinstance(definition, dict):
+                errors.append(f"{context}: metrics[{mid}] must be an object")
+                continue
+            missing = required_metric_fields - set(definition)
+            if missing:
+                errors.append(f"{context}: metrics[{mid}] missing fields: {','.join(sorted(missing))}")
+            if definition.get("value_type") not in supported_value_types:
+                errors.append(f"{context}: metrics[{mid}] has unsupported value_type")
+            if not unique_string_list(definition.get("allowed_data_quality")):
+                errors.append(f"{context}: metrics[{mid}].allowed_data_quality must be a non-empty unique-string list")
+            elif isinstance(policy.get("data_quality_states"), list) and any(
+                dq not in policy["data_quality_states"] for dq in definition["allowed_data_quality"]
+            ):
+                errors.append(f"{context}: metrics[{mid}].allowed_data_quality contains unsupported state")
+            if not unique_string_list(definition.get("collection_cadence")):
+                errors.append(f"{context}: metrics[{mid}].collection_cadence must be a non-empty unique-string list")
+            for bool_field in ["computed_by_validator", "evidence_required", "ratio_inputs_required_when_numeric"]:
+                if not isinstance(definition.get(bool_field), bool):
+                    errors.append(f"{context}: metrics[{mid}].{bool_field} must be boolean")
+            for str_field in ["applicability", "definition", "name", "target", "trend_rule", "unit", "zero_denominator_behavior"]:
+                if not isinstance(definition.get(str_field), str) or not definition.get(str_field):
+                    errors.append(f"{context}: metrics[{mid}].{str_field} must be non-empty string")
+
+    for field in ["m22_active_categories", "m27_denominator_metric_ids"]:
+        values = policy.get(field)
+        if not isinstance(values, list):
+            continue
+        universe = policy.get("timing_categories") if field == "m22_active_categories" else policy.get("metric_order")
+        if isinstance(universe, list) and any(value not in universe for value in values):
+            errors.append(f"{context}: {field} contains unknown value")
+    m23 = policy.get("m23_rework_category")
+    if not isinstance(m23, str) or not m23:
+        errors.append(f"{context}: m23_rework_category must be a non-empty string")
+    elif isinstance(policy.get("timing_categories"), list) and m23 not in policy["timing_categories"]:
+        errors.append(f"{context}: m23_rework_category must be in timing_categories")
+
+    return errors
+
+
+def policy_identity_compatibility_errors(
+    base_policy: dict[str, Any],
+    current_policy: dict[str, Any],
+) -> list[str]:
+    """Prevent policy evolution from erasing historical governance identity."""
+    errors: list[str] = []
+    if base_policy.get("policy_id") != current_policy.get("policy_id"):
+        errors.append("merge-base policy_id does not match current policy_id")
+    if base_policy.get("baseline_commit_for_adoption") != current_policy.get("baseline_commit_for_adoption"):
+        errors.append("baseline_commit_for_adoption is immutable after adoption")
+    if base_policy.get("record_types") != current_policy.get("record_types"):
+        errors.append("record_types identities are immutable after adoption")
+    if base_policy.get("transition_metrics_assignment") != current_policy.get("transition_metrics_assignment"):
+        errors.append("transition_metrics_assignment identity is immutable after adoption")
+
+    for field in [
+        "governed_markdown_roots",
+        "metrics_link_filename_keywords",
+        "change_record_filename_keywords",
+    ]:
+        base_values = set(base_policy.get(field, []))
+        current_values = set(current_policy.get(field, []))
+        removed = sorted(base_values - current_values)
+        if removed:
+            errors.append(f"{field} may not remove historical governance classifiers: {','.join(removed)}")
+    return errors
+
+
+def load_base_policy_context(
+    repo_root: Path,
+    base_ref: str,
+    policy_path: Path,
+    current_policy: dict[str, Any],
+) -> tuple[str, dict[str, Any] | None, str]:
+    merge_base = merge_base_commit(repo_root, base_ref)
+    policy_rel = repository_relative_file(repo_root, policy_path)
+    text = git_text_at_commit(repo_root, merge_base, policy_rel)
+    if text is None:
+        if current_policy.get("baseline_commit_for_adoption") != merge_base:
+            raise ValueError(
+                f"merge-base policy absent at {policy_rel} and baseline_commit_for_adoption "
+                f"does not equal merge-base {merge_base}"
+            )
+        return merge_base, None, "BOOTSTRAP_ABSENT_AUTHORIZED"
+    try:
+        base_policy = load_json_text_strict(text)
+    except (UnicodeError, ValueError, json.JSONDecodeError) as exc:
+        raise ValueError(f"merge-base policy parse failed: {exc}") from exc
+    errors = policy_shape_errors(base_policy, "merge-base policy")
+    if errors:
+        raise ValueError("; ".join(errors))
+    compatibility_errors = policy_identity_compatibility_errors(base_policy, current_policy)
+    if compatibility_errors:
+        raise ValueError("; ".join(compatibility_errors))
+    return merge_base, base_policy, "PRESENT_VALID"
+
+
+def write_report(path: Path, report: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def policy_failure_report(message: str, *, current_policy_path: str | None = None) -> dict[str, Any]:
+    return {
+        "record_type": "SMT_TRANSITION_METRICS_VALIDATION",
+        "schema_version": "1.0",
+        "status": "FAIL",
+        "file_count": 0,
+        "files": [],
+        "violations": [message],
+        "direct_changed_paths": [],
+        "reverse_reference_paths": [],
+        "validation_paths": [],
+        "deleted_paths": [],
+        "base_governed_changed_paths": [],
+        "base_governed_markdown_paths": [],
+        "current_policy_path": current_policy_path,
+        "base_policy_status": "UNAVAILABLE",
+    }
+
+
 def changed_files(repo_root: Path, base_ref: str) -> tuple[list[str], set[str]]:
     out = run_git(repo_root, ["diff", "--name-status", "--no-renames", "--diff-filter=ACMRD", f"{base_ref}...HEAD"])
     paths: list[str] = []
@@ -694,8 +950,15 @@ def referenced_repository_paths(value: Any) -> set[str]:
     return paths
 
 
-def build_reverse_reference_index(repo_root: Path, policy: dict[str, Any]) -> dict[str, set[str]]:
+def build_reverse_reference_index(
+    repo_root: Path,
+    policy: dict[str, Any],
+    *,
+    historical_transition_paths: set[str] | None = None,
+    base_policy: dict[str, Any] | None = None,
+) -> dict[str, set[str]]:
     index: dict[str, set[str]] = {}
+    historical_transition_paths = historical_transition_paths or set()
 
     def add(target: str, source: str) -> None:
         try:
@@ -708,6 +971,9 @@ def build_reverse_reference_index(repo_root: Path, policy: dict[str, Any]) -> di
         index.setdefault(target_rel, set()).add(source_rel)
 
     releases = repo_root / "docs" / "Releases"
+    assignment_names = {policy["transition_metrics_assignment"]}
+    if base_policy is not None:
+        assignment_names.add(base_policy["transition_metrics_assignment"])
     if releases.is_dir():
         for full in sorted(releases.rglob("*.md")):
             if full.is_symlink() or not full.is_file():
@@ -717,26 +983,29 @@ def build_reverse_reference_index(repo_root: Path, policy: dict[str, Any]) -> di
             except UnicodeDecodeError:
                 continue
             source = full.relative_to(repo_root).as_posix()
-            for target in assignments(text).get(policy["transition_metrics_assignment"], []):
-                if isinstance(target, str) and target:
-                    add(target, source)
+            parsed = assignments(text)
+            for assignment_name in sorted(assignment_names):
+                for target in parsed.get(assignment_name, []):
+                    if isinstance(target, str) and target:
+                        add(target, source)
 
-    # Transition records are not confined to docs/Releases/metrics. Canonical
-    # templates are transition records too, and future governed records may live
-    # elsewhere. Discover every parseable transition JSON record in the repository
-    # so any referenced artifact change revalidates its dependent record.
+    # Current records are classified under current policy. Historical off-directory
+    # records retain identity by path when the merge-base policy classified them as
+    # transition records, so current policy vocabulary changes cannot hide them from
+    # reverse-reference discovery.
     for full in sorted(repo_root.rglob("*.json")):
         if ".git" in full.parts or full.is_symlink() or not full.is_file():
             continue
         try:
             obj = load_json_strict(full)
         except Exception:
-            # Direct validation remains responsible for malformed changed records.
-            # Reverse discovery intentionally ignores unrelated/non-parseable JSON
-            # rather than treating all repository JSON as transition governance.
             continue
         source = full.relative_to(repo_root).as_posix()
-        if not is_transition_json(obj, policy) and not transition_record_path_requires_type(source):
+        if (
+            not is_transition_json(obj, policy)
+            and not transition_record_path_requires_type(source)
+            and source not in historical_transition_paths
+        ):
             continue
         if not isinstance(obj, dict):
             continue
@@ -767,45 +1036,54 @@ def reverse_reference_closure(
     return sorted(dependent_sources)
 
 
-def base_transition_record_paths(
+def base_transition_record_inventory(
     repo_root: Path,
-    base_ref: str,
-    candidate_paths: set[str],
-    policy: dict[str, Any],
+    merge_base: str,
+    base_policy: dict[str, Any] | None,
 ) -> set[str]:
-    """Return changed JSON paths that were semantic transition records at merge-base.
-
-    Governance identity is sticky across a change: once a JSON path is a transition
-    record at the PR merge-base, modifying its current contents cannot silently
-    de-govern it by removing or mistyping record_type. Deleted paths use the same
-    base identity so modification and deletion semantics cannot drift apart.
-    """
-    json_paths = {path for path in candidate_paths if path.endswith(".json")}
-    if not json_paths:
+    if base_policy is None:
         return set()
-    merge_base = run_git(repo_root, ["merge-base", base_ref, "HEAD"]).strip()
-    if not SHA1_RE.fullmatch(merge_base):
-        raise RuntimeError("git merge-base did not return a commit SHA")
     result: set[str] = set()
-    for path in sorted(json_paths):
+    paths = run_git(repo_root, ["ls-tree", "-r", "--name-only", merge_base]).splitlines()
+    for path in sorted(p for p in paths if p.endswith(".json")):
         try:
-            text = run_git(repo_root, ["show", f"{merge_base}:{path}"])
+            text = git_text_at_commit(repo_root, merge_base, path)
+            if text is None:
+                continue
             obj = load_json_text_strict(text)
         except (RuntimeError, UnicodeError, ValueError, json.JSONDecodeError):
             continue
-        if is_transition_json(obj, policy):
+        if is_transition_json(obj, base_policy):
             result.add(path)
     return result
 
 
-def deleted_transition_record_paths(
-    repo_root: Path,
-    base_ref: str,
-    deleted_paths: set[str],
-    policy: dict[str, Any],
+def base_transition_record_paths(
+    candidate_paths: set[str],
+    historical_transition_paths: set[str],
 ) -> set[str]:
-    """Compatibility wrapper for callers/tests using the CR5 helper name."""
-    return base_transition_record_paths(repo_root, base_ref, deleted_paths, policy)
+    """Return changed paths whose governance identity existed at merge-base."""
+    return {path for path in candidate_paths if path in historical_transition_paths}
+
+
+def base_governed_markdown_inventory(
+    repo_root: Path,
+    merge_base: str,
+    base_policy: dict[str, Any] | None,
+) -> set[str]:
+    if base_policy is None:
+        return set()
+    roots = tuple(base_policy["governed_markdown_roots"])
+    paths = run_git(repo_root, ["ls-tree", "-r", "--name-only", merge_base]).splitlines()
+    return {path for path in paths if path.endswith(".md") and path.startswith(roots)}
+
+
+def deleted_transition_record_paths(
+    deleted_paths: set[str],
+    historical_transition_paths: set[str],
+) -> set[str]:
+    """Compatibility helper using merge-base transition identity inventory."""
+    return base_transition_record_paths(deleted_paths, historical_transition_paths)
 
 
 def validate_deleted_paths(
@@ -814,12 +1092,14 @@ def validate_deleted_paths(
     policy: dict[str, Any],
     reverse_index: dict[str, set[str]] | None = None,
     deleted_transition_records: set[str] | None = None,
+    base_policy: dict[str, Any] | None = None,
 ) -> list[str]:
     violations: list[str] = []
     index = reverse_index if reverse_index is not None else build_reverse_reference_index(repo_root, policy)
     deleted_transition_records = deleted_transition_records or set()
     for path in sorted(deleted_paths):
-        if deleted_path_is_governed(path, policy) or path in deleted_transition_records:
+        historically_governed = base_policy is not None and deleted_path_is_governed(path, base_policy)
+        if deleted_path_is_governed(path, policy) or historically_governed or path in deleted_transition_records:
             violations.append(f"{path}: deletion of governed transition artifact is prohibited")
         for source in sorted(index.get(path, set())):
             violations.append(f"{path}: deletion creates dangling transition reference from {source}")
@@ -831,9 +1111,11 @@ def validate_files(
     paths: list[str],
     policy: dict[str,Any],
     required_transition_paths: set[str] | None = None,
+    required_markdown_paths: set[str] | None = None,
 ) -> dict[str,Any]:
     violations=[]; files=[]
     required_transition_paths = required_transition_paths or set()
+    required_markdown_paths = required_markdown_paths or set()
     for raw in sorted(set(paths)):
         try: path=safe_rel(repo_root,raw)
         except ValueError as exc: violations.append(str(exc)); continue
@@ -853,7 +1135,7 @@ def validate_files(
                 elif is_transition_json(obj,policy):
                     if obj['record_type']==policy['record_types']['snapshot']: errors.extend(validate_snapshot(repo_root,path,obj,policy))
                     else: errors.extend(validate_event(repo_root,path,obj,policy))
-        elif path.endswith('.md') and any(path.startswith(root) for root in policy['governed_markdown_roots']):
+        elif path.endswith('.md') and (path in required_markdown_paths or any(path.startswith(root) for root in policy['governed_markdown_roots'])):
             try: text=data.decode('utf-8')
             except UnicodeDecodeError: errors.append(f"{path}: not UTF-8")
             else:
@@ -885,39 +1167,90 @@ def parse_args(argv:list[str]) -> argparse.Namespace:
 def main(argv:list[str]|None=None) -> int:
     args=parse_args(sys.argv[1:] if argv is None else argv)
     repo=Path(args.repo_root).resolve(strict=True)
-    policy_path=Path(args.policy)
-    if not policy_path.is_absolute(): policy_path=repo/policy_path
-    policy=load_json_strict(policy_path)
-    if args.base_ref:
-        direct_paths, deleted_paths = changed_files(repo, args.base_ref)
-    else:
-        direct_paths, deleted_paths = list(args.files), set()
-    direct_paths = sorted(set(direct_paths))
-    changed_targets = set(direct_paths) | set(deleted_paths)
-    reverse_index = build_reverse_reference_index(repo, policy)
-    reverse_paths = reverse_reference_closure(repo, changed_targets, policy, reverse_index)
-    validation_paths = sorted(set(direct_paths) | set(reverse_paths))
-    base_governed_changed_paths = (
-        base_transition_record_paths(repo, args.base_ref, set(direct_paths) | set(deleted_paths), policy)
-        if args.base_ref else set()
-    )
-    required_transition_paths = base_governed_changed_paths.intersection(validation_paths)
-    report=validate_files(repo,validation_paths,policy,required_transition_paths)
-    deleted_transition_records = base_governed_changed_paths.intersection(deleted_paths)
-    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy, reverse_index, deleted_transition_records)
-    if deleted_violations:
-        report['violations'].extend(deleted_violations)
-        report['status'] = 'FAIL'
-    report['direct_changed_paths'] = direct_paths
-    report['reverse_reference_paths'] = reverse_paths
-    report['validation_paths'] = validation_paths
-    report['deleted_paths'] = sorted(deleted_paths)
-    report['base_governed_changed_paths'] = sorted(base_governed_changed_paths)
     out=Path(args.report)
     if not out.is_absolute(): out=repo/out
-    out.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+    policy_path=Path(args.policy)
+    if not policy_path.is_absolute(): policy_path=repo/policy_path
+    try:
+        policy_rel = repository_relative_file(repo, policy_path)
+        policy=load_json_strict(policy_path)
+        current_policy_errors = policy_shape_errors(policy, "current policy")
+        if current_policy_errors:
+            raise ValueError("; ".join(current_policy_errors))
+    except Exception as exc:
+        report = policy_failure_report(f"current policy invalid: {exc}", current_policy_path=str(args.policy))
+        write_report(out, report)
+        print(json.dumps(report,indent=2,sort_keys=True))
+        return 1
+
+    merge_base: str | None = None
+    base_policy: dict[str, Any] | None = None
+    base_policy_status = "NOT_APPLICABLE"
+    historical_transition_paths: set[str] = set()
+    historical_markdown_paths: set[str] = set()
+    try:
+        if args.base_ref:
+            direct_paths, deleted_paths = changed_files(repo, args.base_ref)
+            merge_base, base_policy, base_policy_status = load_base_policy_context(
+                repo, args.base_ref, policy_path, policy
+            )
+            historical_transition_paths = base_transition_record_inventory(repo, merge_base, base_policy)
+            historical_markdown_paths = base_governed_markdown_inventory(repo, merge_base, base_policy)
+        else:
+            direct_paths, deleted_paths = list(args.files), set()
+    except Exception as exc:
+        report = policy_failure_report(f"base-policy/governance classification failed: {exc}", current_policy_path=policy_rel)
+        report["base_policy_status"] = "FAIL"
+        write_report(out, report)
+        print(json.dumps(report,indent=2,sort_keys=True))
+        return 1
+
+
+    try:
+        direct_paths = sorted(set(direct_paths))
+        changed_targets = set(direct_paths) | set(deleted_paths)
+        reverse_index = build_reverse_reference_index(
+            repo, policy, historical_transition_paths=historical_transition_paths, base_policy=base_policy
+        )
+        reverse_paths = reverse_reference_closure(repo, changed_targets, policy, reverse_index)
+        validation_paths = sorted(set(direct_paths) | set(reverse_paths))
+        base_governed_changed_paths = (
+            base_transition_record_paths(set(direct_paths) | set(deleted_paths), historical_transition_paths)
+            if args.base_ref else set()
+        )
+        required_transition_paths = historical_transition_paths.intersection(validation_paths)
+        required_markdown_paths = historical_markdown_paths.intersection(validation_paths)
+        base_governed_markdown_changed_paths = historical_markdown_paths.intersection(set(direct_paths) | set(deleted_paths))
+        report=validate_files(
+            repo, validation_paths, policy, required_transition_paths, required_markdown_paths
+        )
+        deleted_transition_records = base_governed_changed_paths.intersection(deleted_paths)
+        deleted_violations = validate_deleted_paths(
+            repo, deleted_paths, policy, reverse_index, deleted_transition_records, base_policy
+        )
+        if deleted_violations:
+            report['violations'].extend(deleted_violations)
+            report['status'] = 'FAIL'
+        report['direct_changed_paths'] = direct_paths
+        report['reverse_reference_paths'] = reverse_paths
+        report['validation_paths'] = validation_paths
+        report['deleted_paths'] = sorted(deleted_paths)
+        report['base_governed_changed_paths'] = sorted(base_governed_changed_paths)
+        report['base_governed_markdown_paths'] = sorted(base_governed_markdown_changed_paths)
+        report['base_governed_validation_paths'] = sorted(required_transition_paths)
+        report['base_governed_markdown_validation_paths'] = sorted(required_markdown_paths)
+        report['current_policy_path'] = policy_rel
+        report['merge_base'] = merge_base
+        report['base_policy_status'] = base_policy_status
+    except Exception as exc:
+        report = policy_failure_report(f"transition validation failed closed: {type(exc).__name__}: {exc}", current_policy_path=policy_rel)
+        report['merge_base'] = merge_base
+        report['base_policy_status'] = base_policy_status
+
+    write_report(out, report)
     print(json.dumps(report,indent=2,sort_keys=True))
     return 0 if report['status']=='PASS' else 1
+
 
 if __name__ == '__main__':
     raise SystemExit(main())

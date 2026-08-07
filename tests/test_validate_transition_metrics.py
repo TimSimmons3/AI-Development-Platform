@@ -780,4 +780,163 @@ class TransitionValidatorTests(unittest.TestCase):
                 repo=self.make_repo();rec=self.snapshot(repo);rec['baseline_snapshot']=bad
                 report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('baseline_snapshot required' in x for x in report['violations']),report['violations'])
 
+
+    # CR6-R2 Policy-Version Continuity: historical identity must use merge-base
+    # policy while current validation continues to use current policy.
+    def write_policy(self, repo, policy):
+        path=repo/'config/transition-metrics-policy.json';path.parent.mkdir(parents=True,exist_ok=True)
+        path.write_text(json.dumps(policy,sort_keys=True)+'\n',encoding='utf-8')
+        return path
+
+    def renamed_record_type_policy(self):
+        policy=copy.deepcopy(POLICY)
+        policy['record_types']={'event':'SMT_TRANSITION_EVENT_V2','snapshot':'SMT_TRANSITION_METRICS_SNAPSHOT_V2'}
+        return policy
+
+    def run_policy_version_case(self, base_obj, current_obj, current_policy=None, rel='governance/custom-transition.json'):
+        repo=self.make_repo();p=repo/rel;p.parent.mkdir(parents=True,exist_ok=True)
+        p.write_text(json.dumps(base_obj)+'\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base')
+        if current_policy is not None:self.write_policy(repo,current_policy)
+        if current_obj is None:p.unlink()
+        elif isinstance(current_obj,bytes):p.write_bytes(current_obj)
+        else:p.write_text(json.dumps(current_obj)+'\n',encoding='utf-8')
+        self.commit_all(repo,'change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)])
+        return rc,json.loads(report.read_text()),repo,base
+
+    def test_policy_version_p1_record_type_rename_is_rejected_before_degovernance(self):
+        evt=self.off_directory_transition_event();policy=self.renamed_record_type_policy()
+        rc,data,_,_=self.run_policy_version_case(evt,{'x':1},policy)
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertEqual('FAIL',data['base_policy_status'])
+        self.assertTrue(any('record_types identities are immutable' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_record_type_migration_requires_new_governed_design_not_in_place_identity_change(self):
+        evt=self.off_directory_transition_event();policy=self.renamed_record_type_policy();current=copy.deepcopy(evt);current['record_type']=policy['record_types']['event'];current['event_id']='E2'
+        rc,data,_,_=self.run_policy_version_case(evt,current,policy)
+        self.assertEqual(1,rc);self.assertTrue(any('record_types identities are immutable' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_record_type_change_cannot_disable_reverse_reference_governance(self):
+        repo=self.make_repo();evidence=repo/'evidence.txt';evidence.write_text('old\n',encoding='utf-8')
+        evt=self.off_directory_transition_event();evt['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}]
+        p=repo/'governance/custom-transition.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(evt)+'\n',encoding='utf-8')
+        self.init_git(repo);base=self.commit_all(repo,'base');self.write_policy(repo,self.renamed_record_type_policy());evidence.write_text('new\n',encoding='utf-8');self.commit_all(repo,'policy and evidence change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['base_policy_status']);self.assertTrue(any('record_types identities are immutable' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_assignment_identity_is_immutable(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['transition_metrics_assignment']='TRANSITION_METRICS_RECORD_V2';self.write_policy(repo,policy);self.commit_all(repo,'change assignment identity');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('transition_metrics_assignment identity is immutable' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_metrics_filename_classifier_cannot_be_removed(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['metrics_link_filename_keywords']=['handoff','closeout'];self.write_policy(repo,policy);self.commit_all(repo,'remove gate classifier');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('metrics_link_filename_keywords may not remove' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_change_filename_classifier_cannot_be_removed(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['change_record_filename_keywords']=['plan','authorization'];self.write_policy(repo,policy);self.commit_all(repo,'remove change classifier');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('change_record_filename_keywords may not remove' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_governed_markdown_root_cannot_be_removed(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['governed_markdown_roots']=['skills/','docs/Releases/','docs/Standards/'];self.write_policy(repo,policy);self.commit_all(repo,'remove markdown root');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('governed_markdown_roots may not remove' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_governance_classifier_additions_are_allowed(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['governed_markdown_roots'].append('docs/Future/');policy['metrics_link_filename_keywords'].append('checkpoint');policy['change_record_filename_keywords'].append('waiver');self.write_policy(repo,policy);self.commit_all(repo,'add classifiers');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status'],data['violations']);self.assertEqual('PRESENT_VALID',data['base_policy_status'])
+
+    def test_policy_version_baseline_adoption_anchor_is_immutable(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['baseline_commit_for_adoption']='a'*40;self.write_policy(repo,policy);self.commit_all(repo,'change baseline anchor');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('baseline_commit_for_adoption is immutable' in x for x in data['violations']),data['violations'])
+
+    def test_policy_version_unrelated_base_json_remains_unrelated_with_compatible_policy(self):
+        base={'record_type':'OTHER','x':1};current={'record_type':'OTHER','x':2};policy=copy.deepcopy(POLICY);policy['governed_markdown_roots'].append('docs/Future/')
+        rc,data,_,_=self.run_policy_version_case(base,current,policy)
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status'],data['violations']);self.assertEqual([],data['base_governed_changed_paths'])
+
+    def test_policy_bootstrap_absent_base_policy_requires_exact_adoption_baseline(self):
+        repo=self.make_repo();(repo/'config/transition-metrics-policy.json').unlink();(repo/'pre-adoption.txt').write_text('baseline\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'pre-adoption base');policy=copy.deepcopy(POLICY);policy['baseline_commit_for_adoption']=base;self.write_policy(repo,policy);self.commit_all(repo,'adopt policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('BOOTSTRAP_ABSENT_AUTHORIZED',data['base_policy_status']);self.assertEqual('PASS',data['status'],data['violations'])
+
+    def test_policy_bootstrap_absent_base_policy_mismatched_baseline_fails_closed(self):
+        repo=self.make_repo();(repo/'config/transition-metrics-policy.json').unlink();(repo/'pre-adoption.txt').write_text('baseline\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'pre-adoption base');policy=copy.deepcopy(POLICY);policy['baseline_commit_for_adoption']='a'*40;self.write_policy(repo,policy);self.commit_all(repo,'bad adoption policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertEqual('FAIL',data['base_policy_status']);self.assertTrue(any('base-policy/governance classification failed' in x for x in data['violations']),data['violations'])
+
+    def test_policy_malformed_base_json_fails_closed_structured(self):
+        repo=self.make_repo();path=repo/'config/transition-metrics-policy.json';path.write_text('{bad\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'malformed base policy');self.write_policy(repo,POLICY);self.commit_all(repo,'repair policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertEqual('FAIL',data['base_policy_status']);self.assertTrue(any('merge-base policy parse failed' in x for x in data['violations']),data['violations'])
+
+    def test_policy_malformed_base_shape_fails_closed_structured(self):
+        repo=self.make_repo();bad=copy.deepcopy(POLICY);bad['record_types']=['bad'];self.write_policy(repo,bad);self.init_git(repo);base=self.commit_all(repo,'bad base shape');self.write_policy(repo,POLICY);self.commit_all(repo,'repair policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('merge-base policy: record_types must be an object' in x for x in data['violations']),data['violations'])
+
+    def test_policy_malformed_current_json_fails_closed_structured(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');path=repo/'config/transition-metrics-policy.json';path.write_text('{bad\n',encoding='utf-8');self.commit_all(repo,'bad current policy');report=repo/'report.json'
+        try:rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)])
+        except Exception as exc:self.fail(f'malformed current policy raised {type(exc).__name__}: {exc}')
+        data=json.loads(report.read_text());self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('current policy invalid' in x for x in data['violations']),data['violations'])
+
+    def test_policy_malformed_current_shape_fails_closed_structured(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['record_types']={'event':'SAME','snapshot':'SAME'};self.write_policy(repo,bad);self.commit_all(repo,'bad current policy shape');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('event and snapshot record types must be distinct' in x for x in data['violations']),data['violations'])
+
+    def test_policy_id_change_fails_closed_against_base_policy(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);policy['policy_id']='OTHER_POLICY';self.write_policy(repo,policy);self.commit_all(repo,'change policy identity');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertTrue(any('policy_id does not match' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_extra_record_type_identity(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['record_types']['legacy']='LEGACY';self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('record_types must contain exactly event and snapshot' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_non_boolean_overlap_control(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['allow_overlapping_timing_intervals']='false';self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('allow_overlapping_timing_intervals must be boolean' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_duplicate_classifier_values(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['metrics_link_filename_keywords'].append(bad['metrics_link_filename_keywords'][0]);self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('metrics_link_filename_keywords must be a non-empty unique-string list' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_unsafe_markdown_root(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['governed_markdown_roots'].append('../escape/');self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('unsafe/non-directory root' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_invalid_assignment_key(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['transition_metrics_assignment']='bad-key';self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('uppercase assignment key' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_metrics_topology_mismatch(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['metrics'].pop('M28');self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('metrics keys must exactly match metric_order' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_unsupported_metric_value_type(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['metrics']['M01']['value_type']='FLOAT';self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('unsupported value_type' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_allowed_transition_unknown_state(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['allowed_transitions']['PLANNING_READ_ONLY']=['NOT_A_STATE'];self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('contains unknown lifecycle state' in x for x in data['violations']),data['violations'])
+
+    def test_policy_shape_rejects_supported_state_vocabulary_drift(self):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');bad=copy.deepcopy(POLICY);bad['data_quality_states']=['MEASURED'];self.write_policy(repo,bad);self.commit_all(repo,'bad policy');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertTrue(any('data_quality_states must match supported validator states' in x for x in data['violations']),data['violations'])
+
 if __name__=='__main__': unittest.main()
