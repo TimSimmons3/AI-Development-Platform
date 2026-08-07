@@ -33,9 +33,13 @@ TRANSITION_CANONICAL_PATHS = {
     "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
     "tests/test_validate_transition_metrics.py",
 }
+TRANSITION_CANONICAL_RECORD_PATHS = {
+    "docs/Templates/SMT-Transition-Event-Metrics-Template.json",
+    "docs/Templates/SMT-Transition-Metrics-Baseline-Template.json",
+}
 
 
-def load_json_strict(path: Path) -> Any:
+def load_json_text_strict(text: str) -> Any:
     def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}
         for key, value in pairs:
@@ -48,10 +52,14 @@ def load_json_strict(path: Path) -> Any:
         raise ValueError(f"non-finite JSON number is not permitted: {value}")
 
     return json.loads(
-        path.read_text(encoding="utf-8"),
+        text,
         object_pairs_hook=reject_duplicates,
         parse_constant=reject_nonfinite_constant,
     )
+
+
+def load_json_strict(path: Path) -> Any:
+    return load_json_text_strict(path.read_text(encoding="utf-8"))
 
 
 def utc(value: Any) -> bool:
@@ -377,6 +385,7 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
     if record.get("lifecycle_state") not in policy["lifecycle_states"]: errors.append("invalid lifecycle_state")
     if not utc(record.get("created_utc")): errors.append("created_utc invalid")
     if not isinstance(record.get("baseline_commit"),str) or not SHA1_RE.fullmatch(record.get("baseline_commit","")): errors.append("baseline_commit invalid")
+    if not isinstance(record.get("baseline_snapshot"),str) or not record.get("baseline_snapshot","").strip(): errors.append("baseline_snapshot required")
     if not isinstance(record.get("workstream_id"),str) or not record.get("workstream_id","").strip(): errors.append("workstream_id required")
     if not isinstance(record.get("collection_method"),str) or not record.get("collection_method","").strip(): errors.append("collection_method required")
     transition_types = {policy["record_types"]["snapshot"], policy["record_types"]["event"]}
@@ -539,10 +548,14 @@ def csv_cell(value: Any) -> str:
 def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str) -> list[str]:
     errors=[]
     expected_header=['metric_id','name','unit','value','data_quality','collection_method','reason']
-    with path.open(newline='',encoding='utf-8') as fh:
-        reader=csv.DictReader(fh)
-        if reader.fieldnames != expected_header: return [f"{context}: CSV header mismatch"]
-        actual=list(reader)
+    try:
+        with path.open(newline='',encoding='utf-8') as fh:
+            reader=csv.DictReader(fh)
+            if reader.fieldnames != expected_header:
+                return [f"{context}: CSV header mismatch"]
+            actual=list(reader)
+    except (UnicodeError, csv.Error, OSError) as exc:
+        return [f"{context}: CSV decode/parse failed: {type(exc).__name__}: {exc}"]
     if len(actual)!=len(rows): return [f"{context}: CSV row count mismatch"]
     for i,(a,m) in enumerate(zip(actual,rows)):
         if not isinstance(m,dict):
@@ -593,7 +606,10 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
             if d.get('timestamp_utc') and not utc(d.get('timestamp_utc')): errors.append('deviation.timestamp_utc invalid')
     if record.get('event_type') == 'QUALIFICATION_RUN':
         tr=record.get('test_run')
-        if dist_from_runs([tr] if isinstance(tr,dict) else tr,errors) is None: errors.append('QUALIFICATION_RUN requires test_run')
+        if not isinstance(tr,dict):
+            errors.append('QUALIFICATION_RUN requires exactly one test_run object')
+        else:
+            dist_from_runs([tr],errors)
     if record.get('event_type') == 'EXTERNAL_BLOCKER':
         ex=record.get('external_incident')
         if not isinstance(ex,dict): errors.append('EXTERNAL_BLOCKER requires external_incident')
@@ -642,6 +658,13 @@ def validate_markdown(repo_root: Path, path: str, text: str, policy: dict[str,An
 
 def is_transition_json(data: Any, policy: dict[str,Any]) -> bool:
     return isinstance(data,dict) and data.get('record_type') in policy['record_types'].values()
+
+
+def transition_record_path_requires_type(path: str) -> bool:
+    if path.startswith("docs/Releases/metrics/") or path in TRANSITION_CANONICAL_RECORD_PATHS:
+        return True
+    name = PurePosixPath(path).name
+    return path.startswith("docs/Templates/") and name.startswith("SMT-Transition-") and name.endswith(".json")
 
 
 def deleted_path_is_governed(path: str, policy: dict[str, Any]) -> bool:
@@ -698,20 +721,27 @@ def build_reverse_reference_index(repo_root: Path, policy: dict[str, Any]) -> di
                 if isinstance(target, str) and target:
                     add(target, source)
 
-    metrics = repo_root / "docs" / "Releases" / "metrics"
-    if metrics.is_dir():
-        for full in sorted(metrics.rglob("*.json")):
-            if full.is_symlink() or not full.is_file():
-                continue
-            try:
-                obj = load_json_strict(full)
-            except Exception:
-                continue
-            if not is_transition_json(obj, policy):
-                continue
-            source = full.relative_to(repo_root).as_posix()
-            for target in referenced_repository_paths(obj):
-                add(target, source)
+    # Transition records are not confined to docs/Releases/metrics. Canonical
+    # templates are transition records too, and future governed records may live
+    # elsewhere. Discover every parseable transition JSON record in the repository
+    # so any referenced artifact change revalidates its dependent record.
+    for full in sorted(repo_root.rglob("*.json")):
+        if ".git" in full.parts or full.is_symlink() or not full.is_file():
+            continue
+        try:
+            obj = load_json_strict(full)
+        except Exception:
+            # Direct validation remains responsible for malformed changed records.
+            # Reverse discovery intentionally ignores unrelated/non-parseable JSON
+            # rather than treating all repository JSON as transition governance.
+            continue
+        source = full.relative_to(repo_root).as_posix()
+        if not is_transition_json(obj, policy) and not transition_record_path_requires_type(source):
+            continue
+        if not isinstance(obj, dict):
+            continue
+        for target in referenced_repository_paths(obj):
+            add(target, source)
     return index
 
 
@@ -719,8 +749,9 @@ def reverse_reference_closure(
     repo_root: Path,
     changed_targets: set[str],
     policy: dict[str, Any],
+    reverse_index: dict[str, set[str]] | None = None,
 ) -> list[str]:
-    index = build_reverse_reference_index(repo_root, policy)
+    index = reverse_index if reverse_index is not None else build_reverse_reference_index(repo_root, policy)
     queue = sorted(changed_targets)
     seen_targets: set[str] = set()
     dependent_sources: set[str] = set()
@@ -736,16 +767,43 @@ def reverse_reference_closure(
     return sorted(dependent_sources)
 
 
+def deleted_transition_record_paths(
+    repo_root: Path,
+    base_ref: str,
+    deleted_paths: set[str],
+    policy: dict[str, Any],
+) -> set[str]:
+    if not deleted_paths:
+        return set()
+    merge_base = run_git(repo_root, ["merge-base", base_ref, "HEAD"]).strip()
+    if not SHA1_RE.fullmatch(merge_base):
+        raise RuntimeError("git merge-base did not return a commit SHA")
+    result: set[str] = set()
+    for path in sorted(deleted_paths):
+        if not path.endswith(".json"):
+            continue
+        try:
+            text = run_git(repo_root, ["show", f"{merge_base}:{path}"])
+            obj = load_json_text_strict(text)
+        except (RuntimeError, UnicodeError, ValueError, json.JSONDecodeError):
+            continue
+        if is_transition_json(obj, policy):
+            result.add(path)
+    return result
+
+
 def validate_deleted_paths(
     repo_root: Path,
     deleted_paths: set[str],
     policy: dict[str, Any],
     reverse_index: dict[str, set[str]] | None = None,
+    deleted_transition_records: set[str] | None = None,
 ) -> list[str]:
     violations: list[str] = []
     index = reverse_index if reverse_index is not None else build_reverse_reference_index(repo_root, policy)
+    deleted_transition_records = deleted_transition_records or set()
     for path in sorted(deleted_paths):
-        if deleted_path_is_governed(path, policy):
+        if deleted_path_is_governed(path, policy) or path in deleted_transition_records:
             violations.append(f"{path}: deletion of governed transition artifact is prohibited")
         for source in sorted(index.get(path, set())):
             violations.append(f"{path}: deletion creates dangling transition reference from {source}")
@@ -767,8 +825,8 @@ def validate_files(repo_root: Path, paths: list[str], policy: dict[str,Any]) -> 
             try: obj=load_json_strict(full)
             except Exception as exc: errors.append(f"{path}: JSON parse failed: {exc}")
             else:
-                if path.startswith('docs/Releases/metrics/') and not is_transition_json(obj,policy):
-                    errors.append(f"{path}: unrecognized transition metrics record_type")
+                if transition_record_path_requires_type(path) and not is_transition_json(obj,policy):
+                    errors.append(f"{path}: unrecognized transition record_type")
                 elif is_transition_json(obj,policy):
                     if obj['record_type']==policy['record_types']['snapshot']: errors.extend(validate_snapshot(repo_root,path,obj,policy))
                     else: errors.extend(validate_event(repo_root,path,obj,policy))
@@ -814,10 +872,11 @@ def main(argv:list[str]|None=None) -> int:
     direct_paths = sorted(set(direct_paths))
     changed_targets = set(direct_paths) | set(deleted_paths)
     reverse_index = build_reverse_reference_index(repo, policy)
-    reverse_paths = reverse_reference_closure(repo, changed_targets, policy)
+    reverse_paths = reverse_reference_closure(repo, changed_targets, policy, reverse_index)
     validation_paths = sorted(set(direct_paths) | set(reverse_paths))
     report=validate_files(repo,validation_paths,policy)
-    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy, reverse_index)
+    deleted_transition_records = deleted_transition_record_paths(repo, args.base_ref, deleted_paths, policy) if args.base_ref else set()
+    deleted_violations = validate_deleted_paths(repo, deleted_paths, policy, reverse_index, deleted_transition_records)
     if deleted_violations:
         report['violations'].extend(deleted_violations)
         report['status'] = 'FAIL'

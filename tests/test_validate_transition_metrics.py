@@ -500,4 +500,206 @@ class TransitionValidatorTests(unittest.TestCase):
                     self.assertEqual('FAIL',report['status'])
                     self.assertTrue(report['violations'])
 
+
+    # CR5 comprehensive validator closure: repository discovery, schema cardinality,
+    # parser/decoding boundaries, and fail-closed exception-surface coverage.
+    def qualification_run_event(self):
+        return {
+            'record_type':POLICY['record_types']['event'],'schema_version':'1.0','workstream_id':'W',
+            'event_id':'Q1','created_utc':'2026-08-07T12:00:00Z','event_type':'QUALIFICATION_RUN',
+            'lifecycle_from':'DESIGN_QUALIFICATION','lifecycle_to':'DESIGN_QUALIFICATION',
+            'classification':'NONE','mutation_boundary_crossed':False,'previous_record':None,
+            'evidence_refs':[self.ext()],
+            'test_run':{'run_id':'R1','test_layer':'UNIT','result':'PASS','release_authorizing':False,
+                'test_id':'T1','requirement_id':'REQ1','production_function_path':'validator',
+                'fixture_provenance':'independent','expected_result_source':'policy','actual_result':'PASS',
+                'mutation_boundary':'NONE','cleanup_preserve_behavior':'NONE','evidence_artifact':'E'}
+        }
+
+    def test_qualification_run_requires_exactly_one_object(self):
+        malformed=[None,[],[self.qualification_run_event()['test_run']],
+            [self.qualification_run_event()['test_run'],self.qualification_run_event()['test_run']],
+            'bad',0,1,True,False,3.14]
+        for bad in malformed:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();evt=self.qualification_run_event();evt['test_run']=bad
+                p=repo/'docs/Releases/metrics/q.json';p.write_text(json.dumps(evt),encoding='utf-8')
+                report=v.validate_files(repo,['docs/Releases/metrics/q.json'],POLICY)
+                self.assertEqual('FAIL',report['status']);self.assertTrue(any('exactly one test_run object' in x for x in report['violations']),report['violations'])
+
+    def test_qualification_run_single_object_passes(self):
+        repo=self.make_repo();evt=self.qualification_run_event();p=repo/'docs/Releases/metrics/q.json';p.write_text(json.dumps(evt),encoding='utf-8')
+        report=v.validate_files(repo,['docs/Releases/metrics/q.json'],POLICY);self.assertEqual('PASS',report['status'],report['violations'])
+
+    def test_canonical_template_csv_change_revalidates_template(self):
+        repo=self.make_repo();(repo/'docs/Templates').mkdir(parents=True,exist_ok=True)
+        rec=self.snapshot(repo);rec['csv_projection_path']='docs/Templates/template.csv';self.write_csv(repo,rec)
+        template=repo/'docs/Templates/template.json';template.write_text(json.dumps(rec,sort_keys=True)+'\n',encoding='utf-8')
+        self.init_git(repo);base=self.commit_all(repo,'base')
+        (repo/'docs/Templates/template.csv').write_text('bad\n',encoding='utf-8');self.commit_all(repo,'corrupt template csv')
+        report_path=repo/'report.json';rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report_path)])
+        data=json.loads(report_path.read_text());self.assertEqual(1,rc);self.assertEqual('FAIL',data['status'])
+        self.assertIn('docs/Templates/template.json',data['reverse_reference_paths']);self.assertTrue(any('CSV header mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_repository_transition_record_outside_metrics_is_reverse_indexed(self):
+        repo=self.make_repo();(repo/'governance').mkdir(parents=True,exist_ok=True)
+        evidence=repo/'evidence.txt';evidence.write_text('before\n',encoding='utf-8')
+        rec=self.snapshot(repo);rec['csv_projection_path']='governance/custom.csv';self.write_csv(repo,rec)
+        next(m for m in rec['metrics'] if m['metric_id']=='M02')['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.txt','sha256':hashlib.sha256(evidence.read_bytes()).hexdigest()}]
+        self.write_csv(repo,rec);source=repo/'governance/custom-transition.json';source.write_text(json.dumps(rec,sort_keys=True)+'\n',encoding='utf-8')
+        self.init_git(repo);base=self.commit_all(repo,'base');evidence.write_text('after\n',encoding='utf-8');self.commit_all(repo,'modify evidence')
+        report_path=repo/'report.json';rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report_path)])
+        data=json.loads(report_path.read_text());self.assertEqual(1,rc);self.assertIn('governance/custom-transition.json',data['reverse_reference_paths'])
+        self.assertTrue(any('reference sha256 mismatch' in x for x in data['violations']),data['violations'])
+
+    def test_unrelated_json_outside_transition_roots_is_not_reverse_indexed(self):
+        repo=self.make_repo();(repo/'misc').mkdir(parents=True,exist_ok=True)
+        (repo/'misc/data.json').write_text(json.dumps({'path':'evidence.txt','record_type':'UNRELATED'})+'\n',encoding='utf-8')
+        evidence=repo/'evidence.txt';evidence.write_text('before\n',encoding='utf-8')
+        self.init_git(repo);base=self.commit_all(repo,'base');evidence.write_text('after\n',encoding='utf-8');self.commit_all(repo,'modify evidence')
+        report_path=repo/'report.json';rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report_path)])
+        data=json.loads(report_path.read_text());self.assertEqual(0,rc);self.assertNotIn('misc/data.json',data['reverse_reference_paths'])
+
+    def test_non_utf8_csv_returns_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);(repo/rec['csv_projection_path']).write_bytes(b'\xff\xfe\x00bad')
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('CSV decode/parse failed' in x for x in report['violations']),report['violations'])
+
+    def test_csv_parser_error_returns_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);p=repo/rec['csv_projection_path']
+        huge='x'*(csv.field_size_limit()+1);p.write_text('metric_id,name,unit,value,data_quality,collection_method,reason\n'+huge+',x,x,x,x,x,x\n',encoding='utf-8')
+        report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('CSV decode/parse failed' in x for x in report['violations']),report['violations'])
+
+    def test_non_utf8_json_returns_structured_fail(self):
+        repo=self.make_repo();p=repo/'docs/Releases/metrics/bad.json';p.write_bytes(b'\xff\xfe')
+        report=v.validate_files(repo,['docs/Releases/metrics/bad.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('JSON parse failed' in x for x in report['violations']),report['violations'])
+
+    def test_non_utf8_governed_markdown_returns_structured_fail(self):
+        repo=self.make_repo();p=repo/'docs/Releases/Test-Gate.md';p.write_bytes(b'\xff\xfe')
+        report=v.validate_files(repo,['docs/Releases/Test-Gate.md'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('not UTF-8' in x for x in report['violations']),report['violations'])
+
+    def test_binary_repo_path_evidence_with_digest_is_allowed(self):
+        repo=self.make_repo();rec=self.snapshot(repo);p=repo/'evidence.bin';p.write_bytes(bytes(range(256)))
+        next(m for m in rec['metrics'] if m['metric_id']=='M02')['evidence_refs']=[{'type':'REPO_PATH','path':'evidence.bin','sha256':hashlib.sha256(p.read_bytes()).hexdigest()}]
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('PASS',report['status'],report['violations'])
+
+    def test_event_specific_single_object_fields_fail_closed_matrix(self):
+        bad_values=[None,[],[{}],'bad',0,1,True,False,3.14]
+        deviation=self.qualification_run_event();deviation.update(event_type='DEVIATION',classification='REVIEW_TEST_DEFECT');deviation.pop('test_run',None)
+        deviation['deviation']={'deviation_id':'D1','timestamp_utc':'2026-08-07T12:00:00Z','category':'REVIEW','planned_condition':'x','observed_condition':'y','impact':'z','mutation_status':'NONE','evidence_reference':'E','owner_disposition':'CORRECT','permanent_control_decision':'ADD_TEST'}
+        blocker=self.qualification_run_event();blocker.update(event_type='EXTERNAL_BLOCKER');blocker.pop('test_run',None);blocker['external_incident']={'candidate_revision_action':'PRESERVE_EXACT_CANDIDATE','code_revision_created':False,'exposed_internal_defect':False}
+        for field,template in [('deviation',deviation),('external_incident',blocker),('test_run',self.qualification_run_event())]:
+            for bad in bad_values:
+                with self.subTest(field=field,bad=repr(bad)):
+                    repo=self.make_repo();evt=copy.deepcopy(template);evt[field]=bad;p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt),encoding='utf-8')
+                    report=v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_snapshot_container_field_matrix_never_raises(self):
+        bad_values=[None,{},'bad',0,1,True,False,3.14]
+        for field in ['metrics','timing_intervals','test_runs','defects','handoff_components']:
+            for bad in bad_values:
+                with self.subTest(field=field,bad=repr(bad)):
+                    repo=self.make_repo();rec=self.snapshot(repo);rec[field]=bad
+                    try: report=self.validate(repo,rec)
+                    except Exception as exc: self.fail(f'{field}={bad!r} raised {type(exc).__name__}: {exc}')
+                    self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_event_container_and_scalar_field_matrix_never_raises(self):
+        base=self.qualification_run_event()
+        cases={
+            'event_type':[[],{},0,True,None], 'classification':[[],{},0,True,None],
+            'lifecycle_from':[[],{},0,True,None], 'lifecycle_to':[[],{},0,True,None],
+            'evidence_refs':[{},'bad',0,True,None], 'previous_record':[[],'bad',0,True],
+            'workstream_id':[[],{},0,True,None], 'event_id':[[],{},0,True,None],
+            'created_utc':[[],{},0,True,None], 'mutation_boundary_crossed':[[],{},0,'bad',None],
+        }
+        for field,values in cases.items():
+            for bad in values:
+                with self.subTest(field=field,bad=repr(bad)):
+                    repo=self.make_repo();evt=copy.deepcopy(base);evt[field]=bad;p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt),encoding='utf-8')
+                    try: report=v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY)
+                    except Exception as exc: self.fail(f'{field}={bad!r} raised {type(exc).__name__}: {exc}')
+                    self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_snapshot_scalar_field_matrix_never_raises(self):
+        cases={
+            'snapshot_type':[[],{},0,True,None], 'lifecycle_state':[[],{},0,True,None],
+            'created_utc':[[],{},0,True,None], 'baseline_commit':[[],{},0,True,None],
+            'workstream_id':[[],{},0,True,None], 'collection_method':[[],{},0,True,None],
+            'previous_record':[[],'bad',0,True], 'prior_handoff_available':[[],{},0,'bad',None],
+            'csv_projection_path':[[],{},0,True,None],
+        }
+        for field,values in cases.items():
+            for bad in values:
+                with self.subTest(field=field,bad=repr(bad)):
+                    repo=self.make_repo();rec=self.snapshot(repo);rec[field]=bad
+                    try: report=self.validate(repo,rec)
+                    except Exception as exc: self.fail(f'{field}={bad!r} raised {type(exc).__name__}: {exc}')
+                    self.assertEqual('FAIL',report['status']);self.assertTrue(report['violations'])
+
+    def test_repository_templates_are_discovered_as_transition_records(self):
+        index=v.build_reverse_reference_index(ROOT,POLICY)
+        self.assertIn('docs/Templates/SMT-Transition-Metrics-Baseline-Projection.csv',index)
+        self.assertIn('docs/Templates/SMT-Transition-Metrics-Baseline-Template.json',index['docs/Templates/SMT-Transition-Metrics-Baseline-Projection.csv'])
+
+    def test_reverse_index_ignores_malformed_unrelated_json_without_exception(self):
+        repo=self.make_repo();p=repo/'config/bad-unrelated.json';p.write_bytes(b'\xff\xfe')
+        try: index=v.build_reverse_reference_index(repo,POLICY)
+        except Exception as exc: self.fail(f'reverse index raised {type(exc).__name__}: {exc}')
+        self.assertIsInstance(index,dict)
+
+
+    def test_modified_non_utf8_csv_reverse_revalidation_is_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base')
+        (repo/rec['csv_projection_path']).write_bytes(b'\xff\xfe\x00bad');self.commit_all(repo,'corrupt csv encoding');report_path=repo/'report.json'
+        try: rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report_path)])
+        except Exception as exc: self.fail(f'reverse CSV validation raised {type(exc).__name__}: {exc}')
+        data=json.loads(report_path.read_text());self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('CSV decode/parse failed' in x for x in data['violations']),data['violations'])
+
+    def test_modified_oversized_csv_reverse_revalidation_is_structured_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);self.validate(repo,rec);self.init_git(repo);base=self.commit_all(repo,'base');p=repo/rec['csv_projection_path']
+        huge='x'*(csv.field_size_limit()+1);p.write_text('metric_id,name,unit,value,data_quality,collection_method,reason\n'+huge+',x,x,x,x,x,x\n',encoding='utf-8');self.commit_all(repo,'oversize csv field');report_path=repo/'report.json'
+        try: rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report_path)])
+        except Exception as exc: self.fail(f'reverse CSV validation raised {type(exc).__name__}: {exc}')
+        data=json.loads(report_path.read_text());self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('docs/Releases/metrics/s.json',data['reverse_reference_paths']);self.assertTrue(any('CSV decode/parse failed' in x for x in data['violations']),data['violations'])
+
+
+    def test_canonical_transition_templates_reject_unknown_or_missing_record_type(self):
+        cases=[
+            ('docs/Templates/SMT-Transition-Metrics-Baseline-Template.json',{'record_type':'TYPO'}),
+            ('docs/Templates/SMT-Transition-Metrics-Baseline-Template.json',{'x':1}),
+            ('docs/Templates/SMT-Transition-Event-Metrics-Template.json',{'record_type':'TYPO'}),
+            ('docs/Templates/SMT-Transition-Event-Metrics-Template.json',{'x':1}),
+        ]
+        for rel,obj in cases:
+            with self.subTest(rel=rel,obj=obj):
+                repo=self.make_repo();p=repo/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(obj)+'\n',encoding='utf-8')
+                report=v.validate_files(repo,[rel],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in report['violations']),report['violations'])
+
+    def test_metrics_directory_unknown_record_type_error_remains_fail_closed(self):
+        repo=self.make_repo();p=repo/'docs/Releases/metrics/unknown.json';p.write_text('{"record_type":"TYPO"}\n',encoding='utf-8')
+        report=v.validate_files(repo,['docs/Releases/metrics/unknown.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in report['violations']),report['violations'])
+
+
+    def test_future_named_canonical_transition_template_requires_transition_record_type(self):
+        repo=self.make_repo();rel='docs/Templates/SMT-Transition-Future-Template.json';p=repo/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('{"record_type":"TYPO"}\n',encoding='utf-8')
+        report=v.validate_files(repo,[rel],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('unrecognized transition record_type' in x for x in report['violations']),report['violations'])
+
+    def test_deleted_transition_record_outside_metrics_is_governed(self):
+        repo=self.make_repo();(repo/'governance').mkdir(parents=True,exist_ok=True);evt=self.qualification_run_event();evt['event_type']='LIFECYCLE';evt.pop('test_run',None);evt['lifecycle_from']='PLANNING_READ_ONLY';evt['lifecycle_to']='DESIGN_QUALIFICATION'
+        p=repo/'governance/custom-transition.json';p.write_text(json.dumps(evt)+'\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base');p.unlink();self.commit_all(repo,'delete transition record');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('governance/custom-transition.json',data['deleted_paths']);self.assertTrue(any('deletion of governed transition artifact is prohibited' in x for x in data['violations']),data['violations'])
+
+    def test_deleted_unrelated_json_outside_metrics_remains_allowed(self):
+        repo=self.make_repo();(repo/'governance').mkdir(parents=True,exist_ok=True);p=repo/'governance/unrelated.json';p.write_text('{"record_type":"OTHER","x":1}\n',encoding='utf-8');self.init_git(repo);base=self.commit_all(repo,'base');p.unlink();self.commit_all(repo,'delete unrelated json');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertEqual('PASS',data['status'])
+
+
+    def test_baseline_snapshot_recovery_identity_is_required(self):
+        for bad in [None,'',[],{},0,True]:
+            with self.subTest(bad=repr(bad)):
+                repo=self.make_repo();rec=self.snapshot(repo);rec['baseline_snapshot']=bad
+                report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('baseline_snapshot required' in x for x in report['violations']),report['violations'])
+
 if __name__=='__main__': unittest.main()
