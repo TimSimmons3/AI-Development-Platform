@@ -939,4 +939,68 @@ class TransitionValidatorTests(unittest.TestCase):
         rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
         self.assertEqual(1,rc);self.assertTrue(any('data_quality_states must match supported validator states' in x for x in data['violations']),data['violations'])
 
+
+    # Final Assurance Recovery: complete Git-state and full semantic-policy compatibility.
+    def test_final_recovery_type_change_regular_to_symlink_is_discovered_and_fails(self):
+        repo=self.make_repo();p=repo/'governance/custom-transition.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(self.off_directory_transition_event())+'\n',encoding='utf-8')
+        self.init_git(repo);base=self.commit_all(repo,'base');p.unlink();p.symlink_to('missing-target');self.commit_all(repo,'type change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(1,rc);self.assertEqual('FAIL',data['status']);self.assertIn('governance/custom-transition.json',data['direct_changed_paths'])
+
+    def test_final_recovery_type_change_symlink_to_regular_is_discovered(self):
+        repo=self.make_repo();p=repo/'unrelated';p.symlink_to('target');self.init_git(repo);base=self.commit_all(repo,'base');p.unlink();p.write_text('regular\n',encoding='utf-8');self.commit_all(repo,'type change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);data=json.loads(report.read_text())
+        self.assertEqual(0,rc);self.assertIn('unrelated',data['direct_changed_paths'])
+
+    def run_policy_mutation(self, mutate):
+        repo=self.make_repo();self.init_git(repo);base=self.commit_all(repo,'base');policy=copy.deepcopy(POLICY);mutate(policy);self.write_policy(repo,policy);self.commit_all(repo,'policy change');report=repo/'report.json'
+        rc=v.main(['--repo-root',str(repo),'--policy','config/transition-metrics-policy.json','--base-ref',base,'--report',str(report)]);return rc,json.loads(report.read_text())
+
+    def test_final_recovery_required_handoff_component_removal_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p['required_handoff_components'].pop());self.assertEqual(1,rc);self.assertTrue(any('required_handoff_components' in x for x in d['violations']),d)
+
+    def test_final_recovery_required_change_record_field_removal_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p['required_change_record_fields'].pop());self.assertEqual(1,rc);self.assertTrue(any('required_change_record_fields may not remove' in x for x in d['violations']),d)
+
+    def test_final_recovery_lifecycle_graph_expansion_fails(self):
+        def mut(p):p['allowed_transitions']['PLANNING_READ_ONLY'].append('CLOSED_AND_FROZEN')
+        rc,d=self.run_policy_mutation(mut);self.assertEqual(1,rc);self.assertTrue(any('allowed_transitions is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_overlap_control_weakening_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p.__setitem__('allow_overlapping_timing_intervals',True));self.assertEqual(1,rc);self.assertTrue(any('allow_overlapping_timing_intervals is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_metric_semantic_redefinition_fails(self):
+        def mut(p):p['metrics']['M01']['definition']='weakened'
+        rc,d=self.run_policy_mutation(mut);self.assertEqual(1,rc);self.assertTrue(any('metrics is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_m27_denominator_shrink_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p['m27_denominator_metric_ids'].pop());self.assertEqual(1,rc);self.assertTrue(any('m27_denominator_metric_ids is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_timing_semantic_change_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p['m22_active_categories'].remove('REWORK'));self.assertEqual(1,rc);self.assertTrue(any('m22_active_categories is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_schema_version_in_place_change_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p.__setitem__('schema_version','2.0'));self.assertEqual(1,rc);self.assertTrue(any('schema_version is immutable' in x for x in d['violations']),d)
+
+    def test_final_recovery_effective_date_rollback_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p.__setitem__('effective_date','2026-08-06'));self.assertEqual(1,rc);self.assertTrue(any('effective_date may not move backward' in x for x in d['violations']),d)
+
+    def test_final_recovery_stricter_required_change_record_addition_allowed(self):
+        rc,d=self.run_policy_mutation(lambda p:p['required_change_record_fields'].append('FINAL_ASSURANCE_ORACLE'));self.assertEqual(0,rc);self.assertEqual('PASS',d['status'],d['violations'])
+
+    def test_final_recovery_stricter_handoff_component_append_allowed(self):
+        rc,d=self.run_policy_mutation(lambda p:p['required_handoff_components'].append('FINAL_ASSURANCE_ORACLE'));self.assertEqual(0,rc);self.assertEqual('PASS',d['status'],d['violations'])
+
+    def test_final_recovery_policy_unexpected_field_fails(self):
+        rc,d=self.run_policy_mutation(lambda p:p.__setitem__('candidate_override',True));self.assertEqual(1,rc);self.assertTrue(any('unexpected top-level fields' in x for x in d['violations']),d)
+
+    def test_final_recovery_snapshot_unexpected_field_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['candidate_override']=True;self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('unexpected fields' in x for x in report['violations']),report['violations'])
+
+    def test_final_recovery_event_unexpected_field_fails(self):
+        repo=self.make_repo();evt=self.qualification_run_event();evt['candidate_override']=True;p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));report=v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY);self.assertEqual('FAIL',report['status']);self.assertTrue(any('unexpected fields' in x for x in report['violations']),report['violations'])
+
+    def test_final_recovery_nested_unexpected_fields_fail(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['metrics'][0]['candidate_override']=True;rec['test_runs'][0]['candidate_override']=True;rec['defects']=[{'defect_id':'D','classification':'IMPLEMENTATION_DEFECT','repeated':False,'prior_lesson_or_control_ref':'','candidate_override':True}];self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertGreaterEqual(sum('unexpected fields' in x for x in report['violations']),3,report['violations'])
+
 if __name__=='__main__': unittest.main()

@@ -46,3 +46,11 @@ Unchanged historical records remain immutable and are not retroactively rewritte
 ## Publication boundary
 
 Offline qualification does not authorize commit, push, PR creation/merge, ruleset changes, Timeshift creation, or runtime changes. Before remote publication, re-observe effective `main` protection and required-check identity. A mismatch stops publication without automatic repair.
+
+## Final assurance recovery supersession
+
+The earlier statement that changed-path/file-scope design and the existing candidate workflow alone were sufficient is superseded for release authorization. Historical transition identity is sticky across modification, deletion, type change, rename/move, policy-classifier evolution, and reverse-reference discovery. Current validation uses the current policy while historical classification uses the merge-base policy; ordinary policy revisions cannot weaken the R1 semantic contract.
+
+Change discovery uses the shared fail-closed A/M/D/T Git object contract. The existing `Mandatory assurance invariant gate` remains a candidate self-check. A separate `Mandatory assurance trusted gate`, executed from default-branch trusted code with read-only permissions, is the independent future trust anchor after bootstrap adoption. Activating it as a required ruleset check is a separate administrative authorization and is not performed by this recovery.
+
+Any repeated material qualification escape triggers an assurance reset to the state model/oracle rather than another symptom patch.

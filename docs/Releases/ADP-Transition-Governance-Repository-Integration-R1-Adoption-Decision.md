@@ -54,3 +54,9 @@ The existing one-pass control chain is already qualified and security-sensitive.
 ## Publication status
 
 This decision is qualified for offline implementation only. Canonical remote adoption remains pending a separately authorized publication gate.
+
+## Final Assurance Recovery R1 decision amendment
+
+The modular transition validator/policy architecture remains adopted as the preferred separation of concerns. The earlier conclusion that the existing candidate workflow should remain the sole required-check architecture is superseded by the independently reviewed trust-root design. A base/default-branch trusted read-only gate is required as the future independent trust anchor; its first adoption is a bootstrap migration and cannot self-protect.
+
+Canonical merge readiness is HOLD until Final Assurance Recovery closes all 108 applicable state-oracle cells with zero expectation delta, zero unhandled exceptions, exact-base committed-candidate qualification, process CAPA/document reconciliation, and zero unresolved material findings. Ruleset activation and merge remain separately authorized actions.

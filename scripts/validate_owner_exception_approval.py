@@ -12,9 +12,10 @@ from typing import Any
 
 APPROVAL_PREFIX = "APPROVE SMT MANDATORY ASSURANCE EXCEPTION"
 HEAD_SHA_PATTERN = re.compile(r"^[0-9a-f]{40}$")
+MAX_JSON_BYTES = 8 * 1024 * 1024
 
 
-def load_json_strict(path: Path) -> Any:
+def load_json_strict(path: Path, max_bytes: int = MAX_JSON_BYTES) -> Any:
     def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}
         for key, value in pairs:
@@ -23,7 +24,23 @@ def load_json_strict(path: Path) -> Any:
             result[key] = value
         return result
 
-    return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates)
+    try:
+        size = path.stat().st_size
+    except OSError as exc:
+        raise ValueError(f"cannot stat JSON input: {type(exc).__name__}: {exc}") from exc
+    if size > max_bytes:
+        raise ValueError(f"JSON input size {size} exceeds limit {max_bytes}")
+    try:
+        data = path.read_bytes()
+    except OSError as exc:
+        raise ValueError(f"cannot read JSON input: {type(exc).__name__}: {exc}") from exc
+    if len(data) > max_bytes:
+        raise ValueError(f"JSON input exceeds limit {max_bytes}")
+    try:
+        text = data.decode("utf-8", "strict")
+    except UnicodeDecodeError as exc:
+        raise ValueError("JSON input is not valid UTF-8") from exc
+    return json.loads(text, object_pairs_hook=reject_duplicates)
 
 
 def normalize_comments(value: Any) -> list[dict[str, Any]]:
@@ -148,18 +165,34 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(sys.argv[1:] if argv is None else argv)
-    report = load_json_strict(Path(args.report))
-    if not isinstance(report, dict):
-        raise ValueError("report JSON root must be an object")
-    comments = load_json_strict(Path(args.comments))
-    result = validate_approval(
-        report=report,
-        comments_value=comments,
-        owner_login=args.owner_login,
-        pr_number=args.pr_number,
-        head_sha=args.head_sha,
-    )
+    try:
+        report = load_json_strict(Path(args.report))
+        if not isinstance(report, dict):
+            raise ValueError("report JSON root must be an object")
+        comments = load_json_strict(Path(args.comments))
+        result = validate_approval(
+            report=report,
+            comments_value=comments,
+            owner_login=args.owner_login,
+            pr_number=args.pr_number,
+            head_sha=args.head_sha,
+        )
+    except Exception as exc:
+        result = {
+            "record_type": "SMT_OWNER_EXCEPTION_APPROVAL_VALIDATION",
+            "schema_version": "1.0",
+            "status": "FAIL",
+            "owner_login": args.owner_login,
+            "pr_number": args.pr_number,
+            "head_sha": args.head_sha,
+            "exception_records": [],
+            "approval_required": False,
+            "expected_approval": None,
+            "matching_comment_count": 0,
+            "violations": [f"owner approval validation failed closed: {type(exc).__name__}: {exc}"],
+        }
     output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["status"] == "PASS" else 1

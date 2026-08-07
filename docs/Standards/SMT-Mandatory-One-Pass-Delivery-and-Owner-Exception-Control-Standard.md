@@ -130,3 +130,9 @@ PARTIAL_WORK_COMPLETED_AND_NOT_RELEASED
 ```
 
 Any violation of this standard is a release-process defect and must be recorded in the next handoff and corrective-action record.
+
+## 11. Final assurance recovery controls
+
+Release readiness requires complete applicable-state disposition, a requirements-derived independent oracle, zero expectation delta, zero unhandled exception surfaces, exact committed-candidate production-path qualification, and final adversarial review. Post-publication material defects have a target of zero. A material escape after a comprehensive/readiness claim is a release-process CAPA effectiveness failure and requires an assurance reset rather than a routine patch cycle.
+
+Trust-root controls may not approve their own weakening. Default-branch trusted validation is the independent enforcement path after bootstrap adoption. Any trust-root migration requires exact project-owner authorization bound to the final head and exact changed trust-root path set.

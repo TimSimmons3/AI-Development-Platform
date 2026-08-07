@@ -79,5 +79,9 @@
     "EXCEPTION_AUTHORITY",
     "EXCEPTION_STATUS"
   ],
+  "resource_limits": {
+    "json_bytes": 1048576,
+    "markdown_bytes": 2097152
+  },
   "schema_version": "1.0"
 }

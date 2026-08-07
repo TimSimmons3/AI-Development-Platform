@@ -122,3 +122,9 @@ tests/test_validate_transition_metrics.py
 ```
 
 Future workstream plans must define a metrics plan. Future handoff, closeout, and gate records must bind `TRANSITION_METRICS_RECORD` to a valid structured record. Remote publication remains subject to the existing mandatory assurance workflow and a fresh read-only protection observation.
+
+## Final assurance recovery integration
+
+The canonical assurance chain now includes: complete externally observable state modeling; an independent requirements oracle; shared NUL-safe Git delta/object validation; sticky historical governance; transition and mandatory policy anti-self-weakening; a governed assurance trust root; default-branch trusted read-only validation; exact-base freshness/merge-result control; adversarial pre-publication review; and CAPA/documentation reconciliation.
+
+A bootstrap migration cannot claim that its new trusted workflow protected its own first adoption. Bootstrap release therefore requires complete offline oracle differential qualification and separate owner review. Ruleset activation of the new trusted check is a later, separately authorized administrative action. No subsequent workstream may rely on the superseded assurance model once this control chain is adopted.

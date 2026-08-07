@@ -53,3 +53,9 @@ This repository record intentionally does not embed the outer ZIP hash. The oute
 ## Publication boundary
 
 Offline qualification is not commit/push/PR/merge authorization. Remote publication requires a separate owner authorization and a fresh read-only observation of effective `main` protection and required-check identity.
+
+## Qualification escape and scope correction
+
+Prior PASS records remain valid only for the tests and states actually executed. Subsequent exact-head review identified material states outside the selected model, culminating in the regular-file to symlink type-change escape. Therefore prior uses of comprehensive/readiness language are superseded as release claims; test counts are supporting evidence, not proof of state-space completeness.
+
+Final Assurance Recovery is required before merge readiness. Its denominator is the independently derived applicable oracle-cell set, and its release criteria include zero expectation delta, zero unhandled exception surfaces, exact committed production-path qualification, trusted/bootstrap qualification, full regression, exact artifact/operator and preserve-state rehearsal, and zero unresolved adversarial findings.

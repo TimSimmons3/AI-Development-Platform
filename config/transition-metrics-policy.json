@@ -984,6 +984,11 @@
     "SECURITY_EXCLUSION_REDACTION_REGISTER",
     "PACKAGE_VALIDATION_REPORT"
   ],
+  "resource_limits": {
+    "csv_bytes": 4194304,
+    "json_bytes": 1048576,
+    "markdown_bytes": 2097152
+  },
   "safe_external_reference_types": [
     "EXTERNAL_ARTIFACT",
     "EXTERNAL_INCIDENT"

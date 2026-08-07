@@ -49,3 +49,9 @@ Use the canonical lifecycle state machine in the transition policy. A user-visib
 ## Stop conditions
 
 Stop with `BLOCKED_WITH_EXACT_REASON` when required metrics/evidence are missing, a handoff is incomplete, an unsafe or stale binding exists, the lifecycle transition is invalid, a live change is proposed before exact-artifact qualification, or the effective protected-publication contract cannot be re-observed before remote publication.
+
+## Final assurance and handoff lineage
+
+Every governed handoff must carry the complete defect/review/CAPA lineage, including qualification escapes, state-oracle coverage, trust-root/bootstrap status, exact base/head/tree identities, applicable-cell denominator, expectation-delta count, exception-surface result, full regression result, and documentation/skill reconciliation status. Do not convert missing evidence to zero or PASS.
+
+M04/M05 and M24/M25 remain historical metrics; they do not by themselves prove assurance completeness. Supplemental assurance KRIs are mandatory when Final Assurance Recovery applies: applicable-state coverage percentage, oracle expectation delta count, unhandled exception count, unresolved material finding count, base-freshness status, and trust-root migration status. Future work must not start under superseded assurance controls.

@@ -42,3 +42,9 @@ Baseline: `311642c7465a01ada8297f8242b3d6e73033fed6`. Source: final ADP v2.4 R2 
 | Existing invariant chain | unchanged validator/policy + same workflow | full repo unit tests |
 | Security/privacy | safe path/reference and no live API | path/symlink tests + source review |
 | Protected publication boundary | addendum/plan | manual pre-publication gate |
+
+## Final assurance state/equivalence traceability
+
+The coarse requirement rows above remain historical summary evidence. Release authorization is now traced through `config/adp-transition-governance-final-assurance-state-oracle-r1.json` and `docs/Standards/ADP-Transition-Governance-Final-Assurance-State-Oracle-R1.md`, which enumerate 108 independent cells across Git change discovery, mandatory invariants, transition policy, governance identity, reference graph, parser/schema, workflow trust root, and reporting/process controls.
+
+Finding 17 is explicitly represented by `GIT-11` (regular file -> symlink type change) and is controlled by ARC-01/ARC-02. Every oracle cell maps to one or more ARC-01..ARC-13 controls and must produce a qualification disposition; applicable coverage must be 100% and independent-versus-implementation expectation delta must be zero before release.

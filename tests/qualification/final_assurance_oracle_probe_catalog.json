@@ -1,0 +1,763 @@
+{
+  "cells": [
+    {
+      "cell_id": "GIT-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_add_regular_A",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_head_symlink_rejected",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_gitlink_add_and_modify",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_modify_regular_M",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_mode_only_is_M_with_modes",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_regular_to_symlink_T",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_gitlink_add_and_modify",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_main_base_ref_deleted_governed_record_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_delete_governed_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_referenced_evidence_file_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-11",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_regular_to_symlink_is_discovered_and_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-12",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_symlink_to_regular_is_discovered",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-13",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_regular_to_gitlink_T",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-14",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_head_regular_blob",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-15",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_rename_move_remains_prohibited_via_deleted_identity",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-16",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_rename_outside_root_fails_via_old_path",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-17",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_case_rename_is_D_plus_A",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-18",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_file_to_tree_is_D_plus_A_child",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-19",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_tree_to_file_is_D_child_plus_A_file",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-20",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_parse_rejects_unsupported_status",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-21",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "CONTRACT_SPECIFIC",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_prohibited_control_character_path_fails_closed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-22",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_bad_base_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-23",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "HOLD_REQUALIFY",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_base_freshness_and_merge_tree_are_explicit",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GIT-24",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_default_branch_checkout_must_equal_pr_base_sha",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_valid_governed_document_passes",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_historical_governance_sticky_when_additional_keyword_only",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_delete_governed_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_regular_to_symlink_T_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_remove_root",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_weaken_block",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_change_owner",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_cannot_delete_existing_trusted_path",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_malformed_policy_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "MI-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_assurance_trust_root.TrustRootTests.test_trust_root_change_fails_ordinary",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_bootstrap_absent_base_policy_requires_exact_adoption_baseline",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_bootstrap_absent_base_policy_mismatched_baseline_fails_closed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_malformed_base_json_fails_closed_structured",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_malformed_current_json_fails_closed_structured",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_p1_record_type_rename_is_rejected_before_degovernance",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_assignment_identity_is_immutable",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_governed_markdown_root_cannot_be_removed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_required_handoff_component_removal_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_required_change_record_field_removal_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_lifecycle_graph_expansion_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-11",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_overlap_control_weakening_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-12",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_metric_semantic_redefinition_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-13",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_m27_denominator_shrink_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-14",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_timing_semantic_change_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-15",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_shape_rejects_supported_state_vocabulary_drift",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-16",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_schema_version_in_place_change_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "TP-17",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_stricter_required_change_record_addition_allowed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unchanged_off_directory_transition_record_remains_out_of_scope",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_valid_transition_remains_validated",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_record_cannot_drop_record_type",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_record_malformed_or_non_utf8_fails_closed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_transition_record_outside_metrics_is_governed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_rename_move_remains_prohibited_via_deleted_identity",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_new_off_directory_transition_json_is_validated",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_new_off_directory_unrelated_json_remains_allowed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_canonical_transition_templates_reject_unknown_or_missing_record_type",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_historical_governance_sticky_when_additional_keyword_only",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-11",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_rename_outside_root_fails_via_old_path",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "GI-12",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_regular_to_symlink_T_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_revalidates_unchanged_snapshot",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_reverse_reference_closure_is_transitive",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_referenced_evidence_file_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_with_updated_snapshot_passes",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "CONTRACT_SPECIFIC",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_record_type_change_cannot_disable_reverse_reference_governance",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_regular_to_symlink_is_discovered_and_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_smt_git_change_contract.GitContractTests.test_head_regular_blob",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_symlink_reference_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_hold_not_in_m22",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "REF-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "CONTRACT_SPECIFIC",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_reverse_reference_closure_is_transitive",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_duplicate_json_key_rejected",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_load_json_strict_rejects_nonfinite_constants",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_non_utf8_json_returns_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_deep_changed_json_never_raises",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_repository_template_snapshot_passes",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_csv_parser_error_returns_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_csv_projection_mismatch_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_non_utf8_governed_markdown_returns_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_cr_character_fails",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_ratio_huge_integer_operand_returns_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-11",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_value_domain_malformed_type_matrix_is_fail_closed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-12",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_snapshot_container_field_matrix_never_raises",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-13",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_qualification_run_requires_exactly_one_object",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-14",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_nested_unexpected_fields_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "PAR-15",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_changed_transition_json_over_limit_is_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_assurance_trust_root.TrustRootTests.test_trust_root_change_fails_ordinary",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_candidate_checkout_binds_pr_head_repository_and_sha",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_base_freshness_and_merge_tree_are_explicit",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_assurance_trust_root.TrustRootTests.test_exact_migration_record_and_owner_approval_pass",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "CONTRACT_SPECIFIC",
+      "probe_id": "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_no_cell_uses_implementation_test_as_expected_source",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_executable_python_is_trusted_only",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "HOLD_REQUALIFY",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_pull_request_target_is_trust_event",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "HOLD_REQUALIFY",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_permissions_are_read_only",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "HOLD_REQUALIFY",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_comment_fetch_is_read_only_get",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "WF-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_reports_are_bound_to_base_head_tree_inputs",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-01",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_value_domain_malformed_type_matrix_is_fail_closed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-02",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_malformed_policy_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-03",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_policy_json_over_absolute_limit_never_parsed",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-04",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_candidate_checkout_binds_pr_head_repository_and_sha",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-05",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_known_escape_cells_present",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-06",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_changed_mandatory_markdown_over_limit_is_structured_fail",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-07",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_exact_108_unique_cells",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-08",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_all_cells_have_independent_expected_result",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-09",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "FAIL_CLOSED",
+      "probe_id": "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_comment_fetch_is_read_only_get",
+      "probe_type": "UNITTEST"
+    },
+    {
+      "cell_id": "RP-10",
+      "implementation_basis": "Behavioral or contract regression independently mapped to this state cell.",
+      "implementation_enforcement": "VALIDATE_ALLOW",
+      "probe_id": "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_required_domains_complete",
+      "probe_type": "UNITTEST"
+    }
+  ],
+  "record_type": "ADP_FINAL_ASSURANCE_IMPLEMENTATION_PROBE_CATALOG_R1",
+  "schema_version": "1.0",
+  "source_head": "b9379e30d07a33dcaaf4f9e9b805e532e5003c6c"
+}

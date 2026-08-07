@@ -98,3 +98,9 @@ Record a full snapshot at workstream start, closeout, and handoff. Record gate/e
 ## Security/privacy
 
 Metrics records may not contain raw tokens, credentials, unnecessary PII, runtime dumps, raw prompts, or surveillance telemetry. Evidence uses repository-relative paths with optional SHA-256 binding or non-secret external artifact/incident identities.
+
+## Supplemental assurance KRIs
+
+M04/M05 track user-visible replacement and material failure history; M24/M25 track test iterations and repeated control defects. They must not be interpreted as proof that the qualification model was complete. When a state-oracle assurance reset applies, add the following non-substitutive KRIs to release/handoff evidence: applicable oracle-cell coverage percent, independent-versus-implementation expectation delta count, unhandled exception surface count, undispositioned Git-state class count, unresolved material finding count, exact-base freshness, and trust-root migration/bootstrap status.
+
+Do not invent success values. Unknown remains UNKNOWN; a blocked review remains HOLD. A material post-publication qualification escape increments the defect/CAPA lineage even when the technical correction is later successful.

@@ -82,3 +82,9 @@ Full preventative enforcement requires an active branch ruleset targeting `main`
 A required approval count or required CODEOWNER approval is not enabled while the repository has one owner and that owner authors the pull request. GitHub does not permit authors to approve their own PRs. CODEOWNERS remains the authoritative ownership map and notification source. Approved exceptions are instead controlled by the exact owner comment and CI verification above.
 
 Until the repository ruleset is enabled, the workflow detects violations but cannot prevent an administrator from direct-pushing around it. This limitation must remain a recorded HOLD, not be described as fully enforced.
+
+## 7. State-oracle and trust-root enforcement extension
+
+The mandatory invariant gate is necessary but not sufficient for release authorization. Final Assurance Recovery adds a requirements-derived 108-cell state oracle, shared Git A/M/D/T object contract, policy anti-self-weakening, assurance trust-root manifest, and a base/default-branch trusted read-only workflow. The candidate self-check remains supporting evidence; the trusted gate is the independent enforcement path after bootstrap adoption.
+
+Handoffs must include CAPA/state-matrix coverage, exact base/head/tree, expectation delta, exception-surface result, and documentation reconciliation. Future work under superseded assurance controls is prohibited.

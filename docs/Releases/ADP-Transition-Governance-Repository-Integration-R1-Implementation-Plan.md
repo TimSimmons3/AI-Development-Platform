@@ -62,3 +62,9 @@ The candidate may add the transition skill/standard/addendum, policy, validator,
 ## Exit criteria
 
 Offline implementation is qualified only when all static, unit, negative, regression, exact-package, exact-launcher, deterministic rebuild, safe-path, non-remote-mutation, and independent-review checks pass with zero unresolved assumptions.
+
+## Final Assurance Recovery R1 superseding phase
+
+The original offline plan and its focused test count remain valid evidence for the behaviors actually exercised, but they are superseded as a release-readiness model. Final Assurance Recovery is state-model-first and is bound to source head `b9379e30d07a33dcaaf4f9e9b805e532e5003c6c`, qualified source tree `4827e9df3e07862ab0e49461b74584c07d5cc847`, and base `311642c7465a01ada8297f8242b3d6e73033fed6`.
+
+Required sequence: freeze the 108-cell independent oracle; implement ARC-01 through ARC-13 as one consolidated recovery candidate; commit the candidate in an isolated repository; run production `--base-ref` validators on that exact commit; execute all 13 qualification families; require 100% applicable-cell disposition, zero expectation delta, zero unhandled exceptions, full regression, exact artifact/operator rehearsal, failure/preserve-state qualification, documentation/skill reconciliation, and fresh adversarial review. No executable is released while any gate is incomplete.

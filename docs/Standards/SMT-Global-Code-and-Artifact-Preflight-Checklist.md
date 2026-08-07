@@ -197,3 +197,9 @@ EXCEPTION_STATUS=NOT_GRANTED
 - [ ] Lifecycle/deviation records satisfy the canonical transition policy.
 - [ ] Change records contain all mandatory scope, dependency, security, test, evidence, recovery, metrics, and authorization fields.
 - [ ] Remote publication re-observes protected-main status before merge.
+
+## Final assurance state-space preflight
+
+Before release authorization, verify all of the following: applicable state/equivalence classes are enumerated; 100% of applicable oracle cells are dispositioned; independent expected results are fixed without implementation-derived expectations; oracle-versus-implementation delta is zero; A/M/D/T and Git object-mode transitions are covered in real repositories; parser/type/cardinality/depth/size/encoding exception surfaces have zero unhandled escapes; exact committed candidate passes production `--base-ref`; base/head/tree are current; exact artifact/operator and failure/preserve-state rehearsals pass; full regression passes; and final adversarial review has zero unresolved material findings.
+
+If any item is unavailable, the release state is HOLD. A large test count cannot substitute for an undispositioned state class.

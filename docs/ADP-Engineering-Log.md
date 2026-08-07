@@ -1781,3 +1781,12 @@ Status: Accepted Level-4 evidence bound to a new post-administrative-closeout Ti
 - Added machine-readable policy, isolated validator, tests, templates, lifecycle/change-control governance, workstream metrics baseline, and integration references.
 - Existing required GitHub status-check identity remains `Mandatory assurance invariant gate`; no new workflow permission is introduced.
 - Offline candidate must pass exact uncommitted path validation, full repository regression tests, deterministic packaging, clean bundle-derived exact-launcher rehearsal, and independent review before any later publication request.
+
+## 2026-08-07 - Final Assurance Recovery R1 assurance reset and consolidated offline implementation
+
+- Source PR head: `b9379e30d07a33dcaaf4f9e9b805e532e5003c6c`; qualified source tree: `4827e9df3e07862ab0e49461b74584c07d5cc847`; base `main`: `311642c7465a01ada8297f8242b3d6e73033fed6`.
+- Seventeen material review findings accumulated across the PR #5 correction sequence; finding 17 demonstrated that regular-file -> symlink Git type change (`T`) was not in the release-authorizing changed-path model.
+- The preserved `__never__` content-mutation incident and remediation are retained as CAPA evidence that review administration must be metadata-only.
+- One-pass objective for the earlier publication sequence was not met. Release readiness was reset to model/oracle root cause; no automatic CR package was authorized.
+- Final Assurance Recovery R1 implements shared NUL-safe Git A/M/D/T discovery, committed object validation, sticky historical governance, full R1 policy anti-self-weakening, resource bounds, assurance trust-root migration control, base/default-branch trusted read-only workflow architecture, 108-cell requirements-derived oracle, exact-base freshness, and documentation/skill CAPA.
+- Current authorization remains offline consolidated implementation and qualification only. No production repository mutation, remote GitHub write, merge, ruleset change, Timeshift creation, runtime mutation, cleanup, or unrelated change is authorized.

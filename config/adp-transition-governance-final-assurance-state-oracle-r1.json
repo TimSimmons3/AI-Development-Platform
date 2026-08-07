@@ -1,0 +1,1497 @@
+{
+  "cells": [
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-01",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and validate current file.",
+      "required_action": "Retain regression.",
+      "scenario": "Added regular governed file",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-02",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and reject as non-regular/symlink.",
+      "required_action": "Retain real-Git regression.",
+      "scenario": "Added symlink",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-03",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and reject for governed/trust-root artifact unless explicitly supported.",
+      "required_action": "Generate real gitlink case in qualification.",
+      "scenario": "Added gitlink/submodule entry",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-04",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and validate current content plus reverse dependents.",
+      "required_action": "Retain.",
+      "scenario": "Modified regular-file content",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-05",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover as M and explicitly disposition old/new Git modes; no silent semantic assumption.",
+      "required_action": "Add mode-delta evidence and explicit policy: preserve or authorize exact mode change.",
+      "scenario": "Mode-only regular-file change",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-06",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and reject changed symlink.",
+      "required_action": "Retain.",
+      "scenario": "Modified symlink target",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-07",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover and fail closed for governed/trust-root artifact.",
+      "required_action": "Add real gitlink M case.",
+      "scenario": "Modified gitlink commit",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-08",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover D and reject governed deletion.",
+      "required_action": "Retain.",
+      "scenario": "Deleted governed transition record/artifact",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-03"
+      ],
+      "cell_id": "GIT-09",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover historical governed path and reject deletion or require separately governed retirement.",
+      "required_action": "Replace mandatory scanner discovery and add historical-governance deletion semantics.",
+      "scenario": "Deleted governed mandatory one-pass Markdown",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-10",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover D and fail when current transition references would dangle.",
+      "required_action": "Retain.",
+      "scenario": "Deleted referenced non-governance artifact",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-11",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover T and reject before governance can be bypassed.",
+      "required_action": "Use complete status scanner; T must reach validation.",
+      "scenario": "Type change regular -> symlink",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-12",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover T; validate regular current file and historical identity as applicable.",
+      "required_action": "Complete status scanner in both validators.",
+      "scenario": "Type change symlink -> regular",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-13",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover T and reject governed/trust-root path.",
+      "required_action": "Complete status scanner and real gitlink regression.",
+      "scenario": "Type change regular -> gitlink",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-14",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Discover T and validate current regular file under historical governance.",
+      "required_action": "Complete status scanner.",
+      "scenario": "Type change gitlink -> regular",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-15",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "With rename detection disabled, observe D old + A new; old historical governance prevents silent move/de-governance.",
+      "required_action": "Retain.",
+      "scenario": "Rename/move governed transition record",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-03"
+      ],
+      "cell_id": "GIT-16",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Observe D old + A new and retain governance of old path; do not validate destination alone.",
+      "required_action": "Use --name-status --no-renames (prefer raw -z) and base-governed inventory.",
+      "scenario": "Rename/move governed mandatory Markdown out of governed root",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-17",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Treat as D+A under no-renames; historical old path remains governed.",
+      "required_action": "Cover both validators with real repo case.",
+      "scenario": "Case-only rename on Linux",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-18",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Observe D file plus A child blobs; governed old file deletion cannot disappear.",
+      "required_action": "Add real repo case to both oracles.",
+      "scenario": "Tracked file -> directory subtree",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-19",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Observe D child blobs plus A file; governed deleted children remain visible.",
+      "required_action": "Add real repo case.",
+      "scenario": "Directory subtree -> tracked file",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-20",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "No silent acceptance. With --no-renames, R/C should not appear; any unexpected status fails closed with structured report.",
+      "required_action": "Parse explicit status and allow only commit-tree states A/M/D/T; reject all others.",
+      "scenario": "Unexpected Git status R/C/U/X/B",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-21",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Machine parser must be unambiguous and fail closed; prefer NUL-delimited raw/name-status output and strict filename encoding policy.",
+      "required_action": "Use -z parser; add filename encoding/path tests.",
+      "scenario": "Unusual pathname with TAB/LF/quotes/backslash/non-ASCII",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "CONTRACT_SPECIFIC"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02"
+      ],
+      "cell_id": "GIT-22",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Structured fail-closed result with root cause and no mutation.",
+      "required_action": "Unify structured Git failure reporting.",
+      "scenario": "Git subprocess nonzero/timeout/invalid merge base",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02",
+        "ARC-12"
+      ],
+      "cell_id": "GIT-23",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Invalidate stale qualification or prove merge-result compatibility against fresh base.",
+      "required_action": "Add base-SHA binding and final freshness/merge-result gate.",
+      "scenario": "Base branch advances after candidate qualification",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "HOLD_REQUALIFY"
+    },
+    {
+      "architecture_controls": [
+        "ARC-01",
+        "ARC-02",
+        "ARC-08"
+      ],
+      "cell_id": "GIT-24",
+      "domain": "GIT_CHANGE_DISCOVERY",
+      "expected_result": "Release-authorizing result must use exact committed candidate; untracked files cannot satisfy evidence silently.",
+      "required_action": "Keep clean exact-commit prerequisite and add tracked-object checks where evidence identity matters.",
+      "scenario": "Dirty/untracked local worktree during release-authorizing validation",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-01",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Validate invariant exactly once and exception semantics.",
+      "required_action": "Retain.",
+      "scenario": "Changed governed Markdown with exact block",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-02",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Historical governance must not disappear because current policy changes.",
+      "required_action": "Add base policy + historical governed-path continuity.",
+      "scenario": "Historical governed Markdown modified after current policy classifier change",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-03",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Fail or require explicit retirement control.",
+      "required_action": "Complete change scanner plus historical path inventory.",
+      "scenario": "Governed Markdown deletion",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-04",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Fail non-regular object.",
+      "required_action": "Complete change scanner.",
+      "scenario": "Governed Markdown type change",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-05",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Policy cannot de-govern historical/future controls in place.",
+      "required_action": "Monotonic roots/keywords under base/current comparison.",
+      "scenario": "Policy removes governed roots/filename keywords",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-06",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "One-pass invariant cannot self-weaken in same PR.",
+      "required_action": "Freeze required block/order for R1; policy migration requires dedicated control-change gate.",
+      "scenario": "Policy reduces/rewords required invariant block",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-07",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Owner-only exception contract cannot self-redefine.",
+      "required_action": "Make owner/exception semantics immutable absent dedicated migration.",
+      "scenario": "Policy changes owner or exception semantics",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-08",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Referenced/approved exception evidence must remain valid; deletion/type change fails.",
+      "required_action": "Complete discovery and reverse/reference validation.",
+      "scenario": "Exception record deletion/type change",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "MI-09",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Required check must fail and emit structured auditable report.",
+      "required_action": "Add structured policy/Git failure report.",
+      "scenario": "Malformed mandatory policy or Git error",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-03",
+        "ARC-05",
+        "ARC-06",
+        "ARC-07"
+      ],
+      "cell_id": "MI-10",
+      "domain": "MANDATORY_INVARIANT",
+      "expected_result": "Trust-root change must receive dedicated control-change qualification; ordinary self-validation is insufficient.",
+      "required_action": "Introduce base-trusted enforcement/bootstrap procedure and trust-root path manifest.",
+      "scenario": "Validator/test/policy/workflow trust-root change",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04",
+        "ARC-08"
+      ],
+      "cell_id": "TP-01",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Allow only exact authorized bootstrap base plus independently fixed canonical policy semantics.",
+      "required_action": "Bind bootstrap policy to independent oracle/hash or dedicated adoption manifest.",
+      "scenario": "Initial adoption: merge-base policy absent",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-02",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Fail closed.",
+      "required_action": "Retain.",
+      "scenario": "Merge-base policy unexpectedly absent",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-03",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Fail closed.",
+      "required_action": "Retain.",
+      "scenario": "Malformed merge-base policy",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-04",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Fail closed with report.",
+      "required_action": "Retain.",
+      "scenario": "Malformed current policy",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-05",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Reject in-place identity change.",
+      "required_action": "Retain.",
+      "scenario": "record_types change",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-06",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Reject in-place change.",
+      "required_action": "Retain.",
+      "scenario": "policy_id/baseline/assignment identity change",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-07",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Reject removals; additions may be stricter.",
+      "required_action": "Retain.",
+      "scenario": "Remove governed roots or filename classifiers",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-08",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Must not weaken M26 by shrinking canonical component set.",
+      "required_action": "Require current superset of base; independently govern additions.",
+      "scenario": "Remove required handoff components",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-09",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Must not weaken change records.",
+      "required_action": "Require current superset of base.",
+      "scenario": "Remove required change-record fields",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-10",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Cannot silently weaken lifecycle gate in same PR.",
+      "required_action": "Freeze lifecycle graph for R1 or require dedicated migration.",
+      "scenario": "Expand allowed lifecycle transitions",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-11",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Cannot silently weaken timing integrity.",
+      "required_action": "Reject weakening; dedicated migration only.",
+      "scenario": "Change allow_overlapping_timing_intervals false -> true",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-12",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "M01-M28 contract cannot self-shrink or redefine under validator it controls.",
+      "required_action": "Freeze canonical R1 metric IDs and semantic definitions; dedicated migration for changes.",
+      "scenario": "Change metric_order/metric definitions",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-13",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Cannot inflate data-quality score by shrinking denominator.",
+      "required_action": "Freeze or require base subset of current with semantic review.",
+      "scenario": "Shrink m27 denominator IDs",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-14",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Metric formulas cannot silently change.",
+      "required_action": "Freeze R1 calculation vocabulary.",
+      "scenario": "Change timing categories/M22 active categories/M23 rework category",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-15",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Reference trust vocabulary cannot self-expand.",
+      "required_action": "Retain explicit check.",
+      "scenario": "Change safe external reference types",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-16",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "Schema migration must be explicit and versioned; not an in-place ordinary policy edit.",
+      "required_action": "Require dedicated migration record and independent old/new oracle.",
+      "scenario": "schema_version change",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-04"
+      ],
+      "cell_id": "TP-17",
+      "domain": "TRANSITION_POLICY",
+      "expected_result": "May be allowed only if semantic policy is otherwise identical and date is valid/non-regressive.",
+      "required_action": "Define monotonic date rule or freeze.",
+      "scenario": "effective_date-only change",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-01",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Remain out of direct scope unless dependency requires revalidation.",
+      "required_action": "Retain.",
+      "scenario": "Historical off-directory transition unchanged while unrelated file changes",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-02",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Keep sticky identity and validate current record under current policy.",
+      "required_action": "Retain.",
+      "scenario": "Historical transition modified, still valid",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-03",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Fail sticky governance.",
+      "required_action": "Retain.",
+      "scenario": "Historical transition removes/mistypes record_type",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-04",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Fail structured.",
+      "required_action": "Retain.",
+      "scenario": "Historical transition becomes malformed/non-object/non-UTF8",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-05",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Fail.",
+      "required_action": "Retain.",
+      "scenario": "Historical transition deleted",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-06",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "D old + A new; old deletion prohibited under current R1 semantics.",
+      "required_action": "Retain.",
+      "scenario": "Historical transition renamed/moved",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-07",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Validate current record.",
+      "required_action": "Retain.",
+      "scenario": "New off-directory valid transition record",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-08",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Do not over-govern.",
+      "required_action": "Retain.",
+      "scenario": "New off-directory unrelated JSON",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-09",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Fail.",
+      "required_action": "Retain.",
+      "scenario": "Canonical transition JSON missing/unknown record_type",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02",
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "GI-10",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Retain historical governance regardless of current classifier changes.",
+      "required_action": "Unify mandatory historical Markdown identity.",
+      "scenario": "Historical governed Markdown modified",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02",
+        "ARC-03",
+        "ARC-05"
+      ],
+      "cell_id": "GI-11",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Old path remains governed and deletion/move must be explicit.",
+      "required_action": "No-renames status scanner + base inventory.",
+      "scenario": "Historical governed Markdown moved out of root",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "GI-12",
+      "domain": "GOVERNANCE_IDENTITY",
+      "expected_result": "Type status must not bypass sticky identity.",
+      "required_action": "Complete status handling.",
+      "scenario": "Historical governed file type-changed",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-01",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Revalidate unchanged direct dependents.",
+      "required_action": "Retain.",
+      "scenario": "Referenced repository artifact modified",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-02",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Revalidate full transitive closure once.",
+      "required_action": "Retain.",
+      "scenario": "Transitive reverse dependency",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-03",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Fail dangling current references.",
+      "required_action": "Retain.",
+      "scenario": "Referenced target deleted",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-04",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Allow when current source digest/reference and target both validate.",
+      "required_action": "Retain positive control.",
+      "scenario": "Source and target updated consistently",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-05",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Retain historical source identity during reverse discovery.",
+      "required_action": "Retain.",
+      "scenario": "Historical reverse-dependent transition under policy vocabulary evolution",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "CONTRACT_SPECIFIC"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-06",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Direct T must force source into validation even if reverse index skips symlink/gitlink.",
+      "required_action": "Complete T discovery.",
+      "scenario": "Reverse-dependent source itself type-changed",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-07",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Release-authorizing evidence should bind an exact tracked repository path/object, not only a filesystem file with matching bytes.",
+      "required_action": "At exact-commit gate, verify Git object exists at HEAD and is regular blob; define mode semantics.",
+      "scenario": "REPO_PATH/handoff component points to exact committed regular blob",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02",
+        "ARC-01"
+      ],
+      "cell_id": "REF-08",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Path identity must be explicit; symlink aliases should not satisfy an exact repository-path evidence claim.",
+      "required_action": "Reject symlink in any path component or verify exact HEAD tree path.",
+      "scenario": "Reference traverses an in-repo parent symlink alias",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-09",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Require supported type, nonempty identity, valid optional digest.",
+      "required_action": "Retain.",
+      "scenario": "External artifact/incident reference",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-02"
+      ],
+      "cell_id": "REF-10",
+      "domain": "REFERENCE_GRAPH",
+      "expected_result": "Closure must terminate deterministically and validate each dependent once.",
+      "required_action": "Add explicit cycle regression.",
+      "scenario": "Reference cycle",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "CONTRACT_SPECIFIC"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-01",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Reject.",
+      "required_action": "Retain.",
+      "scenario": "Duplicate JSON keys",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-02",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Reject.",
+      "required_action": "Retain.",
+      "scenario": "NaN/Infinity/-Infinity JSON constants",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-03",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Structured fail.",
+      "required_action": "Retain.",
+      "scenario": "Invalid UTF-8 JSON",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-04",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "No unhandled process escape; structured fail closed for governed/current path.",
+      "required_action": "Add bounded deep-nesting/recursion cases.",
+      "scenario": "Malformed/deep JSON or recursion error",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-05",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Structured fail.",
+      "required_action": "Retain.",
+      "scenario": "Invalid UTF-8 CSV",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-06",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Structured fail.",
+      "required_action": "Retain.",
+      "scenario": "Oversized CSV field/csv.Error",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-07",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Fail deterministic projection.",
+      "required_action": "Retain.",
+      "scenario": "CSV header/row mismatch",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-03"
+      ],
+      "cell_id": "PAR-08",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Fail.",
+      "required_action": "Retain.",
+      "scenario": "Invalid UTF-8 governed Markdown",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-03"
+      ],
+      "cell_id": "PAR-09",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Fail.",
+      "required_action": "Retain.",
+      "scenario": "CR/trailing whitespace in governed Markdown",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-10",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Structured fail.",
+      "required_action": "Retain.",
+      "scenario": "Huge integer/float overflow/nonfinite numeric",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-11",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Reject.",
+      "required_action": "Retain.",
+      "scenario": "Boolean used as integer/numeric",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10"
+      ],
+      "cell_id": "PAR-12",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Fail without unhandled exception across validated fields.",
+      "required_action": "Generate schema field inventory and equivalence classes for every consumed field.",
+      "scenario": "Wrong scalar/container type: list/object/null/string/bool",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02"
+      ],
+      "cell_id": "PAR-13",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Enforce semantic cardinality for all singleton/list fields.",
+      "required_action": "Independent field/cardinality matrix.",
+      "scenario": "Cardinality: missing/null/empty/single/multi",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10"
+      ],
+      "cell_id": "PAR-14",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Explicitly decide allowed vs prohibited for each record/policy type; no silent security-semantic ambiguity.",
+      "required_action": "Document extension policy; reject unknown control-bearing fields or explicitly project.",
+      "scenario": "Unexpected additional fields",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-10",
+        "ARC-02",
+        "ARC-03"
+      ],
+      "cell_id": "PAR-15",
+      "domain": "PARSER_SCHEMA",
+      "expected_result": "Bounded behavior or explicit repository-size assumption; no uncontrolled CI memory exhaustion.",
+      "required_action": "Set size limits for governed JSON/CSV/Markdown or document GitHub/repo bound and stress test.",
+      "scenario": "Very large file/resource exhaustion",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-12"
+      ],
+      "cell_id": "WF-01",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Required enforcement must not be redefinable by the same candidate it judges.",
+      "required_action": "Add base-trusted enforcement path for future PRs.",
+      "scenario": "Required pull_request workflow definition",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-12"
+      ],
+      "cell_id": "WF-02",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Prove exact head and merge/base relation intentionally; do not conflate them.",
+      "required_action": "Retain exact head but add merge/base freshness proof.",
+      "scenario": "Checkout target",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-12"
+      ],
+      "cell_id": "WF-03",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Final gate must prove candidate remains valid against actual base at merge time.",
+      "required_action": "Add strict base SHA / merge-result gate.",
+      "scenario": "Merge-result compatibility",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-12"
+      ],
+      "cell_id": "WF-04",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Trust-root changes require dedicated control-change qualification and independent/base-trusted oracle.",
+      "required_action": "Trust-root manifest; special migration mode; base-trusted verifier.",
+      "scenario": "Validator/policy/test files modified in candidate",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-09"
+      ],
+      "cell_id": "WF-05",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Implementation suite is supporting evidence, not independent oracle.",
+      "required_action": "Separate requirements-derived oracle harness/fixtures.",
+      "scenario": "Implementation tests co-evolve with implementation",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "CONTRACT_SPECIFIC"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-12"
+      ],
+      "cell_id": "WF-06",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Use base/default-branch workflow/code with read-only permissions and never execute PR-controlled code in privileged context.",
+      "required_action": "Design read-only pull_request_target/base-trusted data-validation workflow or equivalent immutable enforcement.",
+      "scenario": "Trusted future PR enforcement",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07",
+        "ARC-08"
+      ],
+      "cell_id": "WF-07",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "New trust root cannot protect its own first merge; bootstrap needs full offline independent qualification plus owner review and exact state gate.",
+      "required_action": "Create explicit bootstrap plan.",
+      "scenario": "Bootstrap adoption of new trusted workflow",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "HOLD_REQUALIFY"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07"
+      ],
+      "cell_id": "WF-08",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Reobserve exact branch protections/check source before merge.",
+      "required_action": "Carry forward.",
+      "scenario": "Required check/ruleset identity",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "HOLD_REQUALIFY"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07"
+      ],
+      "cell_id": "WF-09",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Zero unresolved material threads before merge.",
+      "required_action": "Carry forward.",
+      "scenario": "Review conversation state",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "HOLD_REQUALIFY"
+    },
+    {
+      "architecture_controls": [
+        "ARC-06",
+        "ARC-07"
+      ],
+      "cell_id": "WF-10",
+      "domain": "WORKFLOW_TRUST_ROOT",
+      "expected_result": "Must be confirmation, not first discovery of omitted state classes.",
+      "required_action": "Move full adversarial/oracle review before executable publication; post-publication review remains confirmation.",
+      "scenario": "Fresh exact-head independent review",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-02"
+      ],
+      "cell_id": "RP-01",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Structured FAIL report.",
+      "required_action": "Retain.",
+      "scenario": "Transition validator internal exception",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-03"
+      ],
+      "cell_id": "RP-02",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Structured FAIL report with evidence.",
+      "required_action": "Add structured top-level failure handling.",
+      "scenario": "Mandatory invariant policy/Git/internal exception",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13"
+      ],
+      "cell_id": "RP-03",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Failure must remain visible; CI cannot silently succeed.",
+      "required_action": "Preserve stderr/root cause and optional fallback evidence.",
+      "scenario": "Report write failure",
+      "severity": "P2",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-08"
+      ],
+      "cell_id": "RP-04",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Exact candidate commit exists before base...HEAD qualification.",
+      "required_action": "Make mandatory globally.",
+      "scenario": "Diff-based validation sequencing",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-08"
+      ],
+      "cell_id": "RP-05",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Rehearse final archive and exact command before user-visible release.",
+      "required_action": "Retain, but not a substitute for semantic coverage.",
+      "scenario": "Exact distributed artifact/operator workflow",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-08"
+      ],
+      "cell_id": "RP-06",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Exercise material pre/post-mutation failures with exact end states.",
+      "required_action": "Retain.",
+      "scenario": "Failure/preserve-state paths",
+      "severity": "-",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-08",
+        "ARC-09"
+      ],
+      "cell_id": "RP-07",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "0.",
+      "required_action": "Final recovery gets one candidate; any material escape returns to CAPA, no automatic CR.",
+      "scenario": "User-visible replacement target",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-08",
+        "ARC-09"
+      ],
+      "cell_id": "RP-08",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Target 0; any material escape is CAPA effectiveness failure, not routine patch.",
+      "required_action": "Codify stop/escalation.",
+      "scenario": "Post-publication material defect",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13",
+        "ARC-11"
+      ],
+      "cell_id": "RP-09",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "Metadata/review actions only; repository contents APIs prohibited.",
+      "required_action": "Explicit tool/API allowlist + read-only pre/post diff.",
+      "scenario": "Review administration API boundary",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "FAIL_CLOSED"
+    },
+    {
+      "architecture_controls": [
+        "ARC-13"
+      ],
+      "cell_id": "RP-10",
+      "domain": "REPORTING_PROCESS",
+      "expected_result": "All 18 identified governance artifacts updated/verified before next task/wave.",
+      "required_action": "Complete during final recovery/closeout before next workstream.",
+      "scenario": "Skills/standards/handoff institutionalization",
+      "severity": "P1",
+      "applicable": true,
+      "expected_enforcement": "VALIDATE_ALLOW"
+    }
+  ],
+  "policy_id": "ADP_TRANSITION_GOVERNANCE_FINAL_ASSURANCE_STATE_ORACLE_R1",
+  "schema_version": "1.0",
+  "source": "independent Phase A/B requirements and external-contract review",
+  "source_head": "b9379e30d07a33dcaaf4f9e9b805e532e5003c6c"
+}

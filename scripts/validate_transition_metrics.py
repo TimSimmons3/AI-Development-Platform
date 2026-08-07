@@ -15,6 +15,11 @@ from datetime import datetime
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+from smt_git_change_contract import GitContractError, commit_deltas, head_commit_and_tree, head_tree_entry, require_head_regular_blob, require_worktree_matches_head_regular_blob, resolve_commit
+
 DEFAULT_POLICY = "config/transition-metrics-policy.json"
 DEFAULT_REPORT = "transition-metrics-validation-report.json"
 SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
@@ -33,6 +38,50 @@ TRANSITION_CANONICAL_PATHS = {
     "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
     "tests/test_validate_transition_metrics.py",
 }
+ABSOLUTE_RESOURCE_LIMITS = {"json_bytes": 1048576, "csv_bytes": 4194304, "markdown_bytes": 2097152}
+
+POLICY_TOP_LEVEL_FIELDS = frozenset({
+    "allow_overlapping_timing_intervals", "allowed_transitions", "baseline_commit_for_adoption",
+    "change_record_filename_keywords", "classifications", "data_quality_states", "effective_date",
+    "event_types", "governed_markdown_roots", "lifecycle_states", "m22_active_categories",
+    "m23_rework_category", "m27_denominator_metric_ids", "metric_order", "metrics",
+    "metrics_link_filename_keywords", "policy_id", "record_types", "required_change_record_fields",
+    "required_handoff_components", "resource_limits", "safe_external_reference_types", "schema_version",
+    "snapshot_types", "timing_categories", "transition_metrics_assignment",
+})
+SNAPSHOT_TOP_LEVEL_FIELDS = frozenset({
+    "baseline_commit", "baseline_snapshot", "collection_method", "created_utc", "csv_projection_path",
+    "defects", "handoff_components", "lifecycle_state", "metrics", "previous_record", "prior_handoff",
+    "prior_handoff_available", "prior_handoff_unavailable_reason", "record_type", "schema_version",
+    "snapshot_type", "test_runs", "timing_intervals", "workstream_id",
+})
+EVENT_COMMON_FIELDS = frozenset({
+    "classification", "created_utc", "event_id", "event_type", "evidence_refs", "lifecycle_from",
+    "lifecycle_to", "mutation_boundary_crossed", "previous_record", "record_type", "schema_version",
+    "workstream_id",
+})
+EVENT_OPTIONAL_FIELD_BY_TYPE = {"DEVIATION":"deviation", "EXTERNAL_BLOCKER":"external_incident", "QUALIFICATION_RUN":"test_run"}
+METRIC_FIELDS = frozenset({"metric_id","name","unit","value","data_quality","collection_method","reason","evidence_refs","numerator","denominator"})
+TEST_RUN_FIELDS = frozenset({"run_id","test_layer","result","release_authorizing","test_id","requirement_id","production_function_path","fixture_provenance","expected_result_source","actual_result","mutation_boundary","cleanup_preserve_behavior","evidence_artifact"})
+DEFECT_FIELDS = frozenset({"defect_id","classification","repeated","prior_lesson_or_control_ref"})
+HANDOFF_COMPONENT_FIELDS = frozenset({"component_id","status","path","sha256"})
+TIMING_INTERVAL_FIELDS = frozenset({"interval_id","category","start_utc","end_utc"})
+BINDING_FIELDS = frozenset({"path","sha256"})
+DEVIATION_FIELDS = frozenset({"deviation_id","timestamp_utc","category","planned_condition","observed_condition","impact","mutation_status","evidence_reference","owner_disposition","permanent_control_decision"})
+EXTERNAL_INCIDENT_FIELDS = frozenset({"candidate_revision_action","code_revision_created","exposed_internal_defect"})
+REFERENCE_FIELDS = {
+    "REPO_PATH": frozenset({"type","path","sha256"}),
+    "EXTERNAL_ARTIFACT": frozenset({"type","artifact_id","sha256"}),
+    "EXTERNAL_INCIDENT": frozenset({"type","incident_id","sha256"}),
+}
+
+def reject_unexpected_fields(value: Any, allowed: frozenset[str], context: str, errors: list[str]) -> None:
+    if not isinstance(value, dict):
+        return
+    extra = sorted(set(value) - set(allowed))
+    if extra:
+        errors.append(f"{context}: unexpected fields: {','.join(extra)}")
+
 TRANSITION_CANONICAL_RECORD_PATHS = {
     "docs/Templates/SMT-Transition-Event-Metrics-Template.json",
     "docs/Templates/SMT-Transition-Metrics-Baseline-Template.json",
@@ -58,8 +107,32 @@ def load_json_text_strict(text: str) -> Any:
     )
 
 
-def load_json_strict(path: Path) -> Any:
-    return load_json_text_strict(path.read_text(encoding="utf-8"))
+def read_limited_bytes(path: Path, limit: int, context: str) -> bytes:
+    try:
+        size = path.stat().st_size
+    except OSError as exc:
+        raise ValueError(f"{context}: stat failed: {type(exc).__name__}: {exc}") from exc
+    if size > limit:
+        raise ValueError(f"{context}: file size {size} exceeds limit {limit}")
+    try:
+        data = path.read_bytes()
+    except OSError as exc:
+        raise ValueError(f"{context}: read failed: {type(exc).__name__}: {exc}") from exc
+    if len(data) > limit:
+        raise ValueError(f"{context}: file size exceeds limit {limit}")
+    return data
+
+
+def read_limited_text(path: Path, limit: int, context: str) -> str:
+    data = read_limited_bytes(path, limit, context)
+    try:
+        return data.decode("utf-8", "strict")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{context}: not valid UTF-8") from exc
+
+
+def load_json_strict(path: Path, limit: int = ABSOLUTE_RESOURCE_LIMITS["json_bytes"]) -> Any:
+    return load_json_text_strict(read_limited_text(path, limit, str(path)))
 
 
 def utc(value: Any) -> bool:
@@ -93,10 +166,17 @@ def repository_relative_file(repo_root: Path, path: Path) -> str:
         raise ValueError(f"policy path must be inside repository: {path}") from exc
 
 
-def git_text_at_commit(repo_root: Path, commit: str, path: str) -> str | None:
+def git_text_at_commit(repo_root: Path, commit: str, path: str, max_bytes: int = ABSOLUTE_RESOURCE_LIMITS["json_bytes"]) -> str | None:
     listed = run_git(repo_root, ["ls-tree", "--name-only", commit, "--", path])
     if path not in {line.strip() for line in listed.splitlines() if line.strip()}:
         return None
+    size_text = run_git(repo_root, ["cat-file", "-s", f"{commit}:{path}"]).strip()
+    try:
+        size = int(size_text)
+    except ValueError as exc:
+        raise ValueError(f"historical repository object size is invalid for {path}") from exc
+    if size > max_bytes:
+        raise ValueError(f"historical repository object {path} size {size} exceeds limit {max_bytes}")
     return run_git(repo_root, ["show", f"{commit}:{path}"])
 
 
@@ -112,6 +192,9 @@ def policy_shape_errors(policy: Any, context: str) -> list[str]:
     errors: list[str] = []
     if not isinstance(policy, dict):
         return [f"{context}: policy must be an object"]
+    extra_top = sorted(set(policy) - set(POLICY_TOP_LEVEL_FIELDS))
+    if extra_top:
+        errors.append(f"{context}: unexpected top-level fields: {','.join(extra_top)}")
 
     if not isinstance(policy.get("policy_id"), str) or not policy.get("policy_id"):
         errors.append(f"{context}: policy_id must be a non-empty string")
@@ -221,6 +304,9 @@ def policy_shape_errors(policy: Any, context: str) -> list[str]:
             missing = required_metric_fields - set(definition)
             if missing:
                 errors.append(f"{context}: metrics[{mid}] missing fields: {','.join(sorted(missing))}")
+            extra = sorted(set(definition) - required_metric_fields)
+            if extra:
+                errors.append(f"{context}: metrics[{mid}] unexpected fields: {','.join(extra)}")
             if definition.get("value_type") not in supported_value_types:
                 errors.append(f"{context}: metrics[{mid}] has unsupported value_type")
             if not unique_string_list(definition.get("allowed_data_quality")):
@@ -251,6 +337,15 @@ def policy_shape_errors(policy: Any, context: str) -> list[str]:
     elif isinstance(policy.get("timing_categories"), list) and m23 not in policy["timing_categories"]:
         errors.append(f"{context}: m23_rework_category must be in timing_categories")
 
+    limits = policy.get("resource_limits")
+    if not isinstance(limits, dict) or set(limits) != set(ABSOLUTE_RESOURCE_LIMITS):
+        errors.append(f"{context}: resource_limits must contain exactly json_bytes,csv_bytes,markdown_bytes")
+    else:
+        for key, ceiling in ABSOLUTE_RESOURCE_LIMITS.items():
+            value = limits.get(key)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 1024 or value > ceiling:
+                errors.append(f"{context}: resource_limits.{key} must be integer in [1024,{ceiling}]")
+
     return errors
 
 
@@ -258,27 +353,50 @@ def policy_identity_compatibility_errors(
     base_policy: dict[str, Any],
     current_policy: dict[str, Any],
 ) -> list[str]:
-    """Prevent policy evolution from erasing historical governance identity."""
+    """Prevent ordinary policy evolution from weakening the R1 semantic contract."""
     errors: list[str] = []
-    if base_policy.get("policy_id") != current_policy.get("policy_id"):
-        errors.append("merge-base policy_id does not match current policy_id")
-    if base_policy.get("baseline_commit_for_adoption") != current_policy.get("baseline_commit_for_adoption"):
-        errors.append("baseline_commit_for_adoption is immutable after adoption")
-    if base_policy.get("record_types") != current_policy.get("record_types"):
-        errors.append("record_types identities are immutable after adoption")
-    if base_policy.get("transition_metrics_assignment") != current_policy.get("transition_metrics_assignment"):
-        errors.append("transition_metrics_assignment identity is immutable after adoption")
+    immutable_fields = [
+        "policy_id", "schema_version", "baseline_commit_for_adoption", "record_types",
+        "transition_metrics_assignment", "allow_overlapping_timing_intervals",
+        "classifications", "data_quality_states", "event_types", "lifecycle_states",
+        "allowed_transitions", "m22_active_categories", "m23_rework_category",
+        "m27_denominator_metric_ids", "metric_order", "metrics",
+        "safe_external_reference_types", "snapshot_types", "timing_categories", "resource_limits",
+    ]
+    legacy_messages = {
+        "policy_id": "merge-base policy_id does not match current policy_id",
+        "baseline_commit_for_adoption": "baseline_commit_for_adoption is immutable after adoption",
+        "record_types": "record_types identities are immutable after adoption",
+        "transition_metrics_assignment": "transition_metrics_assignment identity is immutable after adoption",
+    }
+    for field in immutable_fields:
+        if base_policy.get(field) != current_policy.get(field):
+            errors.append(legacy_messages.get(field, f"{field} is immutable under ordinary R1 policy evolution"))
 
+    # Governance/required-content sets may become stricter but may not shrink.
     for field in [
-        "governed_markdown_roots",
-        "metrics_link_filename_keywords",
-        "change_record_filename_keywords",
+        "governed_markdown_roots", "metrics_link_filename_keywords",
+        "change_record_filename_keywords", "required_change_record_fields",
     ]:
-        base_values = set(base_policy.get(field, []))
-        current_values = set(current_policy.get(field, []))
-        removed = sorted(base_values - current_values)
+        removed = sorted(set(base_policy.get(field, [])) - set(current_policy.get(field, [])))
         if removed:
-            errors.append(f"{field} may not remove historical governance classifiers: {','.join(removed)}")
+            errors.append(f"{field} may not remove R1 controls: {','.join(removed)}")
+
+    # Handoff components are order-sensitive: additions are permitted only as an append.
+    base_components = base_policy.get("required_handoff_components", [])
+    current_components = current_policy.get("required_handoff_components", [])
+    if not isinstance(base_components, list) or not isinstance(current_components, list) or current_components[:len(base_components)] != base_components:
+        errors.append("required_handoff_components may not remove, reorder, or replace existing R1 components")
+
+    # Effective date can advance for a stricter ordinary policy but cannot move backward.
+    try:
+        base_date = datetime.strptime(base_policy.get("effective_date", ""), "%Y-%m-%d")
+        current_date = datetime.strptime(current_policy.get("effective_date", ""), "%Y-%m-%d")
+        if current_date < base_date:
+            errors.append("effective_date may not move backward")
+    except (TypeError, ValueError):
+        # Shape validation reports malformed dates.
+        pass
     return errors
 
 
@@ -336,24 +454,13 @@ def policy_failure_report(message: str, *, current_policy_path: str | None = Non
 
 
 def changed_files(repo_root: Path, base_ref: str) -> tuple[list[str], set[str]]:
-    out = run_git(repo_root, ["diff", "--name-status", "--no-renames", "--diff-filter=ACMRD", f"{base_ref}...HEAD"])
-    paths: list[str] = []
-    deleted: set[str] = set()
-    for raw in out.splitlines():
-        if not raw.strip():
-            continue
-        fields = raw.split("\t")
-        if len(fields) != 2:
-            raise RuntimeError(f"unexpected git diff --name-status output: {raw}")
-        status, path = fields
-        path = path.strip()
-        if not path:
-            raise RuntimeError(f"empty changed path in git diff output: {raw}")
-        if status == "D":
-            deleted.add(path)
-        else:
-            paths.append(path)
-    return sorted(set(paths)), deleted
+    merge_base, deltas = commit_deltas(repo_root, base_ref)
+    base_commit = resolve_commit(repo_root, base_ref)
+    if merge_base != base_commit:
+        raise GitContractError(f"base freshness failure: merge-base {merge_base} != base commit {base_commit}")
+    current = sorted({delta.path for delta in deltas if not delta.deleted})
+    deleted = {delta.path for delta in deltas if delta.deleted}
+    return current, deleted
 
 
 def safe_rel(repo_root: Path, value: str) -> str:
@@ -384,6 +491,9 @@ def validate_reference(repo_root: Path, ref: Any, errors: list[str], context: st
         errors.append(f"{context}: evidence reference must be an object")
         return
     typ = ref.get("type")
+    allowed = REFERENCE_FIELDS.get(typ) if isinstance(typ, str) else None
+    if allowed is not None:
+        reject_unexpected_fields(ref, allowed, context, errors)
     if typ == "REPO_PATH":
         try:
             rel = safe_rel(repo_root, ref.get("path"))
@@ -426,6 +536,7 @@ def validate_binding(
     if not isinstance(binding, dict):
         errors.append(f"{context}: binding must be object or null")
         return None
+    reject_unexpected_fields(binding, BINDING_FIELDS, context, errors)
     try:
         rel = safe_rel(repo_root, binding.get("path"))
     except (TypeError, ValueError) as exc:
@@ -551,6 +662,7 @@ def validate_intervals(record: dict[str, Any], policy: dict[str, Any], errors: l
         if not isinstance(item, dict):
             errors.append(f"{ctx}: must be object")
             continue
+        reject_unexpected_fields(item, TIMING_INTERVAL_FIELDS, ctx, errors)
         iid = item.get("interval_id")
         iid_valid = isinstance(iid, str) and bool(iid) and iid not in ids
         if not iid_valid:
@@ -597,6 +709,7 @@ def dist_from_runs(runs: Any, errors: list[str]) -> dict[str, Any] | None:
         ctx=f"test_runs[{idx}]"
         if not isinstance(run, dict):
             errors.append(f"{ctx}: must be object"); continue
+        reject_unexpected_fields(run, TEST_RUN_FIELDS, ctx, errors)
         rid=run.get("run_id")
         if not isinstance(rid,str) or not rid or rid in ids:
             errors.append(f"{ctx}: run_id missing or duplicate")
@@ -620,6 +733,7 @@ def repeat_defect_rate(defects: Any, errors: list[str]) -> float | None:
     for idx,d in enumerate(defects):
         ctx=f"defects[{idx}]"
         if not isinstance(d,dict): errors.append(f"{ctx}: must be object"); continue
+        reject_unexpected_fields(d, DEFECT_FIELDS, ctx, errors)
         did=d.get("defect_id")
         if not isinstance(did,str) or not did or did in ids: errors.append(f"{ctx}: defect_id missing or duplicate")
         else: ids.add(did)
@@ -636,6 +750,7 @@ def repeat_defect_rate(defects: Any, errors: list[str]) -> float | None:
 
 def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy: dict[str, Any]) -> list[str]:
     errors: list[str] = []
+    reject_unexpected_fields(record, SNAPSHOT_TOP_LEVEL_FIELDS, path, errors)
     if record.get("schema_version") != policy["schema_version"]: errors.append("schema_version mismatch")
     if record.get("snapshot_type") not in policy["snapshot_types"]: errors.append("invalid snapshot_type")
     if record.get("lifecycle_state") not in policy["lifecycle_states"]: errors.append("invalid lifecycle_state")
@@ -676,6 +791,7 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
         m=byid.get(mid)
         if not isinstance(m,dict): continue
         ctx=f"{path}:{mid}"
+        reject_unexpected_fields(m, METRIC_FIELDS, ctx, errors)
         definition=policy["metrics"][mid]
         if m.get("name") != definition["name"]: errors.append(f"{ctx}: name mismatch")
         if m.get("unit") != definition["unit"]: errors.append(f"{ctx}: unit mismatch")
@@ -728,6 +844,7 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
             if not isinstance(c,dict):
                 continue
             cid=c.get('component_id')
+            reject_unexpected_fields(c, HANDOFF_COMPONENT_FIELDS, f"{path}:handoff_components[{idx}]", errors)
             component_valid=True
             if c.get('status') != 'PRESENT':
                 errors.append(f"{path}: handoff component not PRESENT: {cid}")
@@ -790,7 +907,7 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
         else:
             full=repo_root/rel
             if not full.is_file() or full.is_symlink(): errors.append(f"{path}: csv projection missing/non-regular: {rel}")
-            else: errors.extend(validate_csv_projection(full, rows, path))
+            else: errors.extend(validate_csv_projection(full, rows, path, policy['resource_limits']['csv_bytes']))
     return errors
 
 
@@ -801,10 +918,12 @@ def csv_cell(value: Any) -> str:
     return str(value)
 
 
-def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str) -> list[str]:
+def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str, max_bytes: int = ABSOLUTE_RESOURCE_LIMITS['csv_bytes']) -> list[str]:
     errors=[]
     expected_header=['metric_id','name','unit','value','data_quality','collection_method','reason']
     try:
+        if path.stat().st_size > max_bytes:
+            return [f"{context}: CSV file size exceeds limit {max_bytes}"]
         with path.open(newline='',encoding='utf-8') as fh:
             reader=csv.DictReader(fh)
             if reader.fieldnames != expected_header:
@@ -828,6 +947,11 @@ def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str)
 
 def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: dict[str,Any]) -> list[str]:
     errors=[]
+    event_type=record.get('event_type')
+    allowed=set(EVENT_COMMON_FIELDS)
+    optional=EVENT_OPTIONAL_FIELD_BY_TYPE.get(event_type) if isinstance(event_type,str) else None
+    if optional: allowed.add(optional)
+    reject_unexpected_fields(record, frozenset(allowed), path, errors)
     if record.get('schema_version') != policy['schema_version']: errors.append('schema_version mismatch')
     if record.get('event_type') not in policy['event_types']: errors.append('invalid event_type')
     if not utc(record.get('created_utc')): errors.append('created_utc invalid')
@@ -857,6 +981,7 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
         d=record.get('deviation')
         if not isinstance(d,dict): errors.append('DEVIATION event requires deviation object')
         else:
+            reject_unexpected_fields(d, DEVIATION_FIELDS, f"{path}:deviation", errors)
             for f in ['deviation_id','timestamp_utc','category','planned_condition','observed_condition','impact','mutation_status','evidence_reference','owner_disposition','permanent_control_decision']:
                 if not isinstance(d.get(f),str) or not d.get(f,'').strip(): errors.append(f'deviation.{f} required')
             if d.get('timestamp_utc') and not utc(d.get('timestamp_utc')): errors.append('deviation.timestamp_utc invalid')
@@ -870,6 +995,7 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
         ex=record.get('external_incident')
         if not isinstance(ex,dict): errors.append('EXTERNAL_BLOCKER requires external_incident')
         else:
+            reject_unexpected_fields(ex, EXTERNAL_INCIDENT_FIELDS, f"{path}:external_incident", errors)
             if ex.get('candidate_revision_action') != 'PRESERVE_EXACT_CANDIDATE': errors.append('external incident must preserve exact candidate')
             if ex.get('code_revision_created') is True and ex.get('exposed_internal_defect') is not True: errors.append('external incident may not create code revision without exposed internal defect')
     return errors
@@ -978,11 +1104,11 @@ def build_reverse_reference_index(
         for full in sorted(releases.rglob("*.md")):
             if full.is_symlink() or not full.is_file():
                 continue
-            try:
-                text = full.read_text(encoding="utf-8")
-            except UnicodeDecodeError:
-                continue
             source = full.relative_to(repo_root).as_posix()
+            try:
+                text = read_limited_text(full, policy["resource_limits"]["markdown_bytes"], source)
+            except ValueError:
+                continue
             parsed = assignments(text)
             for assignment_name in sorted(assignment_names):
                 for target in parsed.get(assignment_name, []):
@@ -996,11 +1122,11 @@ def build_reverse_reference_index(
     for full in sorted(repo_root.rglob("*.json")):
         if ".git" in full.parts or full.is_symlink() or not full.is_file():
             continue
+        source = full.relative_to(repo_root).as_posix()
         try:
-            obj = load_json_strict(full)
+            obj = load_json_strict(full, policy["resource_limits"]["json_bytes"])
         except Exception:
             continue
-        source = full.relative_to(repo_root).as_posix()
         if (
             not is_transition_json(obj, policy)
             and not transition_record_path_requires_type(source)
@@ -1122,11 +1248,15 @@ def validate_files(
         full=repo_root/path
         if not full.exists(): violations.append(f"{path}: changed path does not exist"); continue
         if full.is_symlink() or not full.is_file(): violations.append(f"{path}: must be regular non-symlink file"); continue
-        data=full.read_bytes()
+        try:
+            suffix_limit = policy['resource_limits']['json_bytes'] if path.endswith('.json') else policy['resource_limits']['markdown_bytes'] if path.endswith('.md') else policy['resource_limits']['csv_bytes'] if path.endswith('.csv') else max(ABSOLUTE_RESOURCE_LIMITS.values())
+            data=read_limited_bytes(full, suffix_limit, path)
+        except ValueError as exc:
+            violations.append(str(exc)); continue
         if b'\r' in data: violations.append(f"{path}: contains CR characters")
         errors=[]
         if path.endswith('.json'):
-            try: obj=load_json_strict(full)
+            try: obj=load_json_strict(full, policy['resource_limits']['json_bytes'])
             except Exception as exc: errors.append(f"{path}: JSON parse failed: {exc}")
             else:
                 requires_transition_type = transition_record_path_requires_type(path) or path in required_transition_paths
@@ -1152,6 +1282,48 @@ def validate_files(
         'violations':violations,
     }
 
+
+
+def committed_repository_path_errors(repo_root: Path, seed_paths: list[str], policy: dict[str, Any]) -> list[str]:
+    """Require release-authorizing repository paths and their direct bindings to be exact HEAD regular blobs."""
+    errors: list[str] = []
+    queue = list(dict.fromkeys(seed_paths))
+    seen: set[str] = set()
+    while queue:
+        raw = queue.pop(0)
+        try:
+            path = safe_rel(repo_root, raw)
+        except (TypeError, ValueError) as exc:
+            errors.append(f"committed repository path invalid: {raw!r}: {exc}")
+            continue
+        if path in seen:
+            continue
+        seen.add(path)
+        try:
+            require_worktree_matches_head_regular_blob(repo_root, path)
+        except GitContractError as exc:
+            errors.append(str(exc))
+            continue
+        full = repo_root / path
+        if path.endswith('.json'):
+            try:
+                obj = load_json_strict(full)
+            except Exception:
+                continue
+            if isinstance(obj, dict):
+                for ref in sorted(referenced_repository_paths(obj)):
+                    if ref not in seen:
+                        queue.append(ref)
+        elif path.endswith('.md'):
+            try:
+                text = full.read_text(encoding='utf-8')
+            except UnicodeDecodeError:
+                continue
+            vals = assignments(text).get(policy.get('transition_metrics_assignment', ''), [])
+            for ref in vals:
+                if isinstance(ref, str) and ref and ref not in seen:
+                    queue.append(ref)
+    return errors
 
 def parse_args(argv:list[str]) -> argparse.Namespace:
     p=argparse.ArgumentParser()
@@ -1224,6 +1396,10 @@ def main(argv:list[str]|None=None) -> int:
         report=validate_files(
             repo, validation_paths, policy, required_transition_paths, required_markdown_paths
         )
+        committed_errors = committed_repository_path_errors(repo, validation_paths, policy) if args.base_ref else []
+        if committed_errors:
+            report['violations'].extend(committed_errors)
+            report['status'] = 'FAIL'
         deleted_transition_records = base_governed_changed_paths.intersection(deleted_paths)
         deleted_violations = validate_deleted_paths(
             repo, deleted_paths, policy, reverse_index, deleted_transition_records, base_policy
@@ -1242,6 +1418,9 @@ def main(argv:list[str]|None=None) -> int:
         report['current_policy_path'] = policy_rel
         report['merge_base'] = merge_base
         report['base_policy_status'] = base_policy_status
+        if args.base_ref:
+            report['base_commit'] = resolve_commit(repo, args.base_ref)
+            report['head_commit'], report['candidate_tree'] = head_commit_and_tree(repo)
     except Exception as exc:
         report = policy_failure_report(f"transition validation failed closed: {type(exc).__name__}: {exc}", current_policy_path=policy_rel)
         report['merge_base'] = merge_base

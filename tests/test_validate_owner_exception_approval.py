@@ -139,6 +139,40 @@ class OwnerApprovalTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             owner_gate.load_json_strict(path)
 
+    def test_cli_malformed_json_is_structured_fail(self):
+        temp = Path(tempfile.mkdtemp())
+        report_path = temp / "report.json"
+        comments_path = temp / "comments.json"
+        output_path = temp / "output.json"
+        report_path.write_text("{bad", encoding="utf-8")
+        comments_path.write_text("[]", encoding="utf-8")
+        rc = owner_gate.main([
+            "--report", str(report_path), "--comments", str(comments_path),
+            "--owner-login", OWNER, "--pr-number", str(PR),
+            "--head-sha", HEAD, "--output", str(output_path),
+        ])
+        self.assertEqual(1, rc)
+        result = json.loads(output_path.read_text())
+        self.assertEqual("FAIL", result["status"])
+        self.assertTrue(result["violations"])
+
+    def test_cli_oversized_json_is_structured_fail(self):
+        temp = Path(tempfile.mkdtemp())
+        report_path = temp / "report.json"
+        comments_path = temp / "comments.json"
+        output_path = temp / "output.json"
+        report_path.write_bytes(b" " * (owner_gate.MAX_JSON_BYTES + 1))
+        comments_path.write_text("[]", encoding="utf-8")
+        rc = owner_gate.main([
+            "--report", str(report_path), "--comments", str(comments_path),
+            "--owner-login", OWNER, "--pr-number", str(PR),
+            "--head-sha", HEAD, "--output", str(output_path),
+        ])
+        self.assertEqual(1, rc)
+        result = json.loads(output_path.read_text())
+        self.assertEqual("FAIL", result["status"])
+        self.assertTrue(any("exceeds limit" in x for x in result["violations"]))
+
 
 if __name__ == "__main__":
     unittest.main()

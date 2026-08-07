@@ -121,3 +121,11 @@ Machine enforcement does not modify ChatGPT system instructions. It makes projec
 - treating a pre-mutation stop as permission to continue iterating with the user;
 - allowing an exception without the project owner's exact written approval record and bound GitHub authorization comment;
 - weakening, omitting, or rewording the invariant block to avoid the validator.
+
+## 9. Final assurance recovery release gate
+
+A one-pass claim is valid only after the complete externally observable state model is reconciled against an independent requirements-derived oracle. `100% applicable-cell disposition` and zero oracle-versus-implementation delta are mandatory; passing unit tests alone cannot support the words comprehensive, fully qualified, or release-ready.
+
+The final committed candidate must pass the real production `--base-ref` path, exact artifact/operator rehearsal, failure/preserve-state qualification, resource/exception-surface qualification, full repository regression, and fresh adversarial review before user-visible release. Base drift invalidates the release result until the actual current base/merge result is requalified.
+
+Repeated material post-publication findings trigger an assurance reset and CAPA effectiveness review. Automatic patch-and-retry remains prohibited. The user-visible replacement package target remains zero.
