@@ -347,11 +347,33 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
             if cids != policy['required_handoff_components']: errors.append(f"{path}: M26 handoff components incomplete/out of order")
             present=0
             for idx,c in enumerate(comps):
-                if not isinstance(c,dict): continue
-                if c.get('status') == 'PRESENT': present += 1
-                else: errors.append(f"{path}: handoff component not PRESENT: {c.get('component_id')}")
-                if not isinstance(c.get('path'),str) or not c.get('path','').strip(): errors.append(f"{path}: handoff component path required")
-                if not isinstance(c.get('sha256'),str) or not SHA256_RE.fullmatch(c.get('sha256','')): errors.append(f"{path}: handoff component sha256 invalid")
+                if not isinstance(c,dict):
+                    continue
+                cid=c.get('component_id')
+                component_valid=True
+                if c.get('status') != 'PRESENT':
+                    errors.append(f"{path}: handoff component not PRESENT: {cid}")
+                    component_valid=False
+                try:
+                    rel=safe_rel(repo_root,c.get('path'))
+                except (TypeError,ValueError) as exc:
+                    errors.append(f"{path}: handoff component {cid} path {exc}")
+                    component_valid=False
+                    rel=None
+                digest=c.get('sha256')
+                if not isinstance(digest,str) or not SHA256_RE.fullmatch(digest):
+                    errors.append(f"{path}: handoff component sha256 invalid: {cid}")
+                    component_valid=False
+                if rel is not None:
+                    full=repo_root/rel
+                    if not full.exists() or full.is_symlink() or not full.is_file():
+                        errors.append(f"{path}: handoff component missing/non-regular: {rel}")
+                        component_valid=False
+                    elif isinstance(digest,str) and SHA256_RE.fullmatch(digest) and sha256_file(full) != digest:
+                        errors.append(f"{path}: handoff component sha256 mismatch: {rel}")
+                        component_valid=False
+                if component_valid:
+                    present += 1
             expected=present/len(policy['required_handoff_components'])*100.0
             if m26.get('data_quality') not in {'MEASURED','DERIVED'} or abs(float(m26.get('value',-1))-expected)>1e-9: errors.append(f"{path}:M26 value mismatch")
             if expected != 100.0: errors.append(f"{path}: handoff completeness must be 100%")
@@ -415,6 +437,7 @@ def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: di
     if record.get('schema_version') != policy['schema_version']: errors.append('schema_version mismatch')
     if record.get('event_type') not in policy['event_types']: errors.append('invalid event_type')
     if not utc(record.get('created_utc')): errors.append('created_utc invalid')
+    if not isinstance(record.get('workstream_id'),str) or not record.get('workstream_id','').strip(): errors.append('workstream_id required')
     if not isinstance(record.get('event_id'),str) or not record.get('event_id','').strip(): errors.append('event_id required')
     frm,to=record.get('lifecycle_from'),record.get('lifecycle_to')
     transition_events={'LIFECYCLE','RELEASE_RESET','LIVE_ATTEMPT'}
@@ -469,7 +492,18 @@ def validate_markdown(repo_root: Path, path: str, text: str, policy: dict[str,An
             except ValueError as exc: errors.append(f"{path}: metrics link {exc}")
             else:
                 full=repo_root/rel
-                if not full.is_file() or full.is_symlink(): errors.append(f"{path}: metrics record missing/non-regular: {rel}")
+                if not full.is_file() or full.is_symlink():
+                    errors.append(f"{path}: metrics record missing/non-regular: {rel}")
+                else:
+                    try:
+                        record=load_json_strict(full)
+                    except Exception as exc:
+                        errors.append(f"{path}: metrics record JSON parse failed: {rel}: {exc}")
+                    else:
+                        if not isinstance(record,dict) or record.get('record_type') != policy['record_types']['snapshot']:
+                            errors.append(f"{path}: metrics record must be {policy['record_types']['snapshot']}: {rel}")
+                        else:
+                            errors.extend(validate_snapshot(repo_root,rel,record,policy))
     if any(k in lower for k in policy['change_record_filename_keywords']):
         for field in policy['required_change_record_fields']:
             vals=assn.get(field,[])
@@ -496,7 +530,9 @@ def validate_files(repo_root: Path, paths: list[str], policy: dict[str,Any]) -> 
             try: obj=load_json_strict(full)
             except Exception as exc: errors.append(f"{path}: JSON parse failed: {exc}")
             else:
-                if is_transition_json(obj,policy):
+                if path.startswith('docs/Releases/metrics/') and not is_transition_json(obj,policy):
+                    errors.append(f"{path}: unrecognized transition metrics record_type")
+                elif is_transition_json(obj,policy):
                     if obj['record_type']==policy['record_types']['snapshot']: errors.extend(validate_snapshot(repo_root,path,obj,policy))
                     else: errors.extend(validate_event(repo_root,path,obj,policy))
         elif path.endswith('.md') and any(path.startswith(root) for root in policy['governed_markdown_roots']):

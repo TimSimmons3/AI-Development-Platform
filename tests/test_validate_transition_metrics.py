@@ -53,6 +53,20 @@ class TransitionValidatorTests(unittest.TestCase):
         p=repo/path;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(rec,indent=2,sort_keys=True)+'\n',encoding='utf-8')
         return v.validate_files(repo,[path],POLICY)
 
+    def make_handoff(self,repo,rec):
+        rec['snapshot_type']='HANDOFF'
+        components=[]
+        for idx,cid in enumerate(POLICY['required_handoff_components']):
+            rel=f'docs/Releases/handoff/component-{idx:02d}.txt'
+            full=repo/rel;full.parent.mkdir(parents=True,exist_ok=True);full.write_text(f'{cid}\n',encoding='utf-8')
+            components.append({'component_id':cid,'status':'PRESENT','path':rel,'sha256':hashlib.sha256(full.read_bytes()).hexdigest()})
+        rec['handoff_components']=components
+        m26=next(m for m in rec['metrics'] if m['metric_id']=='M26')
+        m26.update(value=100.0,data_quality='DERIVED',collection_method='HANDOFF_COMPONENT_FILE_AND_DIGEST_VALIDATION',reason='',evidence_refs=[self.ext()])
+        next(m for m in rec['metrics'] if m['metric_id']=='M27')['value']=100.0
+        self.write_csv(repo,rec)
+        return rec
+
     def test_valid_snapshot_passes(self):
         repo=self.make_repo(); rec=self.snapshot(repo); self.assertEqual('PASS',self.validate(repo,rec)['status'])
     def test_duplicate_metric_id_fails(self):
@@ -87,6 +101,10 @@ class TransitionValidatorTests(unittest.TestCase):
         repo=self.make_repo(); p=repo/'docs/Releases/Test-Handoff.md';p.write_text('# H\n',encoding='utf-8'); self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/Test-Handoff.md'],POLICY)['status'])
     def test_markdown_metrics_link_missing_target_fails(self):
         repo=self.make_repo(); p=repo/'docs/Releases/Test-Gate.md';p.write_text('TRANSITION_METRICS_RECORD=docs/Releases/metrics/missing.json\n',encoding='utf-8'); self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/Test-Gate.md'],POLICY)['status'])
+    def test_markdown_metrics_link_unrelated_json_fails(self):
+        repo=self.make_repo(); p=repo/'docs/Releases/Test-Gate.md';p.write_text('TRANSITION_METRICS_RECORD=config/transition-metrics-policy.json\n',encoding='utf-8'); self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/Test-Gate.md'],POLICY)['status'])
+    def test_markdown_metrics_link_valid_snapshot_passes(self):
+        repo=self.make_repo(); rec=self.snapshot(repo); self.validate(repo,rec); p=repo/'docs/Releases/Test-Gate.md';p.write_text('TRANSITION_METRICS_RECORD=docs/Releases/metrics/s.json\n',encoding='utf-8'); self.assertEqual('PASS',v.validate_files(repo,['docs/Releases/Test-Gate.md'],POLICY)['status'])
     def test_previous_record_hash_mismatch_fails(self):
         repo=self.make_repo(); rec=self.snapshot(repo); q=repo/'docs/Releases/metrics/prev.json';q.write_text('{}');rec['previous_record']={'path':'docs/Releases/metrics/prev.json','sha256':'a'*64}; self.assertEqual('FAIL',self.validate(repo,rec)['status'])
     def test_csv_projection_mismatch_fails(self):
@@ -105,6 +123,12 @@ class TransitionValidatorTests(unittest.TestCase):
         repo=self.make_repo(); rec=self.snapshot(repo);rec['defects']=[{'defect_id':'D1','repeated':True}];m=next(m for m in rec['metrics'] if m['metric_id']=='M25');m.update(value=100.0,data_quality='DERIVED',evidence_refs=[self.ext()]);self.assertEqual('FAIL',self.validate(repo,rec)['status'])
     def test_m26_missing_component_fails(self):
         repo=self.make_repo(); rec=self.snapshot(repo);rec['snapshot_type']='HANDOFF';rec['handoff_components']=[];m=next(m for m in rec['metrics'] if m['metric_id']=='M26');m.update(value=0.0,data_quality='DERIVED',collection_method='HANDOFF_COMPONENT_COUNT',reason='',evidence_refs=[self.ext()]);self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+    def test_valid_handoff_components_and_digests_pass(self):
+        repo=self.make_repo(); rec=self.make_handoff(repo,self.snapshot(repo)); self.assertEqual('PASS',self.validate(repo,rec)['status'])
+    def test_handoff_component_missing_file_fails(self):
+        repo=self.make_repo(); rec=self.make_handoff(repo,self.snapshot(repo)); (repo/rec['handoff_components'][0]['path']).unlink(); self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+    def test_handoff_component_digest_mismatch_fails(self):
+        repo=self.make_repo(); rec=self.make_handoff(repo,self.snapshot(repo)); rec['handoff_components'][0]['sha256']='b'*64; self.assertEqual('FAIL',self.validate(repo,rec)['status'])
     def test_change_record_missing_field_fails(self):
         repo=self.make_repo();p=repo/'docs/Releases/X-Plan.md';p.write_text('CHANGE_RECORD_BASELINE=x\n',encoding='utf-8');self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/X-Plan.md'],POLICY)['status'])
     def test_external_incident_revision_fails(self):
@@ -119,10 +143,16 @@ class TransitionValidatorTests(unittest.TestCase):
         repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M22');m.update(value=None,data_quality='UNKNOWN',reason='gap',collection_method='GAP',evidence_refs=[]);rec['timing_intervals']=[];m23=next(m for m in rec['metrics'] if m['metric_id']=='M23');m23.update(value=None,data_quality='NOT_APPLICABLE',reason='no active denominator',collection_method='POLICY',evidence_refs=[]);m27=next(m for m in rec['metrics'] if m['metric_id']=='M27');m27['value']=26/27*100;self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
     def test_deterministic_report(self):
         repo=self.make_repo();rec=self.snapshot(repo);p=repo/'docs/Releases/metrics/s.json';p.write_text(json.dumps(rec,indent=2,sort_keys=True)+'\n');r1=v.validate_files(repo,['docs/Releases/metrics/s.json'],POLICY);r2=v.validate_files(repo,['docs/Releases/metrics/s.json'],POLICY);self.assertEqual(json.dumps(r1,sort_keys=True),json.dumps(r2,sort_keys=True))
-    def test_non_transition_json_ignored(self):
-        repo=self.make_repo();p=repo/'docs/Releases/metrics/other.json';p.write_text('{"x":1}');self.assertEqual('PASS',v.validate_files(repo,['docs/Releases/metrics/other.json'],POLICY)['status'])
+    def test_unknown_record_type_in_metrics_directory_fails(self):
+        repo=self.make_repo();p=repo/'docs/Releases/metrics/other.json';p.write_text('{"record_type":"TYPO"}');self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/metrics/other.json'],POLICY)['status'])
+    def test_missing_record_type_in_metrics_directory_fails(self):
+        repo=self.make_repo();p=repo/'docs/Releases/metrics/other.json';p.write_text('{"x":1}');self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/metrics/other.json'],POLICY)['status'])
+    def test_non_transition_json_outside_metrics_directory_ignored(self):
+        repo=self.make_repo();p=repo/'config/other.json';p.write_text('{"x":1}');self.assertEqual('PASS',v.validate_files(repo,['config/other.json'],POLICY)['status'])
     def test_valid_event_passes(self):
         repo=self.make_repo();evt={'record_type':POLICY['record_types']['event'],'schema_version':'1.0','workstream_id':'W','event_id':'E','created_utc':'2026-08-07T12:00:00Z','event_type':'LIFECYCLE','lifecycle_from':'PLANNING_READ_ONLY','lifecycle_to':'DESIGN_QUALIFICATION','classification':'NONE','mutation_boundary_crossed':False,'previous_record':None,'evidence_refs':[self.ext()]};p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));self.assertEqual('PASS',v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY)['status'])
+    def test_event_missing_workstream_id_fails(self):
+        repo=self.make_repo();evt={'record_type':POLICY['record_types']['event'],'schema_version':'1.0','event_id':'E','created_utc':'2026-08-07T12:00:00Z','event_type':'LIFECYCLE','lifecycle_from':'PLANNING_READ_ONLY','lifecycle_to':'DESIGN_QUALIFICATION','classification':'NONE','mutation_boundary_crossed':False,'previous_record':None,'evidence_refs':[self.ext()]};p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));self.assertEqual('FAIL',v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY)['status'])
     def test_valid_deviation_passes(self):
         repo=self.make_repo();evt={'record_type':POLICY['record_types']['event'],'schema_version':'1.0','workstream_id':'W','event_id':'E','created_utc':'2026-08-07T12:00:00Z','event_type':'DEVIATION','lifecycle_from':'DESIGN_QUALIFICATION','lifecycle_to':'IMPLEMENTATION_OFFLINE','classification':'REVIEW_TEST_DEFECT','mutation_boundary_crossed':False,'previous_record':None,'evidence_refs':[self.ext()],'deviation':{'deviation_id':'D1','timestamp_utc':'2026-08-07T12:00:00Z','category':'REVIEW','planned_condition':'x','observed_condition':'y','impact':'z','mutation_status':'NONE','evidence_reference':'E','owner_disposition':'CORRECT','permanent_control_decision':'ADD_TEST'}};p=repo/'docs/Releases/metrics/e.json';p.write_text(json.dumps(evt));self.assertEqual('PASS',v.validate_files(repo,['docs/Releases/metrics/e.json'],POLICY)['status'])
 
