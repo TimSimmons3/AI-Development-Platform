@@ -207,3 +207,54 @@ If any item is unavailable, the release state is HOLD. A large test count cannot
 ### Finite assurance-model convergence
 
 Before implementation or publication, verify that denominator growth is controlled by authoritative requirements and materially distinct enforcement outcomes. Equivalent variants with the same governing requirement, expected disposition, and material enforcement branch must be enumerated as independently executed probe subcases instead of creating an unbounded cell/version loop. A new denominator cell requires a documented missing requirement, contradictory outcome, materially distinct enforcement branch, or proof ambiguity that cannot be resolved under an existing cell.
+
+## Post-R1 process-institutionalization preflight
+
+```text
+PROCESS_INSTITUTIONALIZATION_PREFLIGHT=MANDATORY
+SCENARIO_FAITHFUL_PROBE_MAPPING=MANDATORY
+EXACT_CANDIDATE_EVIDENCE_BINDING=MANDATORY
+PROXY_ONLY_QUALIFICATION_COUNT=0
+SELF_DECLARED_OBSERVED_ENFORCEMENT_COUNT=0
+```
+
+Before implementation, reconcile authoritative requirements, materially distinct outcomes, Git state classes, external contracts, dependencies, exception states, and release states. Before delivery, prove every material production change with a pre-fix failing exact probe, reject stale candidate-bound evidence, rehearse the exact distributed operator, and require portable manifests.
+
+### Committed candidate requirement for delta-aware validators
+
+```text
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+PRECOMMIT_EMPTY_DELTA_MAY_NOT_AUTHORIZE_RELEASE=TRUE
+```
+
+For change-aware validators, create or simulate an isolated committed candidate before claiming change-scope validation. Verify the validator observes the intended changed-path set. A PASS against an empty committed delta is non-authorizing.
+
+### Future handoff/process-metrics instance validation
+
+```text
+FUTURE_HANDOFF_INSTANCE_VALIDATION=MANDATORY
+PROCESS_POLICY_NON_WEAKENING=MANDATORY
+```
+
+For every changed governed handoff or continuation record, validate the canonical 16 sections and one bound process-assurance metrics record. Validate the referenced metrics record as exact P01-P14 with concrete values, statuses, evidence references, and candidate identity fields. Do not treat canonical-template presence as proof that a workstream instance complied.
+
+### Template/instance classification boundary
+
+```text
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+LIVE_PROCESS_METRICS_RECORD_REQUIRES_GOVERNED_INSTANCE_ROOT=TRUE
+```
+
+Do not execute live-record semantic validation against canonical templates. Validate templates for required schema/marker completeness; validate only materialized workstream records under governed process-metrics roots as live instances. A handoff may not satisfy its P01-P14 obligation by referencing the canonical template.
+
+### PR #6 material-review escape preflight
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4
+PROCESS_METRICS_IDENTITY_VERIFICATION=COMMIT_TREE_OBJECT
+PROCESS_METRICS_DELETION=FAIL_CLOSED
+HANDOFF_REQUIRED_SECTION_CONTENT=CONCRETE_NON_PLACEHOLDER
+CANONICAL_HANDOFF_DUAL_METRICS_BINDING=MANDATORY
+```
+
+Preflight must prove the exact canonical handoff contains both transition and process-assurance metrics bindings; a deleted governed process-metrics instance cannot pass; fabricated or wrong-tree candidate identities cannot pass; and empty, duplicate, or placeholder mandatory handoff sections cannot pass.

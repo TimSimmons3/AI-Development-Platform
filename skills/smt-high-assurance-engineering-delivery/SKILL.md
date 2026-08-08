@@ -461,3 +461,26 @@ Security-sensitive validators, policies, workflows, and oracle assets form an as
 A material finding that escapes a candidate described as comprehensive is a CAPA effectiveness failure. Stop release, preserve evidence, reset to model/oracle root cause, and complete fresh adversarial review before another executable is exposed. Review administration is metadata-only; repository content create/update/delete actions are prohibited unless separately authorized as engineering mutation.
 
 A release denominator is requirements-governed, not reviewer-governed. After authoritative requirements and materially distinct enforcement outcomes are mapped, do not create new denominator cells solely because a reviewer can subdivide an equivalent case further. Same-requirement, same-expected-outcome, same-material-enforcement-branch variants become mandatory independently executed probe subcases. Reopen the denominator only for an unmapped authoritative requirement, a contradictory expected outcome, a materially distinct enforcement branch, or a scenario that cannot be proven without ambiguity under an existing cell.
+
+## Post-R1 permanent process institutionalization
+
+```text
+POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY
+REQUIREMENTS_INVENTORY_BEFORE_IMPLEMENTATION=MANDATORY
+PRODUCTION_CHANGE_REQUIRES_FAILED_EXACT_PROBE=TRUE
+SCENARIO_FAITHFUL_EVIDENCE=MANDATORY
+EXTERNAL_EVIDENCE_DEFAULT=HOLD_ONLY
+POST_PUBLICATION_MATERIAL_ESCAPE=CAPA_EFFECTIVENESS_HOLD
+```
+
+Future work must apply PI-01 through PI-16 and report P01-P14. Test count is supporting evidence, not completeness. Reviewer silence is not a release criterion. Evidence must be bound to the exact clean candidate. Lessons learned are not considered institutionalized until represented in skills, standards, policy, tests, handoff fields, release gates, and recoverability evidence.
+
+## PR #6 material-review escape enforcement
+
+```text
+PROCESS_METRICS_IDENTITY_VERIFICATION=MANDATORY
+PROCESS_METRICS_DELETION=FAIL_CLOSED
+HANDOFF_REQUIRED_SECTION_CONTENT=MANDATORY
+```
+
+Treat commit/tree identity, governed evidence-record deletion, and completed handoff bodies as release-enforcement surfaces, not documentation quality suggestions.

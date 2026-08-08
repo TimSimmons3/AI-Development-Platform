@@ -1,0 +1,150 @@
+{
+  "candidate_head": "<REQUIRED>",
+  "candidate_tree": "<REQUIRED>",
+  "created_utc": "<REQUIRED_STRICT_UTC>",
+  "metrics": [
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P01",
+      "name": "Authoritative requirements mapped",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "100_PERCENT",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P02",
+      "name": "Material enforcement branches dispositioned",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "100_PERCENT",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P03",
+      "name": "Scenario-faithful probe coverage",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "100_PERCENT",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P04",
+      "name": "Proxy-only qualification count",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P05",
+      "name": "Self-declared observed-enforcement count",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P06",
+      "name": "Denominator revisions after freeze",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0_UNLESS_MATERIALITY_AND_OWNER_AUTHORIZATION",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P07",
+      "name": "Late material findings after implementation start",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P08",
+      "name": "Post-publication material escape count",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P09",
+      "name": "User-visible replacement package count",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P10",
+      "name": "Unresolved assumptions at delivery",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P11",
+      "name": "Operator rerun due to package defect",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "0",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P12",
+      "name": "Accepted-risk overrides",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "TRACK_WITH_FAIL_SAFE_AND_OWNER",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P13",
+      "name": "Review-refreeze cycles after first comprehensive review",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "MAX_1_BOUNDED_RECHECK",
+      "value": "<REQUIRED>"
+    },
+    {
+      "evidence_refs": [
+        "<REQUIRED>"
+      ],
+      "metric_id": "P14",
+      "name": "Avoidable rework effort",
+      "status": "<PASS_HOLD_FAIL_TRACK>",
+      "target": "DOWNWARD_TREND_AND_ABSOLUTE_WHEN_KNOWN",
+      "value": "<REQUIRED>"
+    }
+  ],
+  "record_type": "ADP_PROCESS_ASSURANCE_METRICS",
+  "schema_version": "1.0",
+  "workstream_id": "<REQUIRED>"
+}

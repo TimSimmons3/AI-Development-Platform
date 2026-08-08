@@ -1798,3 +1798,86 @@ Status: Accepted Level-4 evidence bound to a new post-administrative-closeout Ti
 - Consolidated test-first correction adds observed-evidence qualification, owner-exception content/time binding, trust-root CODEOWNERS/history continuity, M23/M25 canonical zero-state enforcement, M25 ledger arithmetic binding, release-assurance decision semantics, transition-record sensitive-content guardrails, and deterministic sharded oracle execution.
 - Current disposable exact-source qualification: 488/488 repository regression PASS; 35,000/35,000 exception/adversarial cases PASS with zero unhandled exceptions; 321 unique UNITTEST probes PASS across deterministic shards; oracle aggregator confirms 354/374 cells with zero contradictions and zero hard-missing behavioral/static evidence, leaving 20 external/live/process cells intentionally HOLD pending exact final-candidate/live evidence.
 - No GitHub repository content, ruleset, Timeshift, or runtime mutation occurred during this disposable correction work.
+
+## 2026-08-08 - ADP Post-R1 Process Institutionalization R1 authorized
+
+```text
+POST_R1_PROCESS_INSTITUTIONALIZATION_R1=STARTED
+BASE_MAIN=e599880ad7d1359efaf48c818b561275c069382e
+BASE_TREE=533199b8332304b34501cddac3e1965005b11b45
+R1_REOPENED=FALSE
+R1_STATUS=ADMINISTRATIVELY_CLOSED_AND_RECOVERABLE
+CONTROL_MATRIX=16_OF_16
+PROCESS_METRICS=P01-P14
+```
+
+Purpose: institutionalize the R1 lessons across handoffs, skills, standards, machine policy, QA, validation, testing, workflow enforcement, trust-root governance, CAPA, release gates, and recoverability before the next functional ADP workstream.
+
+## 2026-08-08 - Post-R1 institutionalization qualification correction R1
+
+```text
+CLASSIFICATION=IMPLEMENTATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+REMOTE_PUBLICATION_BEFORE_CORRECTION=FALSE
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+The institutionalization candidate full regression passed 510 tests, but the operator correctly stopped before publication when exact committed-delta validation was reached. Root cause and remediation are recorded in the workstream plan and qualification contract.
+
+## 2026-08-08 - Independent review correction for process instance enforcement
+
+```text
+CLASSIFICATION=DESIGN_DEFECT_PLUS_REVIEW_TEST_DEFECT_PLUS_TRUST_BOUNDARY_DEFECT
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+PROCESS_CONTROL_COUNT=16
+PROCESS_METRIC_COUNT=14
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+Draft PR #6 remained open/draft at exact head `77e146af4f97cad6cc9a62520a8a8f7203908ada` when the bounded independent review identified the instance-enforcement gap. Correction remains within ADP Post-R1 Process Institutionalization R1.
+
+## 2026-08-08 - Process metrics template-instance boundary correction
+
+```text
+CLASSIFICATION=IMPLEMENTATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+REMOTE_PUBLICATION_OF_6E1BC553=FALSE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+Exact local correction head `6e1bc5531b7f41936012845c3654c00e8d9c1a63` / tree `292f0316e4b9dfaa094bf3a2771610a5bc4966b9` was never published. Its dedicated 31-test suite and 525-test repository regression passed; the first process-institutionalization validator then failed only because the canonical placeholder template was misclassified as a completed live record.
+
+## 2026-08-08 - PR #6 material-review escape bounded correction authorized
+
+```text
+OWNER_AUTHORIZATION=AUTHORIZE ADP PR6 MATERIAL REVIEW ESCAPE CORRECTION HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d FINDINGS=4 SCOPE=BOUNDED_CORRECTION_AND_REQUALIFICATION
+PRESERVED_HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d
+PRESERVED_TREE=9a0bf3952d1ea147e10d6b7d9652f36ed7fb2afb
+CODEX_REVIEW=4889118821
+UNRESOLVED_REVIEW_THREADS=4
+MATERIAL_FINDINGS=3_P1_PLUS_1_P2
+REMOTE_MAIN_PRESERVED=e599880ad7d1359efaf48c818b561275c069382e
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+Validated findings: missing transition-metrics binding in the canonical continuation template; fail-open governed process-metrics deletion; unproven candidate commit/tree identities; and empty/placeholder mandatory handoff bodies. One bounded correction and exact-head requalification is authorized.
+
+## 2026-08-08 - PR #6 final transition-validator integration collision closure
+
+```text
+SOURCE_LOCAL_HEAD=cbca1df2a28ea3d60f4f0a56cb9bf98a7dbc0e8b
+SOURCE_LOCAL_TREE=ce220f1d4a53a1a46e8c34d7e3c57bc6c6ddfa7b
+REMOTE_FEATURE_PRESERVED=75ff6ccefe3933eabc8f7483b8347bac3676bb7d
+TRANSITION_VALIDATOR_COLLISION_ROOT_CAUSES=2
+CLASSIFICATION=IMPLEMENTATION_INTEGRATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+POST_PUBLICATION_OF_CBCA1DF=FALSE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+The PR #6 material-review correction passed 42/42 dedicated tests, 536/536 full regression, process-institutionalization validation, and mandatory-assurance validation, then stopped before the exception sweep because the transition validator correctly interpreted canonical assignment keys as repository evidence bindings. The correction preserves exactly one canonical change-record owner authorization, reserves live transition-record assignment syntax for actual bindings, and keeps the continuation template fail-closed with one intentionally empty transition-record field.

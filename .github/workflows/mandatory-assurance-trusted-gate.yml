@@ -109,6 +109,18 @@ jobs:
             --base-ref "${BASE_SHA}" \
             --report "${RUNNER_TEMP}/trusted-transition-metrics-report.json"
 
+      - name: Validate institutionalized process controls with trusted code
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B trusted/scripts/validate_adp_process_institutionalization.py \
+            --repo-root candidate \
+            --policy candidate/config/adp-process-institutionalization-policy.json \
+            --base-ref "${BASE_SHA}" \
+            --report "${RUNNER_TEMP}/trusted-process-institutionalization-report.json"
+
       - name: Enforce exact owner approval for invariant exceptions
         env:
           OWNER_LOGIN: TimSimmons3

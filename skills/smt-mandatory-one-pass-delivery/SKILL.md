@@ -131,3 +131,14 @@ The final committed candidate must pass the real production `--base-ref` path, e
 Repeated material post-publication findings trigger an assurance reset and CAPA effectiveness review. Automatic patch-and-retry remains prohibited. The user-visible replacement package target remains zero.
 
 Convergence must be finite. Once the requirements-derived denominator covers every authoritative requirement and materially distinct PASS/FAIL/HOLD branch, equivalent variants are required probe subcases rather than automatic new denominator cells. Reviewer feedback that only asks for finer subdivision of an already covered equivalent state does not restart the model version cycle; material omissions still do.
+
+## Post-R1 institutionalized anti-loop rule
+
+```text
+POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY
+REVIEWER_SILENCE_IS_NOT_RELEASE_CRITERION=TRUE
+FROZEN_DENOMINATOR_EQUIVALENT_SUBDIVISION=PROBE_SUBCASE_ONLY
+POST_PUBLICATION_PATCH_AND_RETRY=PROHIBITED
+```
+
+Before implementation, require complete requirement/state/branch inventory and independent expected outcomes. After a freeze, only a materially missing requirement, different expected disposition, materially distinct enforcement path, or scenario not provable under the existing state may change the denominator. A post-publication material escape invokes CAPA effectiveness and owner disposition rather than an automatic next revision.

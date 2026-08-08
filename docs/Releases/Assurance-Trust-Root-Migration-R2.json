@@ -1,0 +1,29 @@
+{
+  "base_commit": "e599880ad7d1359efaf48c818b561275c069382e",
+  "changed_trust_root_paths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/mandatory-assurance-invariant-gate.yml",
+    ".github/workflows/mandatory-assurance-trusted-gate.yml",
+    "config/adp-process-institutionalization-policy.json",
+    "config/assurance-trust-root-manifest.json",
+    "docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md",
+    "docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md",
+    "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md",
+    "docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md",
+    "docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md",
+    "docs/Standards/SMT-Mandatory-One-Pass-Delivery-and-Owner-Exception-Control-Standard.md",
+    "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md",
+    "docs/Templates/SMT-Process-Assurance-Metrics-Template.json",
+    "docs/Templates/SMT-Workstream-Continuation-Control-Template.md",
+    "scripts/validate_adp_process_institutionalization.py",
+    "skills/smt-high-assurance-engineering-delivery/SKILL.md",
+    "skills/smt-mandatory-one-pass-delivery/SKILL.md",
+    "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
+    "tests/test_validate_adp_process_institutionalization.py"
+  ],
+  "owner_login": "TimSimmons3",
+  "rationale": "Institutionalize ADP post-R1 high-assurance process controls with requirements-first inventory, finite convergence, scenario-faithful evidence, fail-safe external evidence, exact-candidate and committed-fixture binding, merge-base policy non-weakening, changed handoff/process-metrics instance validation, machine-enforced handoffs, P01-P14, QA/preflight gates, and recoverability.",
+  "rationale_sha256": "aa0b31ca3bee1a31fbaa9efdc30aea31d7638de0eb281021db138abe7aa2fc28",
+  "record_type": "SMT_ASSURANCE_TRUST_ROOT_MIGRATION",
+  "schema_version": "1.0"
+}

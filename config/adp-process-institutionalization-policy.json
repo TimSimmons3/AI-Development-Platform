@@ -1,0 +1,336 @@
+{
+  "control_ids": [
+    "PI-01",
+    "PI-02",
+    "PI-03",
+    "PI-04",
+    "PI-05",
+    "PI-06",
+    "PI-07",
+    "PI-08",
+    "PI-09",
+    "PI-10",
+    "PI-11",
+    "PI-12",
+    "PI-13",
+    "PI-14",
+    "PI-15",
+    "PI-16"
+  ],
+  "effective_date": "2026-08-08",
+  "external_evidence_fail_safe": {
+    "markers": [
+      "EXTERNAL_EVIDENCE_AUTHORIZATION_MODE = \"HOLD_ONLY_UNTIL_TRUSTED_COLLECTOR\"",
+      "external/live/process evidence is non-authorizing under Final Closure Override R1"
+    ],
+    "path": "tests/qualification/run_final_assurance_state_oracle.py"
+  },
+  "instance_enforcement": {
+    "handoff_filename_keywords": [
+      "continuation",
+      "handoff"
+    ],
+    "handoff_roots": [
+      "docs/Integration/",
+      "docs/Releases/"
+    ],
+    "process_metrics_assignment": "PROCESS_ASSURANCE_METRICS_RECORD",
+    "process_metrics_instance_roots": [
+      "docs/Integration/process-metrics/",
+      "docs/Releases/process-metrics/"
+    ],
+    "process_metrics_record_type": "ADP_PROCESS_ASSURANCE_METRICS",
+    "process_metrics_template_path": "docs/Templates/SMT-Process-Assurance-Metrics-Template.json",
+    "transition_metrics_assignment": "TRANSITION_METRICS_RECORD"
+  },
+  "mandatory_handoff_sections": [
+    "Exact Identity and Authority",
+    "Workstream Phase and Current Gate",
+    "Authorized and Prohibited Actions",
+    "Source of Truth and Requirements Inventory",
+    "Dependency and External Contract Inventory",
+    "Frozen Model and Convergence Rule",
+    "Defect CAPA and Review Lineage",
+    "Scenario-Faithful Probe and Evidence Map",
+    "Live and External Evidence Boundary",
+    "GitHub Protection and Required Check State",
+    "Trust Root and CODEOWNERS State",
+    "Process Assurance Metrics P01-P14",
+    "Artifact Package and Operator Evidence",
+    "Recoverability Evidence",
+    "Risks Accepted Risk Deferred Follow-on and Lessons",
+    "Exact Next Authorized Step and Stop Rule"
+  ],
+  "policy_id": "ADP_HIGH_ASSURANCE_PROCESS_INSTITUTIONALIZATION_R1",
+  "process_metrics": {
+    "P01": {
+      "name": "Authoritative requirements mapped",
+      "target": "100_PERCENT"
+    },
+    "P02": {
+      "name": "Material enforcement branches dispositioned",
+      "target": "100_PERCENT"
+    },
+    "P03": {
+      "name": "Scenario-faithful probe coverage",
+      "target": "100_PERCENT"
+    },
+    "P04": {
+      "name": "Proxy-only qualification count",
+      "target": "0"
+    },
+    "P05": {
+      "name": "Self-declared observed-enforcement count",
+      "target": "0"
+    },
+    "P06": {
+      "name": "Denominator revisions after freeze",
+      "target": "0_UNLESS_MATERIALITY_AND_OWNER_AUTHORIZATION"
+    },
+    "P07": {
+      "name": "Late material findings after implementation start",
+      "target": "0"
+    },
+    "P08": {
+      "name": "Post-publication material escape count",
+      "target": "0"
+    },
+    "P09": {
+      "name": "User-visible replacement package count",
+      "target": "0"
+    },
+    "P10": {
+      "name": "Unresolved assumptions at delivery",
+      "target": "0"
+    },
+    "P11": {
+      "name": "Operator rerun due to package defect",
+      "target": "0"
+    },
+    "P12": {
+      "name": "Accepted-risk overrides",
+      "target": "TRACK_WITH_FAIL_SAFE_AND_OWNER"
+    },
+    "P13": {
+      "name": "Review-refreeze cycles after first comprehensive review",
+      "target": "MAX_1_BOUNDED_RECHECK"
+    },
+    "P14": {
+      "name": "Avoidable rework effort",
+      "target": "DOWNWARD_TREND_AND_ABSOLUTE_WHEN_KNOWN"
+    }
+  },
+  "r1_frozen_oracle": {
+    "applicable_cell_count": 374,
+    "path": "config/adp-transition-governance-final-assurance-state-oracle-r1.json"
+  },
+  "required_artifacts": {
+    "docs/Releases/ADP-Post-R1-Process-Institutionalization-R1-Plan.md": [
+      "WORKSTREAM=ADP_POST_R1_PROCESS_INSTITUTIONALIZATION_R1",
+      "R1_REOPENED=FALSE",
+      "CONTROL_MATRIX=16_OF_16"
+    ],
+    "docs/Releases/ADP-Post-R1-Process-Institutionalization-R1-Qualification-Contract.md": [
+      "EXACT_COMMITTED_CANDIDATE_QUALIFICATION=MANDATORY",
+      "FULL_REPOSITORY_REGRESSION=MANDATORY",
+      "EXACT_OPERATOR_REHEARSAL=MANDATORY"
+    ],
+    "docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md": [
+      "REQUIREMENTS_GOVERNED_NOT_REVIEWER_GOVERNED=TRUE",
+      "EQUIVALENT_SUBDIVISION=PROBE_SUBCASE_NOT_DENOMINATOR"
+    ],
+    "docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md": [
+      "PI-01",
+      "PI-02",
+      "PI-03",
+      "PI-04",
+      "PI-05",
+      "PI-06",
+      "PI-07",
+      "PI-08",
+      "PI-09",
+      "PI-10",
+      "PI-11",
+      "PI-12",
+      "PI-13",
+      "PI-14",
+      "PI-15",
+      "PI-16",
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "REQUIREMENTS_GOVERNED_NOT_REVIEWER_GOVERNED=TRUE",
+      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
+      "FUTURE_WORKSTREAM_INSTANCE_VALIDATION=MANDATORY",
+      "PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE",
+      "PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4",
+      "PROCESS_METRICS_IDENTITY_VERIFICATION=COMMIT_TREE_OBJECT",
+      "PROCESS_METRICS_DELETION=FAIL_CLOSED",
+      "HANDOFF_REQUIRED_SECTION_CONTENT=CONCRETE_NON_PLACEHOLDER"
+    ],
+    "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md": [
+      "POST_R1_PROCESS_CONTROL_TRACEABILITY=PI-01..PI-16",
+      "PROCESS_ASSURANCE_METRICS=P01-P14",
+      "PR6_MATERIAL_REVIEW_ESCAPE_SUBCASES=4_OF_4"
+    ],
+    "docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md": [
+      "PROCESS_INSTITUTIONALIZATION_PREFLIGHT=MANDATORY",
+      "SCENARIO_FAITHFUL_PROBE_MAPPING=MANDATORY",
+      "EXACT_CANDIDATE_EVIDENCE_BINDING=MANDATORY",
+      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
+      "PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE",
+      "PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4",
+      "PROCESS_METRICS_IDENTITY_VERIFICATION=COMMIT_TREE_OBJECT",
+      "PROCESS_METRICS_DELETION=FAIL_CLOSED",
+      "HANDOFF_REQUIRED_SECTION_CONTENT=CONCRETE_NON_PLACEHOLDER"
+    ],
+    "docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md": [
+      "EXTERNAL_EVIDENCE_DEFAULT=HOLD_ONLY",
+      "TRUSTED_EXTERNAL_COLLECTOR_REQUIRED_FOR_PASS=TRUE"
+    ],
+    "docs/Standards/SMT-Mandatory-One-Pass-Delivery-and-Owner-Exception-Control-Standard.md": [
+      "POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY",
+      "POST_PUBLICATION_MATERIAL_ESCAPE=CAPA_EFFECTIVENESS_HOLD"
+    ],
+    "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md": [
+      "PROCESS_ASSURANCE_METRICS=P01-P14",
+      "M01_M28_SEMANTICS_UNCHANGED=TRUE",
+      "DUAL_HANDOFF_METRICS_BINDING=MANDATORY"
+    ],
+    "docs/Templates/SMT-Process-Assurance-Metrics-Template.json": [
+      "\"record_type\": \"ADP_PROCESS_ASSURANCE_METRICS\"",
+      "\"metric_id\": \"P01\"",
+      "\"metric_id\": \"P02\"",
+      "\"metric_id\": \"P03\"",
+      "\"metric_id\": \"P04\"",
+      "\"metric_id\": \"P05\"",
+      "\"metric_id\": \"P06\"",
+      "\"metric_id\": \"P07\"",
+      "\"metric_id\": \"P08\"",
+      "\"metric_id\": \"P09\"",
+      "\"metric_id\": \"P10\"",
+      "\"metric_id\": \"P11\"",
+      "\"metric_id\": \"P12\"",
+      "\"metric_id\": \"P13\"",
+      "\"metric_id\": \"P14\""
+    ],
+    "docs/Templates/SMT-Workstream-Continuation-Control-Template.md": [
+      "Exact Identity and Authority",
+      "Workstream Phase and Current Gate",
+      "Authorized and Prohibited Actions",
+      "Source of Truth and Requirements Inventory",
+      "Dependency and External Contract Inventory",
+      "Frozen Model and Convergence Rule",
+      "Defect CAPA and Review Lineage",
+      "Scenario-Faithful Probe and Evidence Map",
+      "Live and External Evidence Boundary",
+      "GitHub Protection and Required Check State",
+      "Trust Root and CODEOWNERS State",
+      "Process Assurance Metrics P01-P14",
+      "Artifact Package and Operator Evidence",
+      "Recoverability Evidence",
+      "Risks Accepted Risk Deferred Follow-on and Lessons",
+      "Exact Next Authorized Step and Stop Rule",
+      "POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY",
+      "PROCESS_ASSURANCE_METRICS_RECORD=",
+      "TRANSITION_METRICS_RECORD="
+    ],
+    "skills/smt-high-assurance-engineering-delivery/SKILL.md": [
+      "POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY",
+      "PRODUCTION_CHANGE_REQUIRES_FAILED_EXACT_PROBE=TRUE",
+      "EXTERNAL_EVIDENCE_DEFAULT=HOLD_ONLY",
+      "PROCESS_METRICS_IDENTITY_VERIFICATION=MANDATORY",
+      "PROCESS_METRICS_DELETION=FAIL_CLOSED",
+      "HANDOFF_REQUIRED_SECTION_CONTENT=MANDATORY"
+    ],
+    "skills/smt-mandatory-one-pass-delivery/SKILL.md": [
+      "POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY",
+      "REVIEWER_SILENCE_IS_NOT_RELEASE_CRITERION=TRUE",
+      "USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0"
+    ],
+    "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md": [
+      "POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY",
+      "PROCESS_ASSURANCE_METRICS=P01-P14",
+      "HANDOFF_CANONICAL_TEMPLATE=docs/Templates/SMT-Workstream-Continuation-Control-Template.md",
+      "TRANSITION_AND_PROCESS_METRICS_BINDINGS=MANDATORY"
+    ]
+  },
+  "required_codeowners_paths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/mandatory-assurance-invariant-gate.yml",
+    ".github/workflows/mandatory-assurance-trusted-gate.yml",
+    "config/adp-process-institutionalization-policy.json",
+    "config/assurance-trust-root-manifest.json",
+    "docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md",
+    "docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md",
+    "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md",
+    "docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md",
+    "docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md",
+    "docs/Standards/SMT-Mandatory-One-Pass-Delivery-and-Owner-Exception-Control-Standard.md",
+    "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md",
+    "docs/Templates/SMT-Process-Assurance-Metrics-Template.json",
+    "docs/Templates/SMT-Workstream-Continuation-Control-Template.md",
+    "scripts/validate_adp_process_institutionalization.py",
+    "skills/smt-high-assurance-engineering-delivery/SKILL.md",
+    "skills/smt-mandatory-one-pass-delivery/SKILL.md",
+    "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
+    "tests/test_validate_adp_process_institutionalization.py"
+  ],
+  "required_trust_root_paths": [
+    ".github/CODEOWNERS",
+    ".github/workflows/mandatory-assurance-invariant-gate.yml",
+    ".github/workflows/mandatory-assurance-trusted-gate.yml",
+    "config/adp-process-institutionalization-policy.json",
+    "config/assurance-trust-root-manifest.json",
+    "docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md",
+    "docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md",
+    "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md",
+    "docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md",
+    "docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md",
+    "docs/Standards/SMT-Mandatory-One-Pass-Delivery-and-Owner-Exception-Control-Standard.md",
+    "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md",
+    "docs/Templates/SMT-Process-Assurance-Metrics-Template.json",
+    "docs/Templates/SMT-Workstream-Continuation-Control-Template.md",
+    "scripts/validate_adp_process_institutionalization.py",
+    "skills/smt-high-assurance-engineering-delivery/SKILL.md",
+    "skills/smt-mandatory-one-pass-delivery/SKILL.md",
+    "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
+    "tests/test_validate_adp_process_institutionalization.py"
+  ],
+  "resource_limits": {
+    "json_bytes": 1048576,
+    "markdown_bytes": 2097152,
+    "yaml_bytes": 1048576
+  },
+  "schema_version": "1.0",
+  "source_baseline": {
+    "main_commit": "e599880ad7d1359efaf48c818b561275c069382e",
+    "r1_frozen_denominator": 374,
+    "r1_reopen_allowed": false,
+    "r1_status": "ADMINISTRATIVELY_CLOSED_AND_RECOVERABLE",
+    "tree": "533199b8332304b34501cddac3e1965005b11b45"
+  },
+  "workflow": {
+    "candidate_markers": [
+      "Validate institutionalized high-assurance process controls",
+      "scripts/validate_adp_process_institutionalization.py"
+    ],
+    "candidate_path": ".github/workflows/mandatory-assurance-invariant-gate.yml",
+    "trusted_markers": [
+      "Validate institutionalized process controls with trusted code",
+      "trusted/scripts/validate_adp_process_institutionalization.py"
+    ],
+    "trusted_path": ".github/workflows/mandatory-assurance-trusted-gate.yml"
+  }
+}

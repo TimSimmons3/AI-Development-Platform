@@ -48,3 +48,27 @@ Baseline: `311642c7465a01ada8297f8242b3d6e73033fed6`. Source: final ADP v2.4 R2 
 The coarse requirement rows above remain historical summary evidence. Release authorization is now traced through `config/adp-transition-governance-final-assurance-state-oracle-r1.json` and `docs/Standards/ADP-Transition-Governance-Final-Assurance-State-Oracle-R1.md`, which now freeze 374 applicable requirements-derived cells across behavioral, authorization, Git/reference/parser, trust-root/workflow, metric-release, live-state, and reporting/process domains. Equivalent same-outcome subcases remain mandatory probes under the binding convergence rule rather than causing unbounded denominator expansion.
 
 Finding 17 is explicitly represented by `GIT-11` (regular file -> symlink type change) and is controlled by ARC-01/ARC-02. Every oracle cell maps to one or more ARC-01..ARC-13 controls and must produce a qualification disposition; applicable coverage must be 100% and independent-versus-implementation expectation delta must be zero before release.
+
+## Post-R1 permanent process-control traceability
+
+```text
+POST_R1_PROCESS_CONTROL_TRACEABILITY=PI-01..PI-16
+PROCESS_ASSURANCE_METRICS=P01-P14
+SCENARIO_FAITHFUL_PROBE_TRACEABILITY=MANDATORY
+```
+
+Every future RTM must include requirement -> state -> expected disposition -> production path -> exact probe -> evidence -> release disposition. Proxy-only evidence and self-declared observed enforcement are prohibited. PI-01 through PI-16 are mandatory cross-cutting process controls.
+
+## Post-R1 PR #6 material-review escape subcases
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_SUBCASES=4_OF_4
+SUBCASE_1=CANONICAL_HANDOFF_TRANSITION_METRICS_BINDING
+SUBCASE_2=GOVERNED_PROCESS_METRICS_DELETION_FAIL_CLOSED
+SUBCASE_3=PROCESS_METRICS_COMMIT_TREE_OBJECT_BINDING
+SUBCASE_4=MANDATORY_HANDOFF_SECTION_CONTENT
+DENOMINATOR_EXPANSION=NONE
+R1_FROZEN_DENOMINATOR=374
+```
+
+These are scenario-faithful enforcement subcases for the existing PI control model. They do not alter the closed R1 Final Assurance denominator.

@@ -57,3 +57,24 @@ Every governed handoff must carry the complete defect/review/CAPA lineage, inclu
 M04/M05 and M24/M25 remain historical metrics; they do not by themselves prove assurance completeness. Supplemental assurance KRIs are mandatory when Final Assurance Recovery applies: applicable-state coverage percentage, oracle expectation delta count, unhandled exception count, unresolved material finding count, base-freshness status, and trust-root migration status. Future work must not start under superseded assurance controls.
 
 When reporting assurance-model status, distinguish denominator changes from probe-subcase changes. A same-requirement/same-outcome/same-enforcement-branch subdivision is probe detail and does not change the frozen denominator. Any denominator change must identify the missing authoritative requirement or materially different expected enforcement/release disposition that justifies it.
+
+## Post-R1 process-assurance overlay
+
+```text
+POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY
+PROCESS_ASSURANCE_METRICS=P01-P14
+HANDOFF_CANONICAL_TEMPLATE=docs/Templates/SMT-Workstream-Continuation-Control-Template.md
+M01_M28_SEMANTICS_UNCHANGED=TRUE
+```
+
+Every governed handoff carries P01-P14 in addition to M01-M28 where transition metrics apply. Handoffs must use the canonical 16-section continuation template, preserve defect/CAPA lineage, distinguish accepted risk from unresolved defect, and identify the exact next authorized step. Missing external evidence remains HOLD and may not be normalized to PASS.
+
+## Post-R1 dual handoff binding
+
+```text
+TRANSITION_AND_PROCESS_METRICS_BINDINGS=MANDATORY
+TRANSITION_METRICS_BINDING_CARDINALITY=EXACTLY_ONE
+PROCESS_ASSURANCE_METRICS_BINDING_CARDINALITY=EXACTLY_ONE
+```
+
+Every governed post-R1 handoff must bind the existing M01-M28 transition record and the P01-P14 process-assurance record. The canonical template must expose both fields.
