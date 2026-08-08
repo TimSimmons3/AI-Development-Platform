@@ -169,6 +169,44 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
         r=self._valid_metrics_record();r["metrics"][0]["value"]="<REQUIRED>";self.assertTrue(any("concrete value" in x for x in inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")))
 
 
+    def test_process_metrics_unknown_value_cannot_pass(self):
+        r=self._valid_metrics_record(ROOT)
+        row=r["metrics"][9]
+        row["value"]="UNKNOWN"
+        row["status"]="PASS"
+        errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+        self.assertTrue(any("UNKNOWN value cannot produce PASS" in x for x in errors))
+
+    def test_process_metrics_unknown_track_remains_non_authorizing(self):
+        r=self._valid_metrics_record(ROOT)
+        row=r["metrics"][9]
+        row["value"]="UNKNOWN"
+        row["status"]="TRACK"
+        errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+        self.assertFalse(any("UNKNOWN value cannot produce PASS" in x for x in errors))
+
+    def test_process_metrics_target_consistent_pass_supported_targets(self):
+        cases=[("P01",100),("P04",0),("P06",0),("P13",1)]
+        for mid,value in cases:
+            with self.subTest(metric_id=mid,value=value):
+                r=self._valid_metrics_record(ROOT)
+                row=next(x for x in r["metrics"] if x["metric_id"]==mid)
+                row["value"]=value
+                row["status"]="PASS"
+                errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+                self.assertFalse(any("PASS requires" in x or "PASS is not valid" in x or "PASS target semantics" in x for x in errors),errors)
+
+    def test_process_metrics_target_inconsistent_pass_fails(self):
+        cases=[("P01",99),("P04",1),("P06",1),("P12",0),("P13",2),("P14",5)]
+        for mid,value in cases:
+            with self.subTest(metric_id=mid,value=value):
+                r=self._valid_metrics_record(ROOT)
+                row=next(x for x in r["metrics"] if x["metric_id"]==mid)
+                row["value"]=value
+                row["status"]="PASS"
+                errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+                self.assertTrue(any("PASS requires" in x or "PASS is not valid" in x or "PASS target semantics" in x for x in errors),errors)
+
     def test_process_metrics_nonexistent_commit_fails(self):
         r=self._valid_metrics_record(ROOT)
         r["candidate_head"]="0"*40
@@ -289,6 +327,22 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
             text=self._handoff_text(rel,{section:"<REQUIRED>"})
             errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
             self.assertTrue(any("unresolved placeholder" in x for x in errors))
+        finally:
+            td.cleanup()
+
+    def test_handoff_unknown_required_section_fails(self):
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            section=self.policy["mandatory_handoff_sections"][0]
+            for body in ["UNKNOWN","unknown","**UNKNOWN**"]:
+                with self.subTest(body=body):
+                    text=self._handoff_text(rel,{section:body})
+                    errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
+                    self.assertTrue(any("unresolved UNKNOWN" in x for x in errors),errors)
         finally:
             td.cleanup()
 

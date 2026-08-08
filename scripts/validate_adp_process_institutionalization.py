@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
@@ -22,6 +23,7 @@ SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 ASSIGNMENT_RE = re.compile(r"^([A-Z][A-Z0-9_]*)=(.*)$")
 HANDOFF_PLACEHOLDER_RE = re.compile(r"<[^>\n]*REQUIRED[^>\n]*>", re.IGNORECASE)
+UNKNOWN_MARKER_RE = re.compile(r"(?is)^\s*(?:[-*]\s*)?(?:`{1,3}|\*{1,2}|_{1,2})?UNKNOWN(?:`{1,3}|\*{1,2}|_{1,2})?[.!]?\s*$")
 MAX_JSON = 1024 * 1024
 MAX_TEXT = 2 * 1024 * 1024
 POLICY_PATH = "config/adp-process-institutionalization-policy.json"
@@ -249,6 +251,48 @@ def validate_process_metrics_identity(repo: Path, record: dict[str, Any], contex
         e.append(f"{context}: candidate_tree mismatch for {head}: expected {actual_tree}, observed {tree}")
     return e
 
+def is_unknown_marker(value: Any) -> bool:
+    return isinstance(value, str) and UNKNOWN_MARKER_RE.fullmatch(value) is not None
+
+def numeric_metric_value(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        number = float(value)
+    elif isinstance(value, str):
+        raw = value.strip().upper()
+        if raw.endswith("_PERCENT"):
+            raw = raw[:-8]
+        elif raw.endswith("%"):
+            raw = raw[:-1].strip()
+        try:
+            number = float(raw)
+        except ValueError:
+            return None
+    else:
+        return None
+    return number if math.isfinite(number) else None
+
+def pass_target_consistency_error(target: str, value: Any) -> str | None:
+    number = numeric_metric_value(value)
+    if target == "100_PERCENT":
+        if number != 100.0:
+            return "PASS requires value 100 for target 100_PERCENT"
+        return None
+    if target in {"0", "0_UNLESS_MATERIALITY_AND_OWNER_AUTHORIZATION"}:
+        if number != 0.0:
+            return f"PASS requires value 0 for target {target}"
+        return None
+    if target == "MAX_1_BOUNDED_RECHECK":
+        if number is None or number < 0.0 or number > 1.0:
+            return "PASS requires a numeric value between 0 and 1 for target MAX_1_BOUNDED_RECHECK"
+        return None
+    if target == "TRACK_WITH_FAIL_SAFE_AND_OWNER":
+        return "PASS is not valid for target TRACK_WITH_FAIL_SAFE_AND_OWNER; use TRACK/HOLD/FAIL"
+    if target == "DOWNWARD_TREND_AND_ABSOLUTE_WHEN_KNOWN":
+        return "PASS is not valid from a single value for target DOWNWARD_TREND_AND_ABSOLUTE_WHEN_KNOWN; use TRACK/HOLD/FAIL"
+    return f"PASS target semantics are unsupported: {target}"
+
 def validate_process_metrics_record(repo: Path, record: Any, policy: dict[str, Any], context: str) -> list[str]:
     e: list[str] = []
     if not isinstance(record, dict):
@@ -304,11 +348,19 @@ def validate_process_metrics_record(repo: Path, record: Any, policy: dict[str, A
             e.append(f"{ctx}: name mismatch")
         if row.get("target") != definition.get("target"):
             e.append(f"{ctx}: target mismatch")
-        if row.get("status") not in ALLOWED_METRIC_STATUS:
+        status = row.get("status")
+        if status not in ALLOWED_METRIC_STATUS:
             e.append(f"{ctx}: status must be PASS/HOLD/FAIL/TRACK")
         value = row.get("value")
         if value is None or (isinstance(value, str) and (not value.strip() or "<" in value or "REQUIRED" in value.upper())):
             e.append(f"{ctx}: concrete value required")
+        if status == "PASS":
+            if is_unknown_marker(value):
+                e.append(f"{ctx}: UNKNOWN value cannot produce PASS")
+            else:
+                target_error = pass_target_consistency_error(str(definition.get("target")), value)
+                if target_error is not None:
+                    e.append(f"{ctx}: {target_error}")
         refs = row.get("evidence_refs")
         if not isinstance(refs, list) or not refs or any(not isinstance(x, str) or not x.strip() for x in refs):
             e.append(f"{ctx}: evidence_refs must be nonempty string list")
@@ -350,6 +402,8 @@ def validate_handoff_document(repo: Path, rel: str, text: str, policy: dict[str,
             e.append(f"{rel}: mandatory handoff section body is empty: {section}")
         elif HANDOFF_PLACEHOLDER_RE.search(body):
             e.append(f"{rel}: mandatory handoff section contains unresolved placeholder: {section}")
+        elif is_unknown_marker(body):
+            e.append(f"{rel}: mandatory handoff section contains unresolved UNKNOWN: {section}")
 
     assn = assignments(text)
     transition_key = policy["instance_enforcement"]["transition_metrics_assignment"]
