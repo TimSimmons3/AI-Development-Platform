@@ -25,6 +25,18 @@
     ],
     "path": "tests/qualification/run_final_assurance_state_oracle.py"
   },
+  "instance_enforcement": {
+    "handoff_filename_keywords": [
+      "continuation",
+      "handoff"
+    ],
+    "handoff_roots": [
+      "docs/Integration/",
+      "docs/Releases/"
+    ],
+    "process_metrics_assignment": "PROCESS_ASSURANCE_METRICS_RECORD",
+    "process_metrics_record_type": "ADP_PROCESS_ASSURANCE_METRICS"
+  },
   "mandatory_handoff_sections": [
     "Exact Identity and Authority",
     "Workstream Phase and Current Gate",
@@ -123,11 +135,38 @@
     ],
     "docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md": [
       "PI-01",
+      "PI-02",
+      "PI-03",
+      "PI-04",
+      "PI-05",
+      "PI-06",
+      "PI-07",
+      "PI-08",
+      "PI-09",
+      "PI-10",
+      "PI-11",
+      "PI-12",
+      "PI-13",
+      "PI-14",
+      "PI-15",
       "PI-16",
       "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
       "P14",
       "REQUIREMENTS_GOVERNED_NOT_REVIEWER_GOVERNED=TRUE",
-      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE"
+      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
+      "FUTURE_WORKSTREAM_INSTANCE_VALIDATION=MANDATORY"
     ],
     "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md": [
       "POST_R1_PROCESS_CONTROL_TRACEABILITY=PI-01..PI-16",
@@ -153,8 +192,20 @@
     ],
     "docs/Templates/SMT-Process-Assurance-Metrics-Template.json": [
       "\"record_type\": \"ADP_PROCESS_ASSURANCE_METRICS\"",
-      "\"P01\"",
-      "\"P14\""
+      "\"metric_id\": \"P01\"",
+      "\"metric_id\": \"P02\"",
+      "\"metric_id\": \"P03\"",
+      "\"metric_id\": \"P04\"",
+      "\"metric_id\": \"P05\"",
+      "\"metric_id\": \"P06\"",
+      "\"metric_id\": \"P07\"",
+      "\"metric_id\": \"P08\"",
+      "\"metric_id\": \"P09\"",
+      "\"metric_id\": \"P10\"",
+      "\"metric_id\": \"P11\"",
+      "\"metric_id\": \"P12\"",
+      "\"metric_id\": \"P13\"",
+      "\"metric_id\": \"P14\""
     ],
     "docs/Templates/SMT-Workstream-Continuation-Control-Template.md": [
       "Exact Identity and Authority",

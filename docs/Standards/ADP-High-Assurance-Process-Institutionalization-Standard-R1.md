@@ -148,3 +148,15 @@ PRECOMMIT_EMPTY_DELTA_MAY_NOT_AUTHORIZE_RELEASE=TRUE
 ```
 
 Any validator whose scope is derived from `git merge-base`, committed deltas, or HEAD-relative classification must be qualified against an actual committed candidate fixture. Running such a validator while changes exist only in the worktree may be used for syntax/supporting checks, but its PASS cannot authorize release because the committed delta may be empty. Exact committed-candidate validation is mandatory before publication.
+
+## Future workstream instance enforcement
+
+```text
+FUTURE_WORKSTREAM_INSTANCE_VALIDATION=MANDATORY
+PROCESS_POLICY_NON_WEAKENING=MANDATORY
+HANDOFF_INSTANCE_SECTIONS=16_OF_16
+HANDOFF_PROCESS_METRICS_BINDING=MANDATORY
+PROCESS_METRICS_RECORD=P01-P14_EXACT
+```
+
+Canonical templates are necessary but not sufficient. The required gate must inspect committed changes and validate every changed governed handoff instance plus every changed `ADP_PROCESS_ASSURANCE_METRICS` record. Once this policy is merged, future candidates may add stricter controls but may not remove or weaken the closed R1 identity, PI-01..PI-16, P01-P14 definitions, handoff sections, workflow trust boundary, frozen-oracle identity, external-evidence fail-safe, or existing required artifact markers.

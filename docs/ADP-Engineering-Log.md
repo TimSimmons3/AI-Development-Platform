@@ -1824,3 +1824,16 @@ R1_FROZEN_DENOMINATOR=374
 ```
 
 The institutionalization candidate full regression passed 510 tests, but the operator correctly stopped before publication when exact committed-delta validation was reached. Root cause and remediation are recorded in the workstream plan and qualification contract.
+
+## 2026-08-08 - Independent review correction for process instance enforcement
+
+```text
+CLASSIFICATION=DESIGN_DEFECT_PLUS_REVIEW_TEST_DEFECT_PLUS_TRUST_BOUNDARY_DEFECT
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+PROCESS_CONTROL_COUNT=16
+PROCESS_METRIC_COUNT=14
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+Draft PR #6 remained open/draft at exact head `77e146af4f97cad6cc9a62520a8a8f7203908ada` when the bounded independent review identified the instance-enforcement gap. Correction remains within ADP Post-R1 Process Institutionalization R1.

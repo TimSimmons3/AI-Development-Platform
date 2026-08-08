@@ -70,6 +70,7 @@ jobs:
           python3 -B scripts/validate_adp_process_institutionalization.py \
             --repo-root . \
             --policy config/adp-process-institutionalization-policy.json \
+            --base-ref "${{ steps.comparison.outputs.base_ref }}" \
             --report "${RUNNER_TEMP}/adp-process-institutionalization-report.json"
 
       - name: Enforce exact project-owner authorization for exceptions

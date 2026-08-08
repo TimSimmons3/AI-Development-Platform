@@ -228,3 +228,12 @@ PRECOMMIT_EMPTY_DELTA_MAY_NOT_AUTHORIZE_RELEASE=TRUE
 ```
 
 For change-aware validators, create or simulate an isolated committed candidate before claiming change-scope validation. Verify the validator observes the intended changed-path set. A PASS against an empty committed delta is non-authorizing.
+
+### Future handoff/process-metrics instance validation
+
+```text
+FUTURE_HANDOFF_INSTANCE_VALIDATION=MANDATORY
+PROCESS_POLICY_NON_WEAKENING=MANDATORY
+```
+
+For every changed governed handoff or continuation record, validate the canonical 16 sections and one bound process-assurance metrics record. Validate the referenced metrics record as exact P01-P14 with concrete values, statuses, evidence references, and candidate identity fields. Do not treat canonical-template presence as proof that a workstream instance complied.

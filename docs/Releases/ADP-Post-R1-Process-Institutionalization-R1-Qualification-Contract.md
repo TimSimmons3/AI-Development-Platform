@@ -43,3 +43,16 @@ PRECOMMIT_EMPTY_DELTA_PASS=NON_AUTHORIZING
 ```
 
 The exact committed candidate is the first release-authorizing invocation for validators whose scope is derived from Git commit deltas. Supporting precommit syntax checks remain useful but cannot substitute for exact-head change-aware validation.
+
+## Independent review correction contract R1
+
+```text
+PROCESS_POLICY_NON_WEAKENING=MANDATORY
+CHANGED_HANDOFF_INSTANCE_VALIDATION=MANDATORY
+CHANGED_PROCESS_METRICS_INSTANCE_VALIDATION=MANDATORY
+COMPLETE_PI_MARKER_ENFORCEMENT=PI-01..PI-16
+COMPLETE_PROCESS_METRIC_MARKER_ENFORCEMENT=P01-P14
+BOUNDED_REVIEW_RECHECK_COUNT=1
+```
+
+This correction is the single bounded independent-review recheck permitted by P13. After the corrected exact head passes local qualification and GitHub required checks, no further open-ended model/review expansion is authorized absent a new material defect under the already-defined criteria.

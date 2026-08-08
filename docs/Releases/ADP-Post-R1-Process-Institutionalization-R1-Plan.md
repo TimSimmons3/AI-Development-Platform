@@ -90,3 +90,22 @@ P13_REVIEW_REFREEZE_CYCLES=0
 ```
 
 P01-P06, P12, and P14 are finalized at workstream closeout from the complete evidence set; they are not silently defaulted to zero.
+
+## Independent review material finding - 2026-08-08
+
+The single bounded independent review of draft PR #6 found one material enforcement gap before ready-for-review or merge:
+
+- `DESIGN_DEFECT`: the process validator verified canonical institutionalization artifacts were present but did not validate future changed workstream handoff/process-metrics instances.
+- `REVIEW_TEST_DEFECT`: the dedicated tests did not prove middle PI controls, middle P metrics, policy non-weakening, or changed handoff/P01-P14 instance enforcement.
+- `TRUST_BOUNDARY_DEFECT`: future trusted code consumed a candidate-controlled process policy without comparing it to the trusted merge-base policy.
+
+Remediation is bounded to the existing institutionalization model: add merge-base policy non-weakening, changed-instance handoff/P01-P14 validation, complete PI/P marker enforcement, and positive/negative/boundary tests. No new controls, metrics, denominator, Codex review, or R1 reopen is introduced.
+
+```text
+P07_LATE_MATERIAL_FINDINGS_AFTER_IMPLEMENTATION_START=2
+P08_POST_PUBLICATION_MATERIAL_ESCAPE_COUNT=0
+P09_USER_VISIBLE_REPLACEMENT_PACKAGE_COUNT=2
+P10_UNRESOLVED_ASSUMPTIONS_AT_REVIEW_CORRECTION_GATE=0
+P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=1
+P13_REVIEW_REFREEZE_CYCLES=1
+```
