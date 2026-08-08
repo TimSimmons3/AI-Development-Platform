@@ -474,3 +474,13 @@ POST_PUBLICATION_MATERIAL_ESCAPE=CAPA_EFFECTIVENESS_HOLD
 ```
 
 Future work must apply PI-01 through PI-16 and report P01-P14. Test count is supporting evidence, not completeness. Reviewer silence is not a release criterion. Evidence must be bound to the exact clean candidate. Lessons learned are not considered institutionalized until represented in skills, standards, policy, tests, handoff fields, release gates, and recoverability evidence.
+
+## PR #6 material-review escape enforcement
+
+```text
+PROCESS_METRICS_IDENTITY_VERIFICATION=MANDATORY
+PROCESS_METRICS_DELETION=FAIL_CLOSED
+HANDOFF_REQUIRED_SECTION_CONTENT=MANDATORY
+```
+
+Treat commit/tree identity, governed evidence-record deletion, and completed handoff bodies as release-enforcement surfaces, not documentation quality suggestions.

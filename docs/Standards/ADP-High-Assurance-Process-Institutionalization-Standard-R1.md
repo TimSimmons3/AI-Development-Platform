@@ -170,3 +170,15 @@ HANDOFF_MAY_NOT_BIND_CANONICAL_TEMPLATE_AS_LIVE_RECORD=TRUE
 ```
 
 The canonical P01-P14 JSON template is intentionally incomplete and contains placeholders. It is validated as a template by required structural markers only. It is never a release-authorizing workstream metrics instance. Live process-assurance records must be materialized under a governed process-metrics instance root, contain concrete candidate/time/value/status/evidence data, and be validated as exact P01-P14 records.
+
+## PR #6 material-review escape correction
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4
+TRANSITION_METRICS_BINDING_IN_CANONICAL_HANDOFF=MANDATORY
+PROCESS_METRICS_DELETION=FAIL_CLOSED
+PROCESS_METRICS_IDENTITY_VERIFICATION=COMMIT_TREE_OBJECT
+HANDOFF_REQUIRED_SECTION_CONTENT=CONCRETE_NON_PLACEHOLDER
+```
+
+A governed handoff must carry both the existing transition-metrics binding and the post-R1 process-assurance binding. Deletion of a governed process-metrics record fails closed pending owner disposition. A live process-assurance record is not accepted on SHA formatting alone: `candidate_head` must resolve to a repository commit and `candidate_tree` must exactly equal that commit's tree object. Every mandatory handoff section must appear exactly once and contain concrete non-placeholder content.

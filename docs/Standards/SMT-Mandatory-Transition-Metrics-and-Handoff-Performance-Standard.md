@@ -116,3 +116,13 @@ PROCESS_METRICS_POLICY=config/adp-process-institutionalization-policy.json
 ```
 
 P01-P14 measure assurance-process effectiveness and are carried by future governed handoffs. They supplement, but do not alter, M01-M28 transition metric semantics. UNKNOWN is not zero. Accepted risk is tracked explicitly and may not be represented as PASS.
+
+## Dual metrics binding for post-R1 handoffs
+
+```text
+DUAL_HANDOFF_METRICS_BINDING=MANDATORY
+TRANSITION_METRICS_RECORD=MANDATORY
+PROCESS_ASSURANCE_METRICS_RECORD=MANDATORY
+```
+
+Post-R1 governed handoffs carry both bindings. Transition metrics M01-M28 and process-assurance metrics P01-P14 remain distinct and non-substitutive.

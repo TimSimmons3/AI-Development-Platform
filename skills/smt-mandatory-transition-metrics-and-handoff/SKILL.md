@@ -68,3 +68,13 @@ M01_M28_SEMANTICS_UNCHANGED=TRUE
 ```
 
 Every governed handoff carries P01-P14 in addition to M01-M28 where transition metrics apply. Handoffs must use the canonical 16-section continuation template, preserve defect/CAPA lineage, distinguish accepted risk from unresolved defect, and identify the exact next authorized step. Missing external evidence remains HOLD and may not be normalized to PASS.
+
+## Post-R1 dual handoff binding
+
+```text
+TRANSITION_AND_PROCESS_METRICS_BINDINGS=MANDATORY
+TRANSITION_METRICS_RECORD=EXACTLY_ONE
+PROCESS_ASSURANCE_METRICS_RECORD=EXACTLY_ONE
+```
+
+Every governed post-R1 handoff must bind the existing M01-M28 transition record and the P01-P14 process-assurance record. The canonical template must expose both fields.

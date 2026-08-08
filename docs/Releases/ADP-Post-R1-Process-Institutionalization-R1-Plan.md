@@ -130,3 +130,31 @@ P13_REVIEW_REFREEZE_CYCLES=1
 ```
 
 This completes the already-authorized single bounded review correction and is not a second independent review/refreeze cycle.
+
+## PR #6 material-review escape owner disposition - 2026-08-08
+
+```text
+OWNER_AUTHORIZATION=AUTHORIZE ADP PR6 MATERIAL REVIEW ESCAPE CORRECTION HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d FINDINGS=4 SCOPE=BOUNDED_CORRECTION_AND_REQUALIFICATION
+MATERIAL_FINDINGS=4
+P1_FINDINGS=3
+P2_FINDINGS=1
+CORRECTION_SCOPE=FOUR_FINDINGS_ONLY_PLUS_SCENARIO_FAITHFUL_REGRESSION
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+The repository-configured ready-for-review Codex cycle on exact head `75ff6ccefe3933eabc8f7483b8347bac3676bb7d` exposed four valid enforcement defects after remote feature-branch publication. Owner disposition authorizes one bounded correction and requalification. No merge, ruleset change, new control denominator, direct main change, runtime mutation, Timeshift, cleanup, or unrelated change is authorized.
+
+Current process-assurance accounting at correction-package delivery:
+
+```text
+P07_LATE_MATERIAL_FINDINGS_AFTER_IMPLEMENTATION_START=7
+P08_POST_PUBLICATION_MATERIAL_ESCAPE_COUNT=1
+P09_USER_VISIBLE_REPLACEMENT_PACKAGE_COUNT=4
+P10_UNRESOLVED_ASSUMPTIONS_AT_CORRECTION_DELIVERY=0
+P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=2
+P13_REVIEW_REFREEZE_CYCLES=2
+P13_TARGET_STATUS=EXCEEDED_AND_RECORDED_CAPA
+```
+
+The P13 target miss is retained as process-performance evidence; it does not silently disappear. This authorization corrects the four validated defects without requesting another Codex/model review.

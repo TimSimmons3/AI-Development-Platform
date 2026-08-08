@@ -1850,3 +1850,19 @@ P13_REVIEW_REFREEZE_CYCLES=1
 ```
 
 Exact local correction head `6e1bc5531b7f41936012845c3654c00e8d9c1a63` / tree `292f0316e4b9dfaa094bf3a2771610a5bc4966b9` was never published. Its dedicated 31-test suite and 525-test repository regression passed; the first process-institutionalization validator then failed only because the canonical placeholder template was misclassified as a completed live record.
+
+## 2026-08-08 - PR #6 material-review escape bounded correction authorized
+
+```text
+OWNER_AUTHORIZATION=AUTHORIZE ADP PR6 MATERIAL REVIEW ESCAPE CORRECTION HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d FINDINGS=4 SCOPE=BOUNDED_CORRECTION_AND_REQUALIFICATION
+PRESERVED_HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d
+PRESERVED_TREE=9a0bf3952d1ea147e10d6b7d9652f36ed7fb2afb
+CODEX_REVIEW=4889118821
+UNRESOLVED_REVIEW_THREADS=4
+MATERIAL_FINDINGS=3_P1_PLUS_1_P2
+REMOTE_MAIN_PRESERVED=e599880ad7d1359efaf48c818b561275c069382e
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+Validated findings: missing transition-metrics binding in the canonical continuation template; fail-open governed process-metrics deletion; unproven candidate commit/tree identities; and empty/placeholder mandatory handoff bodies. One bounded correction and exact-head requalification is authorized.

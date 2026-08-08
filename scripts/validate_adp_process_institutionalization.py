@@ -21,6 +21,7 @@ ALLOWED_METRIC_STATUS = {"PASS", "HOLD", "FAIL", "TRACK"}
 SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 UTC_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 ASSIGNMENT_RE = re.compile(r"^([A-Z][A-Z0-9_]*)=(.*)$")
+HANDOFF_PLACEHOLDER_RE = re.compile(r"<[^>\n]*REQUIRED[^>\n]*>", re.IGNORECASE)
 MAX_JSON = 1024 * 1024
 MAX_TEXT = 2 * 1024 * 1024
 POLICY_PATH = "config/adp-process-institutionalization-policy.json"
@@ -153,6 +154,8 @@ def validate_policy_shape(policy: Any) -> list[str]:
     if isinstance(inst, dict):
         if inst.get("process_metrics_assignment") != "PROCESS_ASSURANCE_METRICS_RECORD":
             e.append("instance_enforcement process_metrics_assignment mismatch")
+        if inst.get("transition_metrics_assignment") != "TRANSITION_METRICS_RECORD":
+            e.append("instance_enforcement transition_metrics_assignment mismatch")
         if inst.get("process_metrics_record_type") != PROCESS_METRICS_RECORD_TYPE:
             e.append("instance_enforcement process_metrics_record_type mismatch")
         if inst.get("handoff_roots") != ["docs/Integration/", "docs/Releases/"]:
@@ -221,7 +224,32 @@ def valid_utc(value: Any) -> bool:
         return False
     return True
 
-def validate_process_metrics_record(record: Any, policy: dict[str, Any], context: str) -> list[str]:
+def validate_process_metrics_identity(repo: Path, record: dict[str, Any], context: str) -> list[str]:
+    e: list[str] = []
+    head = record.get("candidate_head")
+    tree = record.get("candidate_tree")
+    if not isinstance(head, str) or not SHA1_RE.fullmatch(head):
+        return e
+    if not isinstance(tree, str) or not SHA1_RE.fullmatch(tree):
+        return e
+    try:
+        resolved_head = run_git(repo, ["rev-parse", f"{head}^{{commit}}"]).strip()
+    except ValueError:
+        e.append(f"{context}: candidate_head does not resolve to a repository commit: {head}")
+        return e
+    if resolved_head != head:
+        e.append(f"{context}: candidate_head did not resolve exactly: {head} -> {resolved_head}")
+        return e
+    try:
+        actual_tree = run_git(repo, ["rev-parse", f"{head}^{{tree}}"]).strip()
+    except ValueError:
+        e.append(f"{context}: candidate_head tree could not be resolved: {head}")
+        return e
+    if actual_tree != tree:
+        e.append(f"{context}: candidate_tree mismatch for {head}: expected {actual_tree}, observed {tree}")
+    return e
+
+def validate_process_metrics_record(repo: Path, record: Any, policy: dict[str, Any], context: str) -> list[str]:
     e: list[str] = []
     if not isinstance(record, dict):
         return [f"{context}: process metrics record must be object"]
@@ -245,6 +273,7 @@ def validate_process_metrics_record(record: Any, policy: dict[str, Any], context
         e.append(f"{context}: candidate_head must be 40-character lowercase SHA")
     if not isinstance(record.get("candidate_tree"), str) or not SHA1_RE.fullmatch(record.get("candidate_tree", "")):
         e.append(f"{context}: candidate_tree must be 40-character lowercase SHA")
+    e.extend(validate_process_metrics_identity(repo, record, context))
     if not valid_utc(record.get("created_utc")):
         e.append(f"{context}: created_utc must be valid strict UTC")
     rows = record.get("metrics")
@@ -298,13 +327,44 @@ def is_process_metrics_instance_path(path: str, policy: dict[str, Any]) -> bool:
     roots = policy.get("instance_enforcement", {}).get("process_metrics_instance_roots", [])
     return path.lower().endswith(".json") and any(path.startswith(root) for root in roots)
 
+def required_section_body(text: str, match: re.Match[str]) -> str:
+    tail = text[match.end():]
+    next_heading = re.search(r"(?m)^##\s+", tail)
+    if next_heading is None:
+        return tail.strip()
+    return tail[:next_heading.start()].strip()
+
 def validate_handoff_document(repo: Path, rel: str, text: str, policy: dict[str, Any]) -> list[str]:
     e: list[str] = []
     for section in policy["mandatory_handoff_sections"]:
         pattern = re.compile(rf"(?m)^##\s+(?:\d+\.\s+)?{re.escape(section)}\s*$")
-        if not pattern.search(text):
+        matches = list(pattern.finditer(text))
+        if len(matches) == 0:
             e.append(f"{rel}: missing mandatory handoff section: {section}")
+            continue
+        if len(matches) != 1:
+            e.append(f"{rel}: mandatory handoff section must appear exactly once: {section}")
+            continue
+        body = required_section_body(text, matches[0])
+        if not body:
+            e.append(f"{rel}: mandatory handoff section body is empty: {section}")
+        elif HANDOFF_PLACEHOLDER_RE.search(body):
+            e.append(f"{rel}: mandatory handoff section contains unresolved placeholder: {section}")
+
     assn = assignments(text)
+    transition_key = policy["instance_enforcement"]["transition_metrics_assignment"]
+    transition_values = assn.get(transition_key, [])
+    if len(transition_values) != 1:
+        e.append(f"{rel}: requires exactly one {transition_key}")
+    else:
+        if HANDOFF_PLACEHOLDER_RE.search(transition_values[0]):
+            e.append(f"{rel}: {transition_key} contains unresolved placeholder")
+        else:
+            try:
+                safe_rel(transition_values[0])
+            except ValueError as exc:
+                e.append(f"{rel}: transition metrics path {exc}")
+
     key = policy["instance_enforcement"]["process_metrics_assignment"]
     values = assn.get(key, [])
     if len(values) != 1:
@@ -330,7 +390,7 @@ def validate_handoff_document(repo: Path, rel: str, text: str, policy: dict[str,
     except Exception as exc:
         e.append(f"{rel}: process metrics record parse failed: {type(exc).__name__}: {exc}")
         return e
-    e.extend(validate_process_metrics_record(record, policy, metrics_rel))
+    e.extend(validate_process_metrics_record(repo, record, policy, metrics_rel))
     return e
 
 def changed_paths(repo: Path, base_ref: str) -> tuple[str, list[str], list[str]]:
@@ -442,6 +502,8 @@ def validate_repo(repo: Path, policy: dict[str, Any], base_ref: str | None = Non
             for rel in deleted:
                 if is_handoff_path(rel, policy):
                     violations.append(f"{rel}: governed handoff deletion requires separate owner disposition")
+                if is_process_metrics_instance_path(rel, policy):
+                    violations.append(f"{rel}: governed process metrics deletion requires separate owner disposition")
             for rel in changed:
                 full = repo / rel
                 if rel in deleted or full.is_symlink() or not full.is_file():
@@ -461,7 +523,7 @@ def validate_repo(repo: Path, policy: dict[str, Any], base_ref: str | None = Non
                     except Exception as exc:
                         violations.append(f"{rel}: process metrics instance parse failed: {type(exc).__name__}: {exc}")
                         continue
-                    violations.extend(validate_process_metrics_record(obj, policy, rel))
+                    violations.extend(validate_process_metrics_record(repo, obj, policy, rel))
         except Exception as exc:
             violations.append(f"committed-delta instance validation failed: {type(exc).__name__}: {exc}")
 

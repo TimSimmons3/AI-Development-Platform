@@ -68,3 +68,19 @@ P13_REVIEW_REFREEZE_CYCLES=1
 ```
 
 Qualification must prove the canonical template remains intentionally placeholder-based while changed live records under governed instance roots are fail-closed and handoffs cannot bind the template in place of a completed workstream process-assurance record.
+
+## PR #6 material-review escape correction qualification
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4
+FINDINGS_REQUIRED_CLOSED=4_OF_4
+DEDICATED_PROCESS_TESTS_EXPECTED=42
+FULL_REPOSITORY_REGRESSION_EXPECTED=536
+TRANSITION_BINDING_SCENARIO=MANDATORY
+PROCESS_METRICS_DELETE_SCENARIO=MANDATORY
+PROCESS_METRICS_IDENTITY_SCENARIOS=NONEXISTENT_AND_WRONG_TREE
+HANDOFF_CONTENT_SCENARIOS=EMPTY_PLACEHOLDER_DUPLICATE
+TRUST_ROOT_PATH_SET_EXPANSION=NONE
+```
+
+Release-authorizing qualification must occur on the exact committed corrected candidate. The prior 34/34 and 528/528 results remain historical coverage evidence only. Review threads remain unresolved until exact corrected-head evidence proves each finding closed.

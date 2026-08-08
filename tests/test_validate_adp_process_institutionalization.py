@@ -133,47 +133,182 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
             self.assertEqual("FAIL",inst.validate_repo(root,self.policy)["status"])
         finally:td.cleanup()
 
-    def _valid_metrics_record(self):
+    def _git_fixture(self):
+        td = tempfile.TemporaryDirectory()
+        root = Path(td.name)
+        inst.run_git(root, ["init", "-q"])
+        inst.run_git(root, ["config", "user.email", "adp-test@example.invalid"])
+        inst.run_git(root, ["config", "user.name", "ADP Test"])
+        (root / "seed.txt").write_text("seed\n", encoding="utf-8")
+        inst.run_git(root, ["add", "seed.txt"])
+        inst.run_git(root, ["commit", "-q", "-m", "seed"])
+        return td, root
+
+    def _valid_metrics_record(self, repo=ROOT):
+        head = inst.run_git(repo, ["rev-parse", "HEAD^{commit}"]).strip()
+        tree = inst.run_git(repo, ["rev-parse", "HEAD^{tree}"]).strip()
         rows=[]
         for mid in inst.EXPECTED_METRICS:
-            d=self.policy["process_metrics"][mid];rows.append({"metric_id":mid,"name":d["name"],"target":d["target"],"value":0,"status":"TRACK","evidence_refs":["evidence://example"]})
-        return {"record_type":inst.PROCESS_METRICS_RECORD_TYPE,"schema_version":"1.0","workstream_id":"EXAMPLE","candidate_head":"a"*40,"candidate_tree":"b"*40,"created_utc":"2026-08-08T15:00:00Z","metrics":rows}
+            d=self.policy["process_metrics"][mid]
+            rows.append({"metric_id":mid,"name":d["name"],"target":d["target"],"value":0,"status":"TRACK","evidence_refs":["evidence://example"]})
+        return {"record_type":inst.PROCESS_METRICS_RECORD_TYPE,"schema_version":"1.0","workstream_id":"EXAMPLE","candidate_head":head,"candidate_tree":tree,"created_utc":"2026-08-08T15:00:00Z","metrics":rows}
 
     def test_process_metrics_record_positive(self):
-        self.assertEqual([],inst.validate_process_metrics_record(self._valid_metrics_record(),self.policy,"metrics.json"))
+        self.assertEqual([],inst.validate_process_metrics_record(ROOT,self._valid_metrics_record(ROOT),self.policy,"metrics.json"))
 
     def test_process_metrics_missing_middle_metric_fails(self):
-        r=self._valid_metrics_record();r["metrics"].pop(6);self.assertTrue(any("P01-P14 exactly once" in x for x in inst.validate_process_metrics_record(r,self.policy,"metrics.json")))
+        r=self._valid_metrics_record();r["metrics"].pop(6);self.assertTrue(any("P01-P14 exactly once" in x for x in inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")))
 
     def test_process_metrics_target_mismatch_fails(self):
-        r=self._valid_metrics_record();r["metrics"][6]["target"]="WRONG";self.assertTrue(any("target mismatch" in x for x in inst.validate_process_metrics_record(r,self.policy,"metrics.json")))
+        r=self._valid_metrics_record();r["metrics"][6]["target"]="WRONG";self.assertTrue(any("target mismatch" in x for x in inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")))
 
     def test_process_metrics_bad_candidate_head_fails(self):
-        r=self._valid_metrics_record();r["candidate_head"]="bad";self.assertTrue(any("candidate_head" in x for x in inst.validate_process_metrics_record(r,self.policy,"metrics.json")))
+        r=self._valid_metrics_record();r["candidate_head"]="bad";self.assertTrue(any("candidate_head" in x for x in inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")))
 
     def test_process_metrics_placeholder_value_fails(self):
-        r=self._valid_metrics_record();r["metrics"][0]["value"]="<REQUIRED>";self.assertTrue(any("concrete value" in x for x in inst.validate_process_metrics_record(r,self.policy,"metrics.json")))
+        r=self._valid_metrics_record();r["metrics"][0]["value"]="<REQUIRED>";self.assertTrue(any("concrete value" in x for x in inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")))
+
+
+    def test_process_metrics_nonexistent_commit_fails(self):
+        r=self._valid_metrics_record(ROOT)
+        r["candidate_head"]="0"*40
+        r["candidate_tree"]="0"*40
+        errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+        self.assertTrue(any("does not resolve to a repository commit" in x for x in errors))
+
+    def test_process_metrics_wrong_tree_fails(self):
+        r=self._valid_metrics_record(ROOT)
+        r["candidate_tree"]="0"*40
+        errors=inst.validate_process_metrics_record(ROOT,r,self.policy,"metrics.json")
+        self.assertTrue(any("candidate_tree mismatch" in x for x in errors))
+
+    def test_governed_process_metrics_deletion_fails_closed(self):
+        td,root=self._fixture()
+        try:
+            inst.run_git(root,["init","-q"])
+            inst.run_git(root,["config","user.email","adp-test@example.invalid"])
+            inst.run_git(root,["config","user.name","ADP Test"])
+            rel="docs/Releases/process-metrics/deletion.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text("{}\\n",encoding="utf-8")
+            inst.run_git(root,["add","-A"])
+            inst.run_git(root,["commit","-q","-m","base with governed metrics"])
+            base=inst.run_git(root,["rev-parse","HEAD^{commit}"]).strip()
+            p.unlink()
+            inst.run_git(root,["add","-A"])
+            inst.run_git(root,["commit","-q","-m","delete governed metrics"])
+            result=inst.validate_repo(root,self.policy,base)
+            self.assertEqual("FAIL",result["status"])
+            self.assertTrue(any("governed process metrics deletion requires separate owner disposition" in x for x in result["violations"]))
+        finally:
+            td.cleanup()
+
+    def _handoff_text(self, metrics_rel: str, body_overrides=None):
+        body_overrides = body_overrides or {}
+        lines = [
+            "# Example",
+            "TRANSITION_METRICS_RECORD=docs/Releases/transition-metrics/example.json",
+            f"PROCESS_ASSURANCE_METRICS_RECORD={metrics_rel}",
+        ]
+        for i, section in enumerate(self.policy["mandatory_handoff_sections"], 1):
+            body = body_overrides.get(section, f"Evidence for {section}.")
+            lines.extend([f"## {i}. {section}", body])
+        return "\n".join(lines)
 
     def test_handoff_document_positive(self):
-        td=tempfile.TemporaryDirectory()
+        td,root=self._git_fixture()
         try:
-            root=Path(td.name);rel="docs/Releases/process-metrics/example.json";p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(self._valid_metrics_record(),indent=2)+"\n",encoding="utf-8")
-            lines=["# Example",f"PROCESS_ASSURANCE_METRICS_RECORD={rel}"]
-            for i,s in enumerate(self.policy["mandatory_handoff_sections"],1):lines += [f"## {i}. {s}","Evidence."]
-            self.assertEqual([],inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md","\n".join(lines),self.policy))
-        finally:td.cleanup()
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            text=self._handoff_text(rel)
+            self.assertEqual([],inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy))
+        finally:
+            td.cleanup()
 
     def test_handoff_document_missing_section_fails(self):
-        td=tempfile.TemporaryDirectory()
+        td,root=self._git_fixture()
         try:
-            root=Path(td.name);rel="docs/Releases/process-metrics/example.json";p=root/rel;p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(self._valid_metrics_record(),indent=2)+"\n",encoding="utf-8")
-            lines=["# Example",f"PROCESS_ASSURANCE_METRICS_RECORD={rel}"]
-            for i,s in enumerate(self.policy["mandatory_handoff_sections"][1:],2):lines.append(f"## {i}. {s}")
-            self.assertTrue(any("missing mandatory handoff section" in x for x in inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md","\n".join(lines),self.policy)))
-        finally:td.cleanup()
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            section=self.policy["mandatory_handoff_sections"][0]
+            text=self._handoff_text(rel)
+            text=text.replace(f"## 1. {section}\nEvidence for {section}.\n","",1)
+            self.assertTrue(any("missing mandatory handoff section" in x for x in inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)))
+        finally:
+            td.cleanup()
 
     def test_handoff_document_missing_metrics_assignment_fails(self):
-        text="\n".join(f"## {i}. {s}" for i,s in enumerate(self.policy["mandatory_handoff_sections"],1));self.assertTrue(any("requires exactly one PROCESS_ASSURANCE_METRICS_RECORD" in x for x in inst.validate_handoff_document(Path("."),"docs/Releases/Example-Handoff.md",text,self.policy)))
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            text=self._handoff_text(rel).replace(f"PROCESS_ASSURANCE_METRICS_RECORD={rel}\n","",1)
+            self.assertTrue(any("requires exactly one PROCESS_ASSURANCE_METRICS_RECORD" in x for x in inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)))
+        finally:
+            td.cleanup()
+
+    def test_handoff_requires_transition_metrics_binding(self):
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            text=self._handoff_text(rel).replace("TRANSITION_METRICS_RECORD=docs/Releases/transition-metrics/example.json\n","",1)
+            errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
+            self.assertTrue(any("requires exactly one TRANSITION_METRICS_RECORD" in x for x in errors))
+        finally:
+            td.cleanup()
+
+    def test_handoff_empty_required_section_fails(self):
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            section=self.policy["mandatory_handoff_sections"][0]
+            text=self._handoff_text(rel,{section:""})
+            errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
+            self.assertTrue(any("section body is empty" in x for x in errors))
+        finally:
+            td.cleanup()
+
+    def test_handoff_placeholder_required_section_fails(self):
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            section=self.policy["mandatory_handoff_sections"][0]
+            text=self._handoff_text(rel,{section:"<REQUIRED>"})
+            errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
+            self.assertTrue(any("unresolved placeholder" in x for x in errors))
+        finally:
+            td.cleanup()
+
+    def test_duplicate_required_section_fails(self):
+        td,root=self._git_fixture()
+        try:
+            rel="docs/Releases/process-metrics/example.json"
+            p=root/rel
+            p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_text(json.dumps(self._valid_metrics_record(root),indent=2)+"\n",encoding="utf-8")
+            section=self.policy["mandatory_handoff_sections"][0]
+            text=self._handoff_text(rel)+f"\n## 99. {section}\nDuplicate evidence."
+            errors=inst.validate_handoff_document(root,"docs/Releases/Example-Handoff.md",text,self.policy)
+            self.assertTrue(any("must appear exactly once" in x for x in errors))
+        finally:
+            td.cleanup()
+
+    def test_canonical_template_contains_transition_metrics_binding(self):
+        text=(ROOT/"docs/Templates/SMT-Workstream-Continuation-Control-Template.md").read_text(encoding="utf-8")
+        self.assertEqual(1,len(inst.assignments(text).get("TRANSITION_METRICS_RECORD",[])))
 
     def test_policy_compatibility_rejects_control_change(self):
         b=copy.deepcopy(self.policy);c=copy.deepcopy(self.policy);c["control_ids"]=c["control_ids"][:-1];self.assertTrue(any("control_ids is immutable" in x for x in inst.policy_compatibility_errors(b,c)))
@@ -203,10 +338,7 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
         )
 
     def test_handoff_rejects_canonical_metrics_template_as_instance(self):
-        text = "\n".join(
-            ["# Example", "PROCESS_ASSURANCE_METRICS_RECORD=docs/Templates/SMT-Process-Assurance-Metrics-Template.json"]
-            + [f"## {i}. {s}" for i, s in enumerate(self.policy["mandatory_handoff_sections"], 1)]
-        )
+        text=self._handoff_text("docs/Templates/SMT-Process-Assurance-Metrics-Template.json")
         errors = inst.validate_handoff_document(
             ROOT,
             "docs/Releases/Example-Handoff.md",

@@ -246,3 +246,15 @@ LIVE_PROCESS_METRICS_RECORD_REQUIRES_GOVERNED_INSTANCE_ROOT=TRUE
 ```
 
 Do not execute live-record semantic validation against canonical templates. Validate templates for required schema/marker completeness; validate only materialized workstream records under governed process-metrics roots as live instances. A handoff may not satisfy its P01-P14 obligation by referencing the canonical template.
+
+### PR #6 material-review escape preflight
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_CORRECTION=4_OF_4
+PROCESS_METRICS_IDENTITY_VERIFICATION=COMMIT_TREE_OBJECT
+PROCESS_METRICS_DELETION=FAIL_CLOSED
+HANDOFF_REQUIRED_SECTION_CONTENT=CONCRETE_NON_PLACEHOLDER
+CANONICAL_HANDOFF_DUAL_METRICS_BINDING=MANDATORY
+```
+
+Preflight must prove the exact canonical handoff contains both transition and process-assurance metrics bindings; a deleted governed process-metrics instance cannot pass; fabricated or wrong-tree candidate identities cannot pass; and empty, duplicate, or placeholder mandatory handoff sections cannot pass.

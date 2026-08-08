@@ -58,3 +58,17 @@ SCENARIO_FAITHFUL_PROBE_TRACEABILITY=MANDATORY
 ```
 
 Every future RTM must include requirement -> state -> expected disposition -> production path -> exact probe -> evidence -> release disposition. Proxy-only evidence and self-declared observed enforcement are prohibited. PI-01 through PI-16 are mandatory cross-cutting process controls.
+
+## Post-R1 PR #6 material-review escape subcases
+
+```text
+PR6_MATERIAL_REVIEW_ESCAPE_SUBCASES=4_OF_4
+SUBCASE_1=CANONICAL_HANDOFF_TRANSITION_METRICS_BINDING
+SUBCASE_2=GOVERNED_PROCESS_METRICS_DELETION_FAIL_CLOSED
+SUBCASE_3=PROCESS_METRICS_COMMIT_TREE_OBJECT_BINDING
+SUBCASE_4=MANDATORY_HANDOFF_SECTION_CONTENT
+DENOMINATOR_EXPANSION=NONE
+R1_FROZEN_DENOMINATOR=374
+```
+
+These are scenario-faithful enforcement subcases for the existing PI control model. They do not alter the closed R1 Final Assurance denominator.
