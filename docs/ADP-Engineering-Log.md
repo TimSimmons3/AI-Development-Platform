@@ -1837,3 +1837,16 @@ P13_REVIEW_REFREEZE_CYCLES=1
 ```
 
 Draft PR #6 remained open/draft at exact head `77e146af4f97cad6cc9a62520a8a8f7203908ada` when the bounded independent review identified the instance-enforcement gap. Correction remains within ADP Post-R1 Process Institutionalization R1.
+
+## 2026-08-08 - Process metrics template-instance boundary correction
+
+```text
+CLASSIFICATION=IMPLEMENTATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+REMOTE_PUBLICATION_OF_6E1BC553=FALSE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+Exact local correction head `6e1bc5531b7f41936012845c3654c00e8d9c1a63` / tree `292f0316e4b9dfaa094bf3a2771610a5bc4966b9` was never published. Its dedicated 31-test suite and 525-test repository regression passed; the first process-institutionalization validator then failed only because the canonical placeholder template was misclassified as a completed live record.

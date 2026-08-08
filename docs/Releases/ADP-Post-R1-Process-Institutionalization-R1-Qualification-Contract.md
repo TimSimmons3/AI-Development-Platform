@@ -56,3 +56,15 @@ BOUNDED_REVIEW_RECHECK_COUNT=1
 ```
 
 This correction is the single bounded independent-review recheck permitted by P13. After the corrected exact head passes local qualification and GitHub required checks, no further open-ended model/review expansion is authorized absent a new material defect under the already-defined criteria.
+
+## Template-instance boundary correction contract R1
+
+```text
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+CANONICAL_TEMPLATE_VALIDATION=STRUCTURAL_MARKERS_ONLY
+LIVE_INSTANCE_VALIDATION=CONCRETE_P01_P14_RECORD
+HANDOFF_TEMPLATE_AS_LIVE_RECORD=PROHIBITED
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+Qualification must prove the canonical template remains intentionally placeholder-based while changed live records under governed instance roots are fail-closed and handoffs cannot bind the template in place of a completed workstream process-assurance record.

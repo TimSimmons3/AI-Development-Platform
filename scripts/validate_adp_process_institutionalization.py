@@ -159,6 +159,13 @@ def validate_policy_shape(policy: Any) -> list[str]:
             e.append("instance_enforcement handoff_roots mismatch")
         if inst.get("handoff_filename_keywords") != ["continuation", "handoff"]:
             e.append("instance_enforcement handoff_filename_keywords mismatch")
+        if inst.get("process_metrics_instance_roots") != [
+            "docs/Integration/process-metrics/",
+            "docs/Releases/process-metrics/",
+        ]:
+            e.append("instance_enforcement process_metrics_instance_roots mismatch")
+        if inst.get("process_metrics_template_path") != "docs/Templates/SMT-Process-Assurance-Metrics-Template.json":
+            e.append("instance_enforcement process_metrics_template_path mismatch")
     return e
 
 def policy_compatibility_errors(base: dict[str, Any], current: dict[str, Any]) -> list[str]:
@@ -287,6 +294,10 @@ def is_handoff_path(path: str, policy: dict[str, Any]) -> bool:
         and any(keyword in lower for keyword in inst.get("handoff_filename_keywords", []))
     )
 
+def is_process_metrics_instance_path(path: str, policy: dict[str, Any]) -> bool:
+    roots = policy.get("instance_enforcement", {}).get("process_metrics_instance_roots", [])
+    return path.lower().endswith(".json") and any(path.startswith(root) for root in roots)
+
 def validate_handoff_document(repo: Path, rel: str, text: str, policy: dict[str, Any]) -> list[str]:
     e: list[str] = []
     for section in policy["mandatory_handoff_sections"]:
@@ -303,6 +314,12 @@ def validate_handoff_document(repo: Path, rel: str, text: str, policy: dict[str,
         metrics_rel = safe_rel(values[0])
     except ValueError as exc:
         e.append(f"{rel}: process metrics path {exc}")
+        return e
+    if not is_process_metrics_instance_path(metrics_rel, policy):
+        e.append(f"{rel}: process metrics record must be under a governed process-metrics instance root: {metrics_rel}")
+        return e
+    if metrics_rel == policy["instance_enforcement"]["process_metrics_template_path"]:
+        e.append(f"{rel}: canonical process metrics template may not be used as a live metrics record")
         return e
     full = repo / metrics_rel
     if full.is_symlink() or not full.is_file():
@@ -437,14 +454,14 @@ def validate_repo(repo: Path, policy: dict[str, Any], base_ref: str | None = Non
                         violations.append(str(exc))
                     else:
                         violations.extend(validate_handoff_document(repo, rel, text, policy))
-                elif rel.lower().endswith(".json"):
+                elif is_process_metrics_instance_path(rel, policy):
+                    instance_count += 1
                     try:
                         obj = load_json_strict(full)
-                    except Exception:
+                    except Exception as exc:
+                        violations.append(f"{rel}: process metrics instance parse failed: {type(exc).__name__}: {exc}")
                         continue
-                    if isinstance(obj, dict) and obj.get("record_type") == PROCESS_METRICS_RECORD_TYPE:
-                        instance_count += 1
-                        violations.extend(validate_process_metrics_record(obj, policy, rel))
+                    violations.extend(validate_process_metrics_record(obj, policy, rel))
         except Exception as exc:
             violations.append(f"committed-delta instance validation failed: {type(exc).__name__}: {exc}")
 

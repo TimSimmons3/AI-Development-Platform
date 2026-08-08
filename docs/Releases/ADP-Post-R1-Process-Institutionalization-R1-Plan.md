@@ -109,3 +109,24 @@ P10_UNRESOLVED_ASSUMPTIONS_AT_REVIEW_CORRECTION_GATE=0
 P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=1
 P13_REVIEW_REFREEZE_CYCLES=1
 ```
+
+## Template-instance boundary qualification defect - 2026-08-08
+
+The independent-review correction commit passed 31/31 dedicated tests and 525/525 full repository regression, then stopped before publication when the process validator classified the canonical P01-P14 template as a live metrics instance.
+
+Classification:
+- `IMPLEMENTATION_DEFECT`: live-instance discovery treated any changed JSON carrying the process-metrics record type as a completed live record, including the canonical placeholder template.
+- `REVIEW_TEST_DEFECT`: the prior suite did not contain a boundary test proving the template is excluded from live-instance classification.
+
+Remediation: define governed process-metrics instance roots; prohibit handoffs from binding the canonical template as a live record; validate template structure separately from concrete instance semantics; add positive/negative/boundary tests.
+
+```text
+P07_LATE_MATERIAL_FINDINGS_AFTER_IMPLEMENTATION_START=3
+P08_POST_PUBLICATION_MATERIAL_ESCAPE_COUNT=0
+P09_USER_VISIBLE_REPLACEMENT_PACKAGE_COUNT=3
+P10_UNRESOLVED_ASSUMPTIONS_AT_TEMPLATE_BOUNDARY_GATE=0
+P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=2
+P13_REVIEW_REFREEZE_CYCLES=1
+```
+
+This completes the already-authorized single bounded review correction and is not a second independent review/refreeze cycle.

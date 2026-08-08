@@ -160,3 +160,13 @@ PROCESS_METRICS_RECORD=P01-P14_EXACT
 ```
 
 Canonical templates are necessary but not sufficient. The required gate must inspect committed changes and validate every changed governed handoff instance plus every changed `ADP_PROCESS_ASSURANCE_METRICS` record. Once this policy is merged, future candidates may add stricter controls but may not remove or weaken the closed R1 identity, PI-01..PI-16, P01-P14 definitions, handoff sections, workflow trust boundary, frozen-oracle identity, external-evidence fail-safe, or existing required artifact markers.
+
+## Process metrics template versus live instance boundary
+
+```text
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+PROCESS_METRICS_INSTANCE_ROOTS=docs/Integration/process-metrics/,docs/Releases/process-metrics/
+HANDOFF_MAY_NOT_BIND_CANONICAL_TEMPLATE_AS_LIVE_RECORD=TRUE
+```
+
+The canonical P01-P14 JSON template is intentionally incomplete and contains placeholders. It is validated as a template by required structural markers only. It is never a release-authorizing workstream metrics instance. Live process-assurance records must be materialized under a governed process-metrics instance root, contain concrete candidate/time/value/status/evidence data, and be validated as exact P01-P14 records.

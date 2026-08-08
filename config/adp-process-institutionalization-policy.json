@@ -35,7 +35,12 @@
       "docs/Releases/"
     ],
     "process_metrics_assignment": "PROCESS_ASSURANCE_METRICS_RECORD",
-    "process_metrics_record_type": "ADP_PROCESS_ASSURANCE_METRICS"
+    "process_metrics_instance_roots": [
+      "docs/Integration/process-metrics/",
+      "docs/Releases/process-metrics/"
+    ],
+    "process_metrics_record_type": "ADP_PROCESS_ASSURANCE_METRICS",
+    "process_metrics_template_path": "docs/Templates/SMT-Process-Assurance-Metrics-Template.json"
   },
   "mandatory_handoff_sections": [
     "Exact Identity and Authority",
@@ -166,7 +171,8 @@
       "P14",
       "REQUIREMENTS_GOVERNED_NOT_REVIEWER_GOVERNED=TRUE",
       "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
-      "FUTURE_WORKSTREAM_INSTANCE_VALIDATION=MANDATORY"
+      "FUTURE_WORKSTREAM_INSTANCE_VALIDATION=MANDATORY",
+      "PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE"
     ],
     "docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md": [
       "POST_R1_PROCESS_CONTROL_TRACEABILITY=PI-01..PI-16",
@@ -176,7 +182,8 @@
       "PROCESS_INSTITUTIONALIZATION_PREFLIGHT=MANDATORY",
       "SCENARIO_FAITHFUL_PROBE_MAPPING=MANDATORY",
       "EXACT_CANDIDATE_EVIDENCE_BINDING=MANDATORY",
-      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE"
+      "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
+      "PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE"
     ],
     "docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md": [
       "EXTERNAL_EVIDENCE_DEFAULT=HOLD_ONLY",

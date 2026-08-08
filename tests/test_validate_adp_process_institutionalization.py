@@ -187,5 +187,41 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
     def test_instance_enforcement_shape_required(self):
         p=copy.deepcopy(self.policy);p["instance_enforcement"]["handoff_roots"]=["docs/Releases/"];self.assertTrue(any("handoff_roots mismatch" in x for x in inst.validate_policy_shape(p)))
 
+
+    def test_process_metrics_instance_path_classification(self):
+        self.assertTrue(
+            inst.is_process_metrics_instance_path(
+                "docs/Releases/process-metrics/workstream.json",
+                self.policy,
+            )
+        )
+        self.assertFalse(
+            inst.is_process_metrics_instance_path(
+                "docs/Templates/SMT-Process-Assurance-Metrics-Template.json",
+                self.policy,
+            )
+        )
+
+    def test_handoff_rejects_canonical_metrics_template_as_instance(self):
+        text = "\n".join(
+            ["# Example", "PROCESS_ASSURANCE_METRICS_RECORD=docs/Templates/SMT-Process-Assurance-Metrics-Template.json"]
+            + [f"## {i}. {s}" for i, s in enumerate(self.policy["mandatory_handoff_sections"], 1)]
+        )
+        errors = inst.validate_handoff_document(
+            ROOT,
+            "docs/Releases/Example-Handoff.md",
+            text,
+            self.policy,
+        )
+        self.assertTrue(any("governed process-metrics instance root" in x for x in errors))
+
+    def test_instance_enforcement_requires_metrics_roots_and_template_path(self):
+        p = copy.deepcopy(self.policy)
+        p["instance_enforcement"]["process_metrics_instance_roots"] = ["docs/Releases/"]
+        p["instance_enforcement"]["process_metrics_template_path"] = "wrong.json"
+        errors = inst.validate_policy_shape(p)
+        self.assertTrue(any("process_metrics_instance_roots mismatch" in x for x in errors))
+        self.assertTrue(any("process_metrics_template_path mismatch" in x for x in errors))
+
 if __name__=="__main__":
     unittest.main()

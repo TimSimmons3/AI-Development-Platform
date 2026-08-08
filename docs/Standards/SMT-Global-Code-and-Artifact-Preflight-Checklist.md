@@ -237,3 +237,12 @@ PROCESS_POLICY_NON_WEAKENING=MANDATORY
 ```
 
 For every changed governed handoff or continuation record, validate the canonical 16 sections and one bound process-assurance metrics record. Validate the referenced metrics record as exact P01-P14 with concrete values, statuses, evidence references, and candidate identity fields. Do not treat canonical-template presence as proof that a workstream instance complied.
+
+### Template/instance classification boundary
+
+```text
+PROCESS_METRICS_TEMPLATE_IS_NOT_INSTANCE=TRUE
+LIVE_PROCESS_METRICS_RECORD_REQUIRES_GOVERNED_INSTANCE_ROOT=TRUE
+```
+
+Do not execute live-record semantic validation against canonical templates. Validate templates for required schema/marker completeness; validate only materialized workstream records under governed process-metrics roots as live instances. A handoff may not satisfy its P01-P14 obligation by referencing the canonical template.
