@@ -49,3 +49,13 @@ The R1 oracle covers Git change discovery, mandatory one-pass invariants, transi
 The release denominator is frozen at **374 applicable cells** under `docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md`. A new cell is permitted only for an unmapped authoritative requirement, a different expected release/enforcement outcome, a materially distinct enforcement branch, or a scenario that cannot be proven without ambiguity under an existing cell. Equivalent same-requirement/same-outcome subcases are mandatory independently executed probes and do not reopen the denominator. Automatic R6/R7 expansion is prohibited.
 
 The executable qualification catalog assigns every cell to scenario-faithful evidence. Current R5 evidence topology is **354 UNITTEST-qualified cells plus 20 LIVE_GITHUB_STATE / PROCESS_ARTIFACT_EVIDENCE cells**, with zero `EVIDENCE_REQUIRED` behavioral/static cells. Unit probes are executed in deterministic shards bound by SHA-256 to the exact oracle and catalog; the aggregator rejects stale, duplicate, missing, contradictory, or incomplete caches. Offline qualification is therefore `HOLD`, not `PASS`, until all 20 external/live/process cells are freshly confirmed.
+
+## Final Closure Override R1 - external evidence fail-safe
+
+The project owner authorized Final Closure Override R1 for this workstream on 2026-08-08. The requirements-derived denominator remains permanently frozen at **374 applicable cells**. No R6/R7 denominator expansion or additional Codex model-review cycle is authorized.
+
+The 20 `LIVE_GITHUB_STATE` / `PROCESS_ARTIFACT_EVIDENCE` cells are **non-authorizing and HOLD-only** until a separately governed trusted external-evidence collector/verifier is implemented. Supplying an `ADP_FINAL_ASSURANCE_EXTERNAL_EVIDENCE_R1` JSON record, evidence identifiers, asserted observed enforcement, or candidate identity metadata cannot convert these cells to `CONFIRMED` and cannot promote the oracle from `HOLD` to `PASS`.
+
+This is a bounded release-governance risk acceptance, not a runtime, platform-security, or data-integrity defect. Under this R1-only owner override, administrative closeout and merge may proceed after the fail-safe correction passes the full repository regression and all active repository-required checks, historical review findings are dispositioned against the corrected exact head, and separate final merge authorization is issued.
+
+The trusted external-evidence collector/verifier is a **deferred follow-on capability**. Its future implementation must be separately governed and must not reopen ADP Transition Governance Repository Integration R1 or alter the frozen 374-cell denominator unless the convergence rule's materiality test is independently satisfied.

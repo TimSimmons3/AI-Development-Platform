@@ -124,6 +124,113 @@ class OracleTests(unittest.TestCase):
             self.assertEqual("WRONG", loaded["LR-01"]["observed_enforcement"])
 
 
+    def _qualify_external_fixture(self, rows):
+        oracle = {
+            "policy_id": "TEST",
+            "source_head": "a" * 40,
+            "source_main": "b" * 40,
+            "cells": [{
+                "cell_id": "LR-01",
+                "domain": "LIVE_RULESET",
+                "scenario": "live rule",
+                "applicable": True,
+                "evidence_class": "LIVE_GITHUB_STATE",
+                "expected_enforcement": "LIVE_GATE_PASS",
+            }],
+        }
+        catalog = {
+            "record_type": "ADP_FINAL_ASSURANCE_IMPLEMENTATION_PROBE_CATALOG_R2",
+            "cells": [{
+                "cell_id": "LR-01",
+                "probe_type": "EXTERNAL_EVIDENCE",
+                "probe_ids": [],
+            }],
+        }
+        with tempfile.TemporaryDirectory() as td:
+            td = Path(td)
+            op = td / "oracle.json"
+            cp = td / "catalog.json"
+            ep = td / "external.json"
+            op.write_text(json.dumps(oracle), encoding="utf-8")
+            cp.write_text(json.dumps(catalog), encoding="utf-8")
+            ep.write_text(json.dumps({
+                "record_type": "ADP_FINAL_ASSURANCE_EXTERNAL_EVIDENCE_R1",
+                "cells": rows,
+            }), encoding="utf-8")
+            with mock.patch.object(runner, "ORACLE_PATH", op), mock.patch.object(runner, "CATALOG_PATH", cp):
+                return runner.qualify(ep)
+
+    def test_external_evidence_assertion_is_hold_only_under_closure_override(self):
+        result = self._qualify_external_fixture([{
+            "cell_id": "LR-01",
+            "status": "CONFIRMED",
+            "observed_enforcement": "LIVE_GATE_PASS",
+            "evidence_ids": ["fabricated://assertion"],
+            "candidate_head": "a" * 40,
+            "candidate_tree": "c" * 40,
+            "source": "asserted",
+        }])
+        self.assertEqual("HOLD", result["status"])
+        self.assertEqual(0, result["confirmed_cells"])
+        self.assertEqual(1, result["evidence_required_cells"])
+        self.assertEqual("EVIDENCE_REQUIRED", result["cells"][0]["cell_status"])
+        self.assertFalse(result["cells"][0]["expectation_confirmed"])
+        self.assertEqual(
+            "HOLD_ONLY_UNTIL_TRUSTED_COLLECTOR",
+            result["external_evidence_authorization_mode"],
+        )
+
+    def test_external_evidence_stale_or_wrong_identity_cannot_pass(self):
+        cases = [
+            {"candidate_head": "x" * 40, "candidate_tree": "c" * 40},
+            {"candidate_head": "a" * 40, "candidate_tree": "y" * 40},
+        ]
+        for identity in cases:
+            with self.subTest(identity=identity):
+                row = {
+                    "cell_id": "LR-01",
+                    "status": "CONFIRMED",
+                    "observed_enforcement": "LIVE_GATE_PASS",
+                    "evidence_ids": ["github://claimed"],
+                }
+                row.update(identity)
+                result = self._qualify_external_fixture([row])
+                self.assertEqual("HOLD", result["status"])
+                self.assertNotEqual("PASS", result["status"])
+                self.assertFalse(result["cells"][0]["expectation_confirmed"])
+
+    def test_external_evidence_missing_source_or_contradictory_cannot_pass(self):
+        cases = [
+            {
+                "cell_id": "LR-01",
+                "status": "CONFIRMED",
+                "observed_enforcement": "LIVE_GATE_PASS",
+            },
+            {
+                "cell_id": "LR-01",
+                "status": "CONFIRMED",
+                "observed_enforcement": "FAIL_CLOSED",
+                "evidence_ids": ["github://contradictory"],
+            },
+        ]
+        for row in cases:
+            with self.subTest(row=row):
+                result = self._qualify_external_fixture([row])
+                self.assertEqual("HOLD", result["status"])
+                self.assertNotEqual("PASS", result["status"])
+                self.assertFalse(result["cells"][0]["expectation_confirmed"])
+
+    def test_external_evidence_duplicate_rows_cannot_pass(self):
+        duplicate = {
+            "cell_id": "LR-01",
+            "status": "CONFIRMED",
+            "observed_enforcement": "LIVE_GATE_PASS",
+            "evidence_ids": ["github://duplicate"],
+        }
+        with self.assertRaisesRegex(ValueError, "duplicate external evidence cell"):
+            self._qualify_external_fixture([duplicate, dict(duplicate)])
+
+
     def test_OI_03_probe_stderr_is_isolated(self):
         class StderrCase(unittest.TestCase):
             def runTest(self):

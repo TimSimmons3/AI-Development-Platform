@@ -24,6 +24,7 @@ CATALOG_PATH = ROOT / "tests/qualification/final_assurance_oracle_probe_catalog.
 CONFIRMED = "CONFIRMED"
 CONTRADICTED = "CONTRADICTED"
 EVIDENCE_REQUIRED = "EVIDENCE_REQUIRED"
+EXTERNAL_EVIDENCE_AUTHORIZATION_MODE = "HOLD_ONLY_UNTIL_TRUSTED_COLLECTOR"
 
 
 def load_object(path: Path) -> dict[str, Any]:
@@ -339,21 +340,19 @@ def qualify(external_evidence_path: Path | None = None, workers: int = 1, probe_
                 detail = "scenario assertion probes confirmed expected behavior" if cell_status == CONFIRMED else "one or more scenario assertion probes failed"
         elif probe_type == "EXTERNAL_EVIDENCE":
             ext = external.get(cid)
-            if ext is None:
-                cell_status = EVIDENCE_REQUIRED
-                detail = "fresh external/live/process evidence not supplied"
-            else:
-                ext_status = ext.get("status")
-                observed_enforcement = ext.get("observed_enforcement")
+            if ext is not None:
+                raw_observed = ext.get("observed_enforcement")
+                if isinstance(raw_observed, str):
+                    observed_enforcement = raw_observed
                 raw_ids = ext.get("evidence_ids")
                 if isinstance(raw_ids, list) and all(isinstance(x, str) and x for x in raw_ids):
                     evidence_ids = raw_ids
-                if ext_status != CONFIRMED or observed_enforcement != expected or not evidence_ids:
-                    cell_status = CONTRADICTED
-                    detail = "external evidence does not confirm the independent expected enforcement"
-                else:
-                    cell_status = CONFIRMED
-                    detail = "fresh external evidence confirms independent expected enforcement"
+            cell_status = EVIDENCE_REQUIRED
+            detail = (
+                "external/live/process evidence is non-authorizing under Final Closure Override R1; "
+                "this cell remains HOLD until a separately governed trusted external-evidence "
+                "collector/verifier is implemented"
+            )
         elif probe_type == "EVIDENCE_REQUIRED":
             cell_status = EVIDENCE_REQUIRED
             detail = "scenario-faithful behavioral/static probe has not yet been implemented"
@@ -421,6 +420,7 @@ def qualify(external_evidence_path: Path | None = None, workers: int = 1, probe_
         "hard_missing_probe_cells": hard_missing,
         "deferred_external_evidence_cells": deferred_external,
         "self_declared_observed_enforcement_fields": 0,
+        "external_evidence_authorization_mode": EXTERNAL_EVIDENCE_AUTHORIZATION_MODE,
         "unique_unittest_probes_executed": len(probe_cache),
         "probe_workers": workers,
         "probe_cache_files": [str(p) for p in (probe_cache_paths or [])],
