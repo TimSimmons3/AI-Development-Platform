@@ -134,7 +134,7 @@ This completes the already-authorized single bounded review correction and is no
 ## PR #6 material-review escape owner disposition - 2026-08-08
 
 ```text
-OWNER_AUTHORIZATION=AUTHORIZE ADP PR6 MATERIAL REVIEW ESCAPE CORRECTION HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d FINDINGS=4 SCOPE=BOUNDED_CORRECTION_AND_REQUALIFICATION
+PR6_MATERIAL_REVIEW_ESCAPE_OWNER_AUTHORIZATION=AUTHORIZE ADP PR6 MATERIAL REVIEW ESCAPE CORRECTION HEAD=75ff6ccefe3933eabc8f7483b8347bac3676bb7d FINDINGS=4 SCOPE=BOUNDED_CORRECTION_AND_REQUALIFICATION
 MATERIAL_FINDINGS=4
 P1_FINDINGS=3
 P2_FINDINGS=1
@@ -158,3 +158,24 @@ P13_TARGET_STATUS=EXCEEDED_AND_RECORDED_CAPA
 ```
 
 The P13 target miss is retained as process-performance evidence; it does not silently disappear. This authorization corrects the four validated defects without requesting another Codex/model review.
+
+## Final transition-validator integration collision disposition - 2026-08-08
+
+The exact committed PR #6 correction candidate passed 42/42 dedicated process-control tests, 536/536 full repository regression, the process-institutionalization validator, and the mandatory-assurance validator, then stopped before the exception sweep because the existing transition validator interpreted governance requirement markers and the canonical template placeholder as live `TRANSITION_METRICS_RECORD` repository references. The same validator also correctly enforced a single canonical change-record owner-authorization field.
+
+This is a bounded integration-collision correction, not a new review scope or assurance denominator. The canonical Plan retains exactly one `OWNER_AUTHORIZATION`; the PR #6 review-escape authorization is preserved under a distinct audit key. Standards/skills describe transition binding requirements with non-record assignment names. The canonical continuation template exposes exactly one intentionally empty transition-record field; any materialized handoff that leaves it empty fails closed until an exact repository record path is supplied.
+
+```text
+TRANSITION_VALIDATOR_COLLISION_ROOT_CAUSES=2
+NEW_CONTROL_OR_METRIC=NONE
+TRUST_ROOT_PATH_SET_EXPANSION=NONE
+P07_LATE_MATERIAL_FINDINGS_AFTER_IMPLEMENTATION_START=8
+P08_POST_PUBLICATION_MATERIAL_ESCAPE_COUNT=1
+P09_USER_VISIBLE_REPLACEMENT_PACKAGE_COUNT=5
+P10_UNRESOLVED_ASSUMPTIONS_AT_FINAL_COLLISION_GATE=0
+P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=3
+P13_REVIEW_REFREEZE_CYCLES=2
+P13_TARGET_STATUS=EXCEEDED_AND_RECORDED_CAPA
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```

@@ -1866,3 +1866,18 @@ R1_FROZEN_DENOMINATOR=374
 ```
 
 Validated findings: missing transition-metrics binding in the canonical continuation template; fail-open governed process-metrics deletion; unproven candidate commit/tree identities; and empty/placeholder mandatory handoff bodies. One bounded correction and exact-head requalification is authorized.
+
+## 2026-08-08 - PR #6 final transition-validator integration collision closure
+
+```text
+SOURCE_LOCAL_HEAD=cbca1df2a28ea3d60f4f0a56cb9bf98a7dbc0e8b
+SOURCE_LOCAL_TREE=ce220f1d4a53a1a46e8c34d7e3c57bc6c6ddfa7b
+REMOTE_FEATURE_PRESERVED=75ff6ccefe3933eabc8f7483b8347bac3676bb7d
+TRANSITION_VALIDATOR_COLLISION_ROOT_CAUSES=2
+CLASSIFICATION=IMPLEMENTATION_INTEGRATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+POST_PUBLICATION_OF_CBCA1DF=FALSE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+The PR #6 material-review correction passed 42/42 dedicated tests, 536/536 full regression, process-institutionalization validation, and mandatory-assurance validation, then stopped before the exception sweep because the transition validator correctly interpreted canonical assignment keys as repository evidence bindings. The correction preserves exactly one canonical change-record owner authorization, reserves live transition-record assignment syntax for actual bindings, and keeps the continuation template fail-closed with one intentionally empty transition-record field.

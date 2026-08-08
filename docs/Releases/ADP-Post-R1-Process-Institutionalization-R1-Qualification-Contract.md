@@ -84,3 +84,23 @@ TRUST_ROOT_PATH_SET_EXPANSION=NONE
 ```
 
 Release-authorizing qualification must occur on the exact committed corrected candidate. The prior 34/34 and 528/528 results remain historical coverage evidence only. Review threads remain unresolved until exact corrected-head evidence proves each finding closed.
+
+## Final transition-validator collision closure qualification R1
+
+```text
+TRANSITION_VALIDATOR_COLLISION_ROOT_CAUSES=2
+CANONICAL_OWNER_AUTHORIZATION_CARDINALITY=EXACTLY_ONE
+LIVE_TRANSITION_RECORD_ASSIGNMENT_KEY_RESERVED_FOR_RECORD_BINDINGS=TRUE
+CANONICAL_TEMPLATE_TRANSITION_RECORD_FIELD=EXACTLY_ONE_INTENTIONALLY_EMPTY
+DEDICATED_PROCESS_TESTS_EXPECTED=44
+FULL_REPOSITORY_REGRESSION_EXPECTED=538
+PROCESS_INSTITUTIONALIZATION_VALIDATOR=PASS_REQUIRED
+MANDATORY_ASSURANCE_VALIDATOR=PASS_REQUIRED
+TRANSITION_METRICS_VALIDATOR=PASS_REQUIRED
+EXCEPTION_ADVERSARIAL_SWEEP=35000_OF_35000_PASS_REQUIRED
+TRUST_ROOT_MIGRATION_PREFLIGHT=PASS_REQUIRED
+TRUST_ROOT_PATH_SET_EXPANSION=NONE
+R1_REOPENED=FALSE
+```
+
+The intentionally empty transition-record field is a template sentinel, not a live evidence claim. Materialized governed handoffs must replace it with an exact repository metrics-record path; leaving it empty fails closed. Requirement and cardinality statements must use non-record semantic keys so repository-path scanners cannot misclassify governance text as evidence bindings.

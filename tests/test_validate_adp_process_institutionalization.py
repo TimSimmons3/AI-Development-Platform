@@ -308,7 +308,21 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
 
     def test_canonical_template_contains_transition_metrics_binding(self):
         text=(ROOT/"docs/Templates/SMT-Workstream-Continuation-Control-Template.md").read_text(encoding="utf-8")
-        self.assertEqual(1,len(inst.assignments(text).get("TRANSITION_METRICS_RECORD",[])))
+        self.assertEqual([""],inst.assignments(text).get("TRANSITION_METRICS_RECORD",[]))
+
+    def test_transition_record_key_not_reused_for_requirement_markers(self):
+        for rel in [
+            "docs/Standards/SMT-Mandatory-Transition-Metrics-and-Handoff-Performance-Standard.md",
+            "skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md",
+        ]:
+            text=(ROOT/rel).read_text(encoding="utf-8")
+            self.assertNotIn("TRANSITION_METRICS_RECORD",inst.assignments(text),rel)
+
+    def test_process_plan_has_one_canonical_owner_authorization(self):
+        text=(ROOT/"docs/Releases/ADP-Post-R1-Process-Institutionalization-R1-Plan.md").read_text(encoding="utf-8")
+        parsed=inst.assignments(text)
+        self.assertEqual(1,len(parsed.get("OWNER_AUTHORIZATION",[])))
+        self.assertEqual(1,len(parsed.get("PR6_MATERIAL_REVIEW_ESCAPE_OWNER_AUTHORIZATION",[])))
 
     def test_policy_compatibility_rejects_control_change(self):
         b=copy.deepcopy(self.policy);c=copy.deepcopy(self.policy);c["control_ids"]=c["control_ids"][:-1];self.assertTrue(any("control_ids is immutable" in x for x in inst.policy_compatibility_errors(b,c)))

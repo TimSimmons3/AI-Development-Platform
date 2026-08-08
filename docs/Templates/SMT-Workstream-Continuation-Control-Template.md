@@ -20,12 +20,12 @@ EXCEPTION_STATUS=NOT_GRANTED
 
 ```text
 POST_R1_PROCESS_INSTITUTIONALIZATION=MANDATORY
-TRANSITION_METRICS_RECORD=<REQUIRED_REPOSITORY_PATH>
+TRANSITION_METRICS_RECORD=
 PROCESS_ASSURANCE_METRICS_RECORD=<REQUIRED_REPOSITORY_OR_PACKAGE_PATH>
 R1_REOPENED=FALSE
 ```
 
-Use this template for every governed handoff/new-chat continuation. Replace placeholders with exact evidence; do not omit sections.
+Use this template for every governed handoff/new-chat continuation. Populate the intentionally empty `TRANSITION_METRICS_RECORD` with the exact repository metrics-record path, replace all remaining placeholders with exact evidence, and do not omit sections. An unpopulated transition-record field is intentionally fail-closed.
 
 ## 1. Exact Identity and Authority
 

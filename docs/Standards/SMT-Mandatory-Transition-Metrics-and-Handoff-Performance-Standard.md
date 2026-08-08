@@ -121,8 +121,8 @@ P01-P14 measure assurance-process effectiveness and are carried by future govern
 
 ```text
 DUAL_HANDOFF_METRICS_BINDING=MANDATORY
-TRANSITION_METRICS_RECORD=MANDATORY
-PROCESS_ASSURANCE_METRICS_RECORD=MANDATORY
+TRANSITION_METRICS_BINDING_REQUIREMENT=MANDATORY
+PROCESS_ASSURANCE_METRICS_BINDING_REQUIREMENT=MANDATORY
 ```
 
 Post-R1 governed handoffs carry both bindings. Transition metrics M01-M28 and process-assurance metrics P01-P14 remain distinct and non-substitutive.

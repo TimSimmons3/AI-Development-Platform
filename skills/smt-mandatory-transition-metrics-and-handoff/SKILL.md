@@ -73,8 +73,8 @@ Every governed handoff carries P01-P14 in addition to M01-M28 where transition m
 
 ```text
 TRANSITION_AND_PROCESS_METRICS_BINDINGS=MANDATORY
-TRANSITION_METRICS_RECORD=EXACTLY_ONE
-PROCESS_ASSURANCE_METRICS_RECORD=EXACTLY_ONE
+TRANSITION_METRICS_BINDING_CARDINALITY=EXACTLY_ONE
+PROCESS_ASSURANCE_METRICS_BINDING_CARDINALITY=EXACTLY_ONE
 ```
 
 Every governed post-R1 handoff must bind the existing M01-M28 transition record and the P01-P14 process-assurance record. The canonical template must expose both fields.
