@@ -1,5 +1,23 @@
 # SMT High-Assurance Engineering Delivery Skill
 
+## Mandatory assurance invariant
+
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
 ## 1. Status and scope
 
 ```text
@@ -159,7 +177,7 @@ Implementation and review defects produce corrected revisions, not new conceptua
 ```text
 LIVE_ATTEMPTS_PER_GATE_MAXIMUM=1
 INCREMENTAL_RECOVERY_PACKAGE_CHAIN=PROHIBITED
-USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET: 0
 FINAL_LABEL_REQUIRES_FULL_EXTERNAL_CONTRACT_COVERAGE=TRUE
 ```
 
@@ -427,7 +445,19 @@ Do not imply that work continues while the chat is idle. Do not present an artif
 USER_VISIBLE_REPLACEMENT_PACKAGES_TARGET=0
 LIVE_MUTATION_ATTEMPTS_PER_GATE_MAX=1
 AUTOMATIC_PATCH_AND_RETRY=PROHIBITED
-PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT: PROHIBITED
 ```
 
 A pre-mutation HOLD preserves the live-mutation budget but does not justify repeated user-visible candidates. Repeated pre-mutation failures require a release reset and independent review.
+
+## 18. Final assurance state-model and trust-root gate
+
+For release-authorizing work, test count is supporting evidence and is never the denominator. Before release, enumerate externally observable state and equivalence classes, freeze an independently derived oracle, and disposition 100% of applicable cells. The expected result must be derived from requirements and architecture, not from the implementation under test. Required release results are `APPLICABLE_STATE_COVERAGE=100_PERCENT`, `INDEPENDENT_VS_IMPLEMENTATION_EXPECTATION_DELTA=0`, `UNHANDLED_EXCEPTION_SURFACES=0`, and `UNRESOLVED_MATERIAL_FINDINGS=0`.
+
+Repository-diff governance must use a shared NUL-delimited, fail-closed Git object/status contract. A/M/D/T, mode-only, regular/symlink/gitlink, D+A rename/move, file/tree replacement, unusual safe pathnames, invalid base refs, and unexpected statuses must be dispositioned in real disposable repositories. Release-authorizing validation must bind exact base SHA, merge base, head SHA, candidate tree, and committed HEAD object identity; working-tree-only evidence is insufficient.
+
+Security-sensitive validators, policies, workflows, and oracle assets form an assurance trust root. Future privileged validation must execute default-branch trusted code and treat pull-request content only as data. Ordinary self-modification of trust-root controls is prohibited. A trust-root migration requires an explicit migration record plus exact owner approval bound to the final head and changed trust-root path digest.
+
+A material finding that escapes a candidate described as comprehensive is a CAPA effectiveness failure. Stop release, preserve evidence, reset to model/oracle root cause, and complete fresh adversarial review before another executable is exposed. Review administration is metadata-only; repository content create/update/delete actions are prohibited unless separately authorized as engineering mutation.
+
+A release denominator is requirements-governed, not reviewer-governed. After authoritative requirements and materially distinct enforcement outcomes are mapped, do not create new denominator cells solely because a reviewer can subdivide an equivalent case further. Same-requirement, same-expected-outcome, same-material-enforcement-branch variants become mandatory independently executed probe subcases. Reopen the denominator only for an unmapped authoritative requirement, a contradictory expected outcome, a materially distinct enforcement branch, or a scenario that cannot be proven without ambiguity under an existing cell.

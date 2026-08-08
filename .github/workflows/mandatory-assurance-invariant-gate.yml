@@ -53,6 +53,16 @@ jobs:
             --base-ref "${{ steps.comparison.outputs.base_ref }}" \
             --report "${RUNNER_TEMP}/mandatory-assurance-invariant-report.json"
 
+      - name: Validate transition metrics and handoff governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/validate_transition_metrics.py \
+            --repo-root . \
+            --policy config/transition-metrics-policy.json \
+            --base-ref "${{ steps.comparison.outputs.base_ref }}" \
+            --report "${RUNNER_TEMP}/transition-metrics-report.json"
+
       - name: Enforce exact project-owner authorization for exceptions
         env:
           GH_TOKEN: ${{ github.token }}
@@ -60,6 +70,7 @@ jobs:
           OWNER_LOGIN: TimSimmons3
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVALUATION_UTC: ${{ github.event.pull_request.updated_at }}
         shell: bash
         run: |
           set -euo pipefail
@@ -82,4 +93,6 @@ jobs:
             --owner-login "${OWNER_LOGIN}" \
             --pr-number "${PR_NUMBER}" \
             --head-sha "${PR_HEAD_SHA}" \
+            --repo-root . \
+            --evaluation-utc "${EVALUATION_UTC}" \
             --output "${approval_report_path}"

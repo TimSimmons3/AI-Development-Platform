@@ -1,0 +1,20 @@
+{
+  "classification": "NONE",
+  "created_utc": "2026-01-01T00:00:00Z",
+  "event_id": "EVT-YYYYMMDD-001",
+  "event_type": "LIFECYCLE",
+  "evidence_refs": [
+    {
+      "artifact_id": "REPLACE_WITH_EVIDENCE_ID",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "type": "EXTERNAL_ARTIFACT"
+    }
+  ],
+  "lifecycle_from": "CONCEPT_UNSELECTED",
+  "lifecycle_to": "PLANNING_READ_ONLY",
+  "mutation_boundary_crossed": false,
+  "previous_record": null,
+  "record_type": "SMT_TRANSITION_EVENT",
+  "schema_version": "1.0",
+  "workstream_id": "REPLACE_WITH_WORKSTREAM_ID"
+}

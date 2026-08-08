@@ -1,5 +1,42 @@
 # SMT Live Change and External API Validation Standard
 
+## Mandatory assurance invariant
+
+```text
+ONE_PASS_WORKING_DELIVERABLE=MANDATORY
+EXACT_DISTRIBUTED_ARTIFACT_REHEARSAL=MANDATORY
+EXACT_OPERATOR_WORKFLOW_REHEARSAL=MANDATORY
+ACTUAL_TARGET_STATE_FIXTURE=MANDATORY
+SUCCESS_PATH_END_TO_END=MANDATORY
+FAILURE_AND_PRESERVE_STATE_PATHS=MANDATORY
+INDEPENDENT_REQUIREMENTS_REVIEW=MANDATORY
+UNRESOLVED_ASSUMPTIONS_BEFORE_DELIVERY=0
+USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0
+PATCH_AND_RETRY_CYCLE=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+EXCEPTION_AUTHORITY=PROJECT_OWNER_ONLY
+EXCEPTION_STATUS=NOT_GRANTED
+```
+
+
+## Transition change record
+
+```text
+CHANGE_RECORD_BASELINE=b9379e30d07a33dcaaf4f9e9b805e532e5003c6c / tree 4827e9df3e07862ab0e49461b74584c07d5cc847
+CHANGE_RECORD_SCOPE=Offline consolidated Final Assurance Recovery R1 implementing ARC-01 through ARC-13 only
+CHANGE_RECORD_EXCLUSIONS=Production repository mutation; remote GitHub write; merge; ruleset change; Timeshift; runtime mutation; cleanup; unrelated change
+AUTHORIZED_CHANGED_RESOURCES=Disposable offline recovery candidate and governed assurance code, tests, policies, skills, standards, CAPA, and qualification records
+DEPENDENCIES=Exact CR6-R2 tree; exact base 311642c7465a01ada8297f8242b3d6e73033fed6; Git; Python standard library
+EXTERNAL_CONTRACTS=Git raw diff/tree/merge-base semantics and GitHub pull_request_target read-only event contract
+SECURITY_IMPACT=Strengthens fail-closed governance discovery, trust-root independence, parser bounds, and owner-controlled migration
+MUTATION_PRESERVE_BOUNDARIES=No production or remote mutation; all implementation and destructive-state qualification confined to disposable offline repositories
+TEST_MATRIX=frozen 374-cell requirements-governed assurance oracle plus TF-01 through TF-13 and full repository regression
+EVIDENCE_PLAN=Exact base/head/tree reports, oracle differential, parser sweep, regression, trust-root/bootstrap, artifact/operator, preserve-state, and documentation reconciliation
+RECOVERY_PLAN=Any material defect resets publication readiness to HOLD and requires corrected offline candidate plus complete requalification
+METRICS_PLAN=100-percent applicable-cell disposition; zero expectation delta; zero unhandled exceptions; zero unresolved material findings; post-publication material-defect target zero
+OWNER_AUTHORIZATION=2026-08-07 explicit Final Assurance Recovery offline implementation and comprehensive qualification authorization bound to b9379e30d07a33dcaaf4f9e9b805e532e5003c6c
+OWNER_AUTHORIZATION_EXPIRATION=Expires on completion of this offline recovery workstream or any superseding authorization/head change
+```
 ## 1. Purpose
 
 Prevent production, repository, cloud, SaaS, and administrative changes from becoming test iterations.
@@ -60,7 +97,7 @@ Level 4 alone cannot authorize a live change.
 ```text
 DEFAULT_MAXIMUM_LIVE_ATTEMPTS=1
 AUTOMATIC_PATCH_AND_RETRY=PROHIBITED
-PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT: PROHIBITED
 ```
 
 A second attempt requires a new governance decision, not merely a code patch.
@@ -269,7 +306,13 @@ Do not imply background work while the chat is idle. Do not present a package an
 USER_VISIBLE_REPLACEMENT_PACKAGES_TARGET=0
 LIVE_MUTATION_ATTEMPTS_PER_GATE_MAX=1
 AUTOMATIC_PATCH_AND_RETRY=PROHIBITED
-PRODUCTION_AS_TEST_ENVIRONMENT=PROHIBITED
+PRODUCTION_AS_TEST_ENVIRONMENT: PROHIBITED
 ```
 
 A pre-mutation HOLD preserves the live-attempt budget. Repeated pre-mutation failures are release-process failures and require a release reset and independent review.
+
+## Complete Git-state and review-administration contract
+
+Repository change discovery for release-authorizing governance must use NUL-delimited Git output with rename detection disabled and explicitly disposition A/M/D/T, modes `100644`, `100755`, `120000`, `160000`, deletion mode `000000`, D+A rename/move, file/tree replacement, and unusual safe UTF-8 pathnames. Unexpected statuses, malformed output, invalid object modes, invalid merge bases, subprocess failure, or prohibited control characters fail closed. Real disposable repositories, not mocked status strings alone, are required for qualification.
+
+Review administration is Class R metadata-only unless a separate engineering mutation is explicitly authorized. Allowed actions are read/list/fetch review metadata, comments, status/checks, and review-thread administration that does not write repository content. Repository content create/update/delete APIs, ref mutation, merge, ruleset change, and workflow dispatch that mutates content are prohibited under review-only authorization. Record exact pre/post base, head, and tree identities. Any unexpected content mutation stops the workflow and is treated as a governance incident.

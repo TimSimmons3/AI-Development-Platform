@@ -13,7 +13,8 @@
       "RESIDUAL_RISK",
       "COMPENSATING_CONTROLS",
       "EXPIRATION_UTC",
-      "ARTIFACT_SHA256_SET"
+      "ARTIFACT_SHA256_SET",
+      "ARTIFACT_MANIFEST"
     ],
     "required_values": {
       "APPROVED_BY": "Tim Simmons",
@@ -79,5 +80,9 @@
     "EXCEPTION_AUTHORITY",
     "EXCEPTION_STATUS"
   ],
+  "resource_limits": {
+    "json_bytes": 1048576,
+    "markdown_bytes": 2097152
+  },
   "schema_version": "1.0"
 }

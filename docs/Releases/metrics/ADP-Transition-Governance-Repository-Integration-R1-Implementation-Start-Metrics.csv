@@ -1,0 +1,29 @@
+metric_id,name,unit,value,data_quality,collection_method,reason
+M01,First-pass delivery rate,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,No user-visible runnable artifact has been delivered in this workstream at implementation start
+M02,User-visible replacement count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M03,User-visible failure count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M04,Defect escape count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M05,Pre-release detection rate,percent,100,DERIVED,DERIVED_FROM_BOUND_EVIDENCE,
+M06,Plan adherence,percent,100,DERIVED,DERIVED_FROM_BOUND_EVIDENCE,
+M07,Unapproved deviation count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M08,Scope adherence,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,No implementation resource changes existed at the implementation-start snapshot
+M09,Unauthorized mutation count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M10,Exact artifact rehearsal,status,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M11,Production validator parity,status,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M12,Target-state fidelity,status,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M13,Failure-path coverage,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M14,Independent review coverage,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M15,Deterministic rebuild,status,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M16,Evidence completeness,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,Exact implementation artifact qualification has not yet occurred
+M17,Recoverability proof,status,PASS,MEASURED,VERIFIED_RECOVERY_BUNDLE_AND_CLEAN_CLONE,
+M18,Security guardrail violations,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M19,Owner exception count,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M20,External blocker events,count,0,MEASURED,DIRECT_EVENT_OR_STATE_OBSERVATION,
+M21,External blocker hold time,seconds,0,MEASURED,NO_EXTERNAL_HOLD_INTERVALS_RECORDED_AFTER_PROSPECTIVE_START,
+M22,Active engineering/operator time,seconds,,UNKNOWN,EXPLICIT_DATA_GAP,Active timing before prospective implementation baseline was not machine-instrumented
+M23,Rework ratio,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,No reliable active-time denominator at implementation-start snapshot
+M24,Test iteration count,distribution,,NOT_APPLICABLE,POLICY_APPLICABILITY,Offline implementation qualification runs have not yet started
+M25,Repeat-defect rate,percent,0,DERIVED,DERIVED_FROM_DEFECT_LEDGER,
+M26,Handoff completeness,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,This is not a handoff snapshot
+M27,Metrics data quality,percent,96.2962962963,DERIVED,VALIDATOR_DERIVED_FROM_M01_M26_M28,
+M28,Runtime/security baseline drift,count,0,MEASURED,NO_RUNTIME_OR_SECURITY_MUTATION_AUTHORIZED_OR_OBSERVED,

@@ -1,0 +1,3403 @@
+{
+  "cells": [
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_add_regular_A"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_head_symlink_rejected"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_gitlink_add_and_modify"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_modify_regular_M"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_mode_only_is_M_with_modes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_regular_to_symlink_T"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_gitlink_add_and_modify"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_main_base_ref_deleted_governed_record_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_delete_governed_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_referenced_evidence_file_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_regular_to_symlink_is_discovered_and_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_symlink_to_regular_is_discovered"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_regular_to_gitlink_T"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_head_regular_blob"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_rename_move_remains_prohibited_via_deleted_identity"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_rename_outside_root_fails_via_old_path"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_case_rename_is_D_plus_A"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-18",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_file_to_tree_is_D_plus_A_child"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-19",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_tree_to_file_is_D_child_plus_A_file"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-20",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_parse_rejects_unsupported_status"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-21",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_prohibited_control_character_path_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-22",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_bad_base_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-23",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_base_freshness_and_merge_tree_are_explicit"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GIT-24",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_default_branch_checkout_must_equal_pr_base_sha"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_valid_governed_document_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_historical_governance_sticky_when_additional_keyword_only"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_delete_governed_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_regular_to_symlink_T_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_remove_root"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_weaken_block"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_current_policy_cannot_change_owner"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_exception_record_deletion_fails",
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_exception_record_regular_to_symlink_T_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_malformed_policy_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "MI-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_trust_root_change_fails_ordinary"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_bootstrap_absent_base_policy_requires_exact_adoption_baseline"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_bootstrap_absent_base_policy_mismatched_baseline_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_malformed_base_json_fails_closed_structured"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_malformed_current_json_fails_closed_structured"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_p1_record_type_rename_is_rejected_before_degovernance"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_assignment_identity_is_immutable"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_governed_markdown_root_cannot_be_removed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_required_handoff_component_removal_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_required_change_record_field_removal_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_lifecycle_graph_expansion_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_overlap_control_weakening_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_metric_semantic_redefinition_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_m27_denominator_shrink_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_timing_semantic_change_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_shape_rejects_supported_state_vocabulary_drift"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_schema_version_in_place_change_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "TP-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_stricter_required_change_record_addition_allowed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unchanged_off_directory_transition_record_remains_out_of_scope"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_valid_transition_remains_validated"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_record_cannot_drop_record_type"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_modified_off_directory_record_malformed_or_non_utf8_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_transition_record_outside_metrics_is_governed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_base_governed_rename_move_remains_prohibited_via_deleted_identity"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_new_off_directory_transition_json_is_validated"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_new_off_directory_unrelated_json_remains_allowed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_canonical_transition_templates_reject_unknown_or_missing_record_type"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_historical_governance_sticky_when_additional_keyword_only"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_rename_outside_root_fails_via_old_path"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "GI-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_regular_to_symlink_T_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_revalidates_unchanged_snapshot"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_reverse_reference_closure_is_transitive"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_deleted_referenced_evidence_file_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_with_updated_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_policy_version_record_type_change_cannot_disable_reverse_reference_governance"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_type_change_regular_to_symlink_is_discovered_and_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_head_regular_blob"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_symlink_reference_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_hold_not_in_m22"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "REF-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_reverse_reference_closure_is_transitive"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_duplicate_json_key_rejected"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_load_json_strict_rejects_nonfinite_constants"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_non_utf8_json_returns_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_deep_changed_json_never_raises"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_repository_template_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_csv_parser_error_returns_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_csv_projection_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_non_utf8_governed_markdown_returns_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_cr_character_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_ratio_huge_integer_operand_returns_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_value_domain_malformed_type_matrix_is_fail_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_snapshot_container_field_matrix_never_raises"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_qualification_run_requires_exactly_one_object"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_nested_unexpected_fields_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "PAR-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_changed_transition_json_over_limit_is_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-01",
+      "evidence_class": "STATIC_TRUST_CONTRACT",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_trust_root_change_fails_ordinary"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-02",
+      "evidence_class": "STATIC_TRUST_CONTRACT",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_candidate_checkout_binds_pr_head_repository_and_sha"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-03",
+      "evidence_class": "STATIC_TRUST_CONTRACT",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_base_freshness_and_merge_tree_are_explicit"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_exact_migration_record_and_owner_approval_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Fresh process-artifact evidence is required; ordinary unit tests cannot qualify this process state.",
+      "cell_id": "WF-05",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-06",
+      "evidence_class": "STATIC_TRUST_CONTRACT",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_executable_python_is_trusted_only"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-07",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_pull_request_target_is_trust_event"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-09",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_comment_fetch_is_read_only_get"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "WF-10",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_reports_are_bound_to_base_head_tree_inputs"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_value_domain_malformed_type_matrix_is_fail_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_base_ref_malformed_policy_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_policy_json_over_absolute_limit_never_parsed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-04",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_candidate_checkout_binds_pr_head_repository_and_sha"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Fresh process-artifact evidence is required; ordinary unit tests cannot qualify this process state.",
+      "cell_id": "RP-05",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-06",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_exception_surface.FinalAssuranceExceptionSurfaceTests.test_changed_mandatory_markdown_over_limit_is_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Fresh process-artifact evidence is required; ordinary unit tests cannot qualify this process state.",
+      "cell_id": "RP-07",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Fresh process-artifact evidence is required; ordinary unit tests cannot qualify this process state.",
+      "cell_id": "RP-08",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-09",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.qualification.test_trusted_workflow_architecture.TrustedWorkflowArchitectureTests.test_comment_fetch_is_read_only_get"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario assertion test(s); test success confirms the independent oracle expectation without a catalog-declared observed enforcement.",
+      "cell_id": "RP-10",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_required_domains_complete"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_01_all_policy_allowed_lifecycle_transitions_validate"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_02_all_policy_disallowed_lifecycle_transitions_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_closed_workstream_reopen_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_04_release_reset_required_has_exact_two_valid_exits"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_05_lifecycle_required_identity_time_and_state_failures_are_structured"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_01"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_02"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_03"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_04"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_event_type_containers_are_fail_closed",
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_19",
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_28"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_deviation_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_14_every_deviation_required_field_omission_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_15_malformed_deviation_types_and_classification_fail_structured"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_16_deviation_owner_disposition_and_permanent_control_are_mandatory"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_09"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-18",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_incident_revision_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-19",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_19_external_blocker_exposing_internal_defect_can_record_revision_truthfully"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-20",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_20_release_reset_boundary_rejects_direct_return_to_implementation"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-21",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_duplicate_metric_id_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_missing_metric_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unknown_metric_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-22",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_22_measured_metric_requires_value_collection_method_and_evidence"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-23",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_23_well_formed_unknown_is_structurally_valid_and_release_hold"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-24",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_24_well_formed_policy_na_states_validate"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-25",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_25_zero_denominator_never_creates_artificial_success_percentage"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-26",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_value_domain_malformed_type_matrix_is_fail_closed",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_pass_fail_malformed_values_return_structured_fail",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_metric_data_quality_container_matrix_is_fail_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-27",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unsafe_path_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_symlink_reference_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_evidence_reference_type_containers_are_fail_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-28",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m27_unknown_lowers_quality"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-29",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_01"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-30",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_04"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-31",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_07"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-32",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_10"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-33",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_13"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-34",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_16"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-35",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_19"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-36",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_22"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-37",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_25"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-38",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_28"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-39",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_31"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-40",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_34"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-41",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_37"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-42",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_40"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-43",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_43"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-44",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_46"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-45",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_49"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-46",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_52"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-47",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_55"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Full production snapshot validation plus metric-specific supported/evidence-confirmed release-decision probe.",
+      "cell_id": "RB-48",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_58"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-49",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-50",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_overlapping_intervals_fail",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_hold_not_in_m22",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m21_incorrect_computed_value_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-51",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_hold_not_in_m22",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_user_hold_not_in_m22"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-52",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_overlapping_intervals_fail",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_external_hold_not_in_m22",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_user_hold_not_in_m22",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m22_incorrect_computed_value_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-53",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_rework_in_m23_denominator"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-54",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m23_nonzero_denominator_value_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-55",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_qualification_run_single_object_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-56",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m24_missing_metadata_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_qualification_run_requires_exactly_one_object"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-57",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_57_linked_repeat_defect_computation_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-58",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_zero_defects_canonical_not_applicable_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-59",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_handoff_components_and_digests_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-60",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m26_missing_component_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_handoff_component_missing_file_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_handoff_component_digest_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-61",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-62",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m27_unknown_lowers_quality",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m27_malformed_value_returns_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-63",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_61"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-64",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_missing_prior_handoff_binding_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-65",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_prior_handoff_requires_handoff_snapshot_same_workstream",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_prior_handoff_valid_semantic_binding_passes",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_previous_record_hash_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-66",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-67",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_prior_handoff_valid_semantic_binding_passes",
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_65"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-68",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_markdown_metrics_link_valid_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-69",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_markdown_metrics_link_missing_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_markdown_metrics_link_missing_target_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_markdown_metrics_link_unrelated_json_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-70",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_70_complete_change_record_fields_validate"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-71",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_change_record_missing_field_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-72",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_72_owner_authorization_fields_are_in_same_authorized_change_record"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-73",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_revalidates_unchanged_snapshot",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_reverse_reference_closure_is_transitive"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-74",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_handoff_components_and_digests_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-75",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_valid_handoff_components_and_digests_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-76",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_repository_template_snapshot_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-77",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_non_utf8_csv_returns_structured_fail",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_csv_parser_error_returns_structured_fail",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_non_utf8_csv_reverse_revalidation_is_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-78",
+      "evidence_class": "STATIC_TRUST_CONTRACT",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_security_sensitive_content_negative_corpus_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_normal_governance_text_is_not_security_false_positive"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-79",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unsafe_path_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_symlink_reference_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_modified_referenced_evidence_revalidates_unchanged_snapshot"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "RB-80",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_RB_80_valid_external_artifact_and_incident_references_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_no_exception_passes_without_comment"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_exact_owner_comment_and_bound_exception_records_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-faithful missing/wrong-location/nonregular exception-record binding probe.",
+      "cell_id": "EX-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_EX_03_missing_wrong_location_and_nonregular_exception_record_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_mandatory_assurance_invariants.MandatoryTests.test_malformed_exception_formats_fail",
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_canonical_approval_basis_hash_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_expired_at_evaluation_fails_including_equality"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_wrong_owner_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_wrong_pr_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_stale_head_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_wrong_exception_set_fails",
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_unsorted_exception_records_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_duplicate_exact_comments_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EX-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_failed_invariant_report_fails",
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_invalid_comments_root_fails",
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_cli_malformed_json_is_structured_fail",
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_cli_oversized_json_is_structured_fail"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_unrelated_change_passes_ordinary"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_trust_root_change_fails_ordinary"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_exact_migration_record_and_owner_approval_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_without_exact_owner_approval_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_rejects_unexpected_field",
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_manifest_rejects_unexpected_field"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_without_exact_owner_approval_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_cannot_delete_existing_trusted_path"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_migration_cannot_type_change_trusted_path_to_symlink"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_candidate_manifest_cannot_remove_trusted_path"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_candidate_manifest_addition_must_exist_in_same_migration"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_stale_base_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "OI-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_runner_captures_probe_stdout_and_stderr"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "OI-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_runner_captures_probe_stdout_and_stderr"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_01"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_02"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_03"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_04"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_05"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_06"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_07"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_08"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_09"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_10"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_11"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_12"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_13"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_14"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_15"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_16"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_17"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-18",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_18"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-19",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_19"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-20",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_20"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-21",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_21"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-22",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_22"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-23",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_23"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-24",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_24"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-25",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_25"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-26",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_26"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-27",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_27"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-28",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_28"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-29",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_29"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-30",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_30"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-31",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_31"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-32",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_32"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-33",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_33"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-34",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_34"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-35",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_35"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-36",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_36"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-37",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_37"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-38",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_38"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-39",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_39"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-40",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_40"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-41",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_41"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-42",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_42"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-43",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_43"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-44",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_44"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-45",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_45"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-46",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_46"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-47",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_47"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-48",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_48"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-49",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_49"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-50",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_50"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-51",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_51"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-52",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_52"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-53",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_53"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-54",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_54"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-55",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_55"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-56",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_56"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-57",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_57"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-58",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_58"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-59",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_59"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-60",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_60"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-61",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_61"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-62",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_62"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-63",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_63"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-64",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_64"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-81",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m23_zero_active_canonical_not_applicable_passes"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_01"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_02"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_03"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_04"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_05"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_06"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-07",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_07"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-08",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_08"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-09",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_09"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "TL-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_TL_01_record_before_next_transition_is_contemporaneous"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "TL-02",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "TL-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_TL_03_truthful_late_reconstruction_is_preserved_but_hold"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable R5 closure probe against production validator/release-assurance path.",
+      "cell_id": "TL-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_r5_remaining_behavior.RemainingR5BehaviorTests.test_TL_04_false_contemporaneous_or_impossible_order_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-01",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_exact_owner_comment_and_bound_exception_records_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-02",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_canonical_approval_basis_hash_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_exact_owner_comment_and_bound_exception_records_pass"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_unsorted_artifact_manifest_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_artifact_file_digest_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "EB-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_owner_exception_approval.OwnerApprovalTests.test_artifact_hash_set_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "EB-07",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "EB-08",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "EB-09",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "EB-10",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_codeowners_covers_every_trust_root_path"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_codeowners_shadow_rule_without_project_owner_fails_migration",
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_codeowners_unsupported_pattern_fails_closed",
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_new_trusted_path_without_codeowners_coverage_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_historical_migration_record_deletion_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_historical_migration_record_type_change_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TM-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_assurance_trust_root.TrustRootTests.test_historical_migration_record_rewrite_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "LR-01",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "LR-02",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "LR-03",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "LR-04",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "LR-05",
+      "evidence_class": "LIVE_GITHUB_STATE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-01",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-02",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-03",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-04",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-05",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Injected oracle-runner fault probe proves bounded isolation/failure behavior.",
+      "cell_id": "OI-03",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_OI_03_probe_stderr_is_isolated"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Injected oracle-runner fault probe proves bounded isolation/failure behavior.",
+      "cell_id": "OI-04",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_OI_04_probe_json_stdout_is_captured_not_emitted_as_oracle_document"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Injected oracle-runner fault probe proves bounded isolation/failure behavior.",
+      "cell_id": "OI-05",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_OI_05_thrown_probe_exception_is_bounded_contradiction"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Injected oracle-runner fault probe proves bounded isolation/failure behavior.",
+      "cell_id": "OI-06",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.qualification.test_final_assurance_state_oracle.OracleTests.test_OI_06_invalid_probe_protocol_or_external_binding_cannot_confirm_cell"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-10",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_10"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-11",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_11"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-12",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_12"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-13",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_13"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-14",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_14"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-15",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_15"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-16",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_16"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-17",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_17"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-18",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_18"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-82",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unknown_as_zero_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unknown_or_na_evidence_refs_must_still_be_list"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-83",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_zero_defects_requires_canonical_not_applicable"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-65",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_65"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-66",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_66"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-67",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_67"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-68",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_68"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-69",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_69"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-70",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_70"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-71",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_71"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-72",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_72"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-73",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_73"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-74",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_74"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Requires fresh exact-head external/live/process evidence; ordinary unit-test success cannot satisfy this cell.",
+      "cell_id": "RG-06",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [],
+      "probe_type": "EXTERNAL_EVIDENCE"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-84",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_duplicate_metric_id_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_missing_metric_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unknown_metric_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-85",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_unknown_or_na_evidence_refs_must_still_be_list"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-86",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_ratio_zero_denominator_fails_when_numeric",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m23_zero_active_requires_canonical_not_applicable",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_zero_defects_requires_canonical_not_applicable"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "GIT-25",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_printable_unicode_path_is_supported"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "GIT-26",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_smt_git_change_contract.GitContractTests.test_invalid_utf8_raw_path_fails_closed"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-19",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_19"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-20",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_20"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-21",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_21"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-22",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_22"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-23",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_23"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-24",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_24"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-25",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_25"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-26",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_26"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-27",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_27"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-28",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_28"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-29",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_29"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-30",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_30"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-31",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_31"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-32",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_32"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-33",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_33"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-34",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_34"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-35",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_35"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-36",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_36"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-37",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_37"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-38",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_38"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-39",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_39"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-40",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_40"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-41",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_41"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-42",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_42"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-43",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_43"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-44",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_44"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific trigger probe executes exact presence/schema/type/workstream contract; R5 compound subcases are independently asserted inside the mapped test.",
+      "cell_id": "CT-45",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.CollectionTriggerTests.test_CT_45"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-87",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_repeat_defect_without_link_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "RB-88",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_numerator_only_mismatch_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_denominator_only_mismatch_fails",
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_m25_ratio_only_mismatch_fails"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific release-disposition probe executes the release-assurance decision path.",
+      "cell_id": "MR-75",
+      "evidence_class": "PROCESS_ARTIFACT_EVIDENCE",
+      "probe_ids": [
+        "tests.test_validate_transition_release_assurance.MetricReleaseDispositionTests.test_MR_75"
+      ],
+      "probe_type": "UNITTEST"
+    },
+    {
+      "basis": "Scenario-specific executable qualification evidence.",
+      "cell_id": "TP-18",
+      "evidence_class": "BEHAVIORAL_EXECUTION",
+      "probe_ids": [
+        "tests.test_validate_transition_metrics.TransitionValidatorTests.test_final_recovery_effective_date_rollback_fails"
+      ],
+      "probe_type": "UNITTEST"
+    }
+  ],
+  "oracle_policy_id": "ADP_TRANSITION_GOVERNANCE_FINAL_ASSURANCE_STATE_ORACLE_R1",
+  "record_type": "ADP_FINAL_ASSURANCE_IMPLEMENTATION_PROBE_CATALOG_R2",
+  "schema_version": "2.0",
+  "source_head": "bbc08fe07d2c1f5345460f3d6e7d44010dba3b17"
+}

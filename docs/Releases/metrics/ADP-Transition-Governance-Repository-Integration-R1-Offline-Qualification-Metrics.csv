@@ -1,0 +1,29 @@
+metric_id,name,unit,value,data_quality,collection_method,reason
+M01,First-pass delivery rate,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,No runnable artifact has yet been delivered to the project owner in this workstream
+M02,User-visible replacement count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M03,User-visible failure count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M04,Defect escape count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M05,Pre-release detection rate,percent,100,DERIVED,DERIVED_FROM_QUALIFICATION_EVIDENCE,
+M06,Plan adherence,percent,100,DERIVED,DERIVED_FROM_QUALIFICATION_EVIDENCE,
+M07,Unapproved deviation count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M08,Scope adherence,percent,100,DERIVED,DERIVED_FROM_QUALIFICATION_EVIDENCE,
+M09,Unauthorized mutation count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M10,Exact artifact rehearsal,status,PASS,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M11,Production validator parity,status,PASS,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M12,Target-state fidelity,status,PASS,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M13,Failure-path coverage,percent,100,DERIVED,DERIVED_FROM_QUALIFICATION_EVIDENCE,
+M14,Independent review coverage,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,Independent final implementation review occurs after final distribution rehearsal
+M15,Deterministic rebuild,status,PASS,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M16,Evidence completeness,percent,100,DERIVED,DERIVED_FROM_QUALIFICATION_EVIDENCE,
+M17,Recoverability proof,status,PASS,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M18,Security guardrail violations,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M19,Owner exception count,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M20,External blocker events,count,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M21,External blocker hold time,seconds,0,MEASURED,DIRECT_QUALIFICATION_EVIDENCE,
+M22,Active engineering/operator time,seconds,101,MEASURED,PROSPECTIVE_GATE_INTERVAL,
+M23,Rework ratio,percent,,UNKNOWN,EXPLICIT_DATA_GAP,Rework sub-interval boundaries within the candidate qualification segment were not captured with sufficient precision
+M24,Test iteration count,distribution,"{""by_layer_result"":[{""count"":1,""result"":""PASS"",""test_layer"":""EXACT_PACKAGE_SUCCESS""},{""count"":1,""result"":""PASS"",""test_layer"":""FAILURE_MATRIX""},{""count"":1,""result"":""FAIL"",""test_layer"":""FAILURE_MATRIX_HARNESS""},{""count"":2,""result"":""PASS"",""test_layer"":""FULL_REPOSITORY_REGRESSION""},{""count"":1,""result"":""FAIL"",""test_layer"":""MANDATORY_POLICY_VALIDATOR""},{""count"":1,""result"":""PASS"",""test_layer"":""MANDATORY_POLICY_VALIDATOR""},{""count"":1,""result"":""FAIL"",""test_layer"":""TRANSITION_POLICY_VALIDATOR""},{""count"":1,""result"":""PASS"",""test_layer"":""TRANSITION_POLICY_VALIDATOR""},{""count"":3,""result"":""PASS"",""test_layer"":""TRANSITION_UNIT""},{""count"":1,""result"":""PASS"",""test_layer"":""WORKFLOW_SYNTAX""}],""total_runs"":13}",DERIVED,TEST_RUN_LEDGER,
+M25,Repeat-defect rate,percent,12.5,DERIVED,DERIVED_FROM_DEFECT_LEDGER,
+M26,Handoff completeness,percent,,NOT_APPLICABLE,POLICY_APPLICABILITY,"This is an offline qualification gate snapshot, not a handoff snapshot"
+M27,Metrics data quality,percent,96.2962962963,DERIVED,VALIDATOR_DERIVED_FROM_M01_M26_M28,
+M28,Runtime/security baseline drift,count,0,MEASURED,NO_RUNTIME_OR_SECURITY_MUTATION_AUTHORIZED_OR_OBSERVED,

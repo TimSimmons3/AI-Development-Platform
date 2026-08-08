@@ -1,0 +1,1011 @@
+{
+  "allow_overlapping_timing_intervals": false,
+  "allowed_transitions": {
+    "AUTHORIZED_FOR_SINGLE_LIVE_ATTEMPT": [
+      "LIVE_EXECUTION_OR_EXTERNAL_CHECKPOINT",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "CLOSED_AND_FROZEN": [],
+    "CONCEPT_UNSELECTED": [
+      "PLANNING_READ_ONLY"
+    ],
+    "DESIGN_QUALIFICATION": [
+      "IMPLEMENTATION_OFFLINE",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "EXACT_ARTIFACT_QUALIFICATION": [
+      "AUTHORIZED_FOR_SINGLE_LIVE_ATTEMPT",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "IMPLEMENTATION_OFFLINE": [
+      "EXACT_ARTIFACT_QUALIFICATION",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "INDEPENDENT_POST_STATE_VALIDATION": [
+      "RECOVERABILITY_SEALING",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "LIVE_EXECUTION_OR_EXTERNAL_CHECKPOINT": [
+      "INDEPENDENT_POST_STATE_VALIDATION",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "PLANNING_READ_ONLY": [
+      "DESIGN_QUALIFICATION"
+    ],
+    "RECOVERABILITY_SEALING": [
+      "CLOSED_AND_FROZEN",
+      "RELEASE_RESET_REQUIRED"
+    ],
+    "RELEASE_RESET_REQUIRED": [
+      "PLANNING_READ_ONLY",
+      "DESIGN_QUALIFICATION"
+    ]
+  },
+  "baseline_commit_for_adoption": "311642c7465a01ada8297f8242b3d6e73033fed6",
+  "change_record_filename_keywords": [
+    "plan",
+    "change",
+    "authorization"
+  ],
+  "classifications": [
+    "NONE",
+    "DESIGN_DEFECT",
+    "IMPLEMENTATION_DEFECT",
+    "REVIEW_TEST_DEFECT",
+    "DELIVERY_DEFECT",
+    "EXTERNAL_CONSTRAINT"
+  ],
+  "data_quality_states": [
+    "MEASURED",
+    "DERIVED",
+    "UNKNOWN",
+    "NOT_APPLICABLE"
+  ],
+  "effective_date": "2026-08-07",
+  "event_types": [
+    "LIFECYCLE",
+    "GATE",
+    "DEVIATION",
+    "FAILURE",
+    "RELEASE_RESET",
+    "LIVE_ATTEMPT",
+    "EXTERNAL_BLOCKER",
+    "QUALIFICATION_RUN"
+  ],
+  "governed_markdown_roots": [
+    "skills/",
+    "docs/Releases/",
+    "docs/Integration/",
+    "docs/Standards/"
+  ],
+  "lifecycle_states": [
+    "CONCEPT_UNSELECTED",
+    "PLANNING_READ_ONLY",
+    "DESIGN_QUALIFICATION",
+    "IMPLEMENTATION_OFFLINE",
+    "EXACT_ARTIFACT_QUALIFICATION",
+    "AUTHORIZED_FOR_SINGLE_LIVE_ATTEMPT",
+    "LIVE_EXECUTION_OR_EXTERNAL_CHECKPOINT",
+    "INDEPENDENT_POST_STATE_VALIDATION",
+    "RECOVERABILITY_SEALING",
+    "CLOSED_AND_FROZEN",
+    "RELEASE_RESET_REQUIRED"
+  ],
+  "m22_active_categories": [
+    "ACTIVE_ENGINEERING",
+    "ACTIVE_OPERATOR",
+    "REWORK"
+  ],
+  "m23_rework_category": "REWORK",
+  "m27_denominator_metric_ids": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "M05",
+    "M06",
+    "M07",
+    "M08",
+    "M09",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "M15",
+    "M16",
+    "M17",
+    "M18",
+    "M19",
+    "M20",
+    "M21",
+    "M22",
+    "M23",
+    "M24",
+    "M25",
+    "M26",
+    "M28"
+  ],
+  "metric_order": [
+    "M01",
+    "M02",
+    "M03",
+    "M04",
+    "M05",
+    "M06",
+    "M07",
+    "M08",
+    "M09",
+    "M10",
+    "M11",
+    "M12",
+    "M13",
+    "M14",
+    "M15",
+    "M16",
+    "M17",
+    "M18",
+    "M19",
+    "M20",
+    "M21",
+    "M22",
+    "M23",
+    "M24",
+    "M25",
+    "M26",
+    "M27",
+    "M28"
+  ],
+  "metrics": {
+    "M01": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "First user-visible artifacts completing intended path without replacement / user-visible artifacts delivered",
+      "evidence_required": true,
+      "name": "First-pass delivery rate",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M02": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Runnable corrected/replacement packages issued after release",
+      "evidence_required": true,
+      "name": "User-visible replacement count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M03": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Failures after delivery, including pre-mutation failures",
+      "evidence_required": true,
+      "name": "User-visible failure count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M04": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Internal defects first detected after user-visible release/checkpoint",
+      "evidence_required": true,
+      "name": "Defect escape count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M05": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Internal defects caught before user delivery / internal defects found",
+      "evidence_required": true,
+      "name": "Pre-release detection rate",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M06": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Planned gates completed as designed / gates executed, with deviations separately counted",
+      "evidence_required": true,
+      "name": "Plan adherence",
+      "ratio_inputs_required_when_numeric": true,
+      "target": ">=95%, target 100%",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M07": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Deviations without owner/change-control disposition",
+      "evidence_required": true,
+      "name": "Unapproved deviation count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M08": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Actual changed resources within authorized scope / actual changed resources",
+      "evidence_required": true,
+      "name": "Scope adherence",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "NONE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M09": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Mutations beyond authorization boundary",
+      "evidence_required": true,
+      "name": "Unauthorized mutation count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M10": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Exact distributed artifact + exact operator workflow proven",
+      "evidence_required": true,
+      "name": "Exact artifact rehearsal",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "PASS",
+      "trend_rule": "NONE",
+      "unit": "status",
+      "value_type": "PASS_FAIL",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M11": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Release rehearsal uses production policy/validator byte-identically",
+      "evidence_required": true,
+      "name": "Production validator parity",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "PASS",
+      "trend_rule": "NONE",
+      "unit": "status",
+      "value_type": "PASS_FAIL",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M12": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Actual topology or bound equivalent fixture covers known conditions",
+      "evidence_required": true,
+      "name": "Target-state fidelity",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "PASS",
+      "trend_rule": "NONE",
+      "unit": "status",
+      "value_type": "PASS_FAIL",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M13": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Material preserve-state failure paths rehearsed / planned paths",
+      "evidence_required": true,
+      "name": "Failure-path coverage",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "NONE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M14": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Release-authorizing controls independently derived and verified",
+      "evidence_required": true,
+      "name": "Independent review coverage",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "NONE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M15": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Byte-identical rebuild when determinism claimed",
+      "evidence_required": true,
+      "name": "Deterministic rebuild",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "PASS",
+      "trend_rule": "NONE",
+      "unit": "status",
+      "value_type": "PASS_FAIL",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M16": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Required evidence artifacts present/valid / required artifacts",
+      "evidence_required": true,
+      "name": "Evidence completeness",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "100%",
+      "trend_rule": "NONE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M17": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Recovery point + bundle/archive verify + clean restore/clone proof",
+      "evidence_required": true,
+      "name": "Recoverability proof",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "PASS",
+      "trend_rule": "NONE",
+      "unit": "status",
+      "value_type": "PASS_FAIL",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M18": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Secret exposure, bypass, force push, unauthorized cleanup, firewall/runtime weakening, etc.",
+      "evidence_required": true,
+      "name": "Security guardrail violations",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M19": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Approved exceptions in period",
+      "evidence_required": true,
+      "name": "Owner exception count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0 preferred; every exception exact/bound",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M20": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Service/dependency incidents that block planned gate",
+      "evidence_required": true,
+      "name": "External blocker events",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "Track; separate from internal defects",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M21": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Time blocked by external service",
+      "evidence_required": true,
+      "name": "External blocker hold time",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "Track",
+      "trend_rule": "NONE",
+      "unit": "seconds",
+      "value_type": "DURATION_SECONDS",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M22": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Measured active work, excluding external/user hold",
+      "evidence_required": true,
+      "name": "Active engineering/operator time",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "Track",
+      "trend_rule": "NONE",
+      "unit": "seconds",
+      "value_type": "DURATION_SECONDS",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M23": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Active rework time / total active work time",
+      "evidence_required": true,
+      "name": "Rework ratio",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "Downward trend",
+      "trend_rule": "DOWNWARD",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M24": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Qualification runs by test layer and result",
+      "evidence_required": true,
+      "name": "Test iteration count",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "Track; minimize repeats",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "distribution",
+      "value_type": "TEST_DISTRIBUTION",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M25": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Defects violating an already-recorded lesson/control / total defects",
+      "evidence_required": true,
+      "name": "Repeat-defect rate",
+      "ratio_inputs_required_when_numeric": true,
+      "target": "0",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M26": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "HANDOFF_ONLY",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Required handoff sections/evidence/metrics present / required",
+      "evidence_required": true,
+      "name": "Handoff completeness",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "100%",
+      "trend_rule": "NONE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M27": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": true,
+      "definition": "Metrics with evidence and defined collection method / required metrics",
+      "evidence_required": true,
+      "name": "Metrics data quality",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "100%",
+      "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
+      "unit": "percent",
+      "value_type": "PERCENT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    },
+    "M28": {
+      "allowed_data_quality": [
+        "MEASURED",
+        "DERIVED",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "applicability": "GENERAL",
+      "collection_cadence": [
+        "WORKSTREAM_START",
+        "GATE",
+        "DEVIATION_OR_FAILURE",
+        "RELEASE_RESET",
+        "LIVE_ATTEMPT",
+        "CLOSEOUT",
+        "HANDOFF"
+      ],
+      "computed_by_validator": false,
+      "definition": "Unauthorized changes to protected runtime/security state",
+      "evidence_required": true,
+      "name": "Runtime/security baseline drift",
+      "ratio_inputs_required_when_numeric": false,
+      "target": "0",
+      "trend_rule": "NONE",
+      "unit": "count",
+      "value_type": "COUNT",
+      "zero_denominator_behavior": "NOT_APPLICABLE"
+    }
+  },
+  "metrics_link_filename_keywords": [
+    "handoff",
+    "closeout",
+    "gate"
+  ],
+  "policy_id": "SMT_MANDATORY_TRANSITION_METRICS_AND_HANDOFF_PERFORMANCE",
+  "record_types": {
+    "event": "SMT_TRANSITION_EVENT",
+    "snapshot": "SMT_TRANSITION_METRICS_SNAPSHOT"
+  },
+  "required_change_record_fields": [
+    "CHANGE_RECORD_BASELINE",
+    "CHANGE_RECORD_SCOPE",
+    "CHANGE_RECORD_EXCLUSIONS",
+    "AUTHORIZED_CHANGED_RESOURCES",
+    "DEPENDENCIES",
+    "EXTERNAL_CONTRACTS",
+    "SECURITY_IMPACT",
+    "MUTATION_PRESERVE_BOUNDARIES",
+    "TEST_MATRIX",
+    "EVIDENCE_PLAN",
+    "RECOVERY_PLAN",
+    "METRICS_PLAN",
+    "OWNER_AUTHORIZATION",
+    "OWNER_AUTHORIZATION_EXPIRATION"
+  ],
+  "required_handoff_components": [
+    "MAIN_HANDOFF",
+    "OPENING_PROMPT",
+    "CURRENT_BASELINE_AND_RECOVERY_IDENTITIES",
+    "SOURCE_OF_TRUTH_MATRIX",
+    "CHANGE_LIFECYCLE_ADDENDUM",
+    "QA_TESTING_ADDENDUM",
+    "CONSOLIDATED_LESSONS_CAPA",
+    "METRICS_STANDARD",
+    "METRICS_BASELINE_JSON",
+    "METRICS_BASELINE_CSV",
+    "EVIDENCE_MANIFEST_AND_CHECKSUMS",
+    "SUPERSEDED_HISTORICAL_REGISTER",
+    "SECURITY_EXCLUSION_REDACTION_REGISTER",
+    "PACKAGE_VALIDATION_REPORT"
+  ],
+  "resource_limits": {
+    "csv_bytes": 4194304,
+    "json_bytes": 1048576,
+    "markdown_bytes": 2097152
+  },
+  "safe_external_reference_types": [
+    "EXTERNAL_ARTIFACT",
+    "EXTERNAL_INCIDENT"
+  ],
+  "schema_version": "1.0",
+  "snapshot_types": [
+    "WORKSTREAM_START",
+    "GATE",
+    "CLOSEOUT",
+    "HANDOFF"
+  ],
+  "timing_categories": [
+    "ACTIVE_ENGINEERING",
+    "ACTIVE_OPERATOR",
+    "REWORK",
+    "HOLD_EXTERNAL",
+    "HOLD_USER"
+  ],
+  "transition_metrics_assignment": "TRANSITION_METRICS_RECORD"
+}

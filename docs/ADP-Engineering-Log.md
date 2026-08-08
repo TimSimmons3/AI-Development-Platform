@@ -1771,3 +1771,30 @@ Status: Accepted Level-4 evidence bound to a new post-administrative-closeout Ti
 - Direct push to main: PROHIBITED
 - Further cleanup or quarantine release: NOT AUTHORIZED
 - Final merge commit and Git-bundle hash: established only in the external final evidence set after protected merge.
+
+## 2026-08-07 - ADP Transition Governance Repository Integration R1 offline implementation
+
+- Baseline: `311642c7465a01ada8297f8242b3d6e73033fed6`; recovery snapshot `2026-08-06_12-00-57`.
+- Project owner authorized offline implementation and qualification only.
+- No remote GitHub publication, ruleset change, Timeshift creation, or runtime mutation is authorized.
+- Implemented a separate transition metrics/handoff governance module to avoid coupling M01-M28 semantics into the existing mandatory invariant/owner-exception validator.
+- Added machine-readable policy, isolated validator, tests, templates, lifecycle/change-control governance, workstream metrics baseline, and integration references.
+- Existing required GitHub status-check identity remains `Mandatory assurance invariant gate`; no new workflow permission is introduced.
+- Offline candidate must pass exact uncommitted path validation, full repository regression tests, deterministic packaging, clean bundle-derived exact-launcher rehearsal, and independent review before any later publication request.
+
+## 2026-08-07 - Final Assurance Recovery R1 assurance reset and consolidated offline implementation
+
+- Source PR head: `b9379e30d07a33dcaaf4f9e9b805e532e5003c6c`; qualified source tree: `4827e9df3e07862ab0e49461b74584c07d5cc847`; base `main`: `311642c7465a01ada8297f8242b3d6e73033fed6`.
+- Seventeen material review findings accumulated across the PR #5 correction sequence; finding 17 demonstrated that regular-file -> symlink Git type change (`T`) was not in the release-authorizing changed-path model.
+- The preserved `__never__` content-mutation incident and remediation are retained as CAPA evidence that review administration must be metadata-only.
+- One-pass objective for the earlier publication sequence was not met. Release readiness was reset to model/oracle root cause; no automatic CR package was authorized.
+- Final Assurance Recovery R1 implements shared NUL-safe Git A/M/D/T discovery, committed object validation, sticky historical governance, full R1 policy anti-self-weakening, resource bounds, assurance trust-root migration control, base/default-branch trusted read-only workflow architecture, 108-cell requirements-derived oracle, exact-base freshness, and documentation/skill CAPA.
+- Current authorization remains offline consolidated implementation and qualification only. No production repository mutation, remote GitHub write, merge, ruleset change, Timeshift creation, runtime mutation, cleanup, or unrelated change is authorized.
+
+### 2026-08-08 — Final Assurance convergence closure and consolidated correction qualification
+
+- Post-publication MI-08 review exposed a qualification-oracle defect: the prior 108-cell runner could accept catalog-declared enforcement without proving the mapped scenario. Production MI-08 exception-record deletion/type-change behavior was independently reproduced as fail-closed on exact source `bbc08fe07d2c1f5345460f3d6e7d44010dba3b17`.
+- Requirements/state modeling was brought to closure under `ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md`; the binding R5 denominator is 374 cells and automatic reviewer-driven R6/R7 expansion is prohibited. Equivalent same-outcome variants remain mandatory probe subcases.
+- Consolidated test-first correction adds observed-evidence qualification, owner-exception content/time binding, trust-root CODEOWNERS/history continuity, M23/M25 canonical zero-state enforcement, M25 ledger arithmetic binding, release-assurance decision semantics, transition-record sensitive-content guardrails, and deterministic sharded oracle execution.
+- Current disposable exact-source qualification: 488/488 repository regression PASS; 35,000/35,000 exception/adversarial cases PASS with zero unhandled exceptions; 321 unique UNITTEST probes PASS across deterministic shards; oracle aggregator confirms 354/374 cells with zero contradictions and zero hard-missing behavioral/static evidence, leaving 20 external/live/process cells intentionally HOLD pending exact final-candidate/live evidence.
+- No GitHub repository content, ruleset, Timeshift, or runtime mutation occurred during this disposable correction work.

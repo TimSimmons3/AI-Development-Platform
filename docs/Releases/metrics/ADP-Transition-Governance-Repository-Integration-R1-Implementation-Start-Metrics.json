@@ -1,0 +1,479 @@
+{
+  "baseline_commit": "311642c7465a01ada8297f8242b3d6e73033fed6",
+  "baseline_snapshot": "2026-08-06_12-00-57",
+  "collection_method": "PROSPECTIVE_FROM_IMPLEMENTATION_START_WITH_EXPLICIT_PRE_START_DATA_GAP",
+  "created_utc": "2026-08-07T12:46:36Z",
+  "csv_projection_path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-Implementation-Start-Metrics.csv",
+  "defects": [
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR01",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR02",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR03",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR04",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR05",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR06",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR07",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR08",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR09",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    },
+    {
+      "classification": "DESIGN_OR_REVIEW",
+      "defect_id": "IR10",
+      "prior_lesson_or_control_ref": null,
+      "repeated": false
+    }
+  ],
+  "handoff_components": [],
+  "lifecycle_state": "IMPLEMENTATION_OFFLINE",
+  "metrics": [
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M01",
+      "name": "First-pass delivery rate",
+      "reason": "No user-visible runnable artifact has been delivered in this workstream at implementation start",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_CR1_DESIGN_QUALIFICATION",
+          "sha256": "05d47457c75fea293a9a3d458d713047e84fc4e65299d8caf81efd4f7620e3b6",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M02",
+      "name": "User-visible replacement count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_CR1_DESIGN_QUALIFICATION",
+          "sha256": "05d47457c75fea293a9a3d458d713047e84fc4e65299d8caf81efd4f7620e3b6",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M03",
+      "name": "User-visible failure count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M04",
+      "name": "Defect escape count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DERIVED_FROM_BOUND_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 10,
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M05",
+      "name": "Pre-release detection rate",
+      "numerator": 10,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DERIVED_FROM_BOUND_EVIDENCE",
+      "data_quality": "DERIVED",
+      "denominator": 2,
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_CR1_DESIGN_QUALIFICATION",
+          "sha256": "05d47457c75fea293a9a3d458d713047e84fc4e65299d8caf81efd4f7620e3b6",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M06",
+      "name": "Plan adherence",
+      "numerator": 2,
+      "reason": "",
+      "unit": "percent",
+      "value": 100.0
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M07",
+      "name": "Unapproved deviation count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M08",
+      "name": "Scope adherence",
+      "reason": "No implementation resource changes existed at the implementation-start snapshot",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M09",
+      "name": "Unauthorized mutation count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M10",
+      "name": "Exact artifact rehearsal",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M11",
+      "name": "Production validator parity",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M12",
+      "name": "Target-state fidelity",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M13",
+      "name": "Failure-path coverage",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M14",
+      "name": "Independent review coverage",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M15",
+      "name": "Deterministic rebuild",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "status",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M16",
+      "name": "Evidence completeness",
+      "reason": "Exact implementation artifact qualification has not yet occurred",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "VERIFIED_RECOVERY_BUNDLE_AND_CLEAN_CLONE",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "ADP_V2_4_FINAL_RECOVERY_GIT_BUNDLE",
+          "sha256": "4a8c149dfefb292a7b7b8731704fa241c118dddf60dfaee2e098575f62867d0b",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M17",
+      "name": "Recoverability proof",
+      "reason": "",
+      "unit": "status",
+      "value": "PASS"
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M18",
+      "name": "Security guardrail violations",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M19",
+      "name": "Owner exception count",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "DIRECT_EVENT_OR_STATE_OBSERVATION",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M20",
+      "name": "External blocker events",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "collection_method": "NO_EXTERNAL_HOLD_INTERVALS_RECORDED_AFTER_PROSPECTIVE_START",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M21",
+      "name": "External blocker hold time",
+      "reason": "",
+      "unit": "seconds",
+      "value": 0
+    },
+    {
+      "collection_method": "EXPLICIT_DATA_GAP",
+      "data_quality": "UNKNOWN",
+      "evidence_refs": [],
+      "metric_id": "M22",
+      "name": "Active engineering/operator time",
+      "reason": "Active timing before prospective implementation baseline was not machine-instrumented",
+      "unit": "seconds",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M23",
+      "name": "Rework ratio",
+      "reason": "No reliable active-time denominator at implementation-start snapshot",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M24",
+      "name": "Test iteration count",
+      "reason": "Offline implementation qualification runs have not yet started",
+      "unit": "distribution",
+      "value": null
+    },
+    {
+      "collection_method": "DERIVED_FROM_DEFECT_LEDGER",
+      "data_quality": "DERIVED",
+      "denominator": 10,
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M25",
+      "name": "Repeat-defect rate",
+      "numerator": 0,
+      "reason": "",
+      "unit": "percent",
+      "value": 0.0
+    },
+    {
+      "collection_method": "POLICY_APPLICABILITY",
+      "data_quality": "NOT_APPLICABLE",
+      "evidence_refs": [],
+      "metric_id": "M26",
+      "name": "Handoff completeness",
+      "reason": "This is not a handoff snapshot",
+      "unit": "percent",
+      "value": null
+    },
+    {
+      "collection_method": "VALIDATOR_DERIVED_FROM_M01_M26_M28",
+      "data_quality": "DERIVED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_CR1_DESIGN_QUALIFICATION",
+          "sha256": "05d47457c75fea293a9a3d458d713047e84fc4e65299d8caf81efd4f7620e3b6",
+          "type": "EXTERNAL_ARTIFACT"
+        },
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M27",
+      "name": "Metrics data quality",
+      "reason": "",
+      "unit": "percent",
+      "value": 96.29629629629629
+    },
+    {
+      "collection_method": "NO_RUNTIME_OR_SECURITY_MUTATION_AUTHORIZED_OR_OBSERVED",
+      "data_quality": "MEASURED",
+      "evidence_refs": [
+        {
+          "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
+          "sha256": "ad44c59336ca279c77d2b16b265ff5b9ed0e838ea8ba576929c955369d9018a4",
+          "type": "EXTERNAL_ARTIFACT"
+        }
+      ],
+      "metric_id": "M28",
+      "name": "Runtime/security baseline drift",
+      "reason": "",
+      "unit": "count",
+      "value": 0
+    }
+  ],
+  "previous_record": null,
+  "prior_handoff": null,
+  "prior_handoff_available": false,
+  "prior_handoff_unavailable_reason": "Authoritative prior handoff is external R2 package, not yet a canonical repository transition record",
+  "record_type": "SMT_TRANSITION_METRICS_SNAPSHOT",
+  "schema_version": "1.0",
+  "snapshot_type": "WORKSTREAM_START",
+  "test_runs": [],
+  "timing_intervals": [],
+  "workstream_id": "ADP_TRANSITION_GOVERNANCE_REPOSITORY_INTEGRATION_R1"
+}
