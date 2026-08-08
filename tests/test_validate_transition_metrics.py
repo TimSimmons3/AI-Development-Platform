@@ -69,6 +69,27 @@ class TransitionValidatorTests(unittest.TestCase):
         self.write_csv(repo,rec)
         return rec
 
+
+    def test_security_sensitive_content_negative_corpus_fails(self):
+        samples=[
+            '-----BEGIN PRIVATE KEY-----',
+            'Bearer abcdefghijklmnop',
+            'ghp_abcdefghijklmnopqrstuvwxyz123456',
+            'sk-abcdefghijklmnopqrstuvwxyz123456',
+            'AKIAABCDEFGHIJKLMNOP',
+            'password=supersecret',
+            '123-45-6789',
+            'person@example.com',
+            'Traceback (most recent call last):',
+            'BEGIN SYSTEM PROMPT',
+        ]
+        for sample in samples:
+            with self.subTest(sample=sample):
+                repo=self.make_repo();rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['reason']=sample;self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('prohibited' in x for x in report['violations']),report)
+
+    def test_normal_governance_text_is_not_security_false_positive(self):
+        repo=self.make_repo();rec=self.snapshot(repo);m=next(x for x in rec['metrics'] if x['metric_id']=='M02');m['reason']='No user-visible replacement package was issued';self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
+
     def test_valid_snapshot_passes(self):
         repo=self.make_repo(); rec=self.snapshot(repo); self.assertEqual('PASS',self.validate(repo,rec)['status'])
     def test_duplicate_metric_id_fails(self):
@@ -119,6 +140,13 @@ class TransitionValidatorTests(unittest.TestCase):
         repo=self.make_repo(); rec=self.snapshot(repo);rec['timing_intervals'].append({'interval_id':'I2','category':'HOLD_USER','start_utc':'2026-08-07T12:01:00Z','end_utc':'2026-08-07T12:02:00Z'});self.write_csv(repo,rec); self.assertEqual('PASS',self.validate(repo,rec)['status'])
     def test_rework_in_m23_denominator(self):
         repo=self.make_repo(); rec=self.snapshot(repo);rec['timing_intervals']=[{'interval_id':'I1','category':'ACTIVE_ENGINEERING','start_utc':'2026-08-07T12:00:00Z','end_utc':'2026-08-07T12:01:00Z'},{'interval_id':'I2','category':'REWORK','start_utc':'2026-08-07T12:01:00Z','end_utc':'2026-08-07T12:02:00Z'}];next(m for m in rec['metrics'] if m['metric_id']=='M22')['value']=120;next(m for m in rec['metrics'] if m['metric_id']=='M23')['value']=50.0;self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
+    def test_m21_incorrect_computed_value_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals'].append({'interval_id':'I2','category':'HOLD_EXTERNAL','start_utc':'2026-08-07T12:01:00Z','end_utc':'2026-08-07T12:02:00Z'});next(m for m in rec['metrics'] if m['metric_id']=='M21')['value']=0;self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M21: value does not match timing intervals' in x for x in report['violations']),report)
+    def test_m22_incorrect_computed_value_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);next(m for m in rec['metrics'] if m['metric_id']=='M22')['value']=30;self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M22: value does not match timing intervals' in x for x in report['violations']),report)
+    def test_m23_nonzero_denominator_value_mismatch_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals']=[{'interval_id':'I1','category':'ACTIVE_ENGINEERING','start_utc':'2026-08-07T12:00:00Z','end_utc':'2026-08-07T12:01:00Z'},{'interval_id':'I2','category':'REWORK','start_utc':'2026-08-07T12:01:00Z','end_utc':'2026-08-07T12:02:00Z'}];next(m for m in rec['metrics'] if m['metric_id']=='M22')['value']=120;next(m for m in rec['metrics'] if m['metric_id']=='M23')['value']=40.0;self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M23: value does not match rework/active ratio' in x for x in report['violations']),report)
+
     def test_m24_missing_metadata_fails(self):
         repo=self.make_repo(); rec=self.snapshot(repo);del rec['test_runs'][0]['test_layer'];self.assertEqual('FAIL',self.validate(repo,rec)['status'])
     def test_repeat_defect_without_link_fails(self):
@@ -141,6 +169,55 @@ class TransitionValidatorTests(unittest.TestCase):
         repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals'].append({'interval_id':'I2','category':'REWORK','start_utc':'2026-08-07T12:00:30Z','end_utc':'2026-08-07T12:01:30Z'});self.assertEqual('FAIL',self.validate(repo,rec)['status'])
     def test_ratio_zero_denominator_fails_when_numeric(self):
         repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M05');m['denominator']=0;m['numerator']=0;m['value']=0;self.assertEqual('FAIL',self.validate(repo,rec)['status'])
+    def test_m23_zero_active_requires_canonical_not_applicable(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals']=[]
+        m22=next(m for m in rec['metrics'] if m['metric_id']=='M22');m22.update(value=0,data_quality='MEASURED',collection_method='EVENT_INTERVALS',reason='',evidence_refs=[self.ext()])
+        m23=next(m for m in rec['metrics'] if m['metric_id']=='M23');m23.update(value=None,data_quality='UNKNOWN',reason='unknown',collection_method='GAP',evidence_refs=[])
+        m27=next(m for m in rec['metrics'] if m['metric_id']=='M27');m27['value']=26/27*100
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M23: zero active denominator requires NOT_APPLICABLE' in x for x in report['violations']),report)
+
+    def test_m23_zero_active_canonical_not_applicable_passes(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['timing_intervals']=[]
+        m22=next(m for m in rec['metrics'] if m['metric_id']=='M22');m22.update(value=0,data_quality='MEASURED',collection_method='EVENT_INTERVALS',reason='',evidence_refs=[self.ext()])
+        m23=next(m for m in rec['metrics'] if m['metric_id']=='M23');m23.update(value=None,data_quality='NOT_APPLICABLE',reason='no active denominator',collection_method='POLICY',evidence_refs=[])
+        self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
+
+
+    def test_m25_numerator_only_mismatch_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['defects']=[{'defect_id':'D1','classification':'IMPLEMENTATION_DEFECT','repeated':True,'prior_lesson_or_control_ref':'CTRL'},{'defect_id':'D2','classification':'IMPLEMENTATION_DEFECT','repeated':False,'prior_lesson_or_control_ref':None}]
+        m=next(x for x in rec['metrics'] if x['metric_id']=='M25');m.update(value=50.0,data_quality='DERIVED',collection_method='DEFECT_LEDGER',reason='',evidence_refs=[self.ext()],numerator=0,denominator=2)
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M25: numerator does not match' in x for x in report['violations']),report)
+
+    def test_m25_denominator_only_mismatch_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['defects']=[{'defect_id':'D1','classification':'IMPLEMENTATION_DEFECT','repeated':True,'prior_lesson_or_control_ref':'CTRL'},{'defect_id':'D2','classification':'IMPLEMENTATION_DEFECT','repeated':False,'prior_lesson_or_control_ref':None}]
+        m=next(x for x in rec['metrics'] if x['metric_id']=='M25');m.update(value=50.0,data_quality='DERIVED',collection_method='DEFECT_LEDGER',reason='',evidence_refs=[self.ext()],numerator=1,denominator=3)
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M25: denominator does not match' in x for x in report['violations']),report)
+
+    def test_m25_ratio_only_mismatch_fails(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['defects']=[{'defect_id':'D1','classification':'IMPLEMENTATION_DEFECT','repeated':True,'prior_lesson_or_control_ref':'CTRL'},{'defect_id':'D2','classification':'IMPLEMENTATION_DEFECT','repeated':False,'prior_lesson_or_control_ref':None}]
+        m=next(x for x in rec['metrics'] if x['metric_id']=='M25');m.update(value=40.0,data_quality='DERIVED',collection_method='DEFECT_LEDGER',reason='',evidence_refs=[self.ext()],numerator=1,denominator=2)
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M25: value does not match defect ledger' in x for x in report['violations']),report)
+
+    def test_m25_ratio_operand_requirement_can_strengthen_false_to_true(self):
+        base=copy.deepcopy(POLICY);base['metrics']['M25']['ratio_inputs_required_when_numeric']=False
+        current=copy.deepcopy(POLICY)
+        self.assertEqual([],v.policy_identity_compatibility_errors(base,current))
+
+    def test_m25_ratio_operand_requirement_cannot_weaken_true_to_false(self):
+        base=copy.deepcopy(POLICY);current=copy.deepcopy(POLICY);current['metrics']['M25']['ratio_inputs_required_when_numeric']=False
+        errors=v.policy_identity_compatibility_errors(base,current);self.assertTrue(any('metrics is immutable' in x and 'M25' in x for x in errors),errors)
+
+    def test_m25_zero_defects_requires_canonical_not_applicable(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['defects']=[]
+        m25=next(m for m in rec['metrics'] if m['metric_id']=='M25');m25.update(value=None,data_quality='UNKNOWN',reason='unknown',collection_method='GAP',evidence_refs=[])
+        m27=next(m for m in rec['metrics'] if m['metric_id']=='M27');m27['value']=26/27*100
+        self.write_csv(repo,rec);report=self.validate(repo,rec);self.assertEqual('FAIL',report['status']);self.assertTrue(any('M25: no defects requires NOT_APPLICABLE' in x for x in report['violations']),report)
+
+    def test_m25_zero_defects_canonical_not_applicable_passes(self):
+        repo=self.make_repo();rec=self.snapshot(repo);rec['defects']=[]
+        m25=next(m for m in rec['metrics'] if m['metric_id']=='M25');m25.update(value=None,data_quality='NOT_APPLICABLE',reason='no defects',collection_method='POLICY',evidence_refs=[])
+        self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
+
     def test_m27_unknown_lowers_quality(self):
         repo=self.make_repo();rec=self.snapshot(repo);m=next(m for m in rec['metrics'] if m['metric_id']=='M22');m.update(value=None,data_quality='UNKNOWN',reason='gap',collection_method='GAP',evidence_refs=[]);rec['timing_intervals']=[];m23=next(m for m in rec['metrics'] if m['metric_id']=='M23');m23.update(value=None,data_quality='NOT_APPLICABLE',reason='no active denominator',collection_method='POLICY',evidence_refs=[]);m27=next(m for m in rec['metrics'] if m['metric_id']=='M27');m27['value']=26/27*100;self.write_csv(repo,rec);self.assertEqual('PASS',self.validate(repo,rec)['status'])
     def test_deterministic_report(self):

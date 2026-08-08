@@ -26,7 +26,7 @@
   "mutation_boundary_crossed": false,
   "previous_record": {
     "path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-Implementation-Start-Metrics.json",
-    "sha256": "665e065ce9ea23fd417ebfe04cd84466feb13f7253ef7e61aa98caa6bd0475bb"
+    "sha256": "63ec1fb23c4b530c07acc00a2b25683dbd5d162e8cabe33ca2a47a992dd4fd23"
   },
   "record_type": "SMT_TRANSITION_EVENT",
   "schema_version": "1.0",

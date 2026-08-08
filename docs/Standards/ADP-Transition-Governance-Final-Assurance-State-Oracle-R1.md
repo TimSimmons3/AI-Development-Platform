@@ -43,3 +43,9 @@ The oracle and this standard are assurance trust-root artifacts. Ordinary pull r
 ## Domains
 
 The R1 oracle covers Git change discovery, mandatory one-pass invariants, transition policy, governance identity, reverse/reference graphs, parser/schema behavior, workflow trust root, and reporting/process controls.
+
+## R5 frozen denominator and convergence boundary
+
+The release denominator is frozen at **374 applicable cells** under `docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md`. A new cell is permitted only for an unmapped authoritative requirement, a different expected release/enforcement outcome, a materially distinct enforcement branch, or a scenario that cannot be proven without ambiguity under an existing cell. Equivalent same-requirement/same-outcome subcases are mandatory independently executed probes and do not reopen the denominator. Automatic R6/R7 expansion is prohibited.
+
+The executable qualification catalog assigns every cell to scenario-faithful evidence. Current R5 evidence topology is **354 UNITTEST-qualified cells plus 20 LIVE_GITHUB_STATE / PROCESS_ARTIFACT_EVIDENCE cells**, with zero `EVIDENCE_REQUIRED` behavioral/static cells. Unit probes are executed in deterministic shards bound by SHA-256 to the exact oracle and catalog; the aggregator rejects stale, duplicate, missing, contradictory, or incomplete caches. Offline qualification is therefore `HOLD`, not `PASS`, until all 20 external/live/process cells are freshly confirmed.

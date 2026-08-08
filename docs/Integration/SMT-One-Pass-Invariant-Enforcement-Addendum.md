@@ -68,6 +68,8 @@ APPROVE SMT MANDATORY ASSURANCE EXCEPTION PR=<PR_NUMBER> HEAD=<CURRENT_HEAD_SHA>
 
 The workflow binds the approval to the exact PR number, current head SHA, and exact sorted exception-record set. Any new commit invalidates the approval. General project authorization, PR authorship, or an administrator role is not an exception approval.
 
+Exception records additionally bind their canonical authorization basis and one sorted identity-to-digest artifact manifest. The owner gate independently reloads those exact candidate records, verifies repository artifact bytes, and enforces the trusted GitHub comment/evaluation timestamp ordering through expiration. A format-valid hash or comment without matching candidate exception content is not sufficient.
+
 ## 6. Repository protection requirement
 
 Full preventative enforcement requires an active branch ruleset targeting `main` that:
@@ -85,6 +87,6 @@ Until the repository ruleset is enabled, the workflow detects violations but can
 
 ## 7. State-oracle and trust-root enforcement extension
 
-The mandatory invariant gate is necessary but not sufficient for release authorization. Final Assurance Recovery adds a requirements-derived 108-cell state oracle, shared Git A/M/D/T object contract, policy anti-self-weakening, assurance trust-root manifest, and a base/default-branch trusted read-only workflow. The candidate self-check remains supporting evidence; the trusted gate is the independent enforcement path after bootstrap adoption.
+The mandatory invariant gate is necessary but not sufficient for release authorization. Final Assurance Recovery adds a requirements-derived frozen 374-cell assurance oracle governed by the convergence/closure rule, shared Git A/M/D/T object contract, policy anti-self-weakening, assurance trust-root manifest, and a base/default-branch trusted read-only workflow. The candidate self-check remains supporting evidence; the trusted gate is the independent enforcement path after bootstrap adoption.
 
 Handoffs must include CAPA/state-matrix coverage, exact base/head/tree, expectation delta, exception-surface result, and documentation reconciliation. Future work under superseded assurance controls is prohibited.

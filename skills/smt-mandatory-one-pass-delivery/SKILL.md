@@ -129,3 +129,5 @@ A one-pass claim is valid only after the complete externally observable state mo
 The final committed candidate must pass the real production `--base-ref` path, exact artifact/operator rehearsal, failure/preserve-state qualification, resource/exception-surface qualification, full repository regression, and fresh adversarial review before user-visible release. Base drift invalidates the release result until the actual current base/merge result is requalified.
 
 Repeated material post-publication findings trigger an assurance reset and CAPA effectiveness review. Automatic patch-and-retry remains prohibited. The user-visible replacement package target remains zero.
+
+Convergence must be finite. Once the requirements-derived denominator covers every authoritative requirement and materially distinct PASS/FAIL/HOLD branch, equivalent variants are required probe subcases rather than automatic new denominator cells. Reviewer feedback that only asks for finer subdivision of an already covered equivalent state does not restart the model version cycle; material omissions still do.

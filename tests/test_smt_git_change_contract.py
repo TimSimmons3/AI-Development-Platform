@@ -58,6 +58,15 @@ class GitContractTests(unittest.TestCase):
     def test_prohibited_control_character_path_fails_closed(self):
         r=self.repo();(r/'base').write_text('x');b=self.commit(r,'base');(r/'bad\nname').write_text('x');self.commit(r,'bad')
         with self.assertRaises(g.GitContractError): g.commit_deltas(r,b)
+
+    def test_printable_unicode_path_is_supported(self):
+        r=self.repo();(r/'base').write_text('x');b=self.commit(r,'base');name='snowman-\u2603';(r/name).write_text('x');self.commit(r,'unicode')
+        d=self.deltas(r,b);self.assertEqual([('A',name)],[(x.status,x.path) for x in d if x.path==name])
+
+    def test_invalid_utf8_raw_path_fails_closed(self):
+        raw=b':000000 100644 '+b'0'*64+b' '+b'a'*64+b' A\x00'+b'bad-\xff-name'+b'\x00'
+        with self.assertRaises(g.GitContractError):g.parse_raw_diff_z(raw)
+
     def test_parse_rejects_unsupported_status(self):
         raw=b':100644 100644 '+b'a'*40+b' '+b'b'*40+b' U\x00x\x00'
         with self.assertRaises(g.GitContractError):g.parse_raw_diff_z(raw)

@@ -14,6 +14,7 @@ from typing import Any
 SCRIPT_DIR=Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path: sys.path.insert(0,str(SCRIPT_DIR))
 from smt_git_change_contract import GitContractError, commit_deltas, head_commit_and_tree, resolve_commit
+from validate_owner_exception_approval import exception_binding_errors
 
 DEFAULT_POLICY="config/mandatory-assurance-invariant-policy.json"
 ABSOLUTE_RESOURCE_LIMITS={"json_bytes":1048576,"markdown_bytes":2097152}
@@ -134,8 +135,19 @@ def policy_shape_errors(policy:Any,context:str,allow_legacy_missing_resource_lim
 
 def policy_compatibility_errors(base:dict[str,Any],current:dict[str,Any])->list[str]:
     e=[]
-    for f in ["policy_id","schema_version","required_block","required_block_order","owner","exception"]:
+    for f in ["policy_id","schema_version","required_block","required_block_order","owner"]:
         if base.get(f)!=current.get(f):e.append(f"mandatory policy {f} is immutable under ordinary work")
+    base_exception=base.get("exception",{})
+    current_exception=current.get("exception",{})
+    for f in ["approval_hash_pattern","artifact_hash_set_pattern","directory","required_values","utc_pattern"]:
+        if base_exception.get(f)!=current_exception.get(f):e.append(f"mandatory policy exception.{f} is immutable under ordinary work")
+    base_required=base_exception.get("required_nonempty_fields",[])
+    current_required=current_exception.get("required_nonempty_fields",[])
+    if not isinstance(base_required,list) or not isinstance(current_required,list):
+        e.append("mandatory policy exception.required_nonempty_fields must be lists")
+    else:
+        removed=sorted(set(base_required)-set(current_required))
+        if removed:e.append(f"mandatory policy exception.required_nonempty_fields may not remove requirements: {','.join(removed)}")
     base_limits=base.get('resource_limits');current_limits=current.get('resource_limits')
     if base_limits is None:
         if current_limits!=ABSOLUTE_RESOURCE_LIMITS:e.append('mandatory policy resource_limits bootstrap must equal canonical R1 limits')
@@ -174,7 +186,7 @@ def has_placeholder(value:str)->bool:
     u=value.upper();return any(m in u for m in PLACEHOLDER_MARKERS)
 
 
-def validate_exception_record(path:str,text:str,policy:dict[str,Any])->list[str]:
+def validate_exception_record(repo:Path,path:str,text:str,policy:dict[str,Any])->list[str]:
     e=[];a=parse_assignments(text);ex=policy['exception']
     for k,v in ex['required_values'].items():
         if a.get(k,[])!=[v]:e.append(f"{path}: requires exactly `{k}={v}`")
@@ -185,6 +197,8 @@ def validate_exception_record(path:str,text:str,policy:dict[str,Any])->list[str]
     for k,pat in {"APPROVAL_TEXT_SHA256":ex['approval_hash_pattern'],"ARTIFACT_SHA256_SET":ex['artifact_hash_set_pattern'],"APPROVED_UTC":ex['utc_pattern'],"EXPIRATION_UTC":ex['utc_pattern']}.items():
         v=one_value(a,k)
         if v and not re.fullmatch(pat,v):e.append(f"{path}: `{k}` does not match required format")
+    binding_errors,_=exception_binding_errors(repo,path,text)
+    e.extend(binding_errors)
     return e
 
 
@@ -211,7 +225,7 @@ def validate_governed_document(repo:Path,path:str,text:str,policy:dict[str,Any])
                 else:
                     try:rt=read_limited_text(fp,policy['resource_limits']['markdown_bytes'],path)
                     except UnicodeDecodeError:e.append(f"{path}: exception record is not UTF-8: {record}")
-                    else:e.extend(validate_exception_record(record,rt,policy))
+                    else:e.extend(validate_exception_record(repo,record,rt,policy))
     elif status!=req['EXCEPTION_STATUS']:e.append(f"{path}: `EXCEPTION_STATUS` must be NOT_GRANTED or APPROVED")
     return e,record
 
@@ -236,7 +250,7 @@ def validate_files(repo:Path,paths:list[str],policy:dict[str,Any],required_histo
         if text is not None:
             if any(line.rstrip(' \t')!=line for line in text.splitlines()):errs.append(f"{path}: contains trailing whitespace")
             exdir=policy['exception']['directory'];is_ex=path.startswith(exdir) and PurePosixPath(path).name.lower()!='readme.md'
-            if is_ex:errs.extend(validate_exception_record(path,text,policy));exception_records.add(path)
+            if is_ex:errs.extend(validate_exception_record(repo,path,text,policy));exception_records.add(path)
             else:
                 ve,record=validate_governed_document(repo,path,text,policy);errs.extend(ve)
                 if record:exception_records.add(record)

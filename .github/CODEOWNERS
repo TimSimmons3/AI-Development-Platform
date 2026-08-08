@@ -35,3 +35,8 @@
 /docs/Standards/SMT-Live-Change-and-External-API-Validation-Standard.md @TimSimmons3
 /scripts/validate_owner_exception_approval.py @TimSimmons3
 /tests/test_validate_owner_exception_approval.py @TimSimmons3
+/docs/Standards/ADP-Final-Assurance-Convergence-and-Closure-Rule-R1.md @TimSimmons3
+/docs/Releases/ADP-Transition-Governance-Repository-Integration-R1-Final-Assurance-Model-Convergence-Closure-R1.md @TimSimmons3
+/scripts/validate_transition_release_assurance.py @TimSimmons3
+/tests/test_validate_transition_release_assurance.py @TimSimmons3
+/docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md @TimSimmons3

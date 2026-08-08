@@ -60,6 +60,8 @@ REPOSITORY_CANONICAL_STATUS=CANONICAL_REPO_INTEGRATION_RECORD
 | M23 | Rework ratio | Active rework time / total active work time | Downward trend |
 | M24 | Test iteration count | Qualification runs by test layer and result | Track; minimize repeats |
 | M25 | Repeat-defect rate | Defects violating an already-recorded lesson/control / total defects | 0 |
+
+M25 numeric records must carry `numerator` equal to the repeated-defect count and `denominator` equal to the total defect count; both are validated against the bound defect ledger before the percentage is accepted.
 | M26 | Handoff completeness | Required handoff sections/evidence/metrics present / required | 100% |
 | M27 | Metrics data quality | Metrics with evidence and defined collection method / required metrics | 100% |
 | M28 | Runtime/security baseline drift | Unauthorized changes to protected runtime/security state | 0 |

@@ -850,7 +850,7 @@
       "definition": "Defects violating an already-recorded lesson/control / total defects",
       "evidence_required": true,
       "name": "Repeat-defect rate",
-      "ratio_inputs_required_when_numeric": false,
+      "ratio_inputs_required_when_numeric": true,
       "target": "0",
       "trend_rule": "PRIOR_HANDOFF_REQUIRED_WHEN_AVAILABLE",
       "unit": "percent",

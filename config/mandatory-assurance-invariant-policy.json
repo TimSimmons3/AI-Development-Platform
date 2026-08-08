@@ -13,7 +13,8 @@
       "RESIDUAL_RISK",
       "COMPENSATING_CONTROLS",
       "EXPIRATION_UTC",
-      "ARTIFACT_SHA256_SET"
+      "ARTIFACT_SHA256_SET",
+      "ARTIFACT_MANIFEST"
     ],
     "required_values": {
       "APPROVED_BY": "Tim Simmons",

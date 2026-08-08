@@ -203,3 +203,7 @@ EXCEPTION_STATUS=NOT_GRANTED
 Before release authorization, verify all of the following: applicable state/equivalence classes are enumerated; 100% of applicable oracle cells are dispositioned; independent expected results are fixed without implementation-derived expectations; oracle-versus-implementation delta is zero; A/M/D/T and Git object-mode transitions are covered in real repositories; parser/type/cardinality/depth/size/encoding exception surfaces have zero unhandled escapes; exact committed candidate passes production `--base-ref`; base/head/tree are current; exact artifact/operator and failure/preserve-state rehearsals pass; full regression passes; and final adversarial review has zero unresolved material findings.
 
 If any item is unavailable, the release state is HOLD. A large test count cannot substitute for an undispositioned state class.
+
+### Finite assurance-model convergence
+
+Before implementation or publication, verify that denominator growth is controlled by authoritative requirements and materially distinct enforcement outcomes. Equivalent variants with the same governing requirement, expected disposition, and material enforcement branch must be enumerated as independently executed probe subcases instead of creating an unbounded cell/version loop. A new denominator cell requires a documented missing requirement, contradictory outcome, materially distinct enforcement branch, or proof ambiguity that cannot be resolved under an existing cell.

@@ -58,6 +58,50 @@ def normalized_comments(v:Any)->list[dict[str,Any]]:
  if any(not isinstance(x,dict) for x in out):raise ValueError('comment entry must be object')
  return out
 
+
+def codeowners_rules(repo:Path)->list[tuple[str,list[str]]]:
+ path='.github/CODEOWNERS'
+ require_worktree_matches_head_regular_blob(repo,path)
+ try:text=(repo/path).read_bytes().decode('utf-8','strict')
+ except UnicodeDecodeError as exc:raise ValueError('CODEOWNERS is not valid UTF-8') from exc
+ rules=[]
+ for line_number,raw in enumerate(text.splitlines(),1):
+  stripped=raw.strip()
+  if not stripped or stripped.startswith('#'):continue
+  parts=stripped.split()
+  if len(parts)<2:raise ValueError(f'CODEOWNERS line {line_number} requires pattern and owner')
+  pattern,*owners=parts
+  if not pattern.startswith('/') or any(ch in pattern for ch in '*?[]!\\'):
+   raise ValueError(f'CODEOWNERS line {line_number} uses unsupported R1 pattern syntax: {pattern}')
+  if any(not owner.startswith('@') or len(owner)<2 for owner in owners):raise ValueError(f'CODEOWNERS line {line_number} owner invalid')
+  rules.append((pattern,owners))
+ if not rules:raise ValueError('CODEOWNERS has no active rules')
+ return rules
+
+def codeowners_matches(pattern:str,path:str)->bool:
+ q=pattern[1:]
+ if q.endswith('/'):
+  return path.startswith(q)
+ return path==q
+
+def codeowners_errors(repo:Path,trusted_paths:set[str],owner_login:str)->list[str]:
+ e=[]
+ try:rules=codeowners_rules(repo)
+ except Exception as exc:return [f'CODEOWNERS validation failed: {type(exc).__name__}: {exc}']
+ expected='@'+owner_login
+ for path in sorted(trusted_paths):
+  matches=[owners for pattern,owners in rules if codeowners_matches(pattern,path)]
+  if not matches:e.append(f'CODEOWNERS has no applicable rule for trusted path: {path}')
+  elif expected not in matches[-1]:e.append(f'CODEOWNERS final applicable rule does not include {expected}: {path}')
+ return e
+
+def historical_migration_paths(repo:Path,base_commit:str,glob_pattern:str)->set[str]:
+ import subprocess
+ try:p=subprocess.run(['git','ls-tree','-r','--name-only',base_commit],cwd=repo,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=False,timeout=30)
+ except (OSError,subprocess.TimeoutExpired) as exc:raise GitContractError(f'historical migration inventory failed: {type(exc).__name__}: {exc}') from exc
+ if p.returncode:raise GitContractError(f'historical migration inventory failed: {p.stderr.strip()}')
+ return {line for line in p.stdout.splitlines() if fnmatch.fnmatch(line,glob_pattern)}
+
 def migration_record_errors(rec:Any,base:str,changed:list[str],owner:str)->list[str]:
  e=[]
  if not isinstance(rec,dict):return ['migration record must be object']
@@ -99,6 +143,10 @@ def validate(repo:Path,base_ref:str,manifest:dict[str,Any],mode:str,pr:int|None,
    trusted|=candidate_paths
   except Exception as exc:
    violations.append(f'candidate trust manifest invalid: {type(exc).__name__}: {exc}')
+ historical_migrations=historical_migration_paths(repo,base,manifest['migration_record_glob'])
+ for path in sorted(historical_migrations.intersection(by_path)):
+  violations.append(f'historical assurance trust-root migration record is immutable under R1: {path}')
+ violations.extend(codeowners_errors(repo,trusted,manifest['owner_login']))
  changed=sorted({d.path for d in deltas if d.path in trusted})
  result={'record_type':'SMT_ASSURANCE_TRUST_ROOT_VALIDATION','schema_version':'1.0','status':'PASS','base_commit':base,'merge_base':merge_base,'head_commit':head,'candidate_tree':candidate_tree,'changed_trust_root_paths':changed,'migration_required':bool(changed),'migration_record':None,'expected_approval':None,'matching_owner_approval_count':0,'violations':violations}
  for path in changed:

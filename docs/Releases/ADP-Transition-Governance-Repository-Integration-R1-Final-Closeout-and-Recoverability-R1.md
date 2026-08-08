@@ -22,20 +22,22 @@ EXCEPTION_STATUS=NOT_GRANTED
 ## Current disposition
 
 ```text
-SOURCE_HEAD=b9379e30d07a33dcaaf4f9e9b805e532e5003c6c
-SOURCE_TREE=4827e9df3e07862ab0e49461b74584c07d5cc847
+SOURCE_RECOVERY_INPUT_HEAD=bbc08fe07d2c1f5345460f3d6e7d44010dba3b17
+SOURCE_RECOVERY_INPUT_TREE=62e1d862a86d5e5d3196890771b6561e161889e6
 SOURCE_MAIN=311642c7465a01ada8297f8242b3d6e73033fed6
-FINAL_CLOSEOUT_STATUS=OFFLINE_RECOVERY_QUALIFIED_PUBLICATION_HOLD
+FINAL_CLOSEOUT_STATUS=CONSOLIDATED_CORRECTION_PREPUBLICATION_HOLD
 REMOTE_PUBLICATION_AUTHORIZED=FALSE
 MERGE_AUTHORIZED=FALSE
 RULESET_CHANGE_AUTHORIZED=FALSE
 TIMESHIFT_CREATION_AUTHORIZED=FALSE
 RUNTIME_MUTATION_AUTHORIZED=FALSE
-OFFLINE_PRODUCTION_BASE_REF_VALIDATORS=PASS
-APPLICABLE_STATE_CELL_DISPOSITION=108_OF_108
+OFFLINE_PRODUCTION_BASE_REF_VALIDATORS=PENDING_EXACT_FINAL_COMMIT_ON_TRUE_MAIN_HISTORY
+APPLICABLE_STATE_CELL_MODEL=374_OF_374_FROZEN
+OFFLINE_EXECUTABLE_STATE_CELL_DISPOSITION=354_OF_374_CONFIRMED
+EXTERNAL_LIVE_PROCESS_STATE_CELL_DISPOSITION=20_PENDING
 INDEPENDENT_VS_IMPLEMENTATION_EXPECTATION_DELTA=0
 UNHANDLED_EXCEPTION_SURFACES=0
-FULL_REPOSITORY_REGRESSION=PASS
+FULL_REPOSITORY_REGRESSION=488_OF_488_PASS
 BASE_TRUSTED_BOOTSTRAP_REHEARSAL=PASS
 FAILURE_PRESERVE_STATE_REHEARSAL=PASS
 EXACT_INTERNAL_ARTIFACT_OPERATOR_REHEARSAL=PASS
@@ -54,6 +56,6 @@ Remote publication, merge, ruleset activation, Timeshift creation, runtime mutat
 
 ## Offline closeout evidence boundary
 
-The exact candidate commit/tree, per-family TF-01 through TF-13 results, 108-cell differential report, parser/exception sweep, preserve-state matrix, deterministic internal artifact hash, and documentation pre/post blob reconciliation are intentionally recorded in the external qualification evidence generated after this repository record is committed. This avoids a self-referential commit identity inside the commit whose identity it would attempt to name.
+The exact candidate commit/tree, per-family TF-01 through TF-13 results, frozen 374-cell differential report, sharded probe-cache bindings, parser/exception sweep, preserve-state matrix, deterministic internal artifact hash, and documentation pre/post blob reconciliation are intentionally recorded in the external qualification evidence generated after this repository record is committed. This avoids a self-referential commit identity inside the commit whose identity it would attempt to name.
 
-`OFFLINE_RECOVERY_QUALIFIED_PUBLICATION_HOLD` means the owner-authorized offline recovery controls have passed their technical gates. It does not mean PR #5 has been republished, that the new default-branch trusted workflow is active, that a ruleset requires it, that a fresh remote review has approved the recovery candidate, or that merge/recovery snapshot/runtime work is authorized.
+`CONSOLIDATED_CORRECTION_PREPUBLICATION_HOLD` means the requirements/state model is closed and the consolidated disposable correction has passed its current offline regression/adversarial gates, while exact final-commit true-base and external/live evidence gates remain intentionally open. It does not mean PR #5 has been republished, that the new default-branch trusted workflow is active, that a ruleset requires it, that a fresh remote review has approved the recovery candidate, or that merge/recovery snapshot/runtime work is authorized.

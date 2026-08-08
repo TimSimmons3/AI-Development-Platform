@@ -90,6 +90,12 @@ No exception may be inferred from:
 
 An approved exception record must include the owner identity, GitHub login, exact approval-text hash, approval and expiration timestamps, control identifiers, scope, rationale, residual risk, compensating controls, and artifact SHA-256 set. Placeholders, open-ended approvals, inherited approvals, and post-execution approvals are invalid.
 
+The approval-text SHA-256 is the digest of a non-circular canonical authorization-basis preimage, encoded as UTF-8 with LF line endings and a final LF. The fixed field order is: exception status, approved by, approved GitHub login, approved UTC, control IDs, scope, rationale, residual risk, compensating controls, expiration UTC, artifact manifest path, and artifact SHA-256 set. The candidate head SHA and the approval-text SHA-256 field itself are excluded from that preimage. The exact GitHub owner comment separately binds the approved exception-record path set to the PR number and candidate head, so a new commit invalidates the approval without creating a self-referential commit hash.
+
+Every approved exception must name one canonical JSON artifact manifest under `docs/Exceptions/Artifacts/`. The manifest contains a sorted, unique identity-to-SHA-256 list using only repository paths, external artifact IDs, or external incident IDs. Repository-path artifacts are verified against candidate bytes and must be regular non-symlink files. External identities are bound to their pre-verified digest but are not fetched by the repository validator. The exception record's artifact SHA-256 set must exactly equal the manifest digests in canonical identity order.
+
+Time validity is evaluated only from trusted evidence. For GitHub qualification the authoritative evaluation instant is the GitHub pull-request event `updated_at` timestamp and the exact owner comment uses its GitHub `created_at` timestamp. Valid ordering is approved UTC less than or equal to owner-comment creation, owner-comment creation less than or equal to the trusted evaluation instant, and trusted evaluation instant strictly earlier than expiration UTC. Equality at expiration is expired. Offline tests must supply an explicit immutable fixture timestamp; local process wall-clock time is not release-authorizing evidence.
+
 For a pull request that contains one or more approved exception records, the GitHub gate requires exactly one comment authored by `TimSimmons3` with this canonical form:
 
 ```text

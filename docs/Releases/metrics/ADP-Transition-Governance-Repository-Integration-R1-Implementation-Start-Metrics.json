@@ -403,6 +403,7 @@
     {
       "collection_method": "DERIVED_FROM_DEFECT_LEDGER",
       "data_quality": "DERIVED",
+      "denominator": 10,
       "evidence_refs": [
         {
           "artifact_id": "R1_INDEPENDENT_DESIGN_REVIEW",
@@ -412,6 +413,7 @@
       ],
       "metric_id": "M25",
       "name": "Repeat-defect rate",
+      "numerator": 0,
       "reason": "",
       "unit": "percent",
       "value": 0.0

@@ -69,6 +69,35 @@ TIMING_INTERVAL_FIELDS = frozenset({"interval_id","category","start_utc","end_ut
 BINDING_FIELDS = frozenset({"path","sha256"})
 DEVIATION_FIELDS = frozenset({"deviation_id","timestamp_utc","category","planned_condition","observed_condition","impact","mutation_status","evidence_reference","owner_disposition","permanent_control_decision"})
 EXTERNAL_INCIDENT_FIELDS = frozenset({"candidate_revision_action","code_revision_created","exposed_internal_defect"})
+SENSITIVE_STRING_PATTERNS = (
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "private key material"),
+    (re.compile(r"\bBearer\s+[A-Za-z0-9._~+/-]{8,}"), "bearer credential"),
+    (re.compile(r"\b(?:ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,})\b"), "access token"),
+    (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "AWS access key"),
+    (re.compile(r"(?i)\b(?:password|api[_-]?key|secret|token)\s*[:=]\s*[^\s,;]{6,}"), "credential assignment"),
+    (re.compile(r"\b\d{3}-\d{2}-\d{4}\b"), "SSN-like PII"),
+    (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"), "email-like PII"),
+    (re.compile(r"Traceback \(most recent call last\):"), "runtime traceback dump"),
+    (re.compile(r"(?i)BEGIN (?:SYSTEM|USER|ASSISTANT) PROMPT"), "raw prompt content"),
+)
+
+
+def security_content_errors(value: Any, context: str) -> list[str]:
+    errors: list[str] = []
+    def walk(node: Any, path: str) -> None:
+        if isinstance(node, dict):
+            for key, child in node.items():
+                walk(child, f"{path}.{key}")
+        elif isinstance(node, list):
+            for index, child in enumerate(node):
+                walk(child, f"{path}[{index}]")
+        elif isinstance(node, str):
+            for pattern, label in SENSITIVE_STRING_PATTERNS:
+                if pattern.search(node):
+                    errors.append(f"{context}: prohibited {label} in {path}")
+    walk(value, "record")
+    return errors
+
 REFERENCE_FIELDS = {
     "REPO_PATH": frozenset({"type","path","sha256"}),
     "EXTERNAL_ARTIFACT": frozenset({"type","artifact_id","sha256"}),
@@ -360,7 +389,7 @@ def policy_identity_compatibility_errors(
         "transition_metrics_assignment", "allow_overlapping_timing_intervals",
         "classifications", "data_quality_states", "event_types", "lifecycle_states",
         "allowed_transitions", "m22_active_categories", "m23_rework_category",
-        "m27_denominator_metric_ids", "metric_order", "metrics",
+        "m27_denominator_metric_ids", "metric_order",
         "safe_external_reference_types", "snapshot_types", "timing_categories", "resource_limits",
     ]
     legacy_messages = {
@@ -372,6 +401,24 @@ def policy_identity_compatibility_errors(
     for field in immutable_fields:
         if base_policy.get(field) != current_policy.get(field):
             errors.append(legacy_messages.get(field, f"{field} is immutable under ordinary R1 policy evolution"))
+
+    base_metrics = base_policy.get("metrics")
+    current_metrics = current_policy.get("metrics")
+    if not isinstance(base_metrics, dict) or not isinstance(current_metrics, dict) or set(base_metrics) != set(current_metrics):
+        errors.append("metrics is immutable under ordinary R1 policy evolution")
+    else:
+        for metric_id in sorted(base_metrics):
+            before = base_metrics[metric_id]
+            after = current_metrics[metric_id]
+            if before == after:
+                continue
+            if isinstance(before, dict) and isinstance(after, dict):
+                strengthened = dict(before)
+                if before.get("ratio_inputs_required_when_numeric") is False and after.get("ratio_inputs_required_when_numeric") is True:
+                    strengthened["ratio_inputs_required_when_numeric"] = True
+                if strengthened == after:
+                    continue
+            errors.append(f"metrics is immutable under ordinary R1 policy evolution: {metric_id}")
 
     # Governance/required-content sets may become stricter but may not shrink.
     for field in [
@@ -750,6 +797,7 @@ def repeat_defect_rate(defects: Any, errors: list[str]) -> float | None:
 
 def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy: dict[str, Any]) -> list[str]:
     errors: list[str] = []
+    errors.extend(security_content_errors(record, path))
     reject_unexpected_fields(record, SNAPSHOT_TOP_LEVEL_FIELDS, path, errors)
     if record.get("schema_version") != policy["schema_version"]: errors.append("schema_version mismatch")
     if record.get("snapshot_type") not in policy["snapshot_types"]: errors.append("invalid snapshot_type")
@@ -814,9 +862,10 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
     for mid, expected in [('M21',ext),('M22',active)]:
         val=numeric(mid)
         if val is not None and val != expected: errors.append(f"{path}:{mid}: value does not match timing intervals")
+    is_canonical_template = path.startswith('docs/Templates/SMT-Transition-')
     m23=byid.get('M23',{})
-    if active == 0:
-        if m23.get('data_quality') not in ('NOT_APPLICABLE','UNKNOWN'): errors.append(f"{path}:M23: zero active denominator requires NOT_APPLICABLE or UNKNOWN")
+    if active == 0 and not is_canonical_template:
+        if m23.get('data_quality') != 'NOT_APPLICABLE': errors.append(f"{path}:M23: zero active denominator requires NOT_APPLICABLE")
     else:
         val23=numeric('M23')
         if val23 is not None:
@@ -825,9 +874,13 @@ def validate_snapshot(repo_root: Path, path: str, record: dict[str, Any], policy
     m24=byid.get('M24',{})
     if m24.get('data_quality') in ('MEASURED','DERIVED') and dist is not None and m24.get('value') != dist: errors.append(f"{path}:M24: distribution does not match test_runs")
     m25=byid.get('M25',{})
-    if repeat_rate is None:
-        if m25.get('data_quality') not in ('NOT_APPLICABLE','UNKNOWN'): errors.append(f"{path}:M25: no defects requires NOT_APPLICABLE or UNKNOWN")
+    if repeat_rate is None and not is_canonical_template:
+        if m25.get('data_quality') != 'NOT_APPLICABLE': errors.append(f"{path}:M25: no defects requires NOT_APPLICABLE")
     elif m25.get('data_quality') in ('MEASURED','DERIVED'):
+        repeated_count = sum(1 for defect in record.get('defects', []) if isinstance(defect, dict) and defect.get('repeated') is True)
+        defect_count = len(record.get('defects', [])) if isinstance(record.get('defects'), list) else 0
+        if m25.get('numerator') != repeated_count: errors.append(f"{path}:M25: numerator does not match repeated-defect ledger")
+        if m25.get('denominator') != defect_count: errors.append(f"{path}:M25: denominator does not match defect ledger")
         val25=numeric('M25')
         if val25 is not None and abs(val25-repeat_rate)>1e-9: errors.append(f"{path}:M25: value does not match defect ledger")
 
@@ -947,6 +1000,7 @@ def validate_csv_projection(path: Path, rows: list[dict[str,Any]], context: str,
 
 def validate_event(repo_root: Path, path: str, record: dict[str,Any], policy: dict[str,Any]) -> list[str]:
     errors=[]
+    errors.extend(security_content_errors(record, path))
     event_type=record.get('event_type')
     allowed=set(EVENT_COMMON_FIELDS)
     optional=EVENT_OPTIONAL_FIELD_BY_TYPE.get(event_type) if isinstance(event_type,str) else None

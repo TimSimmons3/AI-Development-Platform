@@ -30,6 +30,9 @@ This directory stores the only valid project-owner exception records for the man
 - The pull-request author may post the authorization comment; GitHub does not allow authors to approve their own pull requests, so PR review approval is not used as the owner-exception control.
 - Expired, placeholder, inherited, post-execution, open-ended, stale-head, wrong-owner, duplicate, or whitespace-altered approvals are invalid.
 - Each exception uses a separate Markdown file and the exact fields defined by the machine-readable policy.
+- Each exception names exactly one canonical artifact manifest under `docs/Exceptions/Artifacts/`; repository artifacts are byte-hash verified and external artifact/incident identities remain explicitly identity-to-digest bound.
+- The approval-text SHA-256 is computed from the fixed non-circular authorization-basis field sequence defined by the mandatory one-pass standard; it does not hash the candidate head or itself.
+- Approval and expiration are checked against trusted GitHub server timestamps during live qualification. Equality at expiration is invalid.
 
 The exact comment form is:
 

@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy,importlib.util,json,subprocess,tempfile,unittest
+import copy,hashlib,importlib.util,json,subprocess,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];P=ROOT/'scripts'/'validate_mandatory_assurance_invariants.py';S=importlib.util.spec_from_file_location('m',P);assert S and S.loader
 m=importlib.util.module_from_spec(S);S.loader.exec_module(m);POLICY=json.loads((ROOT/'config/mandatory-assurance-invariant-policy.json').read_text())
@@ -21,7 +21,13 @@ class MandatoryTests(unittest.TestCase):
  def test_approved_without_record_fails(self):
   r=self.repo();p=r/'docs/Releases/Test-Plan.md';p.write_text(block(status='APPROVED'));self.assertEqual('FAIL',self.validate(r,'docs/Releases/Test-Plan.md')['status'])
  def good_exception(self,r,name='EX-001.md'):
-  p=r/'docs/Exceptions'/name;p.write_text('EXCEPTION_STATUS=APPROVED\nAPPROVED_BY=Tim Simmons\nAPPROVED_GITHUB_LOGIN=TimSimmons3\nAPPROVED_UTC=2026-08-05T14:00:00Z\nAPPROVAL_TEXT_SHA256='+'a'*64+'\nCONTROL_IDS=X\nSCOPE=X\nRATIONALE=X\nRESIDUAL_RISK=X\nCOMPENSATING_CONTROLS=X\nEXPIRATION_UTC=2026-08-06T14:00:00Z\nARTIFACT_SHA256_SET='+'b'*64+'\n');return p
+  art=r/'artifacts/evidence.txt';art.parent.mkdir(parents=True,exist_ok=True);art.write_text('evidence\n');digest=hashlib.sha256(art.read_bytes()).hexdigest()
+  manifest_rel='docs/Exceptions/Artifacts/EX-EVIDENCE.json';manifest=r/manifest_rel;manifest.parent.mkdir(parents=True,exist_ok=True);manifest.write_text(json.dumps({'record_type':'SMT_MANDATORY_ASSURANCE_EXCEPTION_ARTIFACT_MANIFEST','schema_version':'1.0','artifacts':[{'type':'REPO_PATH','path':'artifacts/evidence.txt','sha256':digest}]},sort_keys=True))
+  vals={'EXCEPTION_STATUS':'APPROVED','APPROVED_BY':'Tim Simmons','APPROVED_GITHUB_LOGIN':'TimSimmons3','APPROVED_UTC':'2026-08-05T14:00:00Z','CONTROL_IDS':'X','SCOPE':'X','RATIONALE':'X','RESIDUAL_RISK':'X','COMPENSATING_CONTROLS':'X','EXPIRATION_UTC':'2026-08-06T14:00:00Z','ARTIFACT_MANIFEST':manifest_rel,'ARTIFACT_SHA256_SET':digest}
+  basis_fields=('EXCEPTION_STATUS','APPROVED_BY','APPROVED_GITHUB_LOGIN','APPROVED_UTC','CONTROL_IDS','SCOPE','RATIONALE','RESIDUAL_RISK','COMPENSATING_CONTROLS','EXPIRATION_UTC','ARTIFACT_MANIFEST','ARTIFACT_SHA256_SET')
+  vals['APPROVAL_TEXT_SHA256']=hashlib.sha256(('\n'.join(f'{k}={vals[k]}' for k in basis_fields)+'\n').encode()).hexdigest()
+  order=('EXCEPTION_STATUS','APPROVED_BY','APPROVED_GITHUB_LOGIN','APPROVED_UTC','APPROVAL_TEXT_SHA256','CONTROL_IDS','SCOPE','RATIONALE','RESIDUAL_RISK','COMPENSATING_CONTROLS','EXPIRATION_UTC','ARTIFACT_MANIFEST','ARTIFACT_SHA256_SET')
+  p=r/'docs/Exceptions'/name;p.write_text('\n'.join(f'{k}={vals[k]}' for k in order)+'\n');return p
  def test_valid_owner_exception_passes(self):
   r=self.repo();self.good_exception(r);p=r/'docs/Releases/Test-Plan.md';p.write_text(block(status='APPROVED')+'EXCEPTION_RECORD=docs/Exceptions/EX-001.md\n');self.assertEqual('PASS',self.validate(r,'docs/Releases/Test-Plan.md','docs/Exceptions/EX-001.md')['status'])
  def test_exception_readme_uses_normal_invariant(self):
@@ -63,6 +69,10 @@ class MandatoryTests(unittest.TestCase):
   r=self.repo();p=r/'docs/Releases/Test-Plan.md';p.write_text(block());self.init(r);b=self.commit(r,'base');mutator(r,p);self.commit(r,'change');rp=r/'report.json';rc=m.main(['--repo-root',str(r),'--policy','config/mandatory-assurance-invariant-policy.json','--base-ref',b,'--report',str(rp)]);return rc,json.loads(rp.read_text()),r
  def test_base_ref_regular_to_symlink_T_fails(self):
   rc,d,_=self.git_case(lambda r,p:(p.unlink(),p.symlink_to('target')));self.assertEqual(1,rc);self.assertTrue(any('regular non-symlink' in x for x in d['violations']),d)
+ def test_base_ref_exception_record_deletion_fails(self):
+  r=self.repo();p=self.good_exception(r);self.init(r);b=self.commit(r,'base');p.unlink();self.commit(r,'delete exception');rp=r/'report.json';rc=m.main(['--repo-root',str(r),'--policy','config/mandatory-assurance-invariant-policy.json','--base-ref',b,'--report',str(rp)]);d=json.loads(rp.read_text());self.assertEqual(1,rc);self.assertIn('docs/Exceptions/EX-001.md',d['deleted_paths']);self.assertTrue(any('deletion of governed' in x for x in d['violations']),d)
+ def test_base_ref_exception_record_regular_to_symlink_T_fails(self):
+  r=self.repo();p=self.good_exception(r);self.init(r);b=self.commit(r,'base');p.unlink();p.symlink_to('target');self.commit(r,'type change exception');rp=r/'report.json';rc=m.main(['--repo-root',str(r),'--policy','config/mandatory-assurance-invariant-policy.json','--base-ref',b,'--report',str(rp)]);d=json.loads(rp.read_text());self.assertEqual(1,rc);self.assertIn('docs/Exceptions/EX-001.md',d['direct_changed_paths']);self.assertTrue(any('regular non-symlink' in x for x in d['violations']),d)
  def test_base_ref_delete_governed_fails(self):
   rc,d,_=self.git_case(lambda r,p:p.unlink());self.assertEqual(1,rc);self.assertIn('docs/Releases/Test-Plan.md',d['deleted_paths'])
  def test_base_ref_rename_outside_root_fails_via_old_path(self):
@@ -98,6 +108,10 @@ class MandatoryTests(unittest.TestCase):
   pol=copy.deepcopy(POLICY);pol['owner']['candidate_override']=True;self.assertTrue(any('owner unexpected fields' in x for x in m.policy_shape_errors(pol,'p')))
  def test_final_recovery_policy_unexpected_exception_field_fails(self):
   pol=copy.deepcopy(POLICY);pol['exception']['candidate_override']=True;self.assertTrue(any('exception unexpected fields' in x for x in m.policy_shape_errors(pol,'p')))
+ def test_exception_required_field_append_is_monotonic_strengthening(self):
+  base=copy.deepcopy(POLICY);base['exception']['required_nonempty_fields'].remove('ARTIFACT_MANIFEST');self.assertEqual([],m.policy_compatibility_errors(base,POLICY))
+ def test_exception_required_field_removal_fails_compatibility(self):
+  current=copy.deepcopy(POLICY);current['exception']['required_nonempty_fields'].remove('SCOPE');self.assertTrue(any('may not remove requirements' in x for x in m.policy_compatibility_errors(POLICY,current)))
  def test_final_recovery_legacy_base_without_resource_limits_bootstraps_canonical_limits(self):
   base=copy.deepcopy(POLICY);base.pop("resource_limits",None)
   self.assertEqual([],m.policy_shape_errors(base,"base",allow_legacy_missing_resource_limits=True))

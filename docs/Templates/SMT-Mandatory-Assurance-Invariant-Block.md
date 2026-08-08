@@ -35,4 +35,4 @@ Copy the block above exactly once into every future governed Markdown record. Do
 
 ## Exception record field names
 
-An exception record uses these field names: exception status, approved by, GitHub login, approved UTC, approval-text SHA-256, control IDs, scope, rationale, residual risk, compensating controls, expiration UTC, and artifact SHA-256 set. The machine-readable policy defines exact values and formats.
+An exception record uses these field names: exception status, approved by, GitHub login, approved UTC, approval-text SHA-256, control IDs, scope, rationale, residual risk, compensating controls, expiration UTC, artifact manifest path, and artifact SHA-256 set. The mandatory one-pass standard defines the canonical approval-basis hash preimage, artifact-manifest identity ordering, and trusted-time validity rules; the machine-readable policy defines required values and formats.

@@ -635,6 +635,7 @@
     {
       "collection_method": "DERIVED_FROM_DEFECT_LEDGER",
       "data_quality": "DERIVED",
+      "denominator": 16,
       "evidence_refs": [
         {
           "artifact_id": "INTERNAL_DEFECT_LEDGER",
@@ -643,6 +644,7 @@
       ],
       "metric_id": "M25",
       "name": "Repeat-defect rate",
+      "numerator": 2,
       "reason": "",
       "unit": "percent",
       "value": 12.5
@@ -690,7 +692,7 @@
   ],
   "previous_record": {
     "path": "docs/Releases/metrics/ADP-Transition-Governance-Repository-Integration-R1-DEV-R1-001.json",
-    "sha256": "6ce474b9763d509ee275e505b80d98086f7e4fbcd8ee49bbfef3cb739e039a98"
+    "sha256": "7e632f8d0c2ab2d22c09f63b38b1394f449a76a6af60584e7b087e0dbcd66af4"
   },
   "prior_handoff": null,
   "prior_handoff_available": false,
