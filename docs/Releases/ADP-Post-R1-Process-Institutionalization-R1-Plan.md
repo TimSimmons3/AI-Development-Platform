@@ -66,3 +66,27 @@ One governed branch and pull request. No direct unreviewed main change, ruleset 
 - Existing exception/adversarial qualification passes.
 - Exact operator/package evidence is retained.
 - User-visible replacement-package count remains zero.
+
+## Qualification defect disposition - 2026-08-08
+
+The first local operator stopped after the exact committed candidate full regression. Two related defects were identified before remote publication:
+
+- `IMPLEMENTATION_DEFECT`: the appended one-pass skill subsection repeated `USER_VISIBLE_REPLACEMENT_PACKAGE_TARGET=0`, while the canonical invariant validator requires every mandatory assignment exactly once.
+- `REVIEW_TEST_DEFECT`: the operator labeled precommit change-aware validators PASS while the 23 changes were uncommitted. Those validators derive scope from committed Git deltas, so the precommit invocation observed an empty change set and could not qualify the new governed Markdown.
+
+Remediation: remove only the duplicate appended assignment; preserve the canonical invariant; require committed candidate fixtures for all Git-delta-based validation; add a machine-enforced marker and regression; rerun complete exact-head qualification before publication.
+
+No remote branch publication, PR creation, main change, runtime/service mutation, ruleset change, Timeshift creation, or R1 reopen occurred before this correction.
+
+Interim process-assurance metric disposition for this escape:
+
+```text
+P07_LATE_MATERIAL_FINDINGS_AFTER_IMPLEMENTATION_START=1
+P08_POST_PUBLICATION_MATERIAL_ESCAPE_COUNT=0
+P09_USER_VISIBLE_REPLACEMENT_PACKAGE_COUNT=1
+P10_UNRESOLVED_ASSUMPTIONS_AT_CORRECTION_GATE=0
+P11_OPERATOR_RERUN_DUE_TO_PACKAGE_DEFECT=1
+P13_REVIEW_REFREEZE_CYCLES=0
+```
+
+P01-P06, P12, and P14 are finalized at workstream closeout from the complete evidence set; they are not silently defaulted to zero.

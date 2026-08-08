@@ -130,5 +130,21 @@ class ProcessInstitutionalizationTests(unittest.TestCase):
             self.assertEqual("FAIL",inst.validate_repo(root,self.policy)["status"])
         finally: td.cleanup()
 
+
+    def test_commit_delta_validator_requires_committed_fixture_marker(self):
+        td,root=self._fixture()
+        try:
+            p=root/"docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md"
+            p.write_text(
+                p.read_text(encoding="utf-8").replace(
+                    "COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE",
+                    "REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual("FAIL",inst.validate_repo(root,self.policy)["status"])
+        finally:
+            td.cleanup()
+
 if __name__=="__main__":
     unittest.main()

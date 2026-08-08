@@ -1812,3 +1812,15 @@ PROCESS_METRICS=P01-P14
 ```
 
 Purpose: institutionalize the R1 lessons across handoffs, skills, standards, machine policy, QA, validation, testing, workflow enforcement, trust-root governance, CAPA, release gates, and recoverability before the next functional ADP workstream.
+
+## 2026-08-08 - Post-R1 institutionalization qualification correction R1
+
+```text
+CLASSIFICATION=IMPLEMENTATION_DEFECT_PLUS_REVIEW_TEST_DEFECT
+REMOTE_PUBLICATION_BEFORE_CORRECTION=FALSE
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+R1_REOPENED=FALSE
+R1_FROZEN_DENOMINATOR=374
+```
+
+The institutionalization candidate full regression passed 510 tests, but the operator correctly stopped before publication when exact committed-delta validation was reached. Root cause and remediation are recorded in the workstream plan and qualification contract.

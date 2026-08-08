@@ -139,3 +139,12 @@ RECOVERABILITY_VERIFIED=TRUE
 ## Owner override
 
 Owner override may accept bounded residual risk only when the unsafe path is neutralized fail-safe, the exact scope and residual risk are recorded, the override cannot silently manufacture PASS, and deferred capability is separated from the closed workstream.
+
+## Committed-fixture rule for Git-delta validators
+
+```text
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+PRECOMMIT_EMPTY_DELTA_MAY_NOT_AUTHORIZE_RELEASE=TRUE
+```
+
+Any validator whose scope is derived from `git merge-base`, committed deltas, or HEAD-relative classification must be qualified against an actual committed candidate fixture. Running such a validator while changes exist only in the worktree may be used for syntax/supporting checks, but its PASS cannot authorize release because the committed delta may be empty. Exact committed-candidate validation is mandatory before publication.

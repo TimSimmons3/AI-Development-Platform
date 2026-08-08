@@ -22,8 +22,8 @@
     "tests/test_validate_adp_process_institutionalization.py"
   ],
   "owner_login": "TimSimmons3",
-  "rationale": "Institutionalize ADP post-R1 high-assurance process controls: requirements-first inventory, finite requirements-governed convergence, scenario-faithful evidence, fail-safe external evidence, exact-candidate binding, machine-enforced handoffs, process metrics P01-P14, QA/preflight gates, and post-merge recoverability.",
-  "rationale_sha256": "23799106468c63bfe9120b23490ef297e2d453605afd0c9763e17fdf8c0bbb29",
+  "rationale": "Institutionalize ADP post-R1 high-assurance process controls: requirements-first inventory, finite requirements-governed convergence, scenario-faithful evidence, fail-safe external evidence, exact-candidate binding, committed-fixture enforcement for Git-delta validators, machine-enforced handoffs, process metrics P01-P14, QA/preflight gates, and post-merge recoverability.",
+  "rationale_sha256": "16293ac2878bb1bf9da6af0569215e3d924127b3919a1a378c6b23f71320a77b",
   "record_type": "SMT_ASSURANCE_TRUST_ROOT_MIGRATION",
   "schema_version": "1.0"
 }

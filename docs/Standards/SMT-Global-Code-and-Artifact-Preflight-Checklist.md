@@ -219,3 +219,12 @@ SELF_DECLARED_OBSERVED_ENFORCEMENT_COUNT=0
 ```
 
 Before implementation, reconcile authoritative requirements, materially distinct outcomes, Git state classes, external contracts, dependencies, exception states, and release states. Before delivery, prove every material production change with a pre-fix failing exact probe, reject stale candidate-bound evidence, rehearse the exact distributed operator, and require portable manifests.
+
+### Committed candidate requirement for delta-aware validators
+
+```text
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+PRECOMMIT_EMPTY_DELTA_MAY_NOT_AUTHORIZE_RELEASE=TRUE
+```
+
+For change-aware validators, create or simulate an isolated committed candidate before claiming change-scope validation. Verify the validator observes the intended changed-path set. A PASS against an empty committed delta is non-authorizing.

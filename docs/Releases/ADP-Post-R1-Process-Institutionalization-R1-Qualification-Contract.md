@@ -33,3 +33,13 @@ UNRESOLVED_ASSUMPTIONS=0
 This record defines the release contract and does not self-declare final PASS. Exact committed-candidate evidence is produced by the operator under `~/Downloads/ADP-Post-R1-Process-Institutionalization-R1-Evidence` and is bound to the final candidate HEAD/tree.
 
 R1 remains closed. The R1 374-cell denominator is not part of this workstream's mutable scope.
+
+## Qualification correction R1
+
+```text
+COMMIT_DELTA_VALIDATOR_REQUIRES_COMMITTED_FIXTURE=TRUE
+EXACT_COMMITTED_CHANGE_SET_OBSERVED=MANDATORY
+PRECOMMIT_EMPTY_DELTA_PASS=NON_AUTHORIZING
+```
+
+The exact committed candidate is the first release-authorizing invocation for validators whose scope is derived from Git commit deltas. Supporting precommit syntax checks remain useful but cannot substitute for exact-head change-aware validation.
