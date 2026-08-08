@@ -40,3 +40,13 @@
 /scripts/validate_transition_release_assurance.py @TimSimmons3
 /tests/test_validate_transition_release_assurance.py @TimSimmons3
 /docs/Standards/SMT-Global-Code-and-Artifact-Preflight-Checklist.md @TimSimmons3
+/config/adp-process-institutionalization-policy.json @TimSimmons3
+/docs/Standards/ADP-High-Assurance-Process-Institutionalization-Standard-R1.md @TimSimmons3
+/docs/Standards/ADP-Transition-Governance-Requirements-Traceability-Matrix.md @TimSimmons3
+/docs/Templates/SMT-Process-Assurance-Metrics-Template.json @TimSimmons3
+/docs/Templates/SMT-Workstream-Continuation-Control-Template.md @TimSimmons3
+/scripts/validate_adp_process_institutionalization.py @TimSimmons3
+/skills/smt-high-assurance-engineering-delivery/SKILL.md @TimSimmons3
+/skills/smt-mandatory-one-pass-delivery/SKILL.md @TimSimmons3
+/skills/smt-mandatory-transition-metrics-and-handoff/SKILL.md @TimSimmons3
+/tests/test_validate_adp_process_institutionalization.py @TimSimmons3

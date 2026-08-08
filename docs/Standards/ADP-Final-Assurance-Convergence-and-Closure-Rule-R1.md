@@ -186,3 +186,13 @@ REVIEWER_DRIVEN_UNBOUNDED_SUBDIVISION=PROHIBITED
 REQUIREMENTS_GOVERNED_CLOSURE=ACTIVE
 IMPLEMENTATION_GATE=HOLD_UNTIL_FINAL_CONVERGENCE_RECONCILIATION
 ```
+
+## Permanent post-R1 convergence institutionalization
+
+```text
+REQUIREMENTS_GOVERNED_NOT_REVIEWER_GOVERNED=TRUE
+EQUIVALENT_SUBDIVISION=PROBE_SUBCASE_NOT_DENOMINATOR
+REVIEWER_SILENCE_IS_NOT_CLOSURE_CRITERION=TRUE
+```
+
+Future workstreams inherit this convergence principle. Freeze only after authoritative requirement and material enforcement-branch reconciliation. Once frozen, equivalent same-requirement/same-disposition refinements become independently executed probe subcases. A denominator change requires an explicit materiality rationale and owner authorization.

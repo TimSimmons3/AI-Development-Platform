@@ -106,3 +106,13 @@ Metrics records may not contain raw tokens, credentials, unnecessary PII, runtim
 M04/M05 track user-visible replacement and material failure history; M24/M25 track test iterations and repeated control defects. They must not be interpreted as proof that the qualification model was complete. When a state-oracle assurance reset applies, add the following non-substitutive KRIs to release/handoff evidence: applicable oracle-cell coverage percent, independent-versus-implementation expectation delta count, unhandled exception surface count, undispositioned Git-state class count, unresolved material finding count, exact-base freshness, and trust-root migration/bootstrap status.
 
 Do not invent success values. Unknown remains UNKNOWN; a blocked review remains HOLD. A material post-publication qualification escape increments the defect/CAPA lineage even when the technical correction is later successful.
+
+## Post-R1 process assurance metrics
+
+```text
+PROCESS_ASSURANCE_METRICS=P01-P14
+M01_M28_SEMANTICS_UNCHANGED=TRUE
+PROCESS_METRICS_POLICY=config/adp-process-institutionalization-policy.json
+```
+
+P01-P14 measure assurance-process effectiveness and are carried by future governed handoffs. They supplement, but do not alter, M01-M28 transition metric semantics. UNKNOWN is not zero. Accepted risk is tracked explicitly and may not be represented as PASS.

@@ -316,3 +316,14 @@ A pre-mutation HOLD preserves the live-attempt budget. Repeated pre-mutation fai
 Repository change discovery for release-authorizing governance must use NUL-delimited Git output with rename detection disabled and explicitly disposition A/M/D/T, modes `100644`, `100755`, `120000`, `160000`, deletion mode `000000`, D+A rename/move, file/tree replacement, and unusual safe UTF-8 pathnames. Unexpected statuses, malformed output, invalid object modes, invalid merge bases, subprocess failure, or prohibited control characters fail closed. Real disposable repositories, not mocked status strings alone, are required for qualification.
 
 Review administration is Class R metadata-only unless a separate engineering mutation is explicitly authorized. Allowed actions are read/list/fetch review metadata, comments, status/checks, and review-thread administration that does not write repository content. Repository content create/update/delete APIs, ref mutation, merge, ruleset change, and workflow dispatch that mutates content are prohibited under review-only authorization. Record exact pre/post base, head, and tree identities. Any unexpected content mutation stops the workflow and is treated as a governance incident.
+
+## Post-R1 trusted external-evidence boundary
+
+```text
+EXTERNAL_EVIDENCE_DEFAULT=HOLD_ONLY
+TRUSTED_EXTERNAL_COLLECTOR_REQUIRED_FOR_PASS=TRUE
+EXTERNAL_EVIDENCE_EXACT_HEAD_TREE_BINDING=MANDATORY
+EXTERNAL_EVIDENCE_TRUSTED_TIME=MANDATORY
+```
+
+External/live/process evidence is non-authorizing unless a separately governed trusted collector/verifier authenticates source, freshness, exact candidate head/tree, evidence identity, uniqueness, and contradiction state. Fabricated, stale, wrong-candidate, duplicate, missing-source, or contradictory evidence must never promote HOLD to PASS.

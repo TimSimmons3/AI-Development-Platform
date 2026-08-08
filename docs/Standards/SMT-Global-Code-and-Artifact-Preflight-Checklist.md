@@ -207,3 +207,15 @@ If any item is unavailable, the release state is HOLD. A large test count cannot
 ### Finite assurance-model convergence
 
 Before implementation or publication, verify that denominator growth is controlled by authoritative requirements and materially distinct enforcement outcomes. Equivalent variants with the same governing requirement, expected disposition, and material enforcement branch must be enumerated as independently executed probe subcases instead of creating an unbounded cell/version loop. A new denominator cell requires a documented missing requirement, contradictory outcome, materially distinct enforcement branch, or proof ambiguity that cannot be resolved under an existing cell.
+
+## Post-R1 process-institutionalization preflight
+
+```text
+PROCESS_INSTITUTIONALIZATION_PREFLIGHT=MANDATORY
+SCENARIO_FAITHFUL_PROBE_MAPPING=MANDATORY
+EXACT_CANDIDATE_EVIDENCE_BINDING=MANDATORY
+PROXY_ONLY_QUALIFICATION_COUNT=0
+SELF_DECLARED_OBSERVED_ENFORCEMENT_COUNT=0
+```
+
+Before implementation, reconcile authoritative requirements, materially distinct outcomes, Git state classes, external contracts, dependencies, exception states, and release states. Before delivery, prove every material production change with a pre-fix failing exact probe, reject stale candidate-bound evidence, rehearse the exact distributed operator, and require portable manifests.
